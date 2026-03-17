@@ -6,18 +6,56 @@
     <title>Pokédex Global - สมุดภาพโปเกมอน</title>
     
     <!-- Fonts -->
-    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
-    <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
-    <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Prompt:wght@300;400;500;700;900&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Prompt:wght@300;400;500;700;900&display=swap)" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Prompt:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
-    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Phosphor Icons -->
-    <script src="[https://unpkg.com/@phosphor-icons/web](https://unpkg.com/@phosphor-icons/web)"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <!-- เชื่อมต่อไฟล์ CSS -->
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Prompt', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        @keyframes float { 
+            0%, 100% { transform: translateY(0); } 
+            50% { transform: translateY(-20px); } 
+        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .mask-fade { mask-image: linear-gradient(to right, black 90%, transparent 100%); }
+        
+        /* Animated Background Elements */
+        .bg-blob {
+            position: fixed;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: 0;
+            opacity: 0.15;
+            animation: drift 30s infinite alternate-reverse linear;
+            pointer-events: none;
+        }
+        @keyframes drift {
+            from { transform: translate(-10%, -10%) rotate(0deg); }
+            to { transform: translate(20%, 30%) rotate(360deg); }
+        }
+
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 selection:bg-red-200 overflow-x-hidden relative min-h-screen flex flex-col">
 
@@ -158,7 +196,670 @@
         </div>
     </footer>
 
-    <!-- เชื่อมต่อไฟล์ JavaScript -->
-    <script src="script.js"></script>
+    <!-- Application Logic -->
+    <script>
+        // --- Constants & Dictionaries ---
+        const REGIONS = [
+            { name: "ทั้งหมด", limit: 1025, offset: 0 }, { name: "คันโต", limit: 151, offset: 0 },
+            { name: "โจโต", limit: 100, offset: 151 }, { name: "โฮเอ็น", limit: 135, offset: 251 },
+            { name: "ชินโอ", limit: 107, offset: 386 }, { name: "อิชชู", limit: 156, offset: 493 },
+            { name: "คาลอส", limit: 72, offset: 649 }, { name: "อโลลา", limit: 88, offset: 721 },
+            { name: "กาลาร์", limit: 96, offset: 809 }, { name: "พัลเดีย", limit: 120, offset: 905 }
+        ];
+
+        const TYPE_COLORS = { grass: '#7AC74C', fire: '#EE8130', water: '#6390F0', electric: '#F7D02C', normal: '#A8A77A', poison: '#A33EA1', psychic: '#F95587', ghost: '#735797', flying: '#A98FF3', bug: '#A6B91A', ground: '#E2BF65', fairy: '#D685AD', dragon: '#6F35FC', ice: '#96D9D6', fighting: '#C22E28', rock: '#B6A136', steel: '#B7B7CE', dark: '#705746' };
+        const TYPE_NAMES_TH = { grass: 'หญ้า', fire: 'ไฟ', water: 'น้ำ', electric: 'ไฟฟ้า', normal: 'ปกติ', poison: 'พิษ', psychic: 'พลังจิต', ghost: 'ผี', flying: 'บิน', bug: 'แมลง', ground: 'ดิน', fairy: 'แฟรี่', dragon: 'มังกร', ice: 'น้ำแข็ง', fighting: 'ต่อสู้', rock: 'หิน', steel: 'เหล็ก', dark: 'ความมืด' };
+        const STAT_NAMES_TH = { 'hp': 'พลังชีวิต', 'attack': 'พลังโจมตี', 'defense': 'พลังป้องกัน', 'special-attack': 'โจมตีพิเศษ', 'special-defense': 'ป้องกันพิเศษ', 'speed': 'ความเร็ว' };
+        const HABITAT_TH = { 'cave': 'ถ้ำ', 'forest': 'ป่าไม้', 'grassland': 'ทุ่งหญ้า', 'mountain': 'ภูเขา', 'rare': 'พื้นที่ลึกลับหายาก', 'rough-terrain': 'พื้นที่ขรุขระ', 'sea': 'ทะเลและมหาสมุทร', 'urban': 'เขตเมือง', 'waters-edge': 'ริมน้ำ' };
+
+        const THAI_NAMES_BASE = {
+            "bulbasaur": "ฟุชิกิดาเนะ", "ivysaur": "ฟุชิกิโซ", "venusaur": "ฟุชิกิบานะ", "charmander": "ฮิโตคาเงะ", "charmeleon": "ลิซาร์โดะ", "charizard": "ลิซาร์ดอน", "squirtle": "เซนิกาเมะ", "wartortle": "คาเมล", "blastoise": "คาเม็กซ์", "caterpie": "คาเตอร์ปี", "metapod": "ทรานเซล", "butterfree": "บัตเตอร์ฟรี", "weedle": "บีเดิล", "kakuna": "โคคูน", "beedrill": "สเปียร์", "pidgey": "ป๊ปโปะ", "pidgeotto": "พีเจียน", "pidgeot": "พีจ็อต", "rattata": "โครัตตา", "raticate": "รัตตา", "spearow": "โอนิซึซึเมะ", "fearow": "โอนิดริล", "ekans": "อาร์โบ", "arbok": "อาร์บ็อก", "pikachu": "พิคาชู", "raichu": "ไรชู", "sandshrew": "แซนด์", "sandslash": "แซนด์แพน", "nidoran-f": "นิโดรัน♀", "nidorina": "นิโดรินา", "nidoqueen": "นิโดควีน", "nidoran-m": "นิโดรัน♂", "nidorino": "นิโดริโน", "nidoking": "นิโดคิง", "clefairy": "ปิปปี", "clefable": "พิคซี", "vulpix": "โรคอน", "ninetales": "คิวคอน", "jigglypuff": "พูริน", "wigglytuff": "พุคุริน", "zubat": "ซูแบท", "golbat": "โกลแบท", "oddish": "นาโซโนะคุสะ", "gloom": "คุไซฮานะ", "vileplume": "รัฟเฟลเซีย", "paras": "พารัส", "parasect": "พาราเซ็กต์", "venonat": "คงปัง", "venomoth": "โมรุฟอน", "diglett": "ดิกด้า", "dugtrio": "ดักทริโอ", "meowth": "เนียซ", "persian": "เปอร์เซียน", "psyduck": "โคดัก", "golduck": "โกลดัก", "mankey": "แมนคีย์", "primeape": "โอโคริซารุ", "growlithe": "การ์ดี", "arcanine": "วินดี", "poliwag": "เนียวโรโมะ", "poliwhirl": "เนียวโรโซ", "poliwrath": "เนียวโรบอน", "abra": "เคซี", "kadabra": "ยุนเกอร์เรอร์", "alakazam": "ฟูดิน", "machop": "วันริกี", "machoke": "โกริกี", "machamp": "ไคริกี", "bellsprout": "มาดาสึโบมิ", "weepinbell": "อุซึดง", "victreebel": "อุซึบอท", "tentacool": "เมโนคุราเกะ", "tentacruel": "โดคุคุราเกะ", "geodude": "อิชิซึบุเตะ", "graveler": "โกโลน", "golem": "โกโลเนีย", "ponyta": "โพนีตา", "rapidash": "แกงลอป", "slowpoke": "ยาดง", "slowbro": "ยาโดรัน", "magnemite": "คอยล์", "magneton": "เรคอยล์", "farfetchd": "คาโมเนกิ", "doduo": "โดโด", "dodrio": "โดโดริโอ", "seel": "พาวาว", "dewgong": "จูกอน", "grimer": "เบโตเบตา", "muk": "เบโตเบตอน", "shellder": "เชลเดอร์", "cloyster": "พาร์เชน", "gastly": "โกส", "haunter": "โกสต์", "gengar": "เกงกา", "onix": "อิวาร์ค", "drowzee": "สลีป", "hypno": "สลีปเปอร์", "krabby": "แคร็บ", "kingler": "คิงเกลอร์", "voltorb": "บิริริดามา", "electrode": "มารุมายน์", "exeggcute": "ทามาทามะ", "exeggutor": "นัซซี", "cubone": "คาระคาระ", "marowak": "กะระการะ", "hitmonlee": "ซาวามูลาร์", "hitmonchan": "เอบิวาลาร์", "lickitung": "เบโรริงกา", "koffing": "โดกัส", "weezing": "มาตาโดกัส", "rhyhorn": "ไซฮอร์น", "rhydon": "ไซดอน", "chansey": "ลัคกี้", "tangela": "มอนจารา", "kangaskhan": "การูรา", "horsea": "ทัททู", "seadra": "ซีดรา", "goldeen": "โทซาคินโตะ", "seaking": "อซึมาโอ", "staryu": "ฮิโตเดมัน", "starmie": "สตาร์มี", "mr-mime": "บาร์เรียด", "scyther": "สไตรค์", "jynx": "รูจูลา", "electabuzz": "เอเลบู", "magmar": "บูเบอร์", "pinsir": "ไคลอส", "tauros": "เคนทารอส", "magikarp": "คอยคิง", "gyarados": "เกียราดอส", "lapras": "ลาพลาส", "ditto": "เมตามอน", "eevee": "อีวุย", "vaporeon": "ชาวเวอร์ส", "jolteon": "ธันเดอร์ส", "flareon": "บูสเตอร์", "porygon": "โพรีกอน", "omanyte": "ออมไนต์", "omastar": "ออมสตาร์", "kabuto": "คาบูโตะ", "kabutops": "คาบูทอปส์", "aerodactyl": "พเทอรา", "snorlax": "คาบิกอน", "articuno": "ฟรีเซอร์", "zapdos": "ธันเดอร์", "moltres": "ไฟเยอร์", "dratini": "มินิริว", "dragonair": "ฮาคุริว", "dragonite": "ไคริว", "mewtwo": "มิวทู", "mew": "มิว",
+            "chikorita": "ชิโกริตา", "bayleef": "เบย์ลีฟ", "meganium": "เมกาเนียม", "cyndaquil": "ฮิโนอาราชิ", "quilava": "แม็กมาราชิ", "typhlosion": "บาคุฟูน", "totodile": "วานิโนโกะ", "croconaw": "อลิเกตส์", "feraligatr": "โอไดรุ", "sentret": "โอทาจิ", "furret": "โอโอทาจิ", "hoothoot": "โฮโฮ", "noctowl": "โยรุโนะซึคุ", "ledyba": "เรดิบา", "ledian": "เรดิอัน", "spinarak": "อิโตมารุ", "ariados": "อาริอาโดส", "crobat": "โครแบท", "chinchou": "ชอนชี", "lanturn": "แลนเทิร์น", "pichu": "ปิจู", "cleffa": "ปีィ", "igglybuff": "พูพูริน", "togepi": "โทเงปี", "togetic": "โทเงชิก", "natu": "เนติ", "xatu": "เนติโอ", "mareep": "เมรีป", "flaaffy": "โมโคโค", "ampharos": "เด็นริว", "bellossom": "คิเรฮานะ", "marill": "มาริล", "azumarill": "มาริลริ", "sudowoodo": "อุโซกกี", "politoed": "เนียวโรโทโนะ", "hoppip": "ฮาเน็กโกะ", "skiploom": "โปป็อกโกะ", "jumpluff": "วาทักโกะ", "aipom": "เอปาม", "sunkern": "ฮิมานัทสึ", "sunflora": "คิมาวาริ", "yanma": "ยันยันมา", "wooper": "อูปา", "quagsire": "นูโอ", "espeon": "เอฟี", "umbreon": "แบล็กกี", "murkrow": "ยามิการาสึ", "slowking": "ยาโดคิง", "misdreavus": "มูมา", "unown": "อันโนน", "wobbuffet": "โซนานส์", "girafarig": "คิรินริคิ", "pineco": "คุนุกิดามะ", "forretress": "ฟอเรทอส", "dunsparce": "โนก็อตชิ", "gligar": "ไกลก้า", "steelix": "ฮากาเนล", "snubbull": "บลู", "granbull": "แกรนบลู", "qwilfish": "ฮาริเซน", "scizor": "ฮัสซัม", "shuckle": "สึโบะซึโบะ", "heracross": "เฮราครอส", "sneasel": "นิวลา", "teddiursa": "ฮิเมกุมะ", "ursaring": "ริงกุมะ", "slugma": "แม็กมักก์", "magcargo": "แม็กคาร์โก", "swinub": "อูริมู", "piloswine": "อิโนมู", "corsola": "ซันนีโก", "remoraid": "เทปโปโอ", "octillery": "ออกทิลเลอรี", "delibird": "เดลิเบิร์ด", "mantine": "แมนไทน์", "skarmory": "แอร์มุโด", "houndour": "เดลวิล", "houndoom": "เฮลการ์", "kingdra": "คิงดรา", "phanpy": "โกมาโซ", "donphan": "ดอนฟาน", "porygon2": "โพรีกอน2", "stantler": "โอโดชิชิ", "smeargle": "โดเบิล", "tyrogue": "บารูคี", "hitmontop": "คาโปเอเรอร์", "smoochum": "มุจูล", "elekid": "เอเลคิด", "magby": "บูบี", "miltank": "มิลแทงก์", "blissey": "แฮปปีนา", "raikou": "ไรโค", "entei": "เอ็นเต", "suicune": "ซุยคุน", "larvitar": "โยกิราส", "pupitar": "ซานากิราส", "tyranitar": "บันกิราส", "lugia": "ลูเกีย", "ho-oh": "โฮโอ", "celebi": "เซเลบี",
+            "treecko": "คิโมริ", "grovyle": "จุปทอล", "sceptile": "จูไคน์", "torchic": "อาชาโม", "combusken": "วาคาชาโม", "blaziken": "บาชาโม", "mudkip": "มิซึโกโร", "marshtomp": "นูมาโคร", "swampert": "ลากลาจ", "ralts": "ราลท์ซ", "kirlia": "เคอร์เรีย", "gardevoir": "เซอไนท์", "gallade": "เอลูเรด", "mawile": "คูชีท", "aggron": "บอสโกโดรา", "medicham": "เชอร์เรม", "manectric": "ไลโวลต์", "sharpedo": "ไลโบค", "camerupt": "ไรโวลต์", "altaria": "ทิลทาลิส", "salamence": "โบมันเดอร์", "metagross": "เมทากรอส", "latias": "ลาทิอาส", "latios": "ลาทิโอส", "kyogre": "ไคโอกา", "groudon": "กราดอน", "rayquaza": "เรควอซา", "jirachi": "จิราชิ", "deoxys": "เดโอคิซิส", "regirock": "เรจิร็อก", "regice": "เรจิไอซ์", "registeel": "เรจิสตีล",
+            "turtwig": "นาเอเติล", "grotle": "ฮายาชิกาเมะ", "torterra": "โดดายโทส", "chimchar": "ฮิโกซารุ", "monferno": "โมคาซารุ", "infernape": "โกคาซารุ", "piplup": "พอจจามะ", "prinplup": "พ็อตไทชิ", "empoleon": "เอ็มเพลท์", "gible": "ฟุคามารุ", "gabite": "กาไบต์", "garchomp": "กาเบรียส", "riolu": "ริโอลุ", "lucario": "ลูคาริโอ", "dialga": "ดีอัลกา", "palkia": "พัลเกีย", "giratina": "กิราตินา", "arceus": "อาร์เซอุส", "uxie": "ยุคซี", "mesprit": "เอ็มริต", "azelf": "อักนอม", "heatran": "ฮีดราน", "regigigas": "เรจิกิกัส", "cresselia": "เครเซเรีย", "phione": "ฟิโอเน", "manaphy": "มานาฟี", "darkrai": "ดาร์กไร", "shaymin": "เชมิน",
+            "victini": "วิคทินี", "cobalion": "โคบาลูออน", "terrakion": "เทราคิออน", "virizion": "บิริจิออน", "tornadus": "ทอร์เนลอส", "thundurus": "โวลโทลอส", "reshiram": "เรชิรัม", "zekrom": "เซครอม", "landorus": "แลนโดรอส", "kyurem": "คิวเรม", "keldeo": "เคลดิโอ", "meloetta": "เมโลเอตตา", "genesect": "เกโนเซ็กท์",
+            "froakie": "เคโรมัตสึ", "frogadier": "เกโคกาชิระ", "greninja": "เก็คโคกะ", "xerneas": "เซลเนียส", "yveltal": "อีเวลทอล", "zygarde": "ซีการ์ด", "diancie": "ดีแอนซี", "hoopa": "ฮูปา", "volcanion": "โวลเคเนียน",
+            "rowlet": "โมคุโร", "dartrix": "ฟุคุสึโร", "decidueye": "จูไนเปอร์", "litten": "เนียบี", "torracat": "เนียฮีท", "incineroar": "กาโอกาเอ็น", "popplio": "อชิมาริ", "brionne": "โอชาชิมาริ", "primarina": "อชิเรน", "mimikyu": "มิมิคคิว", "tapu-koko": "คาปู-โคเคโค", "solgaleo": "โซลกาเลโอ", "lunala": "ลูนาลา", "tapu-lele": "คาปู-เตเตฟู", "tapu-bulu": "คาปู-บูลูลู", "tapu-fini": "คาปู-เรฮิเร", "cosmog": "คอสม็อก", "cosmoem": "คอสโมม", "necrozma": "เนครอซมา", "magearna": "มาเกียนา", "marshadow": "มาร์ชาโดว์", "zeraora": "เซราโอรา", "meltan": "เมลตัน", "melmetal": "เมลเมทัล", "nihilego": "อุตซึรอยด์", "buzzwole": "มัสชิบูน", "pheromosa": "ฟีโรเช่", "xurkitree": "เด็นจูโมกุ", "celesteela": "เทคคากุยะ", "kartana": "คามิทสึรุงิ", "guzzlord": "อคุจิคิง", "poipole": "เบเวนอม", "naganadel": "อาร์โกยอน", "stakataka": "สึนเดสึนเด", "blacephalon": "ซึกะโดน",
+            "grookey": "ซารุโนริ", "thwackey": "บาคีคีย์", "rillaboom": "กอริลลันเดอร์", "scorbunny": "ฮิบานี", "raboot": "แรบบิท", "cinderace": "เอสเบิร์น", "sobble": "เมซซอน", "drizzile": "จิเมเลียน", "inteleon": "อินเทเลียน", "zacian": "ซาเชียน", "zamazenta": "ซามาเซนตา", "eternatus": "มุเก็นไดนา", "regieleki": "เรจิเอเลคิ", "regidrago": "เรจิดราโก", "glastrier": "บลิซซาพอส", "spectrier": "เรสพอส", "calyrex": "บัดเดร็กซ์", "zarude": "ซารูด", "enamorus": "เลิฟทรอส",
+            "sprigatito": "เนียวฮะ", "floragato": "เนียโรเต", "meowscarada": "มาสเคอเนีย", "fuecoco": "โฮเกเตอร์", "crocalor": "อจิเกเตอร์", "skeledirge": "ลาวด์โบน", "quaxly": "แคว็กซ์", "quaxwell": "แคว็กซ์เวล", "quaquaval": "เวนิแคว็กซ์", "koraidon": "โคไรดอน", "miraidon": "มิไรดอน", "ogerpon": "โอกะปอน", "terapagos": "เทราปากอส", "ting-lu": "ติ่งลู่", "chien-pao": "เจี้ยนเปา", "wo-chien": "โฉงเจี้ยน", "chi-yu": "อวี้รุ่ย", "okidogi": "อี้อินุ", "munkidori": "มาชิมาชิระ", "fezandipiti": "คิจิคิสึ", "pecharunt": "โมโมวาโร่"
+        };
+
+        const POKEDEX_ENTRIES_TH = {
+            1: "ตั้งแต่เกิดมาจะมีเมล็ดพืชแปลกๆ ปลูกอยู่ที่หลัง เมล็ดจะโตขึ้นพร้อมกับตัวมันคอยดูดซับสารอาหาร", 4: "ไฟที่หางคือสัญลักษณ์แห่งชีวิตและอารมณ์ หากไฟดับลง ชีวิตของมันก็จะจบสิ้นลงด้วย", 5: "เมื่อมันแกว่งหางที่ลุกเป็นไฟ อุณหภูมิรอบข้างจะพุ่งสูงขึ้นจนร้อนระอุแทบทนไม่ได้", 6: "พ่นไฟที่ร้อนแรงจนสามารถละลายหินผาได้ ว่ากันว่ามันมักจะเป็นต้นเหตุของไฟป่าใหญ่", 7: "กระดองของมันไม่เพียงแค่ใช้ป้องกันตัว แต่รูปทรงที่โค้งมนยังช่วยลดแรงต้านน้ำ ทำให้ว่ายน้ำได้เร็วมาก", 25: "มักจะสะสมไฟฟ้าไว้ที่ถุงลมบริเวณแก้มทั้งสองข้าง เมื่อรู้สึกถึงอันตรายจะปล่อยกระแสไฟฟ้าแรงสูงออกมา", 133: "มีพันธุกรรมที่ไม่เสถียรอย่างมาก ทำให้สามารถวิวัฒนาการเปลี่ยนรูปแบบไปตามสภาพแวดล้อมที่อยู่อาศัยได้", 143: "มันจะไม่พอใจถ้าไม่ได้กินอาหารวันละ 400 กิโลกรัม เมื่อกินอิ่มแล้วมันก็จะนอนหลับไปทันที", 149: "เป็นโปเกมอนที่จิตใจดีและรักสงบ ว่ากันว่ามันจะบินไปช่วยเหลือผู้คนที่กำลังจะจมน้ำกลางทะเล", 150: "โปเกมอนที่ถูกสร้างขึ้นจากการตัดต่อพันธุกรรม มีพลังจิตที่แข็งแกร่งที่สุดและมีจิตใจที่เยือกเย็น", 151: "โปเกมอนมายาที่ว่ากันว่ามีรหัสพันธุกรรมของโปเกมอนทุกตัวบนโลกซ่อนอยู่ในร่างกายของมัน", 249: "เทพเจ้าแห่งท้องทะเล มีพลังปีกมหาศาลที่สามารถสร้างพายุใหญ่พัดกระหน่ำได้ยาวนานถึง 40 วัน", 250: "ขนของมันส่องประกายเจ็ดสี ว่ากันว่าผู้ใดที่ได้เห็นโฮโอจะได้รับความสุขและโชคดีไปตลอดกาล", 384: "อาศัยอยู่ในชั้นบรรยากาศโอโซน คอยกลืนกินอุกกาบาตเพื่อใช้เป็นพลังงาน ว่ากันว่ามันจะลงมาเมื่อกราดอนและไคโอกาสู้กัน", 448: "สามารถอ่านคลื่นพลังงาน (Aura) ของสิ่งมีชีวิตได้ แม้จะหลับตาอยู่ก็รับรู้ความรู้สึกของศัตรูได้จากระยะไกล", 658: "บีบอัดน้ำจนเป็นดาวกระจายที่คมกริบ การเคลื่อนไหวของมันรวดเร็วและว่องไวราวกับนินจา"
+        };
+
+        const ITEMS_PER_PAGE = 50;
+
+        // --- State Variables ---
+        let allPokemon = [];
+        let filteredList = [];
+        let displayLimit = ITEMS_PER_PAGE;
+        let selectedRegionIndex = 0;
+        let searchQuery = '';
+        let compareIds = [1, 4];
+        let compareData = [null, null];
+
+        // --- Helper Functions ---
+        const formatName = (name) => name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, ' ');
+        const getImageUrl = (id) => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+
+        const getThaiName = (engName) => {
+            if (!engName) return '';
+            if (THAI_NAMES_BASE[engName]) return THAI_NAMES_BASE[engName];
+            if (engName === 'ho-oh') return 'โฮโอ';
+            if (engName === 'porygon-z') return 'โพรีกอน Z';
+            if (engName === 'jangmo-o') return 'จารังโกะ';
+            if (engName === 'hakamo-o') return 'จารังโก';
+            if (engName === 'kommo-o') return 'จาราแรนกา';
+            if (engName === 'type-null') return 'ไทป์:นัล';
+            
+            if (engName === 'zygarde' || engName === 'zygarde-50') return 'ซีการ์ด (ฟอร์ม 50%)';
+            if (engName === 'zygarde-10-power-construct' || engName === 'zygarde-10') return 'ซีการ์ด (ฟอร์ม 10%)';
+            if (engName === 'zygarde-complete') return 'ซีการ์ด (เพอร์เฟกต์ฟอร์ม)';
+
+            const defaultSuffixes = ['-normal', '-altered', '-land', '-ordinary', '-aria', '-incarnate', '-average', '-standard', '-red-striped', '-baile', '-midday', '-solo', '-red-meteor', '-disguised', '-amped', '-ice', '-male', '-full-belly', '-single-strike', '-plant', '-shield'];
+            let baseEngName = engName;
+            for (const suffix of defaultSuffixes) {
+                if (engName.endsWith(suffix)) { baseEngName = engName.replace(suffix, ''); break; }
+            }
+            if (THAI_NAMES_BASE[baseEngName]) return THAI_NAMES_BASE[baseEngName];
+            
+            const formKeywords = ['-mega', '-primal', '-gmax', '-alola', '-galar', '-hisui', '-paldea', '-therian', '-origin', '-ash', '-eternamax'];
+            const isSpecialForm = formKeywords.some(kw => engName.includes(kw));
+
+            if (isSpecialForm) {
+                const baseOnly = engName.replace(/-(mega(-[xy])?|primal|gmax|alola|galar|hisui|paldea|therian|origin|ash|eternamax).*/, '');
+                let thaiBase = THAI_NAMES_BASE[baseOnly] || formatName(baseOnly);
+                if (engName.includes('-mega-x')) return `เมก้า${thaiBase} X`;
+                if (engName.includes('-mega-y')) return `เมก้า${thaiBase} Y`;
+                if (engName.includes('-mega')) return `เมก้า${thaiBase}`;
+                if (engName.includes('-primal')) return `ต้นกาล${thaiBase}`;
+                if (engName.includes('-gmax')) return `เคียวไดแมกซ์${thaiBase}`;
+                if (engName.includes('-alola')) return `${thaiBase} (ฟอร์มอโลลา)`;
+                if (engName.includes('-galar')) return `${thaiBase} (ฟอร์มกาลาร์)`;
+                if (engName.includes('-hisui')) return `${thaiBase} (ฟอร์มฮิซุย)`;
+                if (engName.includes('-paldea')) return `${thaiBase} (ฟอร์มพัลเดีย)`;
+                if (engName.includes('-therian')) return `ร่างอวตาร${thaiBase}`;
+                if (engName.includes('-origin')) return `ร่างดั้งเดิม${thaiBase}`;
+                if (engName.includes('-ash')) return `ซาโตชิ${thaiBase}`;
+                if (engName.includes('-eternamax')) return `มุเก็นไดแมกซ์${thaiBase}`;
+            }
+            return formatName(baseEngName);
+        };
+
+        const getLoaderHTML = () => `
+            <div class="flex flex-col items-center justify-center py-32 animate-pulse relative z-10 w-full">
+                <div class="w-20 h-20 border-[10px] border-slate-100 border-t-red-500 rounded-full animate-spin mb-8 relative shadow-xl">
+                    <div class="absolute top-1/2 left-0 w-full h-1.5 bg-slate-100 -translate-y-1/2"></div>
+                    <div class="absolute top-1/2 left-1/2 w-5 h-5 bg-white border-[5px] border-slate-100 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+                </div>
+                <p class="font-bold text-slate-400 tracking-widest uppercase text-sm">กำลังประมวลผลข้อมูล...</p>
+            </div>
+        `;
+
+        // --- Core Application Logic ---
+        
+        async function initApp() {
+            renderRegionFilters();
+            document.getElementById('home-loader').innerHTML = getLoaderHTML();
+            document.getElementById('home-loader').style.display = 'block';
+
+            try {
+                const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1500');
+                const data = await res.json();
+                
+                const uniquePokemon = [];
+                const seenNames = new Set();
+
+                data.results.forEach((p) => {
+                    const id = parseInt(p.url.split('/').slice(-2, -1)[0]);
+                    const name_th = getThaiName(p.name);
+                    
+                    if (!seenNames.has(name_th)) {
+                        seenNames.add(name_th);
+                        uniquePokemon.push({ name: p.name, name_th: name_th, id: id, url: p.url });
+                    }
+                });
+                
+                allPokemon = uniquePokemon;
+                document.getElementById('home-loader').style.display = 'none';
+                applyFilters();
+                
+                // Pre-load compare data
+                fetchCompareData();
+
+            } catch (error) {
+                console.error("Failed to fetch pokemon list", error);
+            }
+        }
+
+        function switchView(viewName) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-detail').classList.add('hidden');
+            document.getElementById('view-compare').classList.add('hidden');
+            
+            document.getElementById('nav-home').classList.remove('text-red-500');
+            document.getElementById('nav-home').classList.add('text-slate-500');
+            document.getElementById('nav-home').querySelector('.nav-line').classList.replace('w-full', 'w-0');
+            document.getElementById('nav-compare').classList.remove('text-red-500');
+            document.getElementById('nav-compare').classList.add('text-slate-500');
+            document.getElementById('nav-compare').querySelector('.nav-line').classList.replace('w-full', 'w-0');
+
+            document.getElementById(`view-${viewName}`).classList.remove('hidden');
+            
+            if(viewName !== 'detail') {
+                document.getElementById(`nav-${viewName}`).classList.add('text-red-500');
+                document.getElementById(`nav-${viewName}`).classList.remove('text-slate-500');
+                document.getElementById(`nav-${viewName}`).querySelector('.nav-line').classList.replace('w-0', 'w-full');
+            }
+        }
+
+        // --- Home View Logic ---
+
+        function renderRegionFilters() {
+            const container = document.getElementById('region-filters');
+            container.innerHTML = REGIONS.map((reg, index) => `
+                <button onclick="selectRegion(${index})" class="px-6 md:px-8 py-2 md:py-3 rounded-full whitespace-nowrap font-bold text-xs md:text-sm transition-all ${selectedRegionIndex === index ? 'bg-slate-800 text-white shadow-xl -translate-y-1' : 'bg-white/70 backdrop-blur-sm text-slate-500 hover:text-slate-800 border border-white hover:border-slate-300'}">
+                    ${reg.name}
+                </button>
+            `).join('');
+        }
+
+        function selectRegion(index) {
+            selectedRegionIndex = index;
+            displayLimit = ITEMS_PER_PAGE;
+            renderRegionFilters();
+            applyFilters();
+        }
+
+        function handleSearch() {
+            searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            displayLimit = ITEMS_PER_PAGE;
+            applyFilters();
+        }
+
+        function applyFilters() {
+            let list = allPokemon;
+            
+            if (searchQuery) {
+                list = list.filter(p => p.name.toLowerCase().includes(searchQuery) || p.name_th.includes(searchQuery) || p.id.toString() === searchQuery);
+            } else {
+                list = list.filter(p => p.id <= 1025); // Main pokedex range
+                const reg = REGIONS[selectedRegionIndex];
+                if (reg.name !== 'ทั้งหมด') {
+                    list = list.slice(reg.offset, reg.offset + reg.limit);
+                }
+            }
+            
+            filteredList = list;
+            document.getElementById('total-count').innerText = filteredList.length;
+            
+            renderPokemonGrid();
+        }
+
+        function loadMore() {
+            displayLimit += ITEMS_PER_PAGE;
+            renderPokemonGrid();
+        }
+
+        async function renderPokemonGrid() {
+            const container = document.getElementById('pokemon-grid');
+            const currentList = filteredList.slice(0, displayLimit);
+            
+            document.getElementById('empty-state').style.display = currentList.length === 0 ? 'block' : 'none';
+            document.getElementById('load-more-container').style.display = filteredList.length > displayLimit ? 'flex' : 'none';
+
+            container.innerHTML = currentList.map(p => `
+                <div id="card-${p.id}" onclick="openDetail(${p.id})" class="group rounded-[2.5rem] p-5 md:p-7 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer border flex flex-col items-center relative hover:-translate-y-2 md:hover:-translate-y-3 overflow-hidden backdrop-blur-md" style="background: rgba(255,255,255,0.4); border-color: rgba(255,255,255,0.6);">
+                    <div class="absolute top-4 right-5 font-black text-xl md:text-3xl italic select-none transition-all duration-500 opacity-60 group-hover:opacity-100 group-hover:scale-110 text-slate-400">
+                        #${String(p.id).padStart(3, '0')}
+                    </div>
+                    <div class="relative w-24 h-24 md:w-36 md:h-36 my-4 md:my-6">
+                        <div class="absolute inset-[-8px] md:inset-[-12px] bg-white/80 rounded-full scale-100 group-hover:scale-110 transition-transform duration-700 shadow-inner border border-white"></div>
+                        <img src="${getImageUrl(p.id)}" class="relative z-10 w-full h-full object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-700 drop-shadow-xl" loading="lazy" alt="${p.name_th}" />
+                    </div>
+                    <div class="text-center w-full relative z-10 flex flex-col items-center">
+                        <h3 class="text-sm md:text-lg font-black text-slate-800 tracking-tight transition-colors uppercase drop-shadow-sm group-hover:text-slate-900 mb-3 truncate w-full px-1">
+                            ${p.name_th}
+                        </h3>
+                        <div id="types-${p.id}" class="flex justify-center gap-1.5 h-6">
+                            <div class="w-12 h-4 md:w-16 md:h-5 bg-slate-200 rounded-full animate-pulse"></div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Fetch details for cards to get colors
+            for (let p of currentList) {
+                fetch(`https://pokeapi.co/api/v2/pokemon/${p.id}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const themeColor = TYPE_COLORS[data.types[0].type.name] || '#cbd5e1';
+                        const card = document.getElementById(`card-${p.id}`);
+                        const typesContainer = document.getElementById(`types-${p.id}`);
+                        if(card && typesContainer) {
+                            card.style.background = `linear-gradient(145deg, ${themeColor}15 0%, rgba(255,255,255,0.85) 100%)`;
+                            card.style.borderColor = `${themeColor}40`;
+                            card.style.boxShadow = `0 10px 30px -10px ${themeColor}30`;
+                            
+                            // Add glow effect div
+                            const glow = document.createElement('div');
+                            glow.className = "absolute -top-10 -right-10 w-32 h-32 md:w-40 md:h-40 rounded-full blur-3xl opacity-40 group-hover:opacity-70 transition-opacity duration-500 pointer-events-none";
+                            glow.style.backgroundColor = themeColor;
+                            card.prepend(glow);
+                            
+                            card.querySelector('.italic').style.color = themeColor;
+                            
+                            typesContainer.innerHTML = data.types.map(t => `
+                                <span class="text-white text-[9px] md:text-[11px] font-bold px-3 py-1 md:px-4 md:py-1.5 rounded-full uppercase tracking-widest shadow-lg inline-block transition-transform hover:scale-110 cursor-default" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
+                                    ${TYPE_NAMES_TH[t.type.name] || t.type.name}
+                                </span>
+                            `).join('');
+                        }
+                    }).catch(err => {});
+            }
+        }
+
+        // --- Detail View Logic ---
+
+        async function openDetail(id) {
+            switchView('detail');
+            const viewDetail = document.getElementById('view-detail');
+            viewDetail.innerHTML = getLoaderHTML();
+
+            try {
+                const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+                const pokemonDetail = await res.json();
+                pokemonDetail.name_th = getThaiName(pokemonDetail.name);
+
+                let speciesDetail = null;
+                let evoChain = null;
+                let formsData = [];
+                let translatedEntry = 'ไม่พบข้อมูลพฤติกรรมในฐานข้อมูลหลัก';
+
+                if (pokemonDetail.species && pokemonDetail.species.url) {
+                    const specRes = await fetch(pokemonDetail.species.url);
+                    speciesDetail = await specRes.json();
+                    
+                    if (speciesDetail.varieties) {
+                        const seenFormNames = new Set();
+                        speciesDetail.varieties.filter(f => !f.is_default).forEach(v => {
+                            const tName = getThaiName(v.pokemon.name);
+                            if (!seenFormNames.has(tName)) {
+                                seenFormNames.add(tName);
+                                formsData.push(v);
+                            }
+                        });
+                    }
+
+                    if (speciesDetail.evolution_chain && speciesDetail.evolution_chain.url) {
+                        const evoRes = await fetch(speciesDetail.evolution_chain.url);
+                        const evoData = await evoRes.json();
+                        evoChain = evoData.chain;
+                    }
+
+                    if (POKEDEX_ENTRIES_TH[pokemonDetail.id]) {
+                        translatedEntry = POKEDEX_ENTRIES_TH[pokemonDetail.id];
+                    } else {
+                        const entry = speciesDetail.flavor_text_entries.find(f => f.language.name === 'en');
+                        const engText = entry ? entry.flavor_text.replace(/[\n\f\r]/g, ' ') : '';
+                        if (engText) {
+                            translatedEntry = 'กำลังแปลภาษาไทยอัตโนมัติ...';
+                            // Fire and forget translation
+                            fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=th&dt=t&q=${encodeURIComponent(engText)}`)
+                                .then(r => r.json())
+                                .then(d => {
+                                    const text = d[0].map(item => item[0]).join('');
+                                    const entryEl = document.getElementById('pokedex-entry-text');
+                                    if(entryEl) entryEl.innerText = text;
+                                }).catch(() => {
+                                    const entryEl = document.getElementById('pokedex-entry-text');
+                                    if(entryEl) entryEl.innerText = `${engText}\n(ไม่สามารถเชื่อมต่อระบบแปลภาษาอัตโนมัติได้)`;
+                                });
+                        }
+                    }
+                }
+
+                renderDetailHTML(pokemonDetail, speciesDetail, formsData, evoChain, translatedEntry);
+
+            } catch (error) {
+                console.error(error);
+                viewDetail.innerHTML = `<div class="text-center py-20"><p class="text-red-500 font-bold">เกิดข้อผิดพลาดในการโหลดข้อมูล</p><button onclick="switchView('home')" class="mt-4 px-6 py-2 bg-slate-200 rounded-full font-bold">กลับ</button></div>`;
+            }
+        }
+
+        function buildEvoNodeHTML(node) {
+            if(!node) return '';
+            const id = node.species.url.split('/').slice(-2, -1)[0];
+            const nameTh = getThaiName(node.species.name);
+            
+            let html = `
+                <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6 shrink-0">
+                    <div onclick="openDetail(${id})" class="flex flex-col items-center cursor-pointer group bg-white/60 backdrop-blur-md p-4 md:p-6 rounded-[2rem] hover:bg-white hover:shadow-2xl transition-all border border-white hover:-translate-y-2">
+                        <div class="relative w-20 h-20 md:w-24 md:h-24 mb-3">
+                            <div class="absolute inset-0 bg-slate-100 rounded-full scale-100 group-hover:scale-110 transition-transform"></div>
+                            <img src="${getImageUrl(id)}" class="w-full h-full object-contain relative z-10 drop-shadow-md group-hover:scale-110 transition-transform" />
+                        </div>
+                        <span class="font-black text-slate-700 text-xs md:text-sm text-center">${nameTh}</span>
+                        <span class="text-[9px] md:text-[10px] font-bold text-slate-400 mt-1 uppercase">#${id}</span>
+                    </div>
+            `;
+            
+            if (node.evolves_to && node.evolves_to.length > 0) {
+                html += `
+                    <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6">
+                        <div class="text-slate-300 font-black text-2xl md:text-3xl rotate-90 md:rotate-0 drop-shadow-sm"><i class="ph ph-arrow-right"></i></div>
+                        <div class="flex flex-col gap-4 md:gap-6 border-l-4 md:border-l-0 md:border-t-4 border-slate-200/50 pl-4 md:pl-0 md:pt-6">
+                            ${node.evolves_to.map(child => buildEvoNodeHTML(child)).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            html += `</div>`;
+            return html;
+        }
+
+        function renderDetailHTML(pokemonDetail, speciesDetail, formsData, evoChain, translatedEntry) {
+            const mainType = pokemonDetail.types[0].type.name;
+            const themeColor = TYPE_COLORS[mainType] || '#777';
+
+            let category = 'Pokémon';
+            if (speciesDetail && speciesDetail.genera) {
+                const genus = speciesDetail.genera.find(g => g.language.name === 'en');
+                if (genus) category = genus.genus;
+            }
+
+            let habitat = 'พบได้หลากหลายพื้นที่';
+            if (speciesDetail && speciesDetail.habitat) {
+                habitat = HABITAT_TH[speciesDetail.habitat.name] || speciesDetail.habitat.name;
+            }
+
+            const viewDetail = document.getElementById('view-detail');
+            
+            let html = `
+                <nav class="max-w-6xl mx-auto p-6 md:p-10 flex justify-between items-center">
+                    <button onclick="switchView('home')" class="flex items-center gap-2 md:gap-3 text-slate-500 hover:text-slate-800 font-bold text-xs md:text-sm transition-all group bg-white/50 px-5 py-2.5 md:px-6 md:py-3 rounded-full shadow-sm border border-white">
+                        <i class="ph ph-arrow-left text-lg group-hover:-translate-x-2 transition-transform"></i> กลับไปหน้ารายการ
+                    </button>
+                </nav>
+
+                <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-10 md:gap-16 items-start">
+                    
+                    <div class="relative group sticky top-24 md:top-32">
+                        <div class="backdrop-blur-xl rounded-[3rem] md:rounded-[4rem] p-8 md:p-20 shadow-2xl flex flex-col items-center border relative overflow-hidden w-full min-h-[400px] md:min-h-[500px] justify-center transition-all duration-700"
+                            style="border-color: ${themeColor}40; background: linear-gradient(145deg, ${themeColor}10 0%, rgba(255,255,255,0.7) 100%)">
+                            <div class="absolute inset-0 opacity-20 pointer-events-none mix-blend-multiply" style="background: radial-gradient(circle at top right, ${themeColor}, transparent 70%)"></div>
+                            <div class="absolute -bottom-20 -left-20 w-64 h-64 md:w-96 md:h-96 blur-3xl opacity-20 pointer-events-none rounded-full" style="background-color: ${themeColor}"></div>
+                            
+                            <div class="absolute top-0 right-0 p-8 md:p-16 font-black text-[6rem] md:text-[12rem] italic leading-none select-none opacity-[0.12]" style="color: ${themeColor}">
+                                #${pokemonDetail.id}
+                            </div>
+                            
+                            <img src="${getImageUrl(pokemonDetail.id)}" class="w-[250px] h-[250px] md:w-[450px] md:h-[450px] object-contain relative z-10 animate-float drop-shadow-2xl" alt="" />
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-6 md:gap-8">
+                        <div>
+                            <div class="text-2xl md:text-4xl font-black italic tracking-widest mb-1 md:mb-2 opacity-90 drop-shadow-sm" style="color: ${themeColor}">
+                                #${String(pokemonDetail.id).padStart(3, '0')}
+                            </div>
+                            <h1 class="text-4xl md:text-7xl font-black text-slate-800 tracking-tighter mb-2 md:mb-4 leading-tight uppercase drop-shadow-sm">${pokemonDetail.name_th}</h1>
+                            <p class="text-lg md:text-xl text-slate-400 font-bold italic mb-4 md:mb-6 uppercase tracking-widest">${formatName(pokemonDetail.name)}</p>
+                            <div class="flex flex-wrap gap-2 md:gap-3">
+                                ${pokemonDetail.types.map(t => `<span class="text-white text-[10px] md:text-[11px] font-bold px-3 py-1 md:px-4 md:py-1.5 rounded-full uppercase tracking-widest shadow-lg inline-block" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">${TYPE_NAMES_TH[t.type.name] || t.type.name}</span>`).join('')}
+                            </div>
+                        </div>
+
+                        <div class="bg-white/80 backdrop-blur-md p-6 md:p-8 rounded-[2rem] md:rounded-3xl border border-white shadow-lg relative overflow-hidden">
+                            <div class="absolute top-2 left-4 text-6xl opacity-10 font-serif text-slate-800">"</div>
+                            <h3 class="text-base md:text-lg font-black text-slate-700 mb-3 md:mb-4 flex items-center gap-2 md:gap-3 relative z-10">
+                                <i class="ph ph-info text-blue-500 text-xl"></i> ลักษณะและพฤติกรรม (Pokédex Entry)
+                            </h3>
+                            <p id="pokedex-entry-text" class="text-slate-700 font-medium leading-relaxed text-sm md:text-lg relative z-10 whitespace-pre-line">${translatedEntry}</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 md:gap-6">
+                            <div class="bg-white/60 backdrop-blur-md p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-white shadow-md flex flex-col justify-center items-center text-center">
+                                <p class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 md:mb-2">ส่วนสูง (Height)</p>
+                                <p class="font-black text-xl md:text-2xl text-slate-800">${pokemonDetail.height / 10} <span class="text-xs md:text-sm text-slate-500">m</span></p>
+                            </div>
+                            <div class="bg-white/60 backdrop-blur-md p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-white shadow-md flex flex-col justify-center items-center text-center">
+                                <p class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 md:mb-2">น้ำหนัก (Weight)</p>
+                                <p class="font-black text-xl md:text-2xl text-slate-800">${pokemonDetail.weight / 10} <span class="text-xs md:text-sm text-slate-500">kg</span></p>
+                            </div>
+                            <div class="bg-white/60 backdrop-blur-md p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-white shadow-md flex flex-col justify-center items-center text-center">
+                                <p class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 md:mb-2">สายพันธุ์ (Category)</p>
+                                <p class="font-black text-sm md:text-xl text-slate-800">${category}</p>
+                            </div>
+                            <div class="bg-white/60 backdrop-blur-md p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-white shadow-md flex flex-col justify-center items-center text-center">
+                                <p class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 md:mb-2">ถิ่นที่อยู่ (Habitat)</p>
+                                <p class="font-black text-sm md:text-xl text-slate-800">${habitat}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white/60 backdrop-blur-md rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 shadow-xl border border-white">
+                            <h3 class="text-lg md:text-xl font-black text-slate-700 mb-6 md:mb-8 flex items-center gap-3 md:gap-4">
+                                <div class="w-8 md:w-12 h-1.5 bg-slate-300 rounded-full"></div>
+                                ค่าพลังพื้นฐาน (Base Stats)
+                            </h3>
+                            <div class="grid gap-3 md:gap-4">
+                                ${pokemonDetail.stats.map(s => {
+                                    const percentage = (s.base_stat / 255) * 100;
+                                    const statName = STAT_NAMES_TH[s.stat.name] || s.stat.name;
+                                    return `
+                                        <div class="mb-2">
+                                            <div class="flex justify-between text-[10px] md:text-xs font-bold text-slate-500 uppercase mb-1 px-1 tracking-wider">
+                                                <span>${statName}</span>
+                                                <span class="text-slate-800 font-black">${s.base_stat}</span>
+                                            </div>
+                                            <div class="w-full bg-slate-100/50 rounded-full h-2 md:h-2.5 shadow-inner p-0.5">
+                                                <div class="h-full rounded-full transition-all duration-1000 ease-out shadow-sm relative overflow-hidden" style="width: ${percentage}%; background-color: ${themeColor}">
+                                                    <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+
+                            <div class="mt-8 md:mt-10 pt-8 md:pt-10 border-t border-slate-200/50">
+                                <h4 class="text-xs md:text-sm font-black text-slate-500 mb-4 md:mb-5 uppercase tracking-widest">ความสามารถ (Abilities)</h4>
+                                <div class="flex flex-wrap gap-2 md:gap-3">
+                                    ${pokemonDetail.abilities.map(a => `
+                                        <span class="px-4 py-2 md:px-6 md:py-2.5 bg-white/90 rounded-xl md:rounded-2xl text-[10px] md:text-sm font-black text-slate-600 border border-white shadow-sm hover:text-blue-500 transition-colors cursor-default uppercase tracking-wider">
+                                            ${formatName(a.ability.name)}
+                                        </span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+
+                        ${formsData.length > 0 ? `
+                            <div class="bg-white/60 backdrop-blur-md rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 shadow-xl border border-white">
+                                <h3 class="text-lg md:text-xl font-black text-slate-700 mb-6 md:mb-8 flex items-center gap-2 md:gap-4">
+                                    <i class="ph ph-lightning text-blue-500 text-2xl"></i> ฟอร์มพิเศษ (Alternative Forms)
+                                </h3>
+                                <div class="flex flex-wrap gap-4 md:gap-6">
+                                    ${formsData.map(v => {
+                                        const formId = v.pokemon.url.split('/').slice(-2, -1)[0];
+                                        const isCurrent = formId == pokemonDetail.id;
+                                        return `
+                                            <div onclick="${!isCurrent ? `openDetail(${formId})` : ''}" class="flex flex-col items-center p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] transition-all ${isCurrent ? 'cursor-default bg-white border-red-400 shadow-xl scale-105 border-2' : 'cursor-pointer bg-white/50 border-white hover:bg-white hover:shadow-xl hover:-translate-y-2 border-2'}">
+                                                <img src="${getImageUrl(formId)}" class="w-16 h-16 md:w-24 md:h-24 object-contain drop-shadow-lg mb-3 md:mb-4" />
+                                                <span class="font-bold text-slate-700 text-[10px] md:text-sm text-center max-w-[100px] md:max-w-[140px]">
+                                                    ${getThaiName(v.pokemon.name)}
+                                                </span>
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        ${evoChain ? `
+                            <div class="bg-white/60 backdrop-blur-md rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 shadow-xl border border-white overflow-x-auto custom-scrollbar">
+                                <h3 class="text-lg md:text-xl font-black text-slate-700 mb-6 md:mb-8 flex items-center gap-2 md:gap-4">
+                                    <i class="ph ph-sparkle text-amber-500 text-2xl"></i> สายวิวัฒนาการ (Evolution Chain)
+                                </h3>
+                                <div class="flex items-center w-max min-w-full pb-4 md:pb-6">
+                                    ${buildEvoNodeHTML(evoChain)}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                    </div>
+                </div>
+            `;
+            viewDetail.innerHTML = html;
+        }
+
+
+        // --- Compare View Logic ---
+
+        function buildDropdownHTML(index, currentId) {
+            const selected = allPokemon.find(p => p.id === currentId);
+            return `
+                <div class="relative w-full mb-6 compare-dropdown" id="dropdown-${index}">
+                    <button onclick="toggleCompareDropdown(${index})" class="w-full bg-white/80 backdrop-blur-md p-4 md:p-5 rounded-2xl flex justify-between items-center border border-white hover:border-red-400 transition-all font-bold text-slate-700 shadow-md group text-sm md:text-base">
+                        <span class="truncate" id="dropdown-text-${index}">${selected ? selected.name_th : 'เลือกโปเกมอน...'}</span>
+                        <i class="ph ph-caret-right text-slate-300 group-hover:text-red-400 transition-transform" id="dropdown-icon-${index}"></i>
+                    </button>
+                    <div id="dropdown-menu-${index}" class="hidden absolute z-50 mt-2 w-full bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white overflow-hidden">
+                        <div class="p-3 md:p-4 border-b bg-slate-50/50">
+                            <input type="text" onkeyup="filterCompareDropdown(${index}, this.value)" class="w-full p-2 md:p-3 bg-white rounded-xl outline-none text-xs md:text-sm font-medium border border-slate-200 focus:border-red-300 transition-colors shadow-inner" placeholder="พิมพ์ชื่อภาษาไทย หรือ อังกฤษ...">
+                        </div>
+                        <div class="max-h-60 overflow-y-auto custom-scrollbar" id="dropdown-list-${index}">
+                            ${renderCompareListHTML(index, '')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCompareListHTML(index, query) {
+            let list = allPokemon;
+            if(query) {
+                query = query.toLowerCase();
+                list = list.filter(p => p.name.toLowerCase().includes(query) || p.name_th.includes(query) || p.id.toString() === query);
+            }
+            return list.slice(0, 50).map(p => `
+                <div onclick="selectCompare(${index}, ${p.id})" class="p-3 md:p-4 hover:bg-red-50/50 cursor-pointer flex items-center gap-3 md:gap-4 border-b border-slate-50 last:border-0 transition-colors">
+                    <img src="${getImageUrl(p.id)}" class="w-8 h-8 md:w-10 md:h-10 object-contain drop-shadow-sm" loading="lazy" />
+                    <div class="flex-1 text-xs md:text-sm font-bold text-slate-700">${p.name_th}</div>
+                    <div class="text-[9px] md:text-[10px] text-slate-400 font-bold uppercase tracking-widest">#${p.id}</div>
+                </div>
+            `).join('');
+        }
+
+        function toggleCompareDropdown(index) {
+            const menu = document.getElementById(`dropdown-menu-${index}`);
+            const icon = document.getElementById(`dropdown-icon-${index}`);
+            const isHidden = menu.classList.contains('hidden');
+            
+            // Close all first
+            document.querySelectorAll('.compare-dropdown > div:nth-child(2)').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.compare-dropdown i').forEach(el => el.classList.remove('rotate-90'));
+
+            if (isHidden) {
+                menu.classList.remove('hidden');
+                icon.classList.add('rotate-90');
+            }
+        }
+
+        function filterCompareDropdown(index, query) {
+            document.getElementById(`dropdown-list-${index}`).innerHTML = renderCompareListHTML(index, query);
+        }
+
+        function selectCompare(index, id) {
+            compareIds[index] = id;
+            document.getElementById(`dropdown-menu-${index}`).classList.add('hidden');
+            document.getElementById(`dropdown-icon-${index}`).classList.remove('rotate-90');
+            fetchCompareData();
+        }
+
+        async function fetchCompareData() {
+            try {
+                const results = await Promise.all(
+                    compareIds.map(id => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(r => r.json()))
+                );
+                compareData = results.map(data => {
+                    if(!data) return null;
+                    data.name_th = getThaiName(data.name);
+                    return data;
+                });
+                renderCompareView();
+            } catch(e) {
+                console.error("Error fetching compare data", e);
+            }
+        }
+
+        function renderCompareView() {
+            const renderCard = (index) => {
+                const data = compareData[index];
+                if (!data) return `<div class="p-32 flex justify-center"><i class="ph ph-spinner animate-spin text-slate-300 text-4xl"></i></div>`;
+                
+                const otherData = compareData[index === 0 ? 1 : 0];
+                const themeColor = TYPE_COLORS[data.types[0].type.name] || '#777';
+
+                let statsHtml = data.stats.map((s, idx) => {
+                    const otherVal = otherData?.stats[idx]?.base_stat || 0;
+                    const isWinner = s.base_stat > otherVal;
+                    const statName = STAT_NAMES_TH[s.stat.name] || s.stat.name;
+                    return `
+                        <div class="flex items-center justify-between mb-4 md:mb-6">
+                            <span class="text-[10px] md:text-xs font-bold text-slate-500 w-20 md:w-24 truncate mr-2 md:mr-4 tracking-tight">${statName}</span>
+                            <div class="flex-1 mx-2 md:mx-4 bg-slate-100/50 h-2 md:h-2.5 rounded-full overflow-hidden shadow-inner">
+                                <div class="h-full rounded-full transition-all duration-1000 ${isWinner ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.4)]' : 'bg-slate-300'}" style="width: ${(s.base_stat/255)*100}%"></div>
+                            </div>
+                            <span class="text-sm md:text-lg font-black w-8 md:w-10 text-right ${isWinner ? 'text-emerald-500' : 'text-slate-400'}">${s.base_stat}</span>
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="backdrop-blur-xl rounded-[3rem] md:rounded-[4rem] p-6 md:p-12 border relative h-full flex flex-col transition-all overflow-hidden"
+                         style="border-color: ${themeColor}40; background: linear-gradient(145deg, ${themeColor}10 0%, rgba(255,255,255,0.85) 100%); box-shadow: 0 20px 40px -10px ${themeColor}20">
+                        <div class="absolute -top-10 -left-10 w-48 h-48 md:w-64 md:h-64 rounded-full blur-3xl opacity-20 pointer-events-none" style="background-color: ${themeColor}"></div>
+                        
+                        ${buildDropdownHTML(index, data.id)}
+                        
+                        <div class="flex flex-col items-center mb-8 md:mb-14">
+                            <div class="w-40 h-40 md:w-56 md:h-56 mb-6 md:mb-8 bg-white rounded-[2.5rem] md:rounded-[3.5rem] flex items-center justify-center p-8 md:p-12 relative shadow-inner border border-slate-50 overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-white"></div>
+                                <img src="${getImageUrl(data.id)}" class="w-full h-full object-contain relative z-10 drop-shadow-2xl animate-float" />
+                            </div>
+                            <div class="text-xl md:text-2xl font-black italic tracking-widest mb-1 md:mb-2 opacity-90 drop-shadow-sm" style="color: ${themeColor}">
+                                #${String(data.id).padStart(3, '0')}
+                            </div>
+                            <h3 class="text-3xl md:text-4xl font-black text-slate-800 tracking-tighter uppercase mb-3 md:mb-4 text-center">${data.name_th}</h3>
+                            <div class="flex gap-2 md:gap-3">
+                                ${data.types.map(t => `<span class="text-white text-[9px] md:text-[11px] font-bold px-3 py-1 md:px-4 md:py-1.5 rounded-full uppercase tracking-widest shadow-lg inline-block" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">${TYPE_NAMES_TH[t.type.name] || t.type.name}</span>`).join('')}
+                            </div>
+                        </div>
+                        <div class="flex-1 px-2 md:px-4 pt-4 border-t border-white/50">
+                            ${statsHtml}
+                        </div>
+                    </div>
+                `;
+            };
+
+            document.getElementById('compare-card-0').innerHTML = renderCard(0);
+            document.getElementById('compare-card-1').innerHTML = renderCard(1);
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+            if(!e.target.closest('.compare-dropdown')) {
+                document.querySelectorAll('.compare-dropdown > div:nth-child(2)').forEach(el => el.classList.add('hidden'));
+                document.querySelectorAll('.compare-dropdown i').forEach(el => el.classList.remove('rotate-90'));
+            }
+        });
+
+        // Initialize App
+        window.onload = initApp;
+
+    </script>
 </body>
 </html>
