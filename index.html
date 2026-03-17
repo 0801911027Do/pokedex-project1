@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex Global - สมุดภาพโปเกมอน</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
+    <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
+    <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Prompt:wght@300;400;500;700;900&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Prompt:wght@300;400;500;700;900&display=swap)" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="[https://unpkg.com/@phosphor-icons/web](https://unpkg.com/@phosphor-icons/web)"></script>
+
+    <!-- เชื่อมต่อไฟล์ CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 selection:bg-red-200 overflow-x-hidden relative min-h-screen flex flex-col">
+
+    <!-- Background Elements -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <div class="bg-blob bg-red-400 -top-40 -left-40"></div>
+        <div class="bg-blob bg-blue-300 top-1/2 -right-40" style="animation-delay: -10s;"></div>
+        <div class="bg-blob bg-yellow-200 -bottom-40 left-1/4" style="animation-delay: -20s;"></div>
+        <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(#000 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-[100] bg-white/70 backdrop-blur-xl border-b border-white/50 py-5 px-6 md:px-10">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3 md:gap-4 cursor-pointer group" onclick="switchView('home')">
+                <div class="relative w-10 h-10 md:w-12 md:h-12">
+                    <div class="absolute inset-0 bg-slate-800 rounded-full shadow-lg transition-transform duration-700 group-hover:rotate-180 border-[3px] border-white">
+                        <div class="absolute top-1/2 left-0 w-full h-0.5 bg-white/30"></div>
+                        <div class="absolute top-1/2 left-1/2 w-3 h-3 bg-white border-2 border-slate-800 rounded-full -translate-x-1/2 -translate-y-1/2 shadow-inner"></div>
+                    </div>
+                </div>
+                <span class="font-black text-xl md:text-2xl tracking-tight text-slate-800 drop-shadow-sm">สมุดภาพ<span class="text-red-500 ml-1">โปเกมอน</span></span>
+            </div>
+            <div class="flex gap-6 md:gap-10 font-bold text-xs md:text-sm">
+                <button onclick="switchView('home')" id="nav-home" class="nav-btn text-red-500 transition-all relative group py-2">
+                    แกลเลอรี
+                    <div class="nav-line absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-300 w-full"></div>
+                </button>
+                <button onclick="switchView('compare')" id="nav-compare" class="nav-btn text-slate-500 hover:text-slate-800 transition-all relative group py-2">
+                    เปรียบเทียบ
+                    <div class="nav-line absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-300 w-0 group-hover:w-full"></div>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div id="main-content" class="relative pt-24 md:pt-32 flex-1 w-full z-10">
+        
+        <!-- View: Home -->
+        <div id="view-home" class="fade-in">
+            <header class="pb-16 md:pb-20 px-6 relative overflow-hidden">
+                <div class="max-w-6xl mx-auto relative z-10 text-center md:text-left">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-10 mb-12 md:mb-16">
+                        <div class="relative">
+                            <div class="flex items-center justify-center md:justify-start gap-4 mb-6">
+                                <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-500 rounded-full border-[4px] md:border-[5px] border-white shadow-xl animate-pulse ring-4 ring-blue-500/20"></div>
+                                <div class="flex gap-2 md:gap-3">
+                                    <div class="w-2.5 h-2.5 md:w-3 md:h-3 bg-red-400 rounded-full shadow-sm"></div>
+                                    <div class="w-2.5 h-2.5 md:w-3 md:h-3 bg-yellow-300 rounded-full shadow-sm"></div>
+                                    <div class="w-2.5 h-2.5 md:w-3 md:h-3 bg-emerald-400 rounded-full shadow-sm"></div>
+                                </div>
+                            </div>
+                            <h1 class="text-5xl md:text-7xl font-black text-slate-800 tracking-tighter leading-none mb-4">
+                                สมุดภาพ <span class="text-red-500 drop-shadow-sm">โปเกมอน</span>
+                            </h1>
+                            <p class="text-slate-500 font-bold text-xs md:text-base tracking-wide mt-4">รวบรวมข้อมูลโปเกมอนและร่างเมก้าทั้งหมดกว่า 1,025+ รูปแบบ</p>
+                        </div>
+                        <button onclick="switchView('compare')" class="bg-slate-800 text-white px-8 py-4 md:px-10 md:py-5 rounded-[2rem] font-black text-xs md:text-sm hover:bg-red-500 transition-all shadow-2xl hover:-translate-y-2 active:scale-95 mx-auto md:mx-0 flex items-center gap-3 group">
+                            <i class="ph ph-scales text-lg group-hover:rotate-12 transition-transform"></i>
+                            วิเคราะห์การต่อสู้
+                        </button>
+                    </div>
+
+                    <div class="relative mb-10 md:mb-14 max-w-4xl mx-auto md:mx-0">
+                        <i class="ph ph-magnifying-glass absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 text-2xl"></i>
+                        <input type="text" id="searchInput" placeholder="ค้นหาด้วยชื่อภาษาไทย, อังกฤษ หรือหมายเลข ID..." class="w-full pl-14 pr-10 py-5 md:py-6 bg-white/80 backdrop-blur-md border border-white focus:border-red-300 focus:bg-white rounded-[2.5rem] outline-none transition-all text-lg md:text-xl font-medium text-slate-700 shadow-lg placeholder:text-slate-400 text-sm md:text-base" onkeyup="handleSearch()">
+                    </div>
+
+                    <div id="region-filters" class="flex gap-3 overflow-x-auto pb-4 no-scrollbar mask-fade scroll-smooth">
+                        <!-- Filters injected by JS -->
+                    </div>
+                    
+                    <div class="mt-6 md:mt-8 text-xs md:text-sm font-bold text-slate-400 flex items-center justify-center md:justify-start gap-4">
+                        <div class="w-8 md:w-12 h-0.5 bg-slate-200"></div>
+                        พบโปเกมอนทั้งหมด <span id="total-count">0</span> รูปแบบ
+                    </div>
+                </div>
+            </header>
+
+            <main class="max-w-7xl mx-auto py-8 md:py-12 px-6">
+                <div id="home-loader" class="hidden"></div>
+                <div id="pokemon-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-10">
+                    <!-- Cards injected by JS -->
+                </div>
+                <div id="empty-state" class="hidden text-center py-20 bg-slate-50 rounded-[3rem] border border-dashed border-slate-200 mt-10">
+                    <p class="text-slate-400 font-bold text-lg">ไม่พบข้อมูลโปเกมอนที่คุณค้นหา</p>
+                </div>
+                <div id="load-more-container" class="mt-16 md:mt-24 flex justify-center hidden">
+                    <button onclick="loadMore()" class="flex items-center gap-3 md:gap-4 bg-white/80 backdrop-blur-md border border-white px-10 py-4 md:px-16 md:py-6 rounded-full font-black text-xs md:text-sm text-slate-500 hover:text-red-500 hover:border-red-200 hover:shadow-2xl transition-all group shadow-xl">
+                        <i class="ph ph-plus text-lg group-hover:rotate-180 transition-transform duration-500"></i>
+                        โหลดข้อมูลเพิ่มเติม
+                    </button>
+                </div>
+            </main>
+        </div>
+
+        <!-- View: Detail -->
+        <div id="view-detail" class="hidden fade-in pb-20 md:pb-32">
+            <!-- Content injected by JS -->
+        </div>
+
+        <!-- View: Compare -->
+        <div id="view-compare" class="hidden fade-in pb-20 md:pb-32 max-w-7xl mx-auto px-6">
+            <nav class="max-w-6xl mx-auto py-6 md:py-10 mb-6">
+                <button onclick="switchView('home')" class="flex items-center gap-2 md:gap-3 text-slate-500 hover:text-slate-800 font-bold text-xs md:text-sm transition-all group bg-white/50 px-5 py-2.5 md:px-6 md:py-3 rounded-full shadow-sm border border-white w-fit">
+                    <i class="ph ph-arrow-left text-lg group-hover:-translate-x-2 transition-transform"></i> กลับไปหน้าสมุดภาพ
+                </button>
+            </nav>
+            <div class="text-center mb-12 md:mb-20">
+                <h2 class="text-3xl md:text-5xl font-black text-slate-800 tracking-tight mb-4 md:mb-6">จำลองการต่อสู้ (Battle Simulation)</h2>
+                <div class="w-16 md:w-24 h-1.5 bg-red-500 mx-auto rounded-full shadow-lg"></div>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-10 md:gap-16 items-stretch relative" id="compare-grid">
+                <!-- VS Badge -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 bg-slate-800 text-white w-16 h-16 md:w-24 md:h-24 rounded-full items-center justify-center font-black shadow-2xl hidden lg:flex border-[6px] md:border-[8px] border-slate-50 italic text-xl md:text-2xl animate-pulse">VS</div>
+                
+                <!-- Card 1 -->
+                <div id="compare-card-0" class="h-full"></div>
+                <!-- Card 2 -->
+                <div id="compare-card-1" class="h-full"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white/50 backdrop-blur-md py-16 md:py-20 px-6 text-center border-t border-white relative z-10 mt-auto">
+        <div class="max-w-6xl mx-auto">
+            <div class="w-12 h-12 md:w-16 md:h-16 bg-white/80 rounded-[1rem] md:rounded-[1.5rem] mx-auto mb-6 md:mb-8 border border-white shadow-xl flex items-center justify-center group overflow-hidden relative">
+                <div class="absolute inset-0 bg-red-500 translate-y-full group-hover:translate-y-1/2 transition-transform duration-500"></div>
+                <div class="w-3 h-3 md:w-4 md:h-4 bg-slate-200 rounded-full border-2 border-white relative z-10"></div>
+            </div>
+            <p class="text-slate-800 font-black text-lg md:text-2xl tracking-tight mb-2 md:mb-3">ฐานข้อมูลโปเกมอนแห่งประเทศไทย</p>
+            <p class="text-slate-500 text-xs md:text-sm font-bold max-w-sm mx-auto leading-loose opacity-80">
+                ระบบทำงานด้วย PokeAPI รองรับการค้นหาครบทั้งรูปแบบปกติและร่างเมก้า
+            </p>
+        </div>
+    </footer>
+
+    <!-- เชื่อมต่อไฟล์ JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
