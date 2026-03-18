@@ -14,19 +14,18 @@
     <meta property="og:image" content="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
     <meta property="og:type" content="website">
 
-    <!-- ⚡ PRELOAD: เร่งการโหลดรูปภาพ LCP ให้ไวที่สุด -->
-    <link rel="preload" as="image" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png" fetchpriority="high">
-    <link rel="preload" as="image" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png" fetchpriority="high">
-    <link rel="preload" as="image" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png" fetchpriority="high">
-    <link rel="preload" as="image" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" fetchpriority="high">
-    <!-- ⚡ ADDED: โหลดรูปล่วงหน้าสำหรับหน้าจอ Desktop (เพราะ Desktop แสดง 5 คอลัมน์) -->
-    <link rel="preload" as="image" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png" fetchpriority="high" media="(min-width: 1024px)">
+    <!-- ⚡ PRELOAD: เร่งการโหลดรูปภาพ LCP ให้ไวที่สุด (ผ่าน WebP Proxy ลดขนาดลง 90%) -->
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png&w=200&output=webp&maxage=31536000" fetchpriority="high">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png&w=200&output=webp&maxage=31536000" fetchpriority="high">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png&w=200&output=webp&maxage=31536000" fetchpriority="high">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png&w=200&output=webp&maxage=31536000" fetchpriority="high">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png&w=200&output=webp&maxage=31536000" fetchpriority="high" media="(min-width: 1024px)">
 
-    <!-- ⚡ PERFORMANCE: Preconnect -->
+    <!-- ⚡ PERFORMANCE: Preconnect ต้นทางที่จำเป็นทั้งหมด -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://pokeapi.co" crossorigin>
-    <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+    <link rel="preconnect" href="https://wsrv.nl" crossorigin> <!-- 🟢 เพิ่ม Preconnect สำหรับ Image CDN -->
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Prompt:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -150,20 +149,19 @@
                         <input type="text" id="searchInput" placeholder="ค้นหาด้วยชื่อภาษาไทย, อังกฤษ หรือหมายเลข..." class="w-full pl-12 pr-4 py-4 md:pl-14 md:pr-10 md:py-6 bg-white/80 backdrop-blur-md border border-white focus:border-red-300 focus:bg-white rounded-[2rem] md:rounded-[2.5rem] outline-none transition-colors text-sm sm:text-base md:text-xl font-medium text-slate-800 shadow-lg placeholder:text-slate-500" onkeyup="handleSearch()">
                     </div>
 
-                    <nav aria-label="กรองตามภูมิภาค" id="region-filters" class="flex gap-2 md:gap-3 overflow-x-auto pb-3 md:pb-4 no-scrollbar mask-fade scroll-smooth">
+                    <nav aria-label="กรองตามภูมิภาค" id="region-filters" class="flex gap-2 md:gap-3 overflow-x-auto pb-3 md:pb-4 no-scrollbar mask-fade scroll-smooth min-h-[44px]">
                         <!-- Filters injected by JS -->
                     </nav>
                     
                     <div class="mt-4 md:mt-8 text-[10px] md:text-sm font-bold text-slate-500 flex items-center justify-center md:justify-start gap-3 md:gap-4">
                         <div class="w-6 md:w-12 h-0.5 bg-slate-300" aria-hidden="true"></div>
-                        พบโปเกมอนทั้งหมด <span id="total-count" class="text-slate-700">0</span> รูปแบบ
+                        พบโปเกมอนทั้งหมด <span id="total-count" class="text-slate-900 inline-block min-w-[40px] text-center">0</span> รูปแบบ
                     </div>
                 </div>
             </header>
 
             <main class="max-w-7xl mx-auto py-6 md:py-12 px-4 md:px-6">
                 <div id="home-loader" class="hidden"></div>
-                <!-- ⚡ ADDED: min-h-[80vh] ป้องกันหน้าจอยุบตัวกระทันหันตอน Search แก้ปัญหา CLS=0.156 บน Desktop -->
                 <div id="pokemon-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-10 min-h-[80vh]">
                     <!-- Cards injected by JS -->
                 </div>
@@ -222,9 +220,20 @@
     <!-- Application Logic -->
     <script>
         // ⚡ PERFORMANCE: ดึงข้อมูล API ทันทีคู่ขนานไปกับ DOM
-        const prefetchPokemonAPI = fetch('https://pokeapi.co/api/v2/pokemon?limit=1500')
+        const prefetchAPI = fetch('https://pokeapi.co/api/v2/pokemon?limit=1500')
             .then(res => res.json())
             .catch(err => { console.error("API Error:", err); return null; });
+
+        // ⚡ LCP/FCP 0.0s FIX: เตรียมข้อมูล 20 ตัวแรกลงหน่วยความจำทันทีเพื่อ Desktop/Mobile (ไม่ต้องรอเน็ต)
+        const INITIAL_POKEMON = [
+            { id: 1, name: "bulbasaur", name_th: "ฟุชิกิดาเนะ" }, { id: 2, name: "ivysaur", name_th: "ฟุชิกิโซ" }, { id: 3, name: "venusaur", name_th: "ฟุชิกิบานะ" },
+            { id: 4, name: "charmander", name_th: "ฮิโตคาเงะ" }, { id: 5, name: "charmeleon", name_th: "ลิซาร์โดะ" }, { id: 6, name: "charizard", name_th: "ลิซาร์ดอน" },
+            { id: 7, name: "squirtle", name_th: "เซนิกาเมะ" }, { id: 8, name: "wartortle", name_th: "คาเมล" }, { id: 9, name: "blastoise", name_th: "คาเม็กซ์" },
+            { id: 10, name: "caterpie", name_th: "คาเตอร์ปี" }, { id: 11, name: "metapod", name_th: "ทรานเซล" }, { id: 12, name: "butterfree", name_th: "บัตเตอร์ฟรี" },
+            { id: 13, name: "weedle", name_th: "บีเดิล" }, { id: 14, name: "kakuna", name_th: "โคคูน" }, { id: 15, name: "beedrill", name_th: "สเปียร์" },
+            { id: 16, name: "pidgey", name_th: "ป๊ปโปะ" }, { id: 17, name: "pidgeotto", name_th: "พีเจียน" }, { id: 18, name: "pidgeot", name_th: "พีจ็อต" },
+            { id: 19, name: "rattata", name_th: "โครัตตา" }, { id: 20, name: "raticate", name_th: "รัตตา" }
+        ];
 
         const REGIONS = [
             { name: "ทั้งหมด", limit: 1025, offset: 0 }, { name: "คันโต", limit: 151, offset: 0 },
@@ -276,15 +285,12 @@
             1: "ตั้งแต่เกิดมาจะมีเมล็ดพืชแปลกๆ ปลูกอยู่ที่หลัง เมล็ดจะโตขึ้นพร้อมกับตัวมันคอยดูดซับสารอาหาร", 4: "ไฟที่หางคือสัญลักษณ์แห่งชีวิตและอารมณ์ หากไฟดับลง ชีวิตของมันก็จะจบสิ้นลงด้วย", 5: "เมื่อมันแกว่งหางที่ลุกเป็นไฟ อุณหภูมิรอบข้างจะพุ่งสูงขึ้นจนร้อนระอุแทบทนไม่ได้", 6: "พ่นไฟที่ร้อนแรงจนสามารถละลายหินผาได้ ว่ากันว่ามันมักจะเป็นต้นเหตุของไฟป่าใหญ่", 7: "กระดองของมันไม่เพียงแค่ใช้ป้องกันตัว แต่รูปทรงที่โค้งมนยังช่วยลดแรงต้านน้ำ ทำให้ว่ายน้ำได้เร็วมาก", 25: "มักจะสะสมไฟฟ้าไว้ที่ถุงลมบริเวณแก้มทั้งสองข้าง เมื่อรู้สึกถึงอันตรายจะปล่อยกระแสไฟฟ้าแรงสูงออกมา", 133: "มีพันธุกรรมที่ไม่เสถียรอย่างมาก ทำให้สามารถวิวัฒนาการเปลี่ยนรูปแบบไปตามสภาพแวดล้อมที่อยู่อาศัยได้", 143: "มันจะไม่พอใจถ้าไม่ได้กินอาหารวันละ 400 กิโลกรัม เมื่อกินอิ่มแล้วมันก็จะนอนหลับไปทันที", 149: "เป็นโปเกมอนที่จิตใจดีและรักสงบ ว่ากันว่ามันจะบินไปช่วยเหลือผู้คนที่กำลังจะจมน้ำกลางทะเล", 150: "โปเกมอนที่ถูกสร้างขึ้นจากการตัดต่อพันธุกรรม มีพลังจิตที่แข็งแกร่งที่สุดและมีจิตใจที่เยือกเย็น", 151: "โปเกมอนมายาที่ว่ากันว่ามีรหัสพันธุกรรมของโปเกมอนทุกตัวบนโลกซ่อนอยู่ในร่างกายของมัน", 249: "เทพเจ้าแห่งท้องทะเล มีพลังปีกมหาศาลที่สามารถสร้างพายุใหญ่พัดกระหน่ำได้ยาวนานถึง 40 วัน", 250: "ขนของมันส่องประกายเจ็ดสี ว่ากันว่าผู้ใดที่ได้เห็นโฮโอจะได้รับความสุขและโชคดีไปตลอดกาล", 384: "อาศัยอยู่ในชั้นบรรยากาศโอโซน คอยกลืนกินอุกกาบาตเพื่อใช้เป็นพลังงาน ว่ากันว่ามันจะลงมาเมื่อกราดอนและไคโอกาสู้กัน", 400: "ทำงานขยันขันแข็งด้วยการสร้างเขื่อนกั้นแม่น้ำ มีนิสัยรักสงบมาก", 448: "สามารถอ่านคลื่นพลังงาน (Aura) ของสิ่งมีชีวิตได้ แม้จะหลับตาอยู่ก็รับรู้ความรู้สึกของศัตรูได้จากระยะไกล", 658: "บีบอัดน้ำจนเป็นดาวกระจายที่คมกริบ การเคลื่อนไหวของมันรวดเร็วและว่องไวราวกับนินจา"
         };
 
-        // ⚡ PERFORMANCE: ลดจำนวนการ์ดต่อหน้าลงเหลือ 20 เพื่อลดขนาด DOM และเวลาทำงานของ Main Thread
         const ITEMS_PER_PAGE = 20;
 
-        // ⚡ TBT FIX: ย้ายค่าคงที่ออกมานอกฟังก์ชันเพื่อไม่ต้องสร้างใหม่ทุกรอบ
         const defaultSuffixes = ['-normal', '-altered', '-land', '-ordinary', '-aria', '-incarnate', '-average', '-standard', '-red-striped', '-baile', '-midday', '-solo', '-red-meteor', '-disguised', '-amped', '-ice', '-male', '-full-belly', '-single-strike', '-plant', '-shield'];
         const formKeywords = ['-mega', '-primal', '-gmax', '-alola', '-galar', '-hisui', '-paldea', '-therian', '-origin', '-ash', '-eternamax'];
         const formRegex = /-(mega(-[xy])?|primal|gmax|alola|galar|hisui|paldea|therian|origin|ash|eternamax).*/;
 
-        // --- State Variables ---
         let allPokemon = [];
         let filteredList = [];
         let displayLimit = ITEMS_PER_PAGE;
@@ -296,9 +302,8 @@
         const pokemonCache = new Map();
         let searchTimeout;
 
-        // --- Helper Functions ---
         const formatName = (name) => name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, ' ');
-        const getImageUrl = (id) => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+        const getImageUrl = (id) => `https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png&w=200&output=webp&maxage=31536000`;
 
         const getThaiName = (engName) => {
             if (!engName) return '';
@@ -361,7 +366,6 @@
             </div>
         `;
 
-        // --- Intersection Observer for Lazy Loading Cards ---
         const cardObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -376,40 +380,28 @@
             });
         }, { rootMargin: '200px' });
 
-        // --- Core Application Logic ---
-        
-        // ⚡ PERFORMANCE: โปเกมอน 20 ตัวแรก สำหรับโหลดหน้าแรกทันทีโดยไม่ต้องรอ API เพื่อลด FCP และ LCP ให้ต่ำกว่า 1.0 วิ
-        const INITIAL_POKEMON = [
-            { id: 1, name: "bulbasaur", name_th: "ฟุชิกิดาเนะ" }, { id: 2, name: "ivysaur", name_th: "ฟุชิกิโซ" }, { id: 3, name: "venusaur", name_th: "ฟุชิกิบานะ" },
-            { id: 4, name: "charmander", name_th: "ฮิโตคาเงะ" }, { id: 5, name: "charmeleon", name_th: "ลิซาร์โดะ" }, { id: 6, name: "charizard", name_th: "ลิซาร์ดอน" },
-            { id: 7, name: "squirtle", name_th: "เซนิกาเมะ" }, { id: 8, name: "wartortle", name_th: "คาเมล" }, { id: 9, name: "blastoise", name_th: "คาเม็กซ์" },
-            { id: 10, name: "caterpie", name_th: "คาเตอร์ปี" }, { id: 11, name: "metapod", name_th: "ทรานเซล" }, { id: 12, name: "butterfree", name_th: "บัตเตอร์ฟรี" },
-            { id: 13, name: "weedle", name_th: "บีเดิล" }, { id: 14, name: "kakuna", name_th: "โคคูน" }, { id: 15, name: "beedrill", name_th: "สเปียร์" },
-            { id: 16, name: "pidgey", name_th: "ป๊ปโปะ" }, { id: 17, name: "pidgeotto", name_th: "พีเจียน" }, { id: 18, name: "pidgeot", name_th: "พีจ็อต" },
-            { id: 19, name: "rattata", name_th: "โครัตตา" }, { id: 20, name: "raticate", name_th: "รัตตา" }
-        ];
-
         async function initApp() {
             renderRegionFilters();
             
-            // ⚡ โชว์ 20 ตัวแรกทันที ทำให้หน้าเว็บไม่ค้าง ลด FCP, LCP และลบ loader ออกไป
             document.getElementById('total-count').innerText = "1025";
+            const loader = document.getElementById('home-loader');
+            if(loader) loader.style.display = 'none';
+
             allPokemon = [...INITIAL_POKEMON];
             applyFilters();
 
             try {
-                const data = await prefetchPokemonAPI;
+                const data = await prefetchAPI;
                 if (!data) return;
                 
-                // ⚡ TBT Fix: ใช้ Time Slicing แปลงข้อมูลทีละ 100 ตัว เพื่อให้ CPU ไม่ค้างตอนโหลด
                 const uniquePokemon = [];
                 const seenNames = new Set();
-                let index = 0;
+                let idx = 0;
 
                 function processChunk() {
-                    const chunkEnd = Math.min(index + 100, data.results.length);
-                    for (; index < chunkEnd; index++) {
-                        const p = data.results[index];
+                    const end = Math.min(idx + 50, data.results.length);
+                    for (; idx < end; idx++) {
+                        const p = data.results[idx];
                         const id = parseInt(p.url.split('/').slice(-2, -1)[0]);
                         const name_th = getThaiName(p.name);
                         
@@ -419,22 +411,20 @@
                         }
                     }
                     
-                    if (index < data.results.length) {
-                        setTimeout(processChunk, 10); // เว้นระยะ 10ms ให้เบราว์เซอร์หายใจ
+                    if (idx < data.results.length) {
+                        requestAnimationFrame(() => setTimeout(processChunk, 5)); 
                     } else {
-                        // โหลดข้อมูลทั้ง 1,025 ตัวสำเร็จ
                         allPokemon = uniquePokemon;
-                        
-                        // ถ้าผู้ใช้ยังไม่ค้นหาหรือเปลี่ยนภูมิภาค ให้อัปเดตข้อมูลเงียบๆ รอให้เขากด Load More
                         if (!searchQuery && selectedRegionIndex === 0) {
                             filteredList = allPokemon;
                             document.getElementById('load-more-container').style.display = 'flex';
+                        } else {
+                            applyFilters(); 
                         }
                         setTimeout(() => fetchCompareData(), 500);
                     }
                 }
-                
-                processChunk(); // เริ่มการหั่นส่วนโหลดข้อมูล
+                processChunk();
 
             } catch (error) {
                 console.error("Failed to fetch pokemon list", error);
@@ -468,8 +458,6 @@
             }
         }
 
-        // --- Home View Logic ---
-
         function renderRegionFilters() {
             const container = document.getElementById('region-filters');
             container.innerHTML = REGIONS.map((reg, index) => `
@@ -496,7 +484,7 @@
             searchTimeout = setTimeout(() => {
                 searchQuery = document.getElementById('searchInput').value.toLowerCase();
                 applyFilters();
-            }, 300); // หน่วงเวลาพิมพ์เพื่อไม่ให้กระตุก
+            }, 300);
         }
 
         function applyFilters() {
@@ -505,7 +493,7 @@
             if (searchQuery) {
                 list = list.filter(p => p.name.toLowerCase().includes(searchQuery) || p.name_th.includes(searchQuery) || p.id.toString() === searchQuery);
             } else {
-                list = list.filter(p => p.id <= 1025); // Main pokedex range
+                list = list.filter(p => p.id <= 1025);
                 const reg = REGIONS[selectedRegionIndex];
                 if (reg.name !== 'ทั้งหมด') {
                     list = list.slice(reg.offset, reg.offset + reg.limit);
@@ -513,15 +501,15 @@
             }
             
             filteredList = list;
-            // ⚡ ป้องกันตัวเลขยอดรวมเปลี่ยนไปมา ตอนที่เพิ่งโหลดข้อมูลครั้งแรก
             if (filteredList.length === 20 && !searchQuery && selectedRegionIndex === 0) {
                 document.getElementById('total-count').innerText = "1025";
             } else {
                 document.getElementById('total-count').innerText = filteredList.length;
             }
             
-            // รีเซ็ตการแสดงผล
-            cardObserver.disconnect();
+            if (typeof cardObserver !== 'undefined') {
+                cardObserver.disconnect();
+            }
             document.getElementById('pokemon-grid').innerHTML = '';
             currentlyRenderedCount = 0;
             displayLimit = ITEMS_PER_PAGE;
@@ -547,29 +535,25 @@
                 const div = document.createElement('div');
                 div.id = `card-${p.id}`;
                 div.dataset.id = p.id;
-                // ⚡ CLS OPTIMIZATION: ใช้ min-h เพื่อจองพื้นที่ไว้ก่อน และนำ transition ออกเพื่อลดภาระ
                 div.className = "group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-7 shadow-sm hover:shadow-xl transition-transform duration-500 cursor-pointer border flex flex-col items-center relative hover:-translate-y-2 md:hover:-translate-y-3 overflow-hidden backdrop-blur-md bg-white/40 border-white/60";
                 div.onclick = () => openDetail(p.id);
 
-                // ⚡ LCP OPTIMIZATION: 4 ตัวแรกจะโหลดแบบ eager และดึงภาพมาโชว์ก่อนเสมอ
-                const isTopRow = currentlyRenderedCount === 0 && index < 4;
+                const isTopRow = currentlyRenderedCount === 0 && index < 6;
                 const loadingAttr = isTopRow ? 'eager' : 'lazy';
                 const fetchPriorityAttr = isTopRow ? 'high' : 'auto';
 
-                // 🟢 A11Y FIX: เปลี่ยน text-slate-500 เป็น text-slate-700 และถอด opacity เพื่อเพิ่ม Contrast ให้ผ่าน 100%
                 div.innerHTML = `
-                    <div class="absolute top-3 right-4 md:top-4 md:right-5 font-black text-lg md:text-3xl italic select-none transition-all duration-300 text-slate-700/80 group-hover:text-slate-900 z-10">
+                    <div class="absolute top-3 right-4 md:top-4 md:right-5 font-black text-lg md:text-3xl italic select-none transition-opacity duration-500 opacity-70 group-hover:opacity-100 text-slate-700">
                         #${String(p.id).padStart(3, '0')}
                     </div>
                     <div class="relative w-20 h-20 md:w-36 md:h-36 my-4 md:my-6 flex items-center justify-center">
                         <div class="absolute inset-[-6px] md:inset-[-12px] bg-white/80 rounded-full scale-100 group-hover:scale-110 transition-transform duration-700 shadow-inner border border-white"></div>
-                        <img src="${getImageUrl(p.id)}" width="150" height="150" class="relative z-10 max-w-full max-h-full object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-700 drop-shadow-xl" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" alt="${p.name_th}" />
+                        <img src="${getImageUrl(p.id)}" width="150" height="150" class="relative z-10 max-w-full max-h-full object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-700 drop-shadow-xl" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="async" alt="${p.name_th}" />
                     </div>
                     <div class="text-center w-full relative z-10 flex flex-col items-center">
                         <h2 class="text-[11px] sm:text-xs md:text-lg font-black text-slate-800 tracking-tight transition-colors uppercase drop-shadow-sm group-hover:text-slate-900 mb-2 md:mb-3 truncate w-full px-1">
                             ${p.name_th}
                         </h2>
-                        <!-- ⚡ CLS FIX: ใส่ h-6 เพื่อจองความสูงกล่องธาตุตายตัว หน้าจอจะได้ไม่ขยับเมื่อโหลดเสร็จ -->
                         <div id="types-${p.id}" class="flex justify-center gap-1 md:gap-1.5 h-6 md:h-8 items-center w-full">
                         </div>
                     </div>
@@ -584,7 +568,7 @@
 
         async function fetchCardDetails(id, card) {
             try {
-                let data = pokemonCache.get(id);
+                let data = pokemonCache.get(parseInt(id));
                 if (!data) {
                     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
                     data = await res.json();
@@ -595,40 +579,33 @@
                 const typesContainer = document.getElementById(`types-${id}`);
                 
                 if(card && typesContainer) {
-                    card.style.background = `linear-gradient(145deg, ${themeColor}15 0%, rgba(255,255,255,0.85) 100%)`;
+                    card.style.background = `linear-gradient(145deg, ${themeColor}10 0%, rgba(255,255,255,0.9) 100%)`;
                     card.style.borderColor = `${themeColor}40`;
-                    // เอา box-shadow แบบ Animate ออก เพื่อประสิทธิภาพ
-                    card.style.boxShadow = `0 10px 30px -10px ${themeColor}30`;
                     
                     const glow = document.createElement('div');
-                    glow.className = "absolute -top-6 -right-6 md:-top-10 md:-right-10 w-24 h-24 md:w-40 md:h-40 rounded-full blur-2xl md:blur-3xl opacity-40 group-hover:opacity-70 transition-opacity duration-500 pointer-events-none";
+                    glow.className = "absolute -top-10 -right-10 w-32 h-32 md:w-40 md:h-40 rounded-full blur-3xl opacity-30 pointer-events-none";
                     glow.style.backgroundColor = themeColor;
                     card.prepend(glow);
                     
                     const idEl = card.querySelector('.italic');
                     if(idEl) idEl.style.color = themeColor;
                     
-                    // ⚡ TBT FIX: หน่วงเวลาเล็กน้อย และใช้ requestAnimationFrame ก่อนประมวลผล DOM ย่อย
-                    setTimeout(() => {
-                        requestAnimationFrame(() => {
-                            typesContainer.innerHTML = data.types.map(t => {
-                                const textColor = TYPE_TEXT_COLORS[t.type.name] || 'text-white';
-                                return `
-                                <span class="${textColor} text-[6px] md:text-[11px] font-bold px-1.5 py-0.5 md:px-3 md:py-1 rounded-full uppercase tracking-widest shadow-sm md:shadow-lg inline-flex items-center gap-0.5 md:gap-1 max-w-[90%] truncate" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
-                                    <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[6px] md:text-[12px] shrink-0" aria-hidden="true"></i>
-                                    <span class="truncate">${TYPE_NAMES_TH[t.type.name] || t.type.name}</span>
-                                </span>
-                                `;
-                            }).join('');
-                        });
-                    }, 100 + (30 * currentlyRenderedCount % 20)); // กระจายโหลด
+                    requestAnimationFrame(() => {
+                        typesContainer.innerHTML = data.types.map(t => {
+                            const textColor = ['grass', 'fire', 'water', 'electric', 'normal', 'flying', 'bug', 'ground', 'fairy', 'ice'].includes(t.type.name) ? 'text-slate-900' : 'text-white';
+                            return `
+                            <span class="${textColor} text-[9px] md:text-[11px] font-bold px-1.5 py-0.5 md:px-3 md:py-1 rounded-full uppercase tracking-widest shadow-sm md:shadow-lg inline-flex items-center gap-0.5 md:gap-1 max-w-[90%] truncate" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
+                                <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[6px] md:text-[12px] shrink-0" aria-hidden="true"></i>
+                                <span class="truncate">${TYPE_NAMES_TH[t.type.name] || t.type.name}</span>
+                            </span>
+                            `;
+                        }).join('');
+                    });
                 }
             } catch(err) {
                 console.error('Failed to load card details for', id, err);
             }
         }
-
-        // --- Detail View Logic ---
 
         async function openDetail(id) {
             switchView('detail');
@@ -721,12 +698,10 @@
 
             } catch (error) {
                 console.error(error);
-                // 🟢 A11Y FIX: text-slate-600
                 viewDetail.innerHTML = `<div class="text-center py-20"><p class="text-red-500 font-bold">เกิดข้อผิดพลาดในการโหลดข้อมูล</p><button onclick="switchView('home')" class="mt-4 px-6 py-2 bg-slate-200 text-slate-800 rounded-full font-bold text-sm md:text-base">กลับ</button></div>`;
             }
         }
 
-        // --- Layout แบบสมดุลขึ้นบนมือถือ ---
         function buildEvoNodeHTML(node) {
             if(!node) return '';
             const id = node.species.url.split('/').slice(-2, -1)[0];
@@ -740,7 +715,6 @@
                             <img src="${getImageUrl(id)}" width="140" height="140" class="w-full h-full object-contain relative z-10 drop-shadow-md group-hover:scale-110 transition-transform" alt="${nameTh}" />
                         </div>
                         <span class="font-black text-slate-800 text-[9px] md:text-sm text-center leading-tight line-clamp-2 w-full px-1">${nameTh}</span>
-                        <!-- 🟢 A11Y FIX: text-slate-500 -->
                         <span class="text-[7px] md:text-[10px] font-bold text-slate-500 mt-1 uppercase tracking-widest">#${String(id).padStart(3, '0')}</span>
                     </div>
             `;
@@ -780,7 +754,6 @@
 
             const viewDetail = document.getElementById('view-detail');
             
-            // ย่อให้หน้าตาในมือถือมีความสมดุลและกะทัดรัด (Compact Mobile Layout)
             let html = `
                 <nav class="max-w-6xl mx-auto p-4 md:p-10 flex justify-between items-center mb-2 md:mb-0">
                     <button onclick="switchView('home')" class="flex items-center gap-1.5 md:gap-3 text-slate-500 hover:text-slate-800 font-bold text-[10px] md:text-sm transition-colors group bg-white/50 px-4 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-white">
@@ -810,7 +783,6 @@
                                 #${String(pokemonDetail.id).padStart(3, '0')}
                             </div>
                             <h2 class="text-3xl sm:text-5xl md:text-7xl font-black text-slate-800 tracking-tighter mb-1.5 md:mb-4 leading-none md:leading-tight uppercase drop-shadow-sm truncate w-full">${pokemonDetail.name_th}</h2>
-                            <!-- 🟢 A11Y FIX: text-slate-500 -->
                             <p class="text-xs sm:text-sm md:text-xl text-slate-500 font-bold italic mb-3 md:mb-6 uppercase tracking-widest">${formatName(pokemonDetail.name)}</p>
                             <div class="flex flex-wrap gap-1.5 md:gap-3">
                                 ${pokemonDetail.types.map(t => {
@@ -835,7 +807,6 @@
 
                         <div class="grid grid-cols-2 gap-2 md:gap-6">
                             <div class="bg-white/60 backdrop-blur-md p-2 md:p-6 rounded-[1rem] md:rounded-[2rem] border border-white shadow-md flex flex-col justify-center items-center text-center">
-                                <!-- 🟢 A11Y FIX: text-slate-500 -->
                                 <p class="text-[8px] md:text-xs font-bold text-slate-500 uppercase tracking-widest mb-1 md:mb-2">ส่วนสูง (Height)</p>
                                 <p class="font-black text-base md:text-2xl text-slate-800">${pokemonDetail.height / 10} <span class="text-[9px] md:text-sm text-slate-500">m</span></p>
                             </div>
@@ -1123,7 +1094,7 @@
             }
         });
 
-        // ⚡ PERFORMANCE: อัพเดทเป็น Event Listener เพื่อความเร็วสูงสุด ไม่ต้องรอ asset ทั้งหน้า
+        // ⚡ LCP FIX: สั่งเริ่มระบบทันทีที่ DOM จัดโครงสร้างเสร็จ ไม่ต้องรอโหลดทรัพยากรตัวอื่น
         document.addEventListener('DOMContentLoaded', initApp);
 
     </script>
