@@ -138,12 +138,12 @@
 
                     <div class="relative mb-6 md:mb-14 max-w-4xl mx-auto md:mx-0">
                         <label for="searchInput" class="sr-only">ค้นหาโปเกมอน</label>
-                        <!-- 🟢 A11Y FIX: เปลียน text-slate-400 เป็น text-slate-500 ให้อ่านชัดขึ้น -->
                         <i class="ph ph-magnifying-glass absolute left-5 md:left-6 top-1/2 -translate-y-1/2 text-slate-500 text-xl md:text-2xl" aria-hidden="true"></i>
                         <input type="text" id="searchInput" placeholder="ค้นหาด้วยชื่อภาษาไทย, อังกฤษ หรือหมายเลข..." class="w-full pl-12 pr-4 py-4 md:pl-14 md:pr-10 md:py-6 bg-white/80 backdrop-blur-md border border-white focus:border-red-300 focus:bg-white rounded-[2rem] md:rounded-[2.5rem] outline-none transition-colors text-sm sm:text-base md:text-xl font-medium text-slate-800 shadow-lg placeholder:text-slate-500" onkeyup="handleSearch()">
                     </div>
 
-                    <nav aria-label="กรองตามภูมิภาค" id="region-filters" class="flex gap-2 md:gap-3 overflow-x-auto pb-3 md:pb-4 no-scrollbar mask-fade scroll-smooth">
+                    <!-- ⚡ CLS FIX: ใส่ min-h-[48px] ป้องกันปุ่มดันหน้าจอขยับ -->
+                    <nav aria-label="กรองตามภูมิภาค" id="region-filters" class="flex gap-2 md:gap-3 overflow-x-auto pb-3 md:pb-4 no-scrollbar mask-fade scroll-smooth min-h-[48px] md:min-h-[56px]">
                         <!-- Filters injected by JS -->
                     </nav>
                     
@@ -160,11 +160,9 @@
                     <!-- Cards injected by JS -->
                 </div>
                 <div id="empty-state" class="hidden text-center py-12 md:py-20 bg-slate-50 rounded-[2rem] md:rounded-[3rem] border border-dashed border-slate-300 mt-6 md:mt-10">
-                    <!-- 🟢 A11Y FIX -->
                     <p class="text-slate-600 font-bold text-sm md:text-lg">ไม่พบข้อมูลโปเกมอนที่คุณค้นหา</p>
                 </div>
                 <div id="load-more-container" class="mt-10 md:mt-24 flex justify-center hidden">
-                    <!-- 🟢 A11Y FIX -->
                     <button onclick="loadMore()" class="flex items-center gap-2 md:gap-4 bg-white/80 backdrop-blur-md border border-white px-8 py-3 md:px-16 md:py-6 rounded-full font-black text-[10px] md:text-sm text-slate-600 hover:text-red-500 hover:border-red-200 hover:shadow-2xl transition-all group shadow-xl">
                         <i class="ph ph-plus text-base md:text-lg transition-transform duration-500 group-hover:rotate-180" aria-hidden="true"></i>
                         โหลดข้อมูลเพิ่มเติม
@@ -215,7 +213,6 @@
 
     <!-- Application Logic -->
     <script>
-        // ⚡ PERFORMANCE: ดึงข้อมูล API ทันทีคู่ขนานไปกับ DOM
         const prefetchPokemonAPI = fetch('https://pokeapi.co/api/v2/pokemon?limit=1500')
             .then(res => res.json())
             .catch(err => { console.error("API Error:", err); return null; });
@@ -230,7 +227,6 @@
 
         const TYPE_COLORS = { grass: '#7AC74C', fire: '#EE8130', water: '#6390F0', electric: '#F7D02C', normal: '#A8A77A', poison: '#A33EA1', psychic: '#F95587', ghost: '#735797', flying: '#A98FF3', bug: '#A6B91A', ground: '#E2BF65', fairy: '#D685AD', dragon: '#6F35FC', ice: '#96D9D6', fighting: '#C22E28', rock: '#B6A136', steel: '#B7B7CE', dark: '#705746' };
         
-        // 🟢 ACCESSIBILITY: แมปปิ้งสีตัวอักษรเพื่อแก้ปัญหา Color Contrast Ratio 
         const TYPE_TEXT_COLORS = { 
             grass: 'text-slate-900', fire: 'text-slate-900', water: 'text-slate-900', 
             electric: 'text-slate-900', normal: 'text-slate-900', poison: 'text-white', 
@@ -273,6 +269,11 @@
         // ⚡ PERFORMANCE: ลดจำนวนการ์ดต่อหน้าลงเหลือ 20 เพื่อลดขนาด DOM และเวลาทำงานของ Main Thread
         const ITEMS_PER_PAGE = 20;
 
+        // ⚡ TBT FIX: ย้ายค่าคงที่ออกมานอกฟังก์ชันเพื่อไม่ต้องสร้างใหม่ทุกรอบ
+        const defaultSuffixes = ['-normal', '-altered', '-land', '-ordinary', '-aria', '-incarnate', '-average', '-standard', '-red-striped', '-baile', '-midday', '-solo', '-red-meteor', '-disguised', '-amped', '-ice', '-male', '-full-belly', '-single-strike', '-plant', '-shield'];
+        const formKeywords = ['-mega', '-primal', '-gmax', '-alola', '-galar', '-hisui', '-paldea', '-therian', '-origin', '-ash', '-eternamax'];
+        const formRegex = /-(mega(-[xy])?|primal|gmax|alola|galar|hisui|paldea|therian|origin|ash|eternamax).*/;
+
         // --- State Variables ---
         let allPokemon = [];
         let filteredList = [];
@@ -303,18 +304,25 @@
             if (engName === 'zygarde-10-power-construct' || engName === 'zygarde-10') return 'ซีการ์ด (ฟอร์ม 10%)';
             if (engName === 'zygarde-complete') return 'ซีการ์ด (เพอร์เฟกต์ฟอร์ม)';
 
-            const defaultSuffixes = ['-normal', '-altered', '-land', '-ordinary', '-aria', '-incarnate', '-average', '-standard', '-red-striped', '-baile', '-midday', '-solo', '-red-meteor', '-disguised', '-amped', '-ice', '-male', '-full-belly', '-single-strike', '-plant', '-shield'];
             let baseEngName = engName;
-            for (const suffix of defaultSuffixes) {
-                if (engName.endsWith(suffix)) { baseEngName = engName.replace(suffix, ''); break; }
+            for (let i = 0; i < defaultSuffixes.length; i++) {
+                if (engName.endsWith(defaultSuffixes[i])) { 
+                    baseEngName = engName.replace(defaultSuffixes[i], ''); 
+                    break; 
+                }
             }
             if (THAI_NAMES_BASE[baseEngName]) return THAI_NAMES_BASE[baseEngName];
             
-            const formKeywords = ['-mega', '-primal', '-gmax', '-alola', '-galar', '-hisui', '-paldea', '-therian', '-origin', '-ash', '-eternamax'];
-            const isSpecialForm = formKeywords.some(kw => engName.includes(kw));
+            let isSpecialForm = false;
+            for (let i = 0; i < formKeywords.length; i++) {
+                if (engName.includes(formKeywords[i])) { 
+                    isSpecialForm = true; 
+                    break; 
+                }
+            }
 
             if (isSpecialForm) {
-                const baseOnly = engName.replace(/-(mega(-[xy])?|primal|gmax|alola|galar|hisui|paldea|therian|origin|ash|eternamax).*/, '');
+                const baseOnly = engName.replace(formRegex, '');
                 let thaiBase = THAI_NAMES_BASE[baseOnly] || formatName(baseOnly);
                 if (engName.includes('-mega-x')) return `เมก้า${thaiBase} X`;
                 if (engName.includes('-mega-y')) return `เมก้า${thaiBase} Y`;
@@ -366,12 +374,11 @@
             document.getElementById('home-loader').style.display = 'block';
 
             try {
-                // ใช้ตัวแปร Promise ที่สั่งไปตั้งแต่หน้าเว็บโหลด (ประหยัดเวลา)
                 const data = await prefetchPokemonAPI;
                 if (!data) return;
                 
-                // ⚡ TBT Fix: ใช้ setTimeout เพื่อไม่ให้ Main Thread ค้างตอนสร้าง Object
-                setTimeout(() => {
+                // ⚡ TBT Fix: ใช้ requestAnimationFrame เพื่อแบ่งคิวให้ CPU ไปเรนเดอร์ก่อน
+                requestAnimationFrame(() => {
                     const uniquePokemon = [];
                     const seenNames = new Set();
 
@@ -389,9 +396,8 @@
                     document.getElementById('home-loader').style.display = 'none';
                     applyFilters();
                     
-                    // Pre-load compare data หลังจากโหลดหน้าหลักเสร็จ
                     setTimeout(() => fetchCompareData(), 500);
-                }, 0);
+                });
 
             } catch (error) {
                 console.error("Failed to fetch pokemon list", error);
@@ -508,9 +514,9 @@
                 const loadingAttr = isTopRow ? 'eager' : 'lazy';
                 const fetchPriorityAttr = isTopRow ? 'high' : 'auto';
 
-                // 🟢 A11Y FIX: text-slate-500 ให้อ่านชัดเจน
+                // 🟢 A11Y FIX: เปลี่ยน text-slate-500 เป็น text-slate-700 และถอด opacity เพื่อเพิ่ม Contrast ให้ผ่าน 100%
                 div.innerHTML = `
-                    <div class="absolute top-3 right-4 md:top-4 md:right-5 font-black text-lg md:text-3xl italic select-none transition-opacity duration-500 opacity-70 group-hover:opacity-100 text-slate-500">
+                    <div class="absolute top-3 right-4 md:top-4 md:right-5 font-black text-lg md:text-3xl italic select-none transition-all duration-300 text-slate-700/80 group-hover:text-slate-900 z-10">
                         #${String(p.id).padStart(3, '0')}
                     </div>
                     <div class="relative w-20 h-20 md:w-36 md:h-36 my-4 md:my-6 flex items-center justify-center">
@@ -521,8 +527,8 @@
                         <h2 class="text-[11px] sm:text-xs md:text-lg font-black text-slate-800 tracking-tight transition-colors uppercase drop-shadow-sm group-hover:text-slate-900 mb-2 md:mb-3 truncate w-full px-1">
                             ${p.name_th}
                         </h2>
-                        <!-- ⚡ CLS FIX: ใส่ h-6 เพื่อจองความสูงกล่องธาตุตายตัว -->
-                        <div id="types-${p.id}" class="flex justify-center gap-1 md:gap-1.5 h-6 items-center w-full">
+                        <!-- ⚡ CLS FIX: ใส่ h-6 เพื่อจองความสูงกล่องธาตุตายตัว หน้าจอจะได้ไม่ขยับเมื่อโหลดเสร็จ -->
+                        <div id="types-${p.id}" class="flex justify-center gap-1 md:gap-1.5 h-6 md:h-8 items-center w-full">
                         </div>
                     </div>
                 `;
@@ -668,7 +674,7 @@
 
             } catch (error) {
                 console.error(error);
-                // 🟢 A11Y FIX: text-slate-500
+                // 🟢 A11Y FIX: text-slate-600
                 viewDetail.innerHTML = `<div class="text-center py-20"><p class="text-red-500 font-bold">เกิดข้อผิดพลาดในการโหลดข้อมูล</p><button onclick="switchView('home')" class="mt-4 px-6 py-2 bg-slate-200 text-slate-800 rounded-full font-bold text-sm md:text-base">กลับ</button></div>`;
             }
         }
