@@ -19,6 +19,7 @@
     <link rel="preload" as="image" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png" fetchpriority="high">
     <link rel="preload" as="image" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png" fetchpriority="high">
     <link rel="preload" as="image" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" fetchpriority="high">
+    <!-- ⚡ ADDED: โหลดรูปล่วงหน้าสำหรับหน้าจอ Desktop (เพราะ Desktop แสดง 5 คอลัมน์) -->
     <link rel="preload" as="image" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png" fetchpriority="high" media="(min-width: 1024px)">
 
     <!-- ⚡ PERFORMANCE: Preconnect -->
@@ -149,20 +150,21 @@
                         <input type="text" id="searchInput" placeholder="ค้นหาด้วยชื่อภาษาไทย, อังกฤษ หรือหมายเลข..." class="w-full pl-12 pr-4 py-4 md:pl-14 md:pr-10 md:py-6 bg-white/80 backdrop-blur-md border border-white focus:border-red-300 focus:bg-white rounded-[2rem] md:rounded-[2.5rem] outline-none transition-colors text-sm sm:text-base md:text-xl font-medium text-slate-800 shadow-lg placeholder:text-slate-500" onkeyup="handleSearch()">
                     </div>
 
-                    <nav aria-label="กรองตามภูมิภาค" id="region-filters" class="flex gap-2 md:gap-3 overflow-x-auto pb-3 md:pb-4 no-scrollbar mask-fade scroll-smooth min-h-[44px]">
+                    <nav aria-label="กรองตามภูมิภาค" id="region-filters" class="flex gap-2 md:gap-3 overflow-x-auto pb-3 md:pb-4 no-scrollbar mask-fade scroll-smooth">
                         <!-- Filters injected by JS -->
                     </nav>
                     
                     <div class="mt-4 md:mt-8 text-[10px] md:text-sm font-bold text-slate-500 flex items-center justify-center md:justify-start gap-3 md:gap-4">
                         <div class="w-6 md:w-12 h-0.5 bg-slate-300" aria-hidden="true"></div>
-                        พบโปเกมอนทั้งหมด <span id="total-count" class="text-slate-900 inline-block min-w-[40px] text-center">1025</span> รูปแบบ
+                        พบโปเกมอนทั้งหมด <span id="total-count" class="text-slate-700">0</span> รูปแบบ
                     </div>
                 </div>
             </header>
 
-            <main class="max-w-7xl mx-auto py-6 md:py-12 px-4 md:px-6 min-h-[80vh]">
+            <main class="max-w-7xl mx-auto py-6 md:py-12 px-4 md:px-6">
                 <div id="home-loader" class="hidden"></div>
-                <div id="pokemon-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-10">
+                <!-- ⚡ ADDED: min-h-[80vh] ป้องกันหน้าจอยุบตัวกระทันหันตอน Search แก้ปัญหา CLS=0.156 บน Desktop -->
+                <div id="pokemon-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-10 min-h-[80vh]">
                     <!-- Cards injected by JS -->
                 </div>
                 <div id="empty-state" class="hidden text-center py-12 md:py-20 bg-slate-50 rounded-[2rem] md:rounded-[3rem] border border-dashed border-slate-300 mt-6 md:mt-10">
@@ -183,7 +185,7 @@
         </div>
 
         <!-- View: Compare -->
-        <div id="view-compare" class="hidden fade-in pb-16 md:pb-32 max-w-7xl mx-auto px-3 md:px-6 min-h-[100vh]">
+        <div id="view-compare" class="hidden fade-in pb-16 md:pb-32 max-w-7xl mx-auto px-3 md:px-6">
             <nav class="max-w-6xl mx-auto py-4 md:py-10 mb-2 md:mb-6">
                 <button onclick="switchView('home')" class="flex items-center gap-2 md:gap-3 text-slate-600 hover:text-slate-800 font-bold text-[10px] md:text-sm transition-transform group bg-white/50 px-4 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-white w-fit">
                     <i class="ph ph-arrow-left text-base md:text-lg transition-transform group-hover:-translate-x-2" aria-hidden="true"></i> กลับไปหน้าสมุดภาพ
@@ -219,28 +221,7 @@
 
     <!-- Application Logic -->
     <script>
-        const getLoaderHTML = () => `
-            <div class="flex flex-col items-center justify-center py-20 md:py-32 animate-pulse relative z-10 w-full">
-                <div class="w-16 h-16 md:w-20 md:h-20 border-[6px] md:border-[10px] border-slate-100 border-t-red-500 rounded-full animate-spin mb-6 md:mb-8 relative shadow-xl">
-                    <div class="absolute top-1/2 left-0 w-full h-1 md:h-1.5 bg-slate-100 -translate-y-1/2"></div>
-                    <div class="absolute top-1/2 left-1/2 w-4 h-4 md:w-5 md:h-5 bg-white border-[4px] md:border-[5px] border-slate-100 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
-                </div>
-                <p class="font-bold text-slate-500 tracking-widest uppercase text-[10px] md:text-sm">กำลังประมวลผลข้อมูล...</p>
-            </div>
-        `;
-
-        // ⚡ LCP/FCP 0.0s FIX: เตรียมข้อมูล 20 ตัวแรกลงหน่วยความจำทันทีเพื่อ Desktop/Mobile (ไม่ต้องรอเน็ต)
-        const INITIAL_POKEMON = [
-            { id: 1, name: "bulbasaur", name_th: "ฟุชิกิดาเนะ" }, { id: 2, name: "ivysaur", name_th: "ฟุชิกิโซ" }, { id: 3, name: "venusaur", name_th: "ฟุชิกิบานะ" },
-            { id: 4, name: "charmander", name_th: "ฮิโตคาเงะ" }, { id: 5, name: "charmeleon", name_th: "ลิซาร์โดะ" }, { id: 6, name: "charizard", name_th: "ลิซาร์ดอน" },
-            { id: 7, name: "squirtle", name_th: "เซนิกาเมะ" }, { id: 8, name: "wartortle", name_th: "คาเมล" }, { id: 9, name: "blastoise", name_th: "คาเม็กซ์" },
-            { id: 10, name: "caterpie", name_th: "คาเตอร์ปี" }, { id: 11, name: "metapod", name_th: "ทรานเซล" }, { id: 12, name: "butterfree", name_th: "บัตเตอร์ฟรี" },
-            { id: 13, name: "weedle", name_th: "บีเดิล" }, { id: 14, name: "kakuna", name_th: "โคคูน" }, { id: 15, name: "beedrill", name_th: "สเปียร์" },
-            { id: 16, name: "pidgey", name_th: "ป๊ปโปะ" }, { id: 17, name: "pidgeotto", name_th: "พีเจียน" }, { id: 18, name: "pidgeot", name_th: "พีจ็อต" },
-            { id: 19, name: "rattata", name_th: "โครัตตา" }, { id: 20, name: "raticate", name_th: "รัตตา" }
-        ];
-
-        // ⚡ PERFORMANCE: ดึงข้อมูล API 1500 ตัวคู่ขนานไปกับ DOM
+        // ⚡ PERFORMANCE: ดึงข้อมูล API ทันทีคู่ขนานไปกับ DOM
         const prefetchPokemonAPI = fetch('https://pokeapi.co/api/v2/pokemon?limit=1500')
             .then(res => res.json())
             .catch(err => { console.error("API Error:", err); return null; });
@@ -287,7 +268,7 @@
             "victini":"วิคทินี","snivy":"สึทาจะ","servine":"จาโนบี","serperior":"จาโรดา","tepig":"โพคาบู","pignite":"ชาโอบู","emboar":"เอ็นบูโอ","oshawott":"มิจูมารุ","dewott":"ฟุตะจิมารุ","samurott":"ไดเคนคิ","patrat":"มิเนซึมิ","watchog":"มิรุฮ็อก","lillipup":"โยเทอรี","herdier":"ฮาเดเรีย","stoutland":"มูแลนด์","purrloin":"โชโรเนโกะ","liepard":"เรปาร์ดัส","pansage":"ยานัปปุ","simisage":"ยานักกี","pansear":"บาโอปปุ","simisear":"บาโอกี","panpour":"ฮิยัปปุ","simipour":"ฮิยักกี","munna":"มุนนะ","musharna":"มุชาร์นา","pidove":"มาเมพาโตะ","tranquill":"ฮาโตโบ","unfezant":"เคนโฮโร","blitzle":"ชิมามา","zebstrika":"เซบไรกา","roggenrola":"ดันโกโร","boldore":"กานทล","gigalith":"กิกาอิอาธ","woobat":"โคโรโมริ","swoobat":"โคโคโรโมริ","drilbur":"โมกิว","excadrill":"โดริวซึ","audino":"ทาบุนเนะ","timburr":"ด็อกโคเลอร์","gurdurr":"โดเทคคทสึ","conkeldurr":"โรบุชิน","tympole":"โอทามาโร","palpitoad":"กามะการุ","seismitoad":"กามะเกโรเกะ","throh":"นาเกคิ","sawk":"ดาเกคิ","sewaddle":"คุรุมิรุ","swadloon":"คุรุมายุ","leavanny":"ฮาฮาโคโมริ","venipede":"ฟุชิเดะ","whirlipede":"โฮอิกะ","scolipede":"เพนดรา","cottonee":"โมนเมน","whimsicott":"เอลฟูน","petilil":"ชูริเนะ","lilligant":"โดเรเดีย","basculin":"บาสราโอ","sandile":"เมกุโระ","krokorok":"วารุบิรุ","krookodile":"วารุวิอัล","darumaka":"ดารุมักกะ","darmanitan":"ฮิฮิดารุมะ","maractus":"มาราคัจจิ","dwebble":"อิชิซึไม","crustle":"อิวาพาเลซ","scraggy":"ซึรุกกุ","scrafty":"ซึรุซึคิน","sigilyph":"ชินโบลาร์","yamask":"เดสมาส","cofagrigus":"เดสคาน","tirtouga":"โปรโตกา","carracosta":"อาบาโกรา","archen":"อาเคน","archeops":"อาเคออส","trubbish":"ยาบุคุรอน","garbodor":"ดัสทอดาส","zorua":"โซรัว","zoroark":"โซโรอาร์ค","minccino":"ชิลลามี","cinccino":"ชิลาชิโน","gothita":"โกธิมู","gothorita":"โกธิมิรุ","gothitelle":"โกธิเทล","solosis":"ยูนิรัน","duosion":"ดาบรัน","reuniclus":"รันคลุส","ducklett":"โคอารูฮี","swanna":"สวอนนา","vanillite":"วานิปุจิ","vanillish":"วานิริช","vanilluxe":"ไบวานิลลา","deerling":"ชิกิจิกะ","sawsbuck":"เมบุกิจิกะ","emolga":"เอมอนกา","karrablast":"คาบุลโม","escavalier":"ชูวาโก","foongus":"ทามาเกตาเกะ","amoonguss":"โมโรบาเรล","frillish":"พูรุริล","jellicent":"บุนเจล","alomomola":"มามันโบ","joltik":"บาชูรุ","galvantula":"เดนชูรา","ferroseed":"เทสซีด","ferrothorn":"นัตโตเรย์","klink":"เกียร์","klang":"กิกิเกียร์","klinklang":"กิกิกิเกียร์","tynamo":"ชิบิชิราสึ","eelektrik":"ชิบิบีล","eelektross":"ชิบิดอน","elgyem":"ลิเกรย์","beheeyem":"โอเบม","litwick":"ฮิโตโมชิ","lampent":"ลามพูลา","chandelure":"แชนเดลา","axew":"คิบาโกะ","fraxure":"โอโนนโดะ","haxorus":"โอโนนคุส","cubchoo":"คุมะชุน","beartic":"ซึนแบร์","cryogonal":"ฟรีจิโอ","shelmet":"ชบอมากิ","accelgor":"อากิลเดอร์","stunfisk":"มักเกียว","mienfoo":"โคโจฟู","mienshao":"โคโจนโดะ","druddigon":"คริมแกน","golett":"โกบิต","golurk":"โกลูก","pawniard":"โคมาทานา","bisharp":"คิริคิซัน","bouffalant":"บัฟฟรอน","rufflet":"วาชิบอน","braviary":"วอร์เกิล","vullaby":"วาร์ไช","mandibuzz":"บัลจินา","heatmor":"ควิทารัน","durant":"ไอแอนท์","deino":"โมโนซึ","zweilous":"จิเฮด","hydreigon":"ซาซันโดรา","larvesta":"เมราลบา","volcarona":"อุลกามอธ","cobalion":"โคบาลูออน","terrakion":"เทราคิออน","virizion":"บิริจิออน","tornadus":"ทอร์เนลอส","thundurus":"โวลโทลอส","reshiram":"เรชิรัม","zekrom":"เซครอม","landorus":"แลนโดรอส","kyurem":"คิวเรม","keldeo":"เคลดิโอ","meloetta":"เมโลเอตตา","genesect":"เกโนเซ็กท์",
             "chespin":"ฮาริมารอน","quilladin":"ฮาริบอร์ก","chesnaught":"บริการอน","fennekin":"ฟอคโกะ","braixen":"เทลนาร์","delphox":"มาฟ็อกซี","froakie":"เคโรมัตสึ","frogadier":"เกโคกาชิระ","greninja":"เก็คโคกะ","bunnelby":"โฮรุบี","diggersby":"โฮรุโดะ","fletchling":"ยายาโคมะ","fletchinder":"ฮิโนยาโคมะ","talonflame":"ไฟร์แอโรว์","scatterbug":"โคฟูคิมุชิ","spewpa":"โคฟูไร","vivillon":"วิวิญอง","litleo":"ชิชิโกะ","pyroar":"คายเอนจิ","flabebe":"ฟลาเบเบ","floette":"ฟลาเอตเต","florges":"ฟลาเจส","skiddo":"เมเคิล","gogoat":"โกโกท","pancham":"ยันชัม","pangoro":"กอโรนดะ","furfrou":"ทริเมียน","espurr":"เนียสเปอร์","meowstic":"เนียโอนิกซ์","honedge":"ฮิโตทสึคิ","doublade":"นิแดนกิล","aegislash":"กิลการ์ด","spritzee":"ชูชุป","aromatisse":"เฟรฟุวาน","swirlix":"เปร็อปพัฟ","slurpuff":"เปร็อปเพโร","inkay":"มาอีกะ","malamar":"คาลามาเนโร","binacle":"คาเมเทเตะ","barbaracle":"กาเมโนเดส","skrelp":"คุซึโม","dragalge":"ดรามิโดโร","clauncher":"อุเดปโป","clawitzer":"โบลสเตอร์","helioptile":"เอลิกิเทล","heliolisk":"เอเลซาร์ด","tyrunt":"จิโกรัส","tyrantrum":"กะจิโกรัส","amaura":"อมารัส","aurorus":"อมารูรูกา","sylveon":"นิมเฟีย","hawlucha":"ลูจาบูล","dedenne":"เดเด็นเนะ","carbink":"เมเลซี","goomy":"นูเมรา","sliggoo":"นูเมล","goodra":"นูเมลกอน","klefki":"เคลฟี","phantump":"โบคุเร","trevenant":"ออรอต","pumpkaboo":"บาเคจฉะ","gourgeist":"พัมพจิน","bergmite":"คาจิคจิ","avalugg":"เครเบส","noibat":"ออนแบท","noivern":"ออนเวิร์น","xerneas":"เซลเนียส","yveltal":"อีเวลทอล","zygarde":"ซีการ์ด","diancie":"ดีแอนซี","hoopa":"ฮูปา","volcanion":"โวลเคเนียน",
             "rowlet":"โมคุโร","dartrix":"ฟุคุสึโร","decidueye":"จูไนเปอร์","litten":"เนียบี","torracat":"เนียฮีท","incineroar":"กาโอกาเอ็น","popplio":"อชิมาริ","brionne":"โอชาชิมาริ","primarina":"อชิเรน","pikipek":"สึซึเค","trumbeak":"เคราปัปปา","toucannon":"โดเดคาบาชิ","yungoos":"ยันกูส","gumshoos":"เดคากูส","grubbin":"อาโกจิมุชิ","charjabug":"เดนจิมุชิ","vikavolt":"คุวากานอน","crabrawler":"มาเคคานิ","crabominable":"เคเค็นคานิ","oricorio":"โอริโคริโอ","cutiefly":"อาบูรี","ribombee":"อาบูริบอน","rockruff":"อิวานโกะ","lycanroc":"ลูการูกัน","wishiwashi":"โยวาชิ","mareanie":"ฮิโดอิเดะ","toxapex":"โดฮิโดอิเดะ","mudbray":"โดโรบังโกะ","mudsdale":"บันบะโดโร","dewpider":"ชิซึคุโมะ","araquanid":"โอนิชิซึคุโมะ","fomantis":"คาริคิริ","lurantis":"ลารันเทส","morelull":"เนมาชุ","shiinotic":"มาเชด","salandit":"ยาโทมริ","salazzle":"เอนนิวต์","stufful":"นุยโคกุมะ","bewear":"คิเทรุกุมะ","bounsweet":"อามะคาจิ","steenee":"อามะไมโกะ","tsareena":"อามะโจ","comfey":"คิววาเวอร์","oranguru":"ยาเรยูตัน","passimian":"นาเกทสึเคซารุ","wimpod":"โคโซคุมุชิ","golisopod":"กุโซคุมุชิ","sandygast":"สึนาบะอะ","palossand":"ชิโรเดสนา","pyukumuku":"นามาโคบุชิ","type-null":"ไทป์:นัล","silvally":"ซิลวาดี","minior":"เมเทโน","komala":"เนกโคอาลา","turtonator":"บาคุกาเมส","togedemaru":"โทเกเดมารุ","mimikyu":"มิมิคคิว","bruxish":"ฮากิกิชิ","drampa":"จีจีรอน","dhelmise":"ดาดาริน","jangmo-o":"จารังโกะ","hakamo-o":"จารังโก","kommo-o":"จาราแรนกา","tapu-koko":"คาปู-โคเคโค","tapu-lele":"คาปู-เตเตฟู","tapu-bulu":"คาปู-บูลูลู","tapu-fini":"คาปู-เรฮิเร","cosmog":"คอสม็อก","cosmoem":"คอสโมม","solgaleo":"โซลกาเลโอ","lunala":"ลูนาลา","nihilego":"อุตซึรอยด์","buzzwole":"มัสชิบูน","pheromosa":"ฟีโรเช่","xurkitree":"เด็นจูโมกุ","celesteela":"เทคคากุยะ","kartana":"คามิทสึรุงิ","guzzlord":"อคุจิคิง","necrozma":"เนครอซมา","magearna":"มาเกียนา","marshadow":"มาร์ชาโดว์","poipole":"เบเวนอม","naganadel":"อาร์โกยอน","stakataka":"สึนเดสึนเด","blacephalon":"ซึกะโดน","zeraora":"เซราโอรา","meltan":"เมลตัน","melmetal":"เมลเมทัล",
-            "grookey":"ซารุโนริ","thwackey":"บาคีคีย์","rillaboom":"กอริลลันเดอร์","scorbunny":"ฮิบานี","raboot":"แรบบิท","cinderace":"เอสเบิร์น","sobble":"เมซซอน","drizzile":"จิเมเลียน","inteleon":"อินเทเลียน","skwovet":"โฮชิกะริส","greedent":"โยคุบะริส","rookidee":"โคโคะกะระ","corvisquire":"อาโอการาส","corviknight":"อาร์เมอร์ก้า","blipbug":"ซัตจิมุชิ","dottler":"เรดอมุชิ","orbeetle":"อิออร์บ","nickit":"คุสึเนะ","thievul":"ฟ็อกสไล","gossifleur":"ฮิเมนกะ","eldegoss":"วาตะชิรากะ","wooloo":"วูลู","dubwool":"บายวูล","chewtle":"คามุคาเมะ","drednaw":"คาจิริกาเมะ","yamper":"วันปาจิ","boltund":"พัลส์วัน","rolycoly":"ทาตง","carkol":"ทรอคกอน","coalossal":"เซคิทันซัง","applin":"คาจิจู","flapple":"อัปปริว","appletun":"ทารุปเปิล","silicobra":"สึนาเฮบิ","sandaconda":"ซาดายาจา","cramorant":"อุ๊อุ","arrokuda":"อุคุウ","barraskewda":"ซาชิคามะ","toxel":"เอเลซัน","toxtricity":"สตรินเดอร์","sizzlipede":"ยาคุเดะ","centiskorch":"มารุยาคุเดะ","clobbopus":"ทาทัคโค","grapploct":"โอโตสพัส","sinistea":"ยาบาชะ","polteageist":"พอตเดส","hatenna":"มิบรีม","hattrem":"เทบริม","hatterene":"บริมออน","impidimp":"เบโรบา","morgrem":"กิโมจ","grimmsnarl":"ออรอนเกะ","obstagoon":"ทาจิฟุซากุมะ","perrserker":"เนียคิง","cursola":"ซานิโกะ","sirfetchd":"เนกิกะไนท์","mr-rime":"บาริโคโอ","runerigus":"เดสบาร์น","milcery":"มาโฮมิล","alcremie":"มาวิป","falinks":"ไทเรส","pincurchin":"บาจินิอูนิ","snom":"ยูกิฮามิ","frosmoth":"มอสโนว","stonjourner":"อิชิเฮนจิน","eiscue":"โคโอริปโป","indeedee":"อิเอซัน","morpeko":"โมรเปโกะ","cufant":"โซโดะ","copperajah":"ไดโอโดะ","dracozolt":"พาจิรากอน","arctozolt":"พัตจิรดอน","dracovish":"อูโอโนรากอน","arctovish":"อูโอจิลดอน","duraludon":"จูรัลดอน","dreepy":"โดราเมชิยะ","drakloak":"โดรอนจิ","dragapult":"โดราพัลท์","zacian":"ซาเชียน","zamazenta":"ซามาเซนตา","eternatus":"มุเก็นไดนา","kubfu":"ดาคุมะ","urshifu":"วูลาโอส","zarude":"ซารูด","regieleki":"เรจิเอเลคิ","regidrago":"เรจิดราโก","glastrier":"บลิซซาพอส","spectrier":"เรสพอส","calyrex":"บัดเดร็กซ์","wyrdeer":"อายาชิชิ","kleavor":"บาซากิรี","ursaluna":"กะจิกุมะ","basculegion":"อิไดโตะ","sneasler":"โอนิวลา","overqwil":"ฮาริยามัน","enamorus":"เลิฟทรอส",
+            "grookey":"ซารุโนริ","thwackey":"บาคีคีย์","rillaboom":"กอริลลันเดอร์","scorbunny":"ฮิบานี","raboot":"แรบบิท","cinderace":"เอสเบิร์น","sobble":"เมซซอน","drizzile":"จิเมเลียน","inteleon":"อินเทเลียน","skwovet":"โฮชิกะริส","greedent":"โยคุบะริส","rookidee":"โคโคะกะระ","corvisquire":"อาโอการาส","corviknight":"อาร์เมอร์ก้า","blipbug":"ซัตจิมุชิ","dottler":"เรดอมุชิ","orbeetle":"อิออร์บ","nickit":"คุสึเนะ","thievul":"ฟ็อกสไล","gossifleur":"ฮิเมนกะ","eldegoss":"วาตะชิรากะ","wooloo":"วูลู","dubwool":"บายวูล","chewtle":"คามุคาเมะ","drednaw":"คาจิริกาเมะ","yamper":"วันปาจิ","boltund":"พัลส์วัน","rolycoly":"ทาตง","carkol":"ทรอคกอน","coalossal":"เซคิทันซัง","applin":"คาจิจู","flapple":"อัปปริว","appletun":"ทารุปเปิล","silicobra":"สึนาเฮบิ","sandaconda":"ซาดายาจา","cramorant":"อุ๊อุ","arrokuda":"อุคุウ","barraskewda":"ซาชิคามะ","toxel":"เอเลซัน","toxtricity":"สตรินเดอร์","sizzlipede":"ยาคุเดะ","centiskorch":"มารุยาคุเดะ","clobbopus":"ทาทัคโค","grapploct":"โอโตสพัส","sinistea":"ยาบาชะ","polteageist":"พอตเดส","hatenna":"มิบรีม","hattrem":"เทบริม","hatterene":"บริมออน","impidimp":"เบโรบา","morgrem":"กิโมจ","grimmsnarl":"ออรอนเกะ","obstagoon":"ทาจิฟุซากุมะ","perrserker":"เนียคิง","cursola":"ซานิโกะ","sirfetchd":"เนกิกะไนท์","mr-rime":"บาริโคโอ","runerigus":"เดสบาร์น","milcery":"มาโฮมิล","alcremie":"มาวิป","falinks":"ไทเรส","pincurchin":"บาจินิอูนิ","snom":"ยูกิฮามิ","frosmoth":"มอสโนว","stonjourner":"อิชิเฮนจิน","eiscue":"โคโอริปโป","indeedee":"อิเอซัน","morpeko":"โมรุเปโกะ","cufant":"โซโดะ","copperajah":"ไดโอโดะ","dracozolt":"พาจิรากอน","arctozolt":"พัตจิรดอน","dracovish":"อูโอโนรากอน","arctovish":"อูโอจิลดอน","duraludon":"จูรัลดอน","dreepy":"โดราเมชิยะ","drakloak":"โดรอนจิ","dragapult":"โดราพัลท์","zacian":"ซาเชียน","zamazenta":"ซามาเซนตา","eternatus":"มุเก็นไดนา","kubfu":"ดาคุมะ","urshifu":"วูลาโอส","zarude":"ซารูด","regieleki":"เรจิเอเลคิ","regidrago":"เรจิดราโก","glastrier":"บลิซซาพอส","spectrier":"เรสพอส","calyrex":"บัดเดร็กซ์","wyrdeer":"อายาชิชิ","kleavor":"บาซากิรี","ursaluna":"กะจิกุมะ","basculegion":"อิไดโตะ","sneasler":"โอนิวลา","overqwil":"ฮาริยามัน","enamorus":"เลิฟทรอส",
             "sprigatito":"เนียวฮะ","floragato":"เนียโรเต","meowscarada":"มาสเคอเนีย","fuecoco":"โฮเกเตอร์","crocalor":"อจิเกเตอร์","skeledirge":"ลาวด์โบน","quaxly":"แคว็กซ์","quaxwell":"แคว็กซ์เวล","quaquaval":"เวนิแคว็กซ์","lechonk":"กูร์ตง","oinkologne":"พาฟิวตง","tarountula":"ทามันชูลา","spidops":"วานัยเดอร์","nymble":"มาเมบัตตะ","lokix":"เอ็กซ์เลก","rellor":"ชิกาโมโกะ","rabsca":"เบรากัส","greavard":"ปาโม","houndstone":"พาโมต","flittle":"พามอต","espathra":"วักคาเนซุมิ","wiglett":"อิกคาเนซุมิ","wugtrio":"ปิปปิ","dondozo":"พาปิมจิ","veluza":"บาวเซล","finizen":"มินีบ","palafin":"โอลีวา","smoliv":"อิคิรินโกะ","dolliv":"โคจิโอ","arboliva":"จิโอซึม","capsakid":"เคียวจิโอ","scovillain":"คาร์โบว","tinkatink":"คานุจัง","tinkatuff":"นากานุจัง","tinkaton":"เดคานุจัง","bombirdier":"ไทไคเดน","varoom":"โอมิกะ","revavroom":"มิมิซึ","orthworm":"โอมิมิซึ","tandemaus":"นาฟิคจิ","maushold":"มิโดะเครสต","cetoddle":"อารุคุจิระ","cetitan":"ฮารุคุจิระ","koraidon":"โคไรดอน","miraidon":"มิไรดอน","gimmighoul":"คอลเลคเรย์","gholdengo":"ซาร์ฟโก","ting-lu":"ติ่งลู่","chien-pao":"เจี้ยนเปา","wo-chien":"โฉงเจี้ยน","chi-yu":"อวี้รุ่ย","ogerpon":"โอกะปอน","terapagos":"เทราปากอส","okidogi":"อี้อินุ","munkidori":"มาชิมาชิระ","fezandipiti":"คิจิคิสึ","pecharunt":"โมโมวาโร่"
         };
 
@@ -370,7 +351,17 @@
             return formatName(baseEngName);
         };
 
-        // ⚡ ประกาศตัวแปร cardObserver ตรงนี้เพื่อให้เข้าถึงได้ใน applyFilters 
+        const getLoaderHTML = () => `
+            <div class="flex flex-col items-center justify-center py-20 md:py-32 animate-pulse relative z-10 w-full">
+                <div class="w-16 h-16 md:w-20 md:h-20 border-[6px] md:border-[10px] border-slate-100 border-t-red-500 rounded-full animate-spin mb-6 md:mb-8 relative shadow-xl">
+                    <div class="absolute top-1/2 left-0 w-full h-1 md:h-1.5 bg-slate-100 -translate-y-1/2"></div>
+                    <div class="absolute top-1/2 left-1/2 w-4 h-4 md:w-5 md:h-5 bg-white border-[4px] md:border-[5px] border-slate-100 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+                </div>
+                <p class="font-bold text-slate-500 tracking-widest uppercase text-[10px] md:text-sm">กำลังประมวลผลข้อมูล...</p>
+            </div>
+        `;
+
+        // --- Intersection Observer for Lazy Loading Cards ---
         const cardObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -386,31 +377,39 @@
         }, { rootMargin: '200px' });
 
         // --- Core Application Logic ---
+        
+        // ⚡ PERFORMANCE: โปเกมอน 20 ตัวแรก สำหรับโหลดหน้าแรกทันทีโดยไม่ต้องรอ API เพื่อลด FCP และ LCP ให้ต่ำกว่า 1.0 วิ
+        const INITIAL_POKEMON = [
+            { id: 1, name: "bulbasaur", name_th: "ฟุชิกิดาเนะ" }, { id: 2, name: "ivysaur", name_th: "ฟุชิกิโซ" }, { id: 3, name: "venusaur", name_th: "ฟุชิกิบานะ" },
+            { id: 4, name: "charmander", name_th: "ฮิโตคาเงะ" }, { id: 5, name: "charmeleon", name_th: "ลิซาร์โดะ" }, { id: 6, name: "charizard", name_th: "ลิซาร์ดอน" },
+            { id: 7, name: "squirtle", name_th: "เซนิกาเมะ" }, { id: 8, name: "wartortle", name_th: "คาเมล" }, { id: 9, name: "blastoise", name_th: "คาเม็กซ์" },
+            { id: 10, name: "caterpie", name_th: "คาเตอร์ปี" }, { id: 11, name: "metapod", name_th: "ทรานเซล" }, { id: 12, name: "butterfree", name_th: "บัตเตอร์ฟรี" },
+            { id: 13, name: "weedle", name_th: "บีเดิล" }, { id: 14, name: "kakuna", name_th: "โคคูน" }, { id: 15, name: "beedrill", name_th: "สเปียร์" },
+            { id: 16, name: "pidgey", name_th: "ป๊ปโปะ" }, { id: 17, name: "pidgeotto", name_th: "พีเจียน" }, { id: 18, name: "pidgeot", name_th: "พีจ็อต" },
+            { id: 19, name: "rattata", name_th: "โครัตตา" }, { id: 20, name: "raticate", name_th: "รัตตา" }
+        ];
 
         async function initApp() {
             renderRegionFilters();
             
-            // ⚡ แสดงผล 20 ตัวแรกทันที ตัด Loader ทิ้ง ล้าง CLS และลด LCP ให้เร็วกว่า 1.0 วิ
+            // ⚡ โชว์ 20 ตัวแรกทันที ทำให้หน้าเว็บไม่ค้าง ลด FCP, LCP และลบ loader ออกไป
             document.getElementById('total-count').innerText = "1025";
-            const loader = document.getElementById('home-loader');
-            if(loader) loader.style.display = 'none';
-
             allPokemon = [...INITIAL_POKEMON];
             applyFilters();
 
             try {
-                const data = await prefetchAPI;
+                const data = await prefetchPokemonAPI;
                 if (!data) return;
                 
-                // ⚡ TBT FIX: ใช้ Time Slicing หั่นข้อมูล 1500 ตัว ให้ประมวลผลทีละ 50 ตัว CPU จะไม่ค้าง 450ms อีกต่อไป
+                // ⚡ TBT Fix: ใช้ Time Slicing แปลงข้อมูลทีละ 100 ตัว เพื่อให้ CPU ไม่ค้างตอนโหลด
                 const uniquePokemon = [];
                 const seenNames = new Set();
-                let idx = 0;
+                let index = 0;
 
                 function processChunk() {
-                    const end = Math.min(idx + 50, data.results.length);
-                    for (; idx < end; idx++) {
-                        const p = data.results[idx];
+                    const chunkEnd = Math.min(index + 100, data.results.length);
+                    for (; index < chunkEnd; index++) {
+                        const p = data.results[index];
                         const id = parseInt(p.url.split('/').slice(-2, -1)[0]);
                         const name_th = getThaiName(p.name);
                         
@@ -420,21 +419,22 @@
                         }
                     }
                     
-                    if (idx < data.results.length) {
-                        // ปล่อยให้ Browser เอาเวลาไปวาดจอ ไม่กินเทรดหลักจนค้าง
-                        requestAnimationFrame(() => setTimeout(processChunk, 5)); 
+                    if (index < data.results.length) {
+                        setTimeout(processChunk, 10); // เว้นระยะ 10ms ให้เบราว์เซอร์หายใจ
                     } else {
+                        // โหลดข้อมูลทั้ง 1,025 ตัวสำเร็จ
                         allPokemon = uniquePokemon;
+                        
+                        // ถ้าผู้ใช้ยังไม่ค้นหาหรือเปลี่ยนภูมิภาค ให้อัปเดตข้อมูลเงียบๆ รอให้เขากด Load More
                         if (!searchQuery && selectedRegionIndex === 0) {
                             filteredList = allPokemon;
                             document.getElementById('load-more-container').style.display = 'flex';
-                        } else {
-                            applyFilters(); // Re-apply filters with full data
                         }
                         setTimeout(() => fetchCompareData(), 500);
                     }
                 }
-                processChunk();
+                
+                processChunk(); // เริ่มการหั่นส่วนโหลดข้อมูล
 
             } catch (error) {
                 console.error("Failed to fetch pokemon list", error);
@@ -521,9 +521,7 @@
             }
             
             // รีเซ็ตการแสดงผล
-            if (typeof cardObserver !== 'undefined') {
-                cardObserver.disconnect();
-            }
+            cardObserver.disconnect();
             document.getElementById('pokemon-grid').innerHTML = '';
             currentlyRenderedCount = 0;
             displayLimit = ITEMS_PER_PAGE;
@@ -553,19 +551,19 @@
                 div.className = "group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-7 shadow-sm hover:shadow-xl transition-transform duration-500 cursor-pointer border flex flex-col items-center relative hover:-translate-y-2 md:hover:-translate-y-3 overflow-hidden backdrop-blur-md bg-white/40 border-white/60";
                 div.onclick = () => openDetail(p.id);
 
-                // ⚡ LCP OPTIMIZATION: โหลดไวสุดให้ Eager
-                const isLCP = currentlyRenderedCount === 0 && index < 6;
-                const loadingAttr = isLCP ? 'eager' : 'lazy';
-                const fetchPriorityAttr = isLCP ? 'high' : 'auto';
+                // ⚡ LCP OPTIMIZATION: 4 ตัวแรกจะโหลดแบบ eager และดึงภาพมาโชว์ก่อนเสมอ
+                const isTopRow = currentlyRenderedCount === 0 && index < 4;
+                const loadingAttr = isTopRow ? 'eager' : 'lazy';
+                const fetchPriorityAttr = isTopRow ? 'high' : 'auto';
 
-                // 🟢 A11Y FIX: เปลี่ยน text-slate-500 เป็น text-slate-700
+                // 🟢 A11Y FIX: เปลี่ยน text-slate-500 เป็น text-slate-700 และถอด opacity เพื่อเพิ่ม Contrast ให้ผ่าน 100%
                 div.innerHTML = `
-                    <div class="absolute top-3 right-4 md:top-4 md:right-5 font-black text-lg md:text-3xl italic select-none transition-opacity duration-500 opacity-70 group-hover:opacity-100 text-slate-500">
+                    <div class="absolute top-3 right-4 md:top-4 md:right-5 font-black text-lg md:text-3xl italic select-none transition-all duration-300 text-slate-700/80 group-hover:text-slate-900 z-10">
                         #${String(p.id).padStart(3, '0')}
                     </div>
                     <div class="relative w-20 h-20 md:w-36 md:h-36 my-4 md:my-6 flex items-center justify-center">
                         <div class="absolute inset-[-6px] md:inset-[-12px] bg-white/80 rounded-full scale-100 group-hover:scale-110 transition-transform duration-700 shadow-inner border border-white"></div>
-                        <img src="${getImageUrl(p.id)}" width="150" height="150" class="relative z-10 max-w-full max-h-full object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-700 drop-shadow-xl" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="async" alt="${p.name_th}" />
+                        <img src="${getImageUrl(p.id)}" width="150" height="150" class="relative z-10 max-w-full max-h-full object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-700 drop-shadow-xl" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" alt="${p.name_th}" />
                     </div>
                     <div class="text-center w-full relative z-10 flex flex-col items-center">
                         <h2 class="text-[11px] sm:text-xs md:text-lg font-black text-slate-800 tracking-tight transition-colors uppercase drop-shadow-sm group-hover:text-slate-900 mb-2 md:mb-3 truncate w-full px-1">
@@ -586,39 +584,44 @@
 
         async function fetchCardDetails(id, card) {
             try {
-                let data = pokemonCache.get(parseInt(id));
+                let data = pokemonCache.get(id);
                 if (!data) {
                     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
                     data = await res.json();
-                    pokemonCache.set(parseInt(id), data);
+                    pokemonCache.set(id, data);
                 }
 
                 const themeColor = TYPE_COLORS[data.types[0].type.name] || '#cbd5e1';
                 const typesContainer = document.getElementById(`types-${id}`);
                 
                 if(card && typesContainer) {
-                    card.style.background = `linear-gradient(145deg, ${themeColor}10 0%, rgba(255,255,255,0.9) 100%)`;
+                    card.style.background = `linear-gradient(145deg, ${themeColor}15 0%, rgba(255,255,255,0.85) 100%)`;
                     card.style.borderColor = `${themeColor}40`;
+                    // เอา box-shadow แบบ Animate ออก เพื่อประสิทธิภาพ
+                    card.style.boxShadow = `0 10px 30px -10px ${themeColor}30`;
                     
                     const glow = document.createElement('div');
-                    glow.className = "absolute -top-10 -right-10 w-32 h-32 md:w-40 md:h-40 rounded-full blur-3xl opacity-30 pointer-events-none";
+                    glow.className = "absolute -top-6 -right-6 md:-top-10 md:-right-10 w-24 h-24 md:w-40 md:h-40 rounded-full blur-2xl md:blur-3xl opacity-40 group-hover:opacity-70 transition-opacity duration-500 pointer-events-none";
                     glow.style.backgroundColor = themeColor;
                     card.prepend(glow);
                     
                     const idEl = card.querySelector('.italic');
                     if(idEl) idEl.style.color = themeColor;
                     
-                    // ⚡ TBT FIX: ใช้ requestAnimationFrame ก่อนประมวลผล DOM ย่อย
-                    requestAnimationFrame(() => {
-                        typesContainer.innerHTML = data.types.map(t => {
-                            const textColor = ['grass', 'fire', 'water', 'electric', 'normal', 'flying', 'bug', 'ground', 'fairy', 'ice'].includes(t.type.name) ? 'text-slate-900' : 'text-white';
-                            return `
-                            <span class="${textColor} text-[9px] md:text-[11px] font-bold px-3 py-1 md:px-4 md:py-1.5 rounded-full uppercase tracking-widest shadow-sm inline-block cursor-default" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
-                                ${TYPE_NAMES_TH[t.type.name] || t.type.name}
-                            </span>
-                            `;
-                        }).join('');
-                    });
+                    // ⚡ TBT FIX: หน่วงเวลาเล็กน้อย และใช้ requestAnimationFrame ก่อนประมวลผล DOM ย่อย
+                    setTimeout(() => {
+                        requestAnimationFrame(() => {
+                            typesContainer.innerHTML = data.types.map(t => {
+                                const textColor = TYPE_TEXT_COLORS[t.type.name] || 'text-white';
+                                return `
+                                <span class="${textColor} text-[6px] md:text-[11px] font-bold px-1.5 py-0.5 md:px-3 md:py-1 rounded-full uppercase tracking-widest shadow-sm md:shadow-lg inline-flex items-center gap-0.5 md:gap-1 max-w-[90%] truncate" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
+                                    <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[6px] md:text-[12px] shrink-0" aria-hidden="true"></i>
+                                    <span class="truncate">${TYPE_NAMES_TH[t.type.name] || t.type.name}</span>
+                                </span>
+                                `;
+                            }).join('');
+                        });
+                    }, 100 + (30 * currentlyRenderedCount % 20)); // กระจายโหลด
                 }
             } catch(err) {
                 console.error('Failed to load card details for', id, err);
@@ -1120,7 +1123,7 @@
             }
         });
 
-        // ⚡ LCP FIX: เริ่มการทำงานทันทีที่โครงสร้าง HTML โหลดเสร็จ ไม่ต้องรอทรัพยากรอื่นๆ
+        // ⚡ PERFORMANCE: อัพเดทเป็น Event Listener เพื่อความเร็วสูงสุด ไม่ต้องรอ asset ทั้งหน้า
         document.addEventListener('DOMContentLoaded', initApp);
 
     </script>
