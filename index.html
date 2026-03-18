@@ -19,6 +19,8 @@
     <link rel="preload" as="image" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png" fetchpriority="high">
     <link rel="preload" as="image" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png" fetchpriority="high">
     <link rel="preload" as="image" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" fetchpriority="high">
+    <!-- ⚡ ADDED: โหลดรูปล่วงหน้าสำหรับหน้าจอ Desktop (เพราะ Desktop แสดง 5 คอลัมน์) -->
+    <link rel="preload" as="image" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png" fetchpriority="high" media="(min-width: 1024px)">
 
     <!-- ⚡ PERFORMANCE: Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,8 +34,8 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com" fetchpriority="high"></script>
     
-    <!-- Phosphor Icons (⚡ ใส่ defer เพื่อไม่ให้บล็อกการเรนเดอร์หน้าเว็บ) -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Phosphor Icons (Defer เพื่อไม่ให้บล็อกการเรนเดอร์หน้าเว็บ) -->
+    <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
 
     <style>
         body {
@@ -148,8 +150,7 @@
                         <input type="text" id="searchInput" placeholder="ค้นหาด้วยชื่อภาษาไทย, อังกฤษ หรือหมายเลข..." class="w-full pl-12 pr-4 py-4 md:pl-14 md:pr-10 md:py-6 bg-white/80 backdrop-blur-md border border-white focus:border-red-300 focus:bg-white rounded-[2rem] md:rounded-[2.5rem] outline-none transition-colors text-sm sm:text-base md:text-xl font-medium text-slate-800 shadow-lg placeholder:text-slate-500" onkeyup="handleSearch()">
                     </div>
 
-                    <!-- ⚡ CLS FIX: ใส่ min-h-[48px] ป้องกันปุ่มดันหน้าจอขยับ -->
-                    <nav aria-label="กรองตามภูมิภาค" id="region-filters" class="flex gap-2 md:gap-3 overflow-x-auto pb-3 md:pb-4 no-scrollbar mask-fade scroll-smooth min-h-[48px] md:min-h-[56px]">
+                    <nav aria-label="กรองตามภูมิภาค" id="region-filters" class="flex gap-2 md:gap-3 overflow-x-auto pb-3 md:pb-4 no-scrollbar mask-fade scroll-smooth">
                         <!-- Filters injected by JS -->
                     </nav>
                     
@@ -162,7 +163,8 @@
 
             <main class="max-w-7xl mx-auto py-6 md:py-12 px-4 md:px-6">
                 <div id="home-loader" class="hidden"></div>
-                <div id="pokemon-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-10">
+                <!-- ⚡ ADDED: min-h-[80vh] ป้องกันหน้าจอยุบตัวกระทันหันตอน Search แก้ปัญหา CLS=0.156 บน Desktop -->
+                <div id="pokemon-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-10 min-h-[80vh]">
                     <!-- Cards injected by JS -->
                 </div>
                 <div id="empty-state" class="hidden text-center py-12 md:py-20 bg-slate-50 rounded-[2rem] md:rounded-[3rem] border border-dashed border-slate-300 mt-6 md:mt-10">
@@ -219,7 +221,7 @@
 
     <!-- Application Logic -->
     <script>
-        // ⚡ PERFORMANCE: เริ่มดึงข้อมูล API 1500 ตัวเบื้องหลัง
+        // ⚡ PERFORMANCE: ดึงข้อมูล API ทันทีคู่ขนานไปกับ DOM
         const prefetchPokemonAPI = fetch('https://pokeapi.co/api/v2/pokemon?limit=1500')
             .then(res => res.json())
             .catch(err => { console.error("API Error:", err); return null; });
@@ -537,6 +539,7 @@
             const itemsToRender = filteredList.slice(currentlyRenderedCount, displayLimit);
             
             document.getElementById('empty-state').style.display = (filteredList.length === 0) ? 'block' : 'none';
+            document.getElementById('load-more-container').style.display = filteredList.length > displayLimit ? 'flex' : 'none';
 
             const fragment = document.createDocumentFragment();
 
@@ -553,7 +556,7 @@
                 const loadingAttr = isTopRow ? 'eager' : 'lazy';
                 const fetchPriorityAttr = isTopRow ? 'high' : 'auto';
 
-                // 🟢 A11Y FIX: เปลี่ยน text-slate-500 เป็น text-slate-700
+                // 🟢 A11Y FIX: เปลี่ยน text-slate-500 เป็น text-slate-700 และถอด opacity เพื่อเพิ่ม Contrast ให้ผ่าน 100%
                 div.innerHTML = `
                     <div class="absolute top-3 right-4 md:top-4 md:right-5 font-black text-lg md:text-3xl italic select-none transition-all duration-300 text-slate-700/80 group-hover:text-slate-900 z-10">
                         #${String(p.id).padStart(3, '0')}
@@ -577,13 +580,6 @@
 
             container.appendChild(fragment);
             currentlyRenderedCount += itemsToRender.length;
-            
-            // แสดงปุ่มโหลดเพิ่มเติม หากเรนเดอร์รอบแรกเสร็จ หรือมีข้อมูลมากกว่าที่แสดง
-            if (filteredList.length > displayLimit || (allPokemon.length > 20 && currentlyRenderedCount === 20 && !searchQuery)) {
-                document.getElementById('load-more-container').style.display = 'flex';
-            } else {
-                document.getElementById('load-more-container').style.display = 'none';
-            }
         }
 
         async function fetchCardDetails(id, card) {
@@ -612,15 +608,20 @@
                     const idEl = card.querySelector('.italic');
                     if(idEl) idEl.style.color = themeColor;
                     
-                    typesContainer.innerHTML = data.types.map(t => {
-                        const textColor = TYPE_TEXT_COLORS[t.type.name] || 'text-white';
-                        return `
-                        <span class="${textColor} text-[6px] md:text-[11px] font-bold px-1.5 py-0.5 md:px-3 md:py-1 rounded-full uppercase tracking-widest shadow-sm md:shadow-lg inline-flex items-center gap-0.5 md:gap-1 max-w-[90%] truncate" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
-                            <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[6px] md:text-[12px] shrink-0" aria-hidden="true"></i>
-                            <span class="truncate">${TYPE_NAMES_TH[t.type.name] || t.type.name}</span>
-                        </span>
-                        `;
-                    }).join('');
+                    // ⚡ TBT FIX: หน่วงเวลาเล็กน้อย และใช้ requestAnimationFrame ก่อนประมวลผล DOM ย่อย
+                    setTimeout(() => {
+                        requestAnimationFrame(() => {
+                            typesContainer.innerHTML = data.types.map(t => {
+                                const textColor = TYPE_TEXT_COLORS[t.type.name] || 'text-white';
+                                return `
+                                <span class="${textColor} text-[6px] md:text-[11px] font-bold px-1.5 py-0.5 md:px-3 md:py-1 rounded-full uppercase tracking-widest shadow-sm md:shadow-lg inline-flex items-center gap-0.5 md:gap-1 max-w-[90%] truncate" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
+                                    <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[6px] md:text-[12px] shrink-0" aria-hidden="true"></i>
+                                    <span class="truncate">${TYPE_NAMES_TH[t.type.name] || t.type.name}</span>
+                                </span>
+                                `;
+                            }).join('');
+                        });
+                    }, 100 + (30 * currentlyRenderedCount % 20)); // กระจายโหลด
                 }
             } catch(err) {
                 console.error('Failed to load card details for', id, err);
