@@ -24,7 +24,7 @@
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .custom-scrollbar::-webkit-scrollbar { height: 8px; }
+        .custom-scrollbar::-webkit-scrollbar { height: 8px; width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
@@ -172,18 +172,26 @@
                     <i class="ph ph-arrow-left text-base md:text-lg group-hover:-translate-x-2 transition-transform"></i> กลับไปหน้าสมุดภาพ
                 </button>
             </nav>
-            <div class="text-center mb-8 md:mb-20">
+            <div class="text-center mb-8 md:mb-16">
                 <h2 class="text-2xl md:text-5xl font-black text-slate-800 tracking-tight mb-3 md:mb-6">จำลองการต่อสู้ (Battle)</h2>
                 <div class="w-12 md:w-24 h-1 md:h-1.5 bg-red-500 mx-auto rounded-full shadow-lg"></div>
             </div>
-            <div class="grid lg:grid-cols-2 gap-6 md:gap-16 items-stretch relative" id="compare-grid">
-                <!-- VS Badge -->
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 bg-slate-800 text-white w-12 h-12 md:w-24 md:h-24 rounded-full items-center justify-center font-black shadow-2xl hidden lg:flex border-[4px] md:border-[8px] border-slate-50 italic text-base md:text-2xl animate-pulse">VS</div>
+            
+            <!-- Comparison Grid -->
+            <div class="grid lg:grid-cols-2 gap-4 md:gap-16 items-stretch relative" id="compare-grid">
+                <!-- VS Badge (Desktop) -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-slate-800 text-white w-12 h-12 md:w-24 md:h-24 rounded-full items-center justify-center font-black shadow-2xl hidden lg:flex border-[4px] md:border-[8px] border-slate-50 italic text-base md:text-2xl animate-pulse">VS</div>
                 
                 <!-- Card 1 -->
-                <div id="compare-card-0" class="h-full"></div>
+                <div id="compare-card-0" class="h-full w-full"></div>
+                
+                <!-- VS Badge (Mobile) -->
+                <div class="flex lg:hidden justify-center items-center -my-3 md:-my-5 relative z-20">
+                    <div class="bg-slate-800 text-white w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center font-black shadow-xl border-[3px] border-slate-50 italic text-sm animate-pulse">VS</div>
+                </div>
+
                 <!-- Card 2 -->
-                <div id="compare-card-1" class="h-full"></div>
+                <div id="compare-card-1" class="h-full w-full"></div>
             </div>
         </div>
 
@@ -217,7 +225,6 @@
         const TYPE_COLORS = { grass: '#7AC74C', fire: '#EE8130', water: '#6390F0', electric: '#F7D02C', normal: '#A8A77A', poison: '#A33EA1', psychic: '#F95587', ghost: '#735797', flying: '#A98FF3', bug: '#A6B91A', ground: '#E2BF65', fairy: '#D685AD', dragon: '#6F35FC', ice: '#96D9D6', fighting: '#C22E28', rock: '#B6A136', steel: '#B7B7CE', dark: '#705746' };
         const TYPE_NAMES_TH = { grass: 'หญ้า', fire: 'ไฟ', water: 'น้ำ', electric: 'ไฟฟ้า', normal: 'ปกติ', poison: 'พิษ', psychic: 'พลังจิต', ghost: 'ผี', flying: 'บิน', bug: 'แมลง', ground: 'ดิน', fairy: 'แฟรี่', dragon: 'มังกร', ice: 'น้ำแข็ง', fighting: 'ต่อสู้', rock: 'หิน', steel: 'เหล็ก', dark: 'ความมืด' };
         
-        // แมปปิ้งไอคอนธาตุต่างๆ (อ้างอิงจาก Phosphor Icons)
         const TYPE_ICONS = {
             grass: 'ph-fill ph-leaf', fire: 'ph-fill ph-fire', water: 'ph-fill ph-drop',
             electric: 'ph-fill ph-lightning', normal: 'ph-fill ph-star', poison: 'ph-fill ph-skull',
@@ -227,10 +234,9 @@
             rock: 'ph-fill ph-hexagon', steel: 'ph-fill ph-shield-chevron', dark: 'ph-fill ph-moon'
         };
 
-        const STAT_NAMES_TH = { 'hp': 'พลังชีวิต', 'attack': 'พลังโจมตี', 'defense': 'พลังป้องกัน', 'special-attack': 'โจมตีพิเศษ', 'special-defense': 'ป้องกันพิเศษ', 'speed': 'ความเร็ว' };
+        const STAT_NAMES_TH = { 'hp': 'HP', 'attack': 'Attack', 'defense': 'Defense', 'special-attack': 'Sp. Atk', 'special-defense': 'Sp. Def', 'speed': 'Speed' };
         const HABITAT_TH = { 'cave': 'ถ้ำ', 'forest': 'ป่าไม้', 'grassland': 'ทุ่งหญ้า', 'mountain': 'ภูเขา', 'rare': 'พื้นที่ลึกลับหายาก', 'rough-terrain': 'พื้นที่ขรุขระ', 'sea': 'ทะเลและมหาสมุทร', 'urban': 'เขตเมือง', 'waters-edge': 'ริมน้ำ' };
 
-        // อัปเดตพจนานุกรมชื่อภาษาไทย ครอบคลุมเจน 1 ถึง 9 แบบครบถ้วน
         const THAI_NAMES_BASE = {
             "bulbasaur":"ฟุชิกิดาเนะ","ivysaur":"ฟุชิกิโซ","venusaur":"ฟุชิกิบานะ","charmander":"ฮิโตคาเงะ","charmeleon":"ลิซาร์โดะ","charizard":"ลิซาร์ดอน","squirtle":"เซนิกาเมะ","wartortle":"คาเมล","blastoise":"คาเม็กซ์","caterpie":"คาเตอร์ปี","metapod":"ทรานเซล","butterfree":"บัตเตอร์ฟรี","weedle":"บีเดิล","kakuna":"โคคูน","beedrill":"สเปียร์","pidgey":"ป๊ปโปะ","pidgeotto":"พีเจียน","pidgeot":"พีจ็อต","rattata":"โครัตตา","raticate":"รัตตา","spearow":"โอนิซึซึเมะ","fearow":"โอนิดริล","ekans":"อาร์โบ","arbok":"อาร์บ็อก","pikachu":"พิคาชู","raichu":"ไรชู","sandshrew":"แซนด์","sandslash":"แซนด์แพน","nidoran-f":"นิโดรัน♀","nidorina":"นิโดรินา","nidoqueen":"นิโดควีน","nidoran-m":"นิโดรัน♂","nidorino":"นิโดริโน","nidoking":"นิโดคิง","clefairy":"ปิปปี","clefable":"พิคซี","vulpix":"โรคอน","ninetales":"คิวคอน","jigglypuff":"พูริน","wigglytuff":"พุคุริน","zubat":"ซูแบท","golbat":"โกลแบท","oddish":"นาโซโนะคุสะ","gloom":"คุไซฮานะ","vileplume":"รัฟเฟลเซีย","paras":"พารัส","parasect":"พาราเซ็กต์","venonat":"คงปัง","venomoth":"โมรุฟอน","diglett":"ดิกด้า","dugtrio":"ดักทริโอ","meowth":"เนียซ","persian":"เปอร์เซียน","psyduck":"โคดัก","golduck":"โกลดัก","mankey":"แมนคีย์","primeape":"โอโคริซารุ","growlithe":"การ์ดี","arcanine":"วินดี","poliwag":"เนียวโรโมะ","poliwhirl":"เนียวโรโซ","poliwrath":"เนียวโรบอน","abra":"เคซี","kadabra":"ยุนเกอร์เรอร์","alakazam":"ฟูดิน","machop":"วันริกี","machoke":"โกริกี","machamp":"ไคริกี","bellsprout":"มาดาสึโบมิ","weepinbell":"อุซึดง","victreebel":"อุซึบอท","tentacool":"เมโนคุราเกะ","tentacruel":"โดคุคุราเกะ","geodude":"อิชิซึบุเตะ","graveler":"โกโลน","golem":"โกโลเนีย","ponyta":"โพนีตา","rapidash":"แกงลอป","slowpoke":"ยาดง","slowbro":"ยาโดรัน","magnemite":"คอยล์","magneton":"เรคอยล์","farfetchd":"คาโมเนกิ","doduo":"โดโด","dodrio":"โดโดริโอ","seel":"พาวาว","dewgong":"จูกอน","grimer":"เบโตเบตา","muk":"เบโตเบตอน","shellder":"เชลเดอร์","cloyster":"พาร์เชน","gastly":"โกส","haunter":"โกสต์","gengar":"เกงกา","onix":"อิวาร์ค","drowzee":"สลีป","hypno":"สลีปเปอร์","krabby":"แคร็บ","kingler":"คิงเกลอร์","voltorb":"บิริริดามา","electrode":"มารุมายน์","exeggcute":"ทามาทามะ","exeggutor":"นัซซี","cubone":"คาระคาระ","marowak":"กะระการะ","hitmonlee":"ซาวามูลาร์","hitmonchan":"เอบิวาลาร์","lickitung":"เบโรริงกา","koffing":"โดกัส","weezing":"มาตาโดกัส","rhyhorn":"ไซฮอร์น","rhydon":"ไซดอน","chansey":"ลัคกี้","tangela":"มอนจารา","kangaskhan":"การูรา","horsea":"ทัททู","seadra":"ซีดรา","goldeen":"โทซาคินโตะ","seaking":"อซึมาโอ","staryu":"ฮิโตเดมัน","starmie":"สตาร์มี","mr-mime":"บาร์เรียด","scyther":"สไตรค์","jynx":"รูจูลา","electabuzz":"เอเลบู","magmar":"บูเบอร์","pinsir":"ไคลอส","tauros":"เคนทารอส","magikarp":"คอยคิง","gyarados":"เกียราดอส","lapras":"ลาพลาส","ditto":"เมตามอน","eevee":"อีวุย","vaporeon":"ชาวเวอร์ส","jolteon":"ธันเดอร์ส","flareon":"บูสเตอร์","porygon":"โพรีกอน","omanyte":"ออมไนต์","omastar":"ออมสตาร์","kabuto":"คาบูโตะ","kabutops":"คาบูทอปส์","aerodactyl":"พเทอรา","snorlax":"คาบิกอน","articuno":"ฟรีเซอร์","zapdos":"ธันเดอร์","moltres":"ไฟเยอร์","dratini":"มินิริว","dragonair":"ฮาคุริว","dragonite":"ไคริว","mewtwo":"มิวทู","mew":"มิว",
             "chikorita":"ชิโกริตา","bayleef":"เบย์ลีฟ","meganium":"เมกาเนียม","cyndaquil":"ฮิโนอาราชิ","quilava":"แม็กมาราชิ","typhlosion":"บาคุฟูน","totodile":"วานิโนโกะ","croconaw":"อลิเกตส์","feraligatr":"โอไดรุ","sentret":"โอทาจิ","furret":"โอโอทาจิ","hoothoot":"โฮโฮ","noctowl":"โยรุโนะซึคุ","ledyba":"เรดิบา","ledian":"เรดิอัน","spinarak":"อิโตมารุ","ariados":"อาริอาโดส","crobat":"โครแบท","chinchou":"ชอนชี","lanturn":"แลนเทิร์น","pichu":"ปิจู","cleffa":"ปีィ","igglybuff":"พูพูริน","togepi":"โทเงปี","togetic":"โทเงชิก","natu":"เนติ","xatu":"เนติโอ","mareep":"เมรีป","flaaffy":"โมโคโค","ampharos":"เด็นริว","bellossom":"คิเรฮานะ","marill":"มาริล","azumarill":"มาริลริ","sudowoodo":"อุโซกกี","politoed":"เนียวโรโทโนะ","hoppip":"ฮาเน็กโกะ","skiploom":"โปป็อกโกะ","jumpluff":"วาทักโกะ","aipom":"เอปาม","sunkern":"ฮิมานัทสึ","sunflora":"คิมาวาริ","yanma":"ยันยันมา","wooper":"อูปา","quagsire":"นูโอ","espeon":"เอฟี","umbreon":"แบล็กกี","murkrow":"ยามิการาสึ","slowking":"ยาโดคิง","misdreavus":"มูมา","unown":"อันโนน","wobbuffet":"โซนานส์","girafarig":"คิรินริคิ","pineco":"คุนุกิดามะ","forretress":"ฟอเรทอส","dunsparce":"โนก็อตชิ","gligar":"ไกลก้า","steelix":"ฮากาเนล","snubbull":"บลู","granbull":"แกรนบลู","qwilfish":"ฮาริเซน","scizor":"ฮัสซัม","shuckle":"สึโบะซึโบะ","heracross":"เฮราครอส","sneasel":"นิวลา","teddiursa":"ฮิเมกุมะ","ursaring":"ริงกุมะ","slugma":"แม็กมักก์","magcargo":"แม็กคาร์โก","swinub":"อูริมู","piloswine":"อิโนมู","corsola":"ซันนีโก","remoraid":"เทปโปโอ","octillery":"ออกทิลเลอรี","delibird":"เดลิเบิร์ด","mantine":"แมนไทน์","skarmory":"แอร์มุโด","houndour":"เดลวิล","houndoom":"เฮลการ์","kingdra":"คิงดรา","phanpy":"โกมาโซ","donphan":"ดอนฟาน","porygon2":"โพรีกอน2","stantler":"โอโดชิชิ","smeargle":"โดเบิล","tyrogue":"บารูคี","hitmontop":"คาโปเอเรอร์","smoochum":"มุจูล","elekid":"เอเลคิด","magby":"บูบี","miltank":"มิลแทงก์","blissey":"แฮปปีนา","raikou":"ไรโค","entei":"เอ็นเต","suicune":"ซุยคุน","larvitar":"โยกิราส","pupitar":"ซานากิราส","tyranitar":"บันกิราส","lugia":"ลูเกีย","ho-oh":"โฮโอ","celebi":"เซเลบี",
@@ -257,6 +263,9 @@
         let searchQuery = '';
         let compareIds = [1, 4];
         let compareData = [null, null];
+        let currentlyRenderedCount = 0;
+        const pokemonCache = new Map();
+        let searchTimeout;
 
         // --- Helper Functions ---
         const formatName = (name) => name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, ' ');
@@ -315,6 +324,21 @@
                 <p class="font-bold text-slate-400 tracking-widest uppercase text-[10px] md:text-sm">กำลังประมวลผลข้อมูล...</p>
             </div>
         `;
+
+        // --- Intersection Observer for Lazy Loading Cards ---
+        const cardObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const card = entry.target;
+                    const pid = card.dataset.id;
+                    if (pid && !card.dataset.loaded) {
+                        card.dataset.loaded = 'true';
+                        fetchCardDetails(pid, card);
+                        observer.unobserve(card); // เลิกติดตามเมื่อโหลดเสร็จ
+                    }
+                }
+            });
+        }, { rootMargin: '200px' });
 
         // --- Core Application Logic ---
         
@@ -387,15 +411,15 @@
 
         function selectRegion(index) {
             selectedRegionIndex = index;
-            displayLimit = ITEMS_PER_PAGE;
-            renderRegionFilters();
             applyFilters();
         }
 
         function handleSearch() {
-            searchQuery = document.getElementById('searchInput').value.toLowerCase();
-            displayLimit = ITEMS_PER_PAGE;
-            applyFilters();
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                searchQuery = document.getElementById('searchInput').value.toLowerCase();
+                applyFilters();
+            }, 300); // หน่วงเวลาพิมพ์เพื่อไม่ให้กระตุก
         }
 
         function applyFilters() {
@@ -414,29 +438,46 @@
             filteredList = list;
             document.getElementById('total-count').innerText = filteredList.length;
             
-            renderPokemonGrid();
+            // รีเซ็ตการแสดงผล
+            cardObserver.disconnect();
+            document.getElementById('pokemon-grid').innerHTML = '';
+            currentlyRenderedCount = 0;
+            displayLimit = ITEMS_PER_PAGE;
+            
+            renderNextBatch();
         }
 
         function loadMore() {
             displayLimit += ITEMS_PER_PAGE;
-            renderPokemonGrid();
+            renderNextBatch();
         }
 
-        async function renderPokemonGrid() {
+        // โหลดข้อมูลเข้า Grid เฉพาะตัวใหม่ เพื่อไม่ให้กระตุก
+        function renderNextBatch() {
             const container = document.getElementById('pokemon-grid');
-            const currentList = filteredList.slice(0, displayLimit);
+            const itemsToRender = filteredList.slice(currentlyRenderedCount, displayLimit);
             
-            document.getElementById('empty-state').style.display = currentList.length === 0 ? 'block' : 'none';
+            document.getElementById('empty-state').style.display = (filteredList.length === 0) ? 'block' : 'none';
             document.getElementById('load-more-container').style.display = filteredList.length > displayLimit ? 'flex' : 'none';
 
-            container.innerHTML = currentList.map(p => `
-                <div id="card-${p.id}" onclick="openDetail(${p.id})" class="group rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-7 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer border flex flex-col items-center relative hover:-translate-y-2 md:hover:-translate-y-3 overflow-hidden backdrop-blur-md" style="background: rgba(255,255,255,0.4); border-color: rgba(255,255,255,0.6);">
+            const fragment = document.createDocumentFragment();
+
+            itemsToRender.forEach(p => {
+                const div = document.createElement('div');
+                div.id = `card-${p.id}`;
+                div.dataset.id = p.id;
+                div.className = "group rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-7 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer border flex flex-col items-center relative hover:-translate-y-2 md:hover:-translate-y-3 overflow-hidden backdrop-blur-md";
+                div.style.background = "rgba(255,255,255,0.4)";
+                div.style.borderColor = "rgba(255,255,255,0.6)";
+                div.onclick = () => openDetail(p.id);
+
+                div.innerHTML = `
                     <div class="absolute top-3 right-4 md:top-4 md:right-5 font-black text-lg md:text-3xl italic select-none transition-all duration-500 opacity-60 group-hover:opacity-100 group-hover:scale-110 text-slate-400">
                         #${String(p.id).padStart(3, '0')}
                     </div>
                     <div class="relative w-20 h-20 md:w-36 md:h-36 my-4 md:my-6">
                         <div class="absolute inset-[-6px] md:inset-[-12px] bg-white/80 rounded-full scale-100 group-hover:scale-110 transition-transform duration-700 shadow-inner border border-white"></div>
-                        <img src="${getImageUrl(p.id)}" class="relative z-10 w-full h-full object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-700 drop-shadow-xl" loading="lazy" alt="${p.name_th}" />
+                        <img src="${getImageUrl(p.id)}" class="relative z-10 w-full h-full object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-700 drop-shadow-xl" loading="lazy" decoding="async" alt="${p.name_th}" />
                     </div>
                     <div class="text-center w-full relative z-10 flex flex-col items-center">
                         <h3 class="text-[11px] sm:text-xs md:text-lg font-black text-slate-800 tracking-tight transition-colors uppercase drop-shadow-sm group-hover:text-slate-900 mb-2 md:mb-3 truncate w-full px-1">
@@ -446,38 +487,49 @@
                             <div class="w-8 h-3 md:w-16 md:h-5 bg-slate-200 rounded-full animate-pulse"></div>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+                fragment.appendChild(div);
+                cardObserver.observe(div); // สั่งให้ดักจับเมื่อการ์ดโผล่ขึ้นมาในหน้าจอ
+            });
 
-            // Fetch details for cards to get colors
-            for (let p of currentList) {
-                fetch(`https://pokeapi.co/api/v2/pokemon/${p.id}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        const themeColor = TYPE_COLORS[data.types[0].type.name] || '#cbd5e1';
-                        const card = document.getElementById(`card-${p.id}`);
-                        const typesContainer = document.getElementById(`types-${p.id}`);
-                        if(card && typesContainer) {
-                            card.style.background = `linear-gradient(145deg, ${themeColor}15 0%, rgba(255,255,255,0.85) 100%)`;
-                            card.style.borderColor = `${themeColor}40`;
-                            card.style.boxShadow = `0 10px 30px -10px ${themeColor}30`;
-                            
-                            // Add glow effect div
-                            const glow = document.createElement('div');
-                            glow.className = "absolute -top-6 -right-6 md:-top-10 md:-right-10 w-24 h-24 md:w-40 md:h-40 rounded-full blur-2xl md:blur-3xl opacity-40 group-hover:opacity-70 transition-opacity duration-500 pointer-events-none";
-                            glow.style.backgroundColor = themeColor;
-                            card.prepend(glow);
-                            
-                            card.querySelector('.italic').style.color = themeColor;
-                            
-                            typesContainer.innerHTML = data.types.map(t => `
-                                <span class="text-white text-[8px] md:text-[11px] font-bold px-2 py-0.5 md:px-4 md:py-1.5 rounded-full uppercase tracking-widest shadow-lg inline-flex items-center gap-1 transition-transform hover:scale-110 cursor-default" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
-                                    <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[10px] md:text-[14px]"></i>
-                                    ${TYPE_NAMES_TH[t.type.name] || t.type.name}
-                                </span>
-                            `).join('');
-                        }
-                    }).catch(err => {});
+            container.appendChild(fragment);
+            currentlyRenderedCount += itemsToRender.length;
+        }
+
+        async function fetchCardDetails(id, card) {
+            try {
+                let data = pokemonCache.get(id);
+                if (!data) {
+                    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+                    data = await res.json();
+                    pokemonCache.set(id, data);
+                }
+
+                const themeColor = TYPE_COLORS[data.types[0].type.name] || '#cbd5e1';
+                const typesContainer = document.getElementById(`types-${id}`);
+                
+                if(card && typesContainer) {
+                    card.style.background = `linear-gradient(145deg, ${themeColor}15 0%, rgba(255,255,255,0.85) 100%)`;
+                    card.style.borderColor = `${themeColor}40`;
+                    card.style.boxShadow = `0 10px 30px -10px ${themeColor}30`;
+                    
+                    const glow = document.createElement('div');
+                    glow.className = "absolute -top-6 -right-6 md:-top-10 md:-right-10 w-24 h-24 md:w-40 md:h-40 rounded-full blur-2xl md:blur-3xl opacity-40 group-hover:opacity-70 transition-opacity duration-500 pointer-events-none";
+                    glow.style.backgroundColor = themeColor;
+                    card.prepend(glow);
+                    
+                    const idEl = card.querySelector('.italic');
+                    if(idEl) idEl.style.color = themeColor;
+                    
+                    typesContainer.innerHTML = data.types.map(t => `
+                        <span class="text-white text-[8px] md:text-[11px] font-bold px-2 py-0.5 md:px-4 md:py-1.5 rounded-full uppercase tracking-widest shadow-lg inline-flex items-center gap-1 transition-transform hover:scale-110 cursor-default" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
+                            <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[10px] md:text-[14px]"></i>
+                            ${TYPE_NAMES_TH[t.type.name] || t.type.name}
+                        </span>
+                    `).join('');
+                }
+            } catch(err) {
+                console.error('Failed to load card details for', id, err);
             }
         }
 
@@ -489,8 +541,13 @@
             viewDetail.innerHTML = getLoaderHTML();
 
             try {
-                const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-                const pokemonDetail = await res.json();
+                let pokemonDetail = pokemonCache.get(parseInt(id));
+                if (!pokemonDetail) {
+                    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+                    pokemonDetail = await res.json();
+                    pokemonCache.set(parseInt(id), pokemonDetail);
+                }
+                
                 pokemonDetail.name_th = getThaiName(pokemonDetail.name);
 
                 let speciesDetail = null;
@@ -499,6 +556,7 @@
                 let translatedEntry = 'ไม่พบข้อมูลพฤติกรรมในฐานข้อมูลหลัก';
 
                 if (pokemonDetail.species && pokemonDetail.species.url) {
+                    // Caching species data as well if needed, but for now fetch directly
                     const specRes = await fetch(pokemonDetail.species.url);
                     speciesDetail = await specRes.json();
                     
@@ -526,7 +584,6 @@
                         const engText = entry ? entry.flavor_text.replace(/[\n\f\r]/g, ' ') : '';
                         if (engText) {
                             translatedEntry = 'กำลังแปลภาษาไทยอัตโนมัติ...';
-                            // Fire and forget translation
                             fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=th&dt=t&q=${encodeURIComponent(engText)}`)
                                 .then(r => r.json())
                                 .then(d => {
@@ -541,7 +598,6 @@
                     }
                 }
 
-                // ระบบคำนวณจุดอ่อนธาตุ (Type Weaknesses)
                 let weaknesses = [];
                 try {
                     const typeNames = pokemonDetail.types.map(t => t.type.name);
@@ -575,13 +631,11 @@
             }
         }
 
-        // 🌟 ปรับปรุงการจัดเรียง Evolution Chain ให้สมดุล สวยงาม 🌟
         function buildEvoNodeHTML(node) {
             if(!node) return '';
             const id = node.species.url.split('/').slice(-2, -1)[0];
             const nameTh = getThaiName(node.species.name);
             
-            // ใช้ Layout แบบแนวนอนกึ่งกลาง เพื่อความสวยงามและไม่รกตา
             let html = `
                 <div class="flex items-center gap-2 md:gap-4 shrink-0">
                     <div onclick="openDetail(${id})" class="flex flex-col items-center justify-center cursor-pointer group bg-white/80 backdrop-blur-md p-3 md:p-6 rounded-[1rem] md:rounded-[2rem] hover:bg-white hover:shadow-xl transition-all border-2 border-white/50 hover:border-white hover:-translate-y-1 md:hover:-translate-y-2 w-24 md:w-36 shadow-sm">
@@ -624,6 +678,8 @@
             if (speciesDetail && speciesDetail.habitat) {
                 habitat = HABITAT_TH[speciesDetail.habitat.name] || speciesDetail.habitat.name;
             }
+
+            const totalStats = pokemonDetail.stats.reduce((sum, s) => sum + s.base_stat, 0);
 
             const viewDetail = document.getElementById('view-detail');
             
@@ -695,23 +751,29 @@
                         </div>
                         
                         <div class="bg-white/60 backdrop-blur-md rounded-3xl md:rounded-[3rem] p-5 md:p-12 shadow-xl border border-white">
-                            <h3 class="text-sm md:text-xl font-black text-slate-700 mb-4 md:mb-8 flex items-center gap-2 md:gap-4">
-                                <div class="w-6 md:w-12 h-1 md:h-1.5 bg-slate-300 rounded-full"></div>
-                                ค่าพลังพื้นฐาน (Base Stats)
-                            </h3>
-                            <div class="grid gap-2 md:gap-4">
+                            <div class="flex justify-between items-end mb-5 md:mb-8">
+                                <h3 class="text-sm md:text-xl font-black text-slate-700 flex items-center gap-2 md:gap-4">
+                                    <div class="w-4 md:w-12 h-1 md:h-1.5 bg-slate-300 rounded-full"></div>
+                                    ค่าพลังพื้นฐาน (Stats)
+                                </h3>
+                                <div class="text-right">
+                                    <p class="text-[8px] md:text-xs font-bold text-slate-400 uppercase tracking-widest mb-0.5 md:mb-1">Total</p>
+                                    <p class="text-lg md:text-3xl font-black leading-none" style="color: ${themeColor}">${totalStats}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="grid gap-2.5 md:gap-4">
                                 ${pokemonDetail.stats.map(s => {
-                                    const percentage = (s.base_stat / 255) * 100;
+                                    const percentage = Math.min((s.base_stat / 255) * 100, 100);
                                     const statName = STAT_NAMES_TH[s.stat.name] || s.stat.name;
                                     return `
-                                        <div class="mb-1 md:mb-2">
-                                            <div class="flex justify-between text-[9px] md:text-xs font-bold text-slate-500 uppercase mb-1 px-1 tracking-wider">
-                                                <span>${statName}</span>
-                                                <span class="text-slate-800 font-black">${s.base_stat}</span>
-                                            </div>
-                                            <div class="w-full bg-slate-100/50 rounded-full h-1.5 md:h-2.5 shadow-inner p-0.5">
-                                                <div class="h-full rounded-full transition-all duration-1000 ease-out shadow-sm relative overflow-hidden" style="width: ${percentage}%; background-color: ${themeColor}">
-                                                    <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
+                                        <div class="flex items-center gap-2 md:gap-4 mb-2.5 md:mb-4">
+                                            <span class="text-[9px] md:text-xs font-bold text-slate-500 uppercase tracking-wider w-12 md:w-20 text-right">${statName}</span>
+                                            <span class="text-[10px] md:text-sm font-black text-slate-700 w-6 md:w-8 text-right">${s.base_stat}</span>
+                                            <div class="flex-1 bg-slate-100/60 rounded-full h-1.5 md:h-2.5 overflow-hidden shadow-inner">
+                                                <div class="h-full rounded-full transition-all duration-1000 ease-out relative" 
+                                                     style="width: ${percentage}%; background: linear-gradient(90deg, ${themeColor}80, ${themeColor}); box-shadow: 0 0 10px ${themeColor}60;">
+                                                    <div class="absolute inset-0 bg-white/20"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -789,7 +851,7 @@
         function buildDropdownHTML(index, currentId) {
             const selected = allPokemon.find(p => p.id === currentId);
             return `
-                <div class="relative w-full mb-4 md:mb-6 compare-dropdown" id="dropdown-${index}">
+                <div class="relative w-full mb-3 md:mb-6 compare-dropdown" id="dropdown-${index}">
                     <button onclick="toggleCompareDropdown(${index})" class="w-full bg-white/80 backdrop-blur-md p-3 md:p-5 rounded-xl md:rounded-2xl flex justify-between items-center border border-white hover:border-red-400 transition-all font-bold text-slate-700 shadow-md group text-[10px] md:text-base">
                         <span class="truncate" id="dropdown-text-${index}">${selected ? selected.name_th : 'เลือกโปเกมอน...'}</span>
                         <i class="ph ph-caret-right text-slate-300 group-hover:text-red-400 transition-transform text-sm md:text-base" id="dropdown-icon-${index}"></i>
@@ -850,7 +912,15 @@
         async function fetchCompareData() {
             try {
                 const results = await Promise.all(
-                    compareIds.map(id => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(r => r.json()))
+                    compareIds.map(async id => {
+                        let data = pokemonCache.get(id);
+                        if (!data) {
+                            const r = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+                            data = await r.json();
+                            pokemonCache.set(id, data);
+                        }
+                        return data;
+                    })
                 );
                 compareData = results.map(data => {
                     if(!data) return null;
@@ -871,48 +941,60 @@
                 const otherData = compareData[index === 0 ? 1 : 0];
                 const themeColor = TYPE_COLORS[data.types[0].type.name] || '#777';
 
+                const totalStats = data.stats.reduce((sum, s) => sum + s.base_stat, 0);
+                const otherTotal = otherData ? otherData.stats.reduce((sum, s) => sum + s.base_stat, 0) : 0;
+                const isTotalWinner = totalStats > otherTotal;
+
                 let statsHtml = data.stats.map((s, idx) => {
                     const otherVal = otherData?.stats[idx]?.base_stat || 0;
                     const isWinner = s.base_stat > otherVal;
                     const statName = STAT_NAMES_TH[s.stat.name] || s.stat.name;
+                    const percentage = Math.min((s.base_stat / 255) * 100, 100);
                     return `
-                        <div class="flex items-center justify-between mb-3 md:mb-6">
-                            <span class="text-[9px] md:text-xs font-bold text-slate-500 w-16 md:w-24 truncate mr-2 md:mr-4 tracking-tight">${statName}</span>
-                            <div class="flex-1 mx-2 md:mx-4 bg-slate-100/50 h-1.5 md:h-2.5 rounded-full overflow-hidden shadow-inner">
-                                <div class="h-full rounded-full transition-all duration-1000 ${isWinner ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.4)]' : 'bg-slate-300'}" style="width: ${(s.base_stat/255)*100}%"></div>
+                        <div class="flex items-center gap-2 md:gap-4 mb-2.5 md:mb-4">
+                            <span class="text-[9px] md:text-xs font-bold text-slate-500 w-12 md:w-16 truncate mr-1 md:mr-2 tracking-tight text-right">${statName}</span>
+                            <span class="text-[10px] md:text-sm font-black w-6 md:w-8 text-right ${isWinner ? 'text-emerald-500' : 'text-slate-700'}">${s.base_stat}</span>
+                            <div class="flex-1 bg-slate-100/60 rounded-full h-1.5 md:h-2.5 overflow-hidden shadow-inner">
+                                <div class="h-full rounded-full transition-all duration-1000 relative ${isWinner ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.4)]' : 'bg-slate-300'}" 
+                                     style="width: ${percentage}%;">
+                                     <div class="absolute inset-0 bg-white/20"></div>
+                                </div>
                             </div>
-                            <span class="text-xs md:text-lg font-black w-6 md:w-10 text-right ${isWinner ? 'text-emerald-500' : 'text-slate-400'}">${s.base_stat}</span>
                         </div>
                     `;
                 }).join('');
 
                 return `
-                    <div class="backdrop-blur-xl rounded-[2rem] md:rounded-[4rem] p-5 md:p-12 border relative h-full flex flex-col transition-all overflow-hidden"
+                    <div class="backdrop-blur-xl rounded-[2rem] md:rounded-[3rem] p-4 md:p-10 border relative h-full flex flex-col transition-all overflow-hidden"
                          style="border-color: ${themeColor}40; background: linear-gradient(145deg, ${themeColor}10 0%, rgba(255,255,255,0.85) 100%); box-shadow: 0 10px 30px -10px ${themeColor}20">
                         <div class="absolute -top-10 -left-10 w-32 h-32 md:w-64 md:h-64 rounded-full blur-2xl md:blur-3xl opacity-20 pointer-events-none" style="background-color: ${themeColor}"></div>
                         
                         ${buildDropdownHTML(index, data.id)}
                         
-                        <div class="flex flex-col items-center mb-6 md:mb-14">
-                            <div class="w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 mb-4 md:mb-8 bg-white rounded-[1.5rem] md:rounded-[3.5rem] flex items-center justify-center p-4 md:p-12 relative shadow-inner border border-slate-50 overflow-hidden">
+                        <div class="flex flex-col items-center mb-4 md:mb-8">
+                            <div class="w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 mb-3 md:mb-6 bg-white rounded-2xl md:rounded-[2.5rem] flex items-center justify-center p-3 md:p-8 relative shadow-inner border border-slate-50 overflow-hidden">
                                 <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-white"></div>
                                 <img src="${getImageUrl(data.id)}" class="w-full h-full object-contain relative z-10 drop-shadow-2xl animate-float" />
                             </div>
-                            <div class="text-sm md:text-2xl font-black italic tracking-widest mb-1 md:mb-2 opacity-90 drop-shadow-sm" style="color: ${themeColor}">
+                            <div class="text-[10px] md:text-xl font-black italic tracking-widest mb-1 opacity-90 drop-shadow-sm" style="color: ${themeColor}">
                                 #${String(data.id).padStart(3, '0')}
                             </div>
-                            <h3 class="text-xl md:text-4xl font-black text-slate-800 tracking-tighter uppercase mb-2 md:mb-4 text-center">${data.name_th}</h3>
-                            <div class="flex flex-wrap justify-center gap-1.5 md:gap-3">
+                            <h3 class="text-lg md:text-3xl font-black text-slate-800 tracking-tighter uppercase mb-2 md:mb-3 text-center leading-none">${data.name_th}</h3>
+                            <div class="flex flex-wrap justify-center gap-1 md:gap-2">
                                 ${data.types.map(t => `
-                                    <span class="text-white text-[8px] md:text-[11px] font-bold px-2 py-0.5 md:px-4 md:py-1.5 rounded-full uppercase tracking-widest shadow-lg inline-flex items-center gap-1" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
-                                        <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[10px] md:text-[14px]"></i>
+                                    <span class="text-white text-[8px] md:text-[10px] font-bold px-2 py-0.5 md:px-3 md:py-1 rounded-full uppercase tracking-widest shadow-lg inline-flex items-center gap-1" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
+                                        <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[9px] md:text-[12px]"></i>
                                         ${TYPE_NAMES_TH[t.type.name] || t.type.name}
                                     </span>
                                 `).join('')}
                             </div>
                         </div>
-                        <div class="flex-1 px-1 md:px-4 pt-3 md:pt-4 border-t border-white/50">
-                            ${statsHtml}
+                        <div class="flex-1 pt-3 md:pt-6 border-t border-white/50 flex flex-col justify-between">
+                            <div>${statsHtml}</div>
+                            <div class="mt-4 md:mt-6 pt-3 md:pt-4 border-t border-white/50 flex justify-between items-center px-2">
+                                <span class="text-[10px] md:text-sm font-black text-slate-500 uppercase tracking-widest">Total Stats</span>
+                                <span class="text-lg md:text-2xl font-black ${isTotalWinner ? 'text-emerald-500' : 'text-slate-700'}">${totalStats}</span>
+                            </div>
                         </div>
                     </div>
                 `;
