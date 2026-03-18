@@ -2,21 +2,19 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokédex Global - สมุดภาพโปเกมอน</title>
     
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="สมุดภาพโปเกมอนออนไลน์ (Pokédex) รวบรวมข้อมูลสเตตัส ธาตุ จุดอ่อน และสายวิวัฒนาการของโปเกมอนกว่า 1,025 รูปแบบ พร้อมระบบจำลองการต่อสู้ รองรับภาษาไทย 100%">
-    <meta name="keywords" content="โปเกมอน, สมุดภาพโปเกมอน, Pokedex, Pokemon, ข้อมูลโปเกมอน, โปเกเด็กซ์">
+    <!-- 🟢 SEO & Social Media Meta Tags -->
+    <meta name="description" content="สมุดภาพโปเกมอน (Pokédex) รวบรวมข้อมูลสเตตัส ธาตุ จุดอ่อน และสายวิวัฒนาการกว่า 1,025 รูปแบบ พร้อมระบบจำลองการต่อสู้">
+    <meta name="keywords" content="โปเกมอน, สมุดภาพโปเกมอน, Pokedex, Pokemon, ข้อมูลโปเกมอน">
     <meta name="author" content="Pokédex Global">
-    
-    <!-- Open Graph (สำหรับแชร์ลง Social Media) -->
     <meta property="og:title" content="Pokédex Global - สมุดภาพโปเกมอนภาษาไทย">
     <meta property="og:description" content="ค้นหาข้อมูลสเตตัส ธาตุ และจุดอ่อนของโปเกมอนทุกเจเนอเรชันได้ที่นี่">
     <meta property="og:image" content="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
     <meta property="og:type" content="website">
 
-    <!-- ⚡ PERFORMANCE: Preconnect ช่วยลดเวลาการเชื่อมต่อ Server ทำให้โหลดไวขึ้น -->
+    <!-- ⚡ PERFORMANCE: Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://pokeapi.co" crossorigin>
@@ -25,10 +23,10 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Prompt:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS (ให้สิทธิการโหลดสูงสุดเพื่อไม่ให้ FCP ช้า) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com" fetchpriority="high"></script>
     
-    <!-- Phosphor Icons (เปลี่ยนเป็น defer เพื่อไม่ให้บล็อกการแสดงผลครั้งแรก) -->
+    <!-- Phosphor Icons (Defer เพื่อไม่ให้บล็อกการเรนเดอร์หน้าเว็บ) -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <style>
@@ -65,10 +63,6 @@
         }
         @media (min-width: 768px) {
             .bg-blob { width: 800px; height: 800px; filter: blur(120px); }
-            @keyframes float { 
-                0%, 100% { transform: translateY(0); } 
-                50% { transform: translateY(-20px); } 
-            }
         }
         @keyframes drift {
             from { transform: translate(-10%, -10%) rotate(0deg); }
@@ -82,7 +76,7 @@
 <body class="bg-slate-50 text-slate-800 selection:bg-red-200 overflow-x-hidden relative min-h-screen flex flex-col">
 
     <!-- Background Elements -->
-    <div class="fixed inset-0 z-0 pointer-events-none">
+    <div class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
         <div class="bg-blob bg-red-400 -top-20 -left-20 md:-top-40 md:-left-40"></div>
         <div class="bg-blob bg-blue-300 top-1/2 -right-20 md:-right-40" style="animation-delay: -10s;"></div>
         <div class="bg-blob bg-yellow-200 -bottom-20 left-1/4 md:-bottom-40" style="animation-delay: -20s;"></div>
@@ -93,7 +87,7 @@
     <nav class="fixed top-0 w-full z-[100] bg-white/70 backdrop-blur-xl border-b border-white/50 py-3 px-4 md:py-5 md:px-10">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-2 md:gap-4 cursor-pointer group" onclick="switchView('home')">
-                <div class="relative w-8 h-8 md:w-12 md:h-12">
+                <div class="relative w-8 h-8 md:w-12 md:h-12" aria-hidden="true">
                     <div class="absolute inset-0 bg-slate-800 rounded-full shadow-lg transition-transform duration-700 group-hover:rotate-180 border-[2px] md:border-[3px] border-white">
                         <div class="absolute top-1/2 left-0 w-full h-0.5 bg-white/30"></div>
                         <div class="absolute top-1/2 left-1/2 w-2 h-2 md:w-3 md:h-3 bg-white border md:border-2 border-slate-800 rounded-full -translate-x-1/2 -translate-y-1/2 shadow-inner"></div>
@@ -102,13 +96,13 @@
                 <span class="font-black text-lg md:text-2xl tracking-tight text-slate-800 drop-shadow-sm">สมุดภาพ<span class="text-red-500 ml-0.5 md:ml-1">โปเกมอน</span></span>
             </div>
             <div class="flex gap-4 md:gap-10 font-bold text-[10px] md:text-sm">
-                <button onclick="switchView('home')" id="nav-home" class="nav-btn text-red-500 transition-all relative group py-2">
+                <button onclick="switchView('home')" id="nav-home" class="text-red-500 transition-colors relative group py-2">
                     แกลเลอรี
-                    <div class="nav-line absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-300 w-full"></div>
+                    <div class="absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-300 w-full" id="nav-line-home"></div>
                 </button>
-                <button onclick="switchView('compare')" id="nav-compare" class="nav-btn text-slate-500 hover:text-slate-800 transition-all relative group py-2">
+                <button onclick="switchView('compare')" id="nav-compare" class="text-slate-500 hover:text-slate-800 transition-colors relative group py-2">
                     เปรียบเทียบ
-                    <div class="nav-line absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-300 w-0 group-hover:w-full"></div>
+                    <div class="absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-300 w-0 group-hover:w-full" id="nav-line-compare"></div>
                 </button>
             </div>
         </div>
@@ -123,7 +117,7 @@
                 <div class="max-w-6xl mx-auto relative z-10 text-center md:text-left">
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-10 mb-8 md:mb-16">
                         <div class="relative">
-                            <div class="flex items-center justify-center md:justify-start gap-3 md:gap-4 mb-4 md:mb-6">
+                            <div class="flex items-center justify-center md:justify-start gap-3 md:gap-4 mb-4 md:mb-6" aria-hidden="true">
                                 <div class="w-8 h-8 md:w-12 md:h-12 bg-blue-500 rounded-full border-[3px] md:border-[5px] border-white shadow-xl animate-pulse ring-4 ring-blue-500/20"></div>
                                 <div class="flex gap-1.5 md:gap-3">
                                     <div class="w-2 h-2 md:w-3 md:h-3 bg-red-400 rounded-full shadow-sm"></div>
@@ -136,23 +130,24 @@
                             </h1>
                             <p class="text-slate-600 font-bold text-[10px] sm:text-xs md:text-base tracking-wide mt-2 md:mt-4">รวบรวมข้อมูลโปเกมอนและร่างเมก้าทั้งหมดกว่า 1,025+ รูปแบบ</p>
                         </div>
-                        <button onclick="switchView('compare')" class="bg-slate-800 text-white px-6 py-3 md:px-10 md:py-5 rounded-[2rem] font-black text-[10px] sm:text-xs md:text-sm hover:bg-red-500 transition-all shadow-2xl hover:-translate-y-1 md:hover:-translate-y-2 active:scale-95 mx-auto md:mx-0 flex items-center gap-2 md:gap-3 group">
-                            <i class="ph ph-scales text-base md:text-lg group-hover:rotate-12 transition-transform"></i>
+                        <button onclick="switchView('compare')" class="bg-slate-800 text-white px-6 py-3 md:px-10 md:py-5 rounded-[2rem] font-black text-[10px] sm:text-xs md:text-sm hover:bg-red-500 transition-colors shadow-2xl hover:-translate-y-1 md:hover:-translate-y-2 active:scale-95 mx-auto md:mx-0 flex items-center gap-2 md:gap-3 group">
+                            <i class="ph ph-scales text-base md:text-lg transition-transform group-hover:rotate-12" aria-hidden="true"></i>
                             วิเคราะห์การต่อสู้
                         </button>
                     </div>
 
                     <div class="relative mb-6 md:mb-14 max-w-4xl mx-auto md:mx-0">
-                        <i class="ph ph-magnifying-glass absolute left-5 md:left-6 top-1/2 -translate-y-1/2 text-slate-500 text-xl md:text-2xl"></i>
-                        <input type="text" id="searchInput" placeholder="ค้นหาด้วยชื่อภาษาไทย, อังกฤษ หรือหมายเลข..." class="w-full pl-12 pr-4 py-4 md:pl-14 md:pr-10 md:py-6 bg-white/80 backdrop-blur-md border border-white focus:border-red-300 focus:bg-white rounded-[2rem] md:rounded-[2.5rem] outline-none transition-all text-sm sm:text-base md:text-xl font-medium text-slate-800 shadow-lg placeholder:text-slate-500" onkeyup="handleSearch()">
+                        <label for="searchInput" class="sr-only">ค้นหาโปเกมอน</label>
+                        <i class="ph ph-magnifying-glass absolute left-5 md:left-6 top-1/2 -translate-y-1/2 text-slate-500 text-xl md:text-2xl" aria-hidden="true"></i>
+                        <input type="text" id="searchInput" placeholder="ค้นหาด้วยชื่อภาษาไทย, อังกฤษ หรือหมายเลข..." class="w-full pl-12 pr-4 py-4 md:pl-14 md:pr-10 md:py-6 bg-white/80 backdrop-blur-md border border-white focus:border-red-300 focus:bg-white rounded-[2rem] md:rounded-[2.5rem] outline-none transition-colors text-sm sm:text-base md:text-xl font-medium text-slate-800 shadow-lg placeholder:text-slate-500" onkeyup="handleSearch()">
                     </div>
 
-                    <div id="region-filters" class="flex gap-2 md:gap-3 overflow-x-auto pb-3 md:pb-4 no-scrollbar mask-fade scroll-smooth">
+                    <nav aria-label="กรองตามภูมิภาค" id="region-filters" class="flex gap-2 md:gap-3 overflow-x-auto pb-3 md:pb-4 no-scrollbar mask-fade scroll-smooth">
                         <!-- Filters injected by JS -->
-                    </div>
+                    </nav>
                     
                     <div class="mt-4 md:mt-8 text-[10px] md:text-sm font-bold text-slate-500 flex items-center justify-center md:justify-start gap-3 md:gap-4">
-                        <div class="w-6 md:w-12 h-0.5 bg-slate-300"></div>
+                        <div class="w-6 md:w-12 h-0.5 bg-slate-300" aria-hidden="true"></div>
                         พบโปเกมอนทั้งหมด <span id="total-count" class="text-slate-700">0</span> รูปแบบ
                     </div>
                 </div>
@@ -168,7 +163,7 @@
                 </div>
                 <div id="load-more-container" class="mt-10 md:mt-24 flex justify-center hidden">
                     <button onclick="loadMore()" class="flex items-center gap-2 md:gap-4 bg-white/80 backdrop-blur-md border border-white px-8 py-3 md:px-16 md:py-6 rounded-full font-black text-[10px] md:text-sm text-slate-600 hover:text-red-500 hover:border-red-200 hover:shadow-2xl transition-all group shadow-xl">
-                        <i class="ph ph-plus text-base md:text-lg group-hover:rotate-180 transition-transform duration-500"></i>
+                        <i class="ph ph-plus text-base md:text-lg transition-transform duration-500 group-hover:rotate-180" aria-hidden="true"></i>
                         โหลดข้อมูลเพิ่มเติม
                     </button>
                 </div>
@@ -183,17 +178,17 @@
         <!-- View: Compare -->
         <div id="view-compare" class="hidden fade-in pb-16 md:pb-32 max-w-7xl mx-auto px-3 md:px-6">
             <nav class="max-w-6xl mx-auto py-4 md:py-10 mb-2 md:mb-6">
-                <button onclick="switchView('home')" class="flex items-center gap-2 md:gap-3 text-slate-600 hover:text-slate-800 font-bold text-[10px] md:text-sm transition-all group bg-white/50 px-4 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-white w-fit">
-                    <i class="ph ph-arrow-left text-base md:text-lg group-hover:-translate-x-2 transition-transform"></i> กลับไปหน้าสมุดภาพ
+                <button onclick="switchView('home')" class="flex items-center gap-2 md:gap-3 text-slate-600 hover:text-slate-800 font-bold text-[10px] md:text-sm transition-transform group bg-white/50 px-4 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-white w-fit">
+                    <i class="ph ph-arrow-left text-base md:text-lg transition-transform group-hover:-translate-x-2" aria-hidden="true"></i> กลับไปหน้าสมุดภาพ
                 </button>
             </nav>
             <div class="text-center mb-6 md:mb-16">
                 <h1 class="text-2xl md:text-5xl font-black text-slate-800 tracking-tight mb-2 md:mb-6">จำลองการต่อสู้ (Battle)</h1>
-                <div class="w-12 md:w-24 h-1 md:h-1.5 bg-red-500 mx-auto rounded-full shadow-lg"></div>
+                <div class="w-12 md:w-24 h-1 md:h-1.5 bg-red-500 mx-auto rounded-full shadow-lg" aria-hidden="true"></div>
             </div>
             
             <div class="grid grid-cols-2 gap-2 sm:gap-4 md:gap-16 items-stretch relative w-full" id="compare-grid">
-                <div class="absolute top-[45%] md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-slate-800 text-white w-8 h-8 md:w-24 md:h-24 rounded-full flex items-center justify-center font-black shadow-2xl border-[2px] md:border-[8px] border-slate-50 italic text-[10px] md:text-2xl animate-pulse shadow-[0_0_15px_rgba(0,0,0,0.3)]">VS</div>
+                <div class="absolute top-[45%] md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-slate-800 text-white w-8 h-8 md:w-24 md:h-24 rounded-full flex items-center justify-center font-black shadow-2xl border-[2px] md:border-[8px] border-slate-50 italic text-[10px] md:text-2xl animate-pulse shadow-[0_0_15px_rgba(0,0,0,0.3)]" aria-hidden="true">VS</div>
                 <div id="compare-card-0" class="h-full w-full flex flex-col min-w-0"></div>
                 <div id="compare-card-1" class="h-full w-full flex flex-col min-w-0"></div>
             </div>
@@ -204,8 +199,8 @@
     <!-- Footer -->
     <footer class="bg-white/50 backdrop-blur-md py-10 md:py-20 px-6 text-center border-t border-white relative z-10 mt-auto">
         <div class="max-w-6xl mx-auto">
-            <div class="w-10 h-10 md:w-16 md:h-16 bg-white/80 rounded-xl md:rounded-[1.5rem] mx-auto mb-4 md:mb-8 border border-white shadow-xl flex items-center justify-center group overflow-hidden relative">
-                <div class="absolute inset-0 bg-red-500 translate-y-full group-hover:translate-y-1/2 transition-transform duration-500"></div>
+            <div class="w-10 h-10 md:w-16 md:h-16 bg-white/80 rounded-xl md:rounded-[1.5rem] mx-auto mb-4 md:mb-8 border border-white shadow-xl flex items-center justify-center group overflow-hidden relative" aria-hidden="true">
+                <div class="absolute inset-0 bg-red-500 translate-y-full transition-transform duration-500 group-hover:translate-y-1/2"></div>
                 <div class="w-2.5 h-2.5 md:w-4 md:h-4 bg-slate-200 rounded-full border-2 border-white relative z-10"></div>
             </div>
             <p class="text-slate-800 font-black text-sm md:text-2xl tracking-tight mb-1 md:mb-3">ฐานข้อมูลโปเกมอนแห่งประเทศไทย</p>
@@ -217,7 +212,7 @@
 
     <!-- Application Logic -->
     <script>
-        // ⚡ PERFORMANCE: เริ่มการดึงข้อมูลจาก API ทันทีคู่ขนานไปกับการเรนเดอร์ UI
+        // ⚡ PERFORMANCE: ดึงข้อมูล API ทันทีคู่ขนานไปกับ DOM
         const prefetchPokemonAPI = fetch('https://pokeapi.co/api/v2/pokemon?limit=1500')
             .then(res => res.json())
             .catch(err => { console.error("API Error:", err); return null; });
@@ -232,6 +227,7 @@
 
         const TYPE_COLORS = { grass: '#7AC74C', fire: '#EE8130', water: '#6390F0', electric: '#F7D02C', normal: '#A8A77A', poison: '#A33EA1', psychic: '#F95587', ghost: '#735797', flying: '#A98FF3', bug: '#A6B91A', ground: '#E2BF65', fairy: '#D685AD', dragon: '#6F35FC', ice: '#96D9D6', fighting: '#C22E28', rock: '#B6A136', steel: '#B7B7CE', dark: '#705746' };
         
+        // 🟢 ACCESSIBILITY: แมปปิ้งสีตัวอักษรเพื่อแก้ปัญหา Color Contrast Ratio 
         const TYPE_TEXT_COLORS = { 
             grass: 'text-slate-900', fire: 'text-slate-900', water: 'text-slate-900', 
             electric: 'text-slate-900', normal: 'text-slate-900', poison: 'text-white', 
@@ -271,7 +267,8 @@
             1: "ตั้งแต่เกิดมาจะมีเมล็ดพืชแปลกๆ ปลูกอยู่ที่หลัง เมล็ดจะโตขึ้นพร้อมกับตัวมันคอยดูดซับสารอาหาร", 4: "ไฟที่หางคือสัญลักษณ์แห่งชีวิตและอารมณ์ หากไฟดับลง ชีวิตของมันก็จะจบสิ้นลงด้วย", 5: "เมื่อมันแกว่งหางที่ลุกเป็นไฟ อุณหภูมิรอบข้างจะพุ่งสูงขึ้นจนร้อนระอุแทบทนไม่ได้", 6: "พ่นไฟที่ร้อนแรงจนสามารถละลายหินผาได้ ว่ากันว่ามันมักจะเป็นต้นเหตุของไฟป่าใหญ่", 7: "กระดองของมันไม่เพียงแค่ใช้ป้องกันตัว แต่รูปทรงที่โค้งมนยังช่วยลดแรงต้านน้ำ ทำให้ว่ายน้ำได้เร็วมาก", 25: "มักจะสะสมไฟฟ้าไว้ที่ถุงลมบริเวณแก้มทั้งสองข้าง เมื่อรู้สึกถึงอันตรายจะปล่อยกระแสไฟฟ้าแรงสูงออกมา", 133: "มีพันธุกรรมที่ไม่เสถียรอย่างมาก ทำให้สามารถวิวัฒนาการเปลี่ยนรูปแบบไปตามสภาพแวดล้อมที่อยู่อาศัยได้", 143: "มันจะไม่พอใจถ้าไม่ได้กินอาหารวันละ 400 กิโลกรัม เมื่อกินอิ่มแล้วมันก็จะนอนหลับไปทันที", 149: "เป็นโปเกมอนที่จิตใจดีและรักสงบ ว่ากันว่ามันจะบินไปช่วยเหลือผู้คนที่กำลังจะจมน้ำกลางทะเล", 150: "โปเกมอนที่ถูกสร้างขึ้นจากการตัดต่อพันธุกรรม มีพลังจิตที่แข็งแกร่งที่สุดและมีจิตใจที่เยือกเย็น", 151: "โปเกมอนมายาที่ว่ากันว่ามีรหัสพันธุกรรมของโปเกมอนทุกตัวบนโลกซ่อนอยู่ในร่างกายของมัน", 249: "เทพเจ้าแห่งท้องทะเล มีพลังปีกมหาศาลที่สามารถสร้างพายุใหญ่พัดกระหน่ำได้ยาวนานถึง 40 วัน", 250: "ขนของมันส่องประกายเจ็ดสี ว่ากันว่าผู้ใดที่ได้เห็นโฮโอจะได้รับความสุขและโชคดีไปตลอดกาล", 384: "อาศัยอยู่ในชั้นบรรยากาศโอโซน คอยกลืนกินอุกกาบาตเพื่อใช้เป็นพลังงาน ว่ากันว่ามันจะลงมาเมื่อกราดอนและไคโอกาสู้กัน", 400: "ทำงานขยันขันแข็งด้วยการสร้างเขื่อนกั้นแม่น้ำ มีนิสัยรักสงบมาก", 448: "สามารถอ่านคลื่นพลังงาน (Aura) ของสิ่งมีชีวิตได้ แม้จะหลับตาอยู่ก็รับรู้ความรู้สึกของศัตรูได้จากระยะไกล", 658: "บีบอัดน้ำจนเป็นดาวกระจายที่คมกริบ การเคลื่อนไหวของมันรวดเร็วและว่องไวราวกับนินจา"
         };
 
-        const ITEMS_PER_PAGE = 50;
+        // ⚡ PERFORMANCE: ลดจำนวนการ์ดต่อหน้าลงเหลือ 20 เพื่อลดขนาด DOM และเวลาทำงานของ Main Thread
+        const ITEMS_PER_PAGE = 20;
 
         // --- State Variables ---
         let allPokemon = [];
@@ -403,17 +400,22 @@
             
             document.getElementById('nav-home').classList.remove('text-red-500');
             document.getElementById('nav-home').classList.add('text-slate-500');
-            document.getElementById('nav-home').querySelector('.nav-line').classList.replace('w-full', 'w-0');
+            document.getElementById('nav-line-home').classList.replace('w-full', 'w-0');
+            
             document.getElementById('nav-compare').classList.remove('text-red-500');
             document.getElementById('nav-compare').classList.add('text-slate-500');
-            document.getElementById('nav-compare').querySelector('.nav-line').classList.replace('w-full', 'w-0');
+            document.getElementById('nav-line-compare').classList.replace('w-full', 'w-0');
 
             document.getElementById(`view-${viewName}`).classList.remove('hidden');
             
-            if(viewName !== 'detail') {
-                document.getElementById(`nav-${viewName}`).classList.add('text-red-500');
-                document.getElementById(`nav-${viewName}`).classList.remove('text-slate-500');
-                document.getElementById(`nav-${viewName}`).querySelector('.nav-line').classList.replace('w-0', 'w-full');
+            if(viewName === 'home') {
+                document.getElementById('nav-home').classList.add('text-red-500');
+                document.getElementById('nav-home').classList.remove('text-slate-500');
+                document.getElementById('nav-line-home').classList.replace('w-0', 'w-full');
+            } else if(viewName === 'compare') {
+                document.getElementById('nav-compare').classList.add('text-red-500');
+                document.getElementById('nav-compare').classList.remove('text-slate-500');
+                document.getElementById('nav-line-compare').classList.replace('w-0', 'w-full');
             }
         }
 
@@ -422,7 +424,7 @@
         function renderRegionFilters() {
             const container = document.getElementById('region-filters');
             container.innerHTML = REGIONS.map((reg, index) => `
-                <button onclick="selectRegion(${index})" class="px-4 py-2 md:px-8 md:py-3 rounded-full whitespace-nowrap font-bold text-[10px] md:text-sm transition-all ${selectedRegionIndex === index ? 'bg-slate-800 text-white shadow-xl -translate-y-1' : 'bg-white/70 backdrop-blur-sm text-slate-500 hover:text-slate-800 border border-white hover:border-slate-300'}">
+                <button onclick="selectRegion(${index})" class="px-4 py-2 md:px-8 md:py-3 rounded-full whitespace-nowrap font-bold text-[10px] md:text-sm transition-colors ${selectedRegionIndex === index ? 'bg-slate-800 text-white shadow-xl' : 'bg-white/70 backdrop-blur-sm text-slate-500 hover:text-slate-800 border border-white hover:border-slate-300'}">
                     ${reg.name}
                 </button>
             `).join('');
@@ -491,7 +493,8 @@
                 const div = document.createElement('div');
                 div.id = `card-${p.id}`;
                 div.dataset.id = p.id;
-                div.className = "group rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-7 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer border flex flex-col items-center relative hover:-translate-y-2 md:hover:-translate-y-3 overflow-hidden backdrop-blur-md";
+                // ⚡ PERFORMANCE: นำ transition-all ออกเปลี่ยนเป็นเฉพาะ transform เพื่อลดภาระ GPU ป้องกัน Uncomposited Animations
+                div.className = "group rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-7 shadow-sm hover:shadow-xl transition-transform duration-500 cursor-pointer border flex flex-col items-center relative hover:-translate-y-2 md:hover:-translate-y-3 overflow-hidden backdrop-blur-md";
                 div.style.background = "rgba(255,255,255,0.4)";
                 div.style.borderColor = "rgba(255,255,255,0.6)";
                 div.onclick = () => openDetail(p.id);
@@ -502,12 +505,12 @@
                 const fetchPriorityAttr = isTopRow ? 'high' : 'auto';
 
                 div.innerHTML = `
-                    <div class="absolute top-3 right-4 md:top-4 md:right-5 font-black text-lg md:text-3xl italic select-none transition-all duration-500 opacity-70 group-hover:opacity-100 group-hover:scale-110 text-slate-500">
+                    <div class="absolute top-3 right-4 md:top-4 md:right-5 font-black text-lg md:text-3xl italic select-none transition-opacity duration-500 opacity-70 group-hover:opacity-100 text-slate-500">
                         #${String(p.id).padStart(3, '0')}
                     </div>
                     <div class="relative w-20 h-20 md:w-36 md:h-36 my-4 md:my-6 flex items-center justify-center">
                         <div class="absolute inset-[-6px] md:inset-[-12px] bg-white/80 rounded-full scale-100 group-hover:scale-110 transition-transform duration-700 shadow-inner border border-white"></div>
-                        <img src="${getImageUrl(p.id)}" class="relative z-10 max-w-full max-h-full object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-700 drop-shadow-xl" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" alt="${p.name_th}" />
+                        <img src="${getImageUrl(p.id)}" width="200" height="200" class="relative z-10 max-w-full max-h-full object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-700 drop-shadow-xl" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" alt="${p.name_th}" />
                     </div>
                     <div class="text-center w-full relative z-10 flex flex-col items-center">
                         <h2 class="text-[11px] sm:text-xs md:text-lg font-black text-slate-800 tracking-tight transition-colors uppercase drop-shadow-sm group-hover:text-slate-900 mb-2 md:mb-3 truncate w-full px-1">
@@ -541,6 +544,7 @@
                 if(card && typesContainer) {
                     card.style.background = `linear-gradient(145deg, ${themeColor}15 0%, rgba(255,255,255,0.85) 100%)`;
                     card.style.borderColor = `${themeColor}40`;
+                    // เอา box-shadow แบบ Animate ออก เพื่อประสิทธิภาพ
                     card.style.boxShadow = `0 10px 30px -10px ${themeColor}30`;
                     
                     const glow = document.createElement('div');
@@ -555,7 +559,7 @@
                         const textColor = TYPE_TEXT_COLORS[t.type.name] || 'text-white';
                         return `
                         <span class="${textColor} text-[6px] md:text-[11px] font-bold px-1.5 py-0.5 md:px-3 md:py-1 rounded-full uppercase tracking-widest shadow-sm md:shadow-lg inline-flex items-center gap-0.5 md:gap-1 max-w-[90%] truncate" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
-                            <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[6px] md:text-[12px] shrink-0"></i>
+                            <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[6px] md:text-[12px] shrink-0" aria-hidden="true"></i>
                             <span class="truncate">${TYPE_NAMES_TH[t.type.name] || t.type.name}</span>
                         </span>
                         `;
@@ -663,6 +667,7 @@
             }
         }
 
+        // --- Layout แบบสมดุลขึ้นบนมือถือ ---
         function buildEvoNodeHTML(node) {
             if(!node) return '';
             const id = node.species.url.split('/').slice(-2, -1)[0];
@@ -670,10 +675,10 @@
             
             let html = `
                 <div class="flex items-center gap-2 md:gap-4 shrink-0">
-                    <div onclick="openDetail(${id})" class="flex flex-col items-center justify-center cursor-pointer group bg-white/80 backdrop-blur-md p-3 md:p-6 rounded-[1rem] md:rounded-[2rem] hover:bg-white hover:shadow-xl transition-all border-2 border-white/50 hover:border-white hover:-translate-y-1 md:hover:-translate-y-2 w-20 md:w-36 shadow-sm">
+                    <div onclick="openDetail(${id})" class="flex flex-col items-center justify-center cursor-pointer group bg-white/80 backdrop-blur-md p-3 md:p-6 rounded-[1rem] md:rounded-[2rem] hover:bg-white hover:shadow-xl transition-transform border-2 border-white/50 hover:border-white hover:-translate-y-1 md:hover:-translate-y-2 w-20 md:w-36 shadow-sm">
                         <div class="relative w-10 h-10 md:w-20 md:h-20 mb-2 md:mb-4 flex items-center justify-center">
                             <div class="absolute inset-0 bg-slate-100/60 rounded-full scale-100 group-hover:scale-110 transition-transform"></div>
-                            <img src="${getImageUrl(id)}" class="w-full h-full object-contain relative z-10 drop-shadow-md group-hover:scale-110 transition-transform" />
+                            <img src="${getImageUrl(id)}" width="140" height="140" class="w-full h-full object-contain relative z-10 drop-shadow-md group-hover:scale-110 transition-transform" alt="${nameTh}" />
                         </div>
                         <span class="font-black text-slate-800 text-[9px] md:text-sm text-center leading-tight line-clamp-2 w-full px-1">${nameTh}</span>
                         <span class="text-[7px] md:text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-widest">#${String(id).padStart(3, '0')}</span>
@@ -684,7 +689,7 @@
                 html += `
                     <div class="flex items-center gap-2 md:gap-4">
                         <div class="text-slate-300 font-black text-xl md:text-3xl drop-shadow-sm flex items-center">
-                            <i class="ph ph-caret-right"></i>
+                            <i class="ph ph-caret-right" aria-hidden="true"></i>
                         </div>
                         <div class="flex flex-col gap-3 md:gap-6 justify-center">
                             ${node.evolves_to.map(child => buildEvoNodeHTML(child)).join('')}
@@ -715,26 +720,27 @@
 
             const viewDetail = document.getElementById('view-detail');
             
+            // ย่อให้หน้าตาในมือถือมีความสมดุลและกะทัดรัด (Compact Mobile Layout)
             let html = `
                 <nav class="max-w-6xl mx-auto p-4 md:p-10 flex justify-between items-center mb-2 md:mb-0">
-                    <button onclick="switchView('home')" class="flex items-center gap-1.5 md:gap-3 text-slate-500 hover:text-slate-800 font-bold text-[10px] md:text-sm transition-all group bg-white/50 px-4 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-white">
-                        <i class="ph ph-arrow-left text-sm md:text-lg group-hover:-translate-x-2 transition-transform"></i> กลับไปหน้ารายการ
+                    <button onclick="switchView('home')" class="flex items-center gap-1.5 md:gap-3 text-slate-500 hover:text-slate-800 font-bold text-[10px] md:text-sm transition-colors group bg-white/50 px-4 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-white">
+                        <i class="ph ph-arrow-left text-sm md:text-lg transition-transform group-hover:-translate-x-2" aria-hidden="true"></i> กลับไปหน้ารายการ
                     </button>
                 </nav>
 
                 <div class="max-w-7xl mx-auto px-4 md:px-6 grid lg:grid-cols-2 gap-6 md:gap-16 items-start">
                     
                     <div class="relative group lg:sticky lg:top-32">
-                        <div class="backdrop-blur-xl rounded-[2rem] md:rounded-[4rem] p-6 md:p-20 shadow-2xl flex flex-col items-center border relative overflow-hidden w-full min-h-[220px] md:min-h-[500px] justify-center transition-all duration-700"
+                        <div class="backdrop-blur-xl rounded-[2rem] md:rounded-[4rem] p-6 md:p-20 shadow-2xl flex flex-col items-center border relative overflow-hidden w-full min-h-[220px] md:min-h-[500px] justify-center transition-colors duration-700"
                             style="border-color: ${themeColor}40; background: linear-gradient(145deg, ${themeColor}10 0%, rgba(255,255,255,0.7) 100%)">
                             <div class="absolute inset-0 opacity-20 pointer-events-none mix-blend-multiply" style="background: radial-gradient(circle at top right, ${themeColor}, transparent 70%)"></div>
                             <div class="absolute -bottom-10 -left-10 md:-bottom-20 md:-left-20 w-48 h-48 md:w-96 md:h-96 blur-2xl md:blur-3xl opacity-20 pointer-events-none rounded-full" style="background-color: ${themeColor}"></div>
                             
-                            <div class="absolute top-0 right-0 p-4 md:p-16 font-black text-[4rem] md:text-[12rem] italic leading-none select-none opacity-[0.12]" style="color: ${themeColor}">
+                            <div class="absolute top-0 right-0 p-4 md:p-16 font-black text-[4rem] md:text-[12rem] italic leading-none select-none opacity-[0.12]" style="color: ${themeColor}" aria-hidden="true">
                                 #${pokemonDetail.id}
                             </div>
                             
-                            <img src="${getImageUrl(pokemonDetail.id)}" class="w-40 h-40 sm:w-[250px] sm:h-[250px] md:w-[450px] md:h-[450px] object-contain relative z-10 animate-float drop-shadow-2xl" alt="" />
+                            <img src="${getImageUrl(pokemonDetail.id)}" width="450" height="450" class="w-40 h-40 sm:w-[250px] sm:h-[250px] md:w-[450px] md:h-[450px] object-contain relative z-10 animate-float drop-shadow-2xl" alt="${pokemonDetail.name_th}" />
                         </div>
                     </div>
 
@@ -743,14 +749,14 @@
                             <div class="text-xl md:text-4xl font-black italic tracking-widest mb-1 opacity-90 drop-shadow-sm" style="color: ${themeColor}">
                                 #${String(pokemonDetail.id).padStart(3, '0')}
                             </div>
-                            <h1 class="text-3xl sm:text-5xl md:text-7xl font-black text-slate-800 tracking-tighter mb-1.5 md:mb-4 leading-none md:leading-tight uppercase drop-shadow-sm truncate w-full">${pokemonDetail.name_th}</h1>
+                            <h2 class="text-3xl sm:text-5xl md:text-7xl font-black text-slate-800 tracking-tighter mb-1.5 md:mb-4 leading-none md:leading-tight uppercase drop-shadow-sm truncate w-full">${pokemonDetail.name_th}</h2>
                             <p class="text-xs sm:text-sm md:text-xl text-slate-400 font-bold italic mb-3 md:mb-6 uppercase tracking-widest">${formatName(pokemonDetail.name)}</p>
                             <div class="flex flex-wrap gap-1.5 md:gap-3">
                                 ${pokemonDetail.types.map(t => {
                                     const textColor = TYPE_TEXT_COLORS[t.type.name] || 'text-white';
                                     return `
                                     <span class="${textColor} text-[9px] md:text-[11px] font-bold px-3 py-1 md:px-4 md:py-1.5 rounded-full uppercase tracking-widest shadow-lg inline-flex items-center gap-1 md:gap-1.5" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
-                                        <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[10px] md:text-[16px]"></i>
+                                        <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[10px] md:text-[16px]" aria-hidden="true"></i>
                                         ${TYPE_NAMES_TH[t.type.name] || t.type.name}
                                     </span>
                                     `;
@@ -759,10 +765,10 @@
                         </div>
 
                         <div class="bg-white/80 backdrop-blur-md p-4 md:p-8 rounded-xl md:rounded-3xl border border-white shadow-lg relative overflow-hidden">
-                            <div class="absolute top-2 left-3 md:left-4 text-4xl md:text-6xl opacity-10 font-serif text-slate-800">"</div>
-                            <h2 class="text-xs md:text-lg font-black text-slate-700 mb-2 md:mb-4 flex items-center gap-2 md:gap-3 relative z-10">
-                                <i class="ph ph-info text-blue-500 text-base md:text-xl"></i> ลักษณะและพฤติกรรม
-                            </h2>
+                            <div class="absolute top-2 left-3 md:left-4 text-4xl md:text-6xl opacity-10 font-serif text-slate-800" aria-hidden="true">"</div>
+                            <h3 class="text-xs md:text-lg font-black text-slate-700 mb-2 md:mb-4 flex items-center gap-2 md:gap-3 relative z-10">
+                                <i class="ph ph-info text-blue-500 text-base md:text-xl" aria-hidden="true"></i> ลักษณะและพฤติกรรม
+                            </h3>
                             <p id="pokedex-entry-text" class="text-slate-700 font-medium leading-relaxed text-[11px] sm:text-sm md:text-lg relative z-10 whitespace-pre-line">${translatedEntry}</p>
                         </div>
 
@@ -787,10 +793,10 @@
                         
                         <div class="bg-white/60 backdrop-blur-md rounded-2xl md:rounded-[3rem] p-4 md:p-12 shadow-xl border border-white min-w-0">
                             <div class="flex justify-between items-end mb-4 md:mb-8">
-                                <h2 class="text-xs md:text-xl font-black text-slate-700 flex items-center gap-2 md:gap-4">
-                                    <div class="w-3 md:w-12 h-1 md:h-1.5 bg-slate-300 rounded-full"></div>
+                                <h3 class="text-xs md:text-xl font-black text-slate-700 flex items-center gap-2 md:gap-4">
+                                    <div class="w-3 md:w-12 h-1 md:h-1.5 bg-slate-300 rounded-full" aria-hidden="true"></div>
                                     ค่าพลังพื้นฐาน (Stats)
-                                </h2>
+                                </h3>
                                 <div class="text-right">
                                     <p class="text-[7px] md:text-xs font-bold text-slate-400 uppercase tracking-widest mb-0.5 md:mb-1">Total</p>
                                     <p class="text-base md:text-3xl font-black leading-none" style="color: ${themeColor}">${totalStats}</p>
@@ -808,7 +814,7 @@
                                             <div class="flex-1 bg-slate-100/60 rounded-full h-1 md:h-2.5 overflow-hidden shadow-inner min-w-0">
                                                 <div class="h-full rounded-full transition-all duration-1000 ease-out relative" 
                                                      style="width: ${percentage}%; background: linear-gradient(90deg, ${themeColor}80, ${themeColor}); box-shadow: 0 0 10px ${themeColor}60;">
-                                                    <div class="absolute inset-0 bg-white/20"></div>
+                                                    <div class="absolute inset-0 bg-white/20" aria-hidden="true"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -818,7 +824,7 @@
 
                             <div class="mt-4 md:mt-10 pt-4 md:pt-10 border-t border-slate-200/50 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-10">
                                 <div>
-                                    <h3 class="text-[9px] md:text-sm font-black text-slate-500 mb-2 md:mb-5 uppercase tracking-widest flex items-center gap-1.5 md:gap-2"><i class="ph ph-star text-yellow-500 text-sm md:text-xl"></i> ความสามารถ</h3>
+                                    <h3 class="text-[9px] md:text-sm font-black text-slate-500 mb-2 md:mb-5 uppercase tracking-widest flex items-center gap-1.5 md:gap-2"><i class="ph ph-star text-yellow-500 text-sm md:text-xl" aria-hidden="true"></i> ความสามารถ</h3>
                                     <div class="flex flex-wrap gap-1.5 md:gap-3">
                                         ${pokemonDetail.abilities.map(a => `
                                             <span class="px-2 py-1 md:px-5 md:py-2 bg-white/90 rounded-md md:rounded-xl text-[8px] md:text-xs font-black text-slate-600 border border-white shadow-sm hover:text-blue-500 transition-colors cursor-default uppercase tracking-wider">
@@ -828,14 +834,14 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <h3 class="text-[9px] md:text-sm font-black text-slate-500 mb-2 md:mb-5 uppercase tracking-widest flex items-center gap-1.5 md:gap-2"><i class="ph ph-sword text-red-500 text-sm md:text-xl"></i> แพ้ทาง (Weakness)</h3>
+                                    <h3 class="text-[9px] md:text-sm font-black text-slate-500 mb-2 md:mb-5 uppercase tracking-widest flex items-center gap-1.5 md:gap-2"><i class="ph ph-sword text-red-500 text-sm md:text-xl" aria-hidden="true"></i> แพ้ทาง (Weakness)</h3>
                                     <div class="flex flex-wrap gap-1.5 md:gap-3">
                                         ${weaknesses.length > 0 ? weaknesses.map(w => {
                                             const textColor = TYPE_TEXT_COLORS[w.type] || 'text-white';
                                             const bgColor = textColor === 'text-white' ? 'bg-white/30' : 'bg-black/20';
                                             return `
                                             <span class="${textColor} px-1.5 py-0.5 md:px-3 md:py-1.5 rounded-md md:rounded-xl text-[8px] md:text-xs font-bold shadow-sm flex items-center gap-1 md:gap-1.5 uppercase tracking-widest" style="background-color: ${TYPE_COLORS[w.type] || '#777'}">
-                                                <i class="${TYPE_ICONS[w.type] || 'ph-fill ph-circle'} text-[8px] md:text-[14px]"></i>
+                                                <i class="${TYPE_ICONS[w.type] || 'ph-fill ph-circle'} text-[8px] md:text-[14px]" aria-hidden="true"></i>
                                                 ${TYPE_NAMES_TH[w.type] || w.type} <span class="${bgColor} px-1 py-0.5 rounded text-[7px] md:text-[10px]">${w.multiplier}x</span>
                                             </span>
                                         `}).join('') : '<span class="text-[9px] md:text-xs text-slate-400 font-medium">ไม่มีจุดอ่อน</span>'}
@@ -846,16 +852,16 @@
 
                         ${formsData.length > 0 ? `
                             <div class="bg-white/60 backdrop-blur-md rounded-2xl md:rounded-[3rem] p-4 md:p-12 shadow-xl border border-white">
-                                <h2 class="text-xs md:text-xl font-black text-slate-700 mb-3 md:mb-8 flex items-center gap-1.5 md:gap-4">
-                                    <i class="ph ph-lightning text-blue-500 text-base md:text-2xl"></i> ฟอร์มพิเศษ (Forms)
-                                </h2>
+                                <h3 class="text-xs md:text-xl font-black text-slate-700 mb-3 md:mb-8 flex items-center gap-1.5 md:gap-4">
+                                    <i class="ph ph-lightning text-blue-500 text-base md:text-2xl" aria-hidden="true"></i> ฟอร์มพิเศษ (Forms)
+                                </h3>
                                 <div class="flex flex-wrap gap-2 md:gap-6 justify-center md:justify-start">
                                     ${formsData.map(v => {
                                         const formId = v.pokemon.url.split('/').slice(-2, -1)[0];
                                         const isCurrent = formId == pokemonDetail.id;
                                         return `
-                                            <div onclick="${!isCurrent ? `openDetail(${formId})` : ''}" class="flex flex-col items-center p-2 md:p-6 rounded-xl md:rounded-[2rem] transition-all w-20 md:w-36 shadow-sm ${isCurrent ? 'cursor-default bg-white border-red-400 shadow-xl scale-105 border-2' : 'cursor-pointer bg-white/70 border-white hover:bg-white hover:shadow-xl hover:-translate-y-1 md:hover:-translate-y-2 border-2'}">
-                                                <img src="${getImageUrl(formId)}" class="w-10 h-10 md:w-20 md:h-20 object-contain drop-shadow-md mb-1.5 md:mb-4" />
+                                            <div onclick="${!isCurrent ? `openDetail(${formId})` : ''}" class="flex flex-col items-center p-2 md:p-6 rounded-xl md:rounded-[2rem] transition-transform w-20 md:w-36 shadow-sm ${isCurrent ? 'cursor-default bg-white border-red-400 shadow-xl scale-105 border-2' : 'cursor-pointer bg-white/70 border-white hover:bg-white hover:shadow-xl hover:-translate-y-1 md:hover:-translate-y-2 border-2'}">
+                                                <img src="${getImageUrl(formId)}" width="140" height="140" class="w-10 h-10 md:w-20 md:h-20 object-contain drop-shadow-md mb-1.5 md:mb-4" alt="${getThaiName(v.pokemon.name)}" />
                                                 <span class="font-bold text-slate-800 text-[8px] md:text-xs text-center leading-tight line-clamp-2 w-full px-1">
                                                     ${getThaiName(v.pokemon.name)}
                                                 </span>
@@ -868,9 +874,9 @@
 
                         ${evoChain ? `
                             <div class="bg-white/60 backdrop-blur-md rounded-2xl md:rounded-[3rem] p-4 md:p-12 shadow-xl border border-white overflow-x-auto custom-scrollbar">
-                                <h2 class="text-xs md:text-xl font-black text-slate-700 mb-3 md:mb-8 flex items-center gap-1.5 md:gap-4">
-                                    <i class="ph ph-sparkle text-amber-500 text-base md:text-2xl"></i> สายวิวัฒนาการ
-                                </h2>
+                                <h3 class="text-xs md:text-xl font-black text-slate-700 mb-3 md:mb-8 flex items-center gap-1.5 md:gap-4">
+                                    <i class="ph ph-sparkle text-amber-500 text-base md:text-2xl" aria-hidden="true"></i> สายวิวัฒนาการ
+                                </h3>
                                 <div class="flex items-center w-max min-w-full pb-2 md:pb-8 pt-1 md:pt-2 px-1 md:px-2">
                                     ${buildEvoNodeHTML(evoChain)}
                                 </div>
@@ -890,13 +896,13 @@
             const selected = allPokemon.find(p => p.id === currentId);
             return `
                 <div class="relative w-full mb-2 md:mb-6 compare-dropdown" id="dropdown-${index}">
-                    <button onclick="toggleCompareDropdown(${index})" class="w-full bg-white/80 backdrop-blur-md p-2 md:p-5 rounded-lg md:rounded-2xl flex justify-between items-center border border-white hover:border-red-400 transition-all font-bold text-slate-700 shadow-md group text-[9px] md:text-base min-w-0">
+                    <button onclick="toggleCompareDropdown(${index})" class="w-full bg-white/80 backdrop-blur-md p-2 md:p-5 rounded-lg md:rounded-2xl flex justify-between items-center border border-white hover:border-red-400 transition-colors font-bold text-slate-700 shadow-md group text-[9px] md:text-base min-w-0">
                         <span class="truncate pr-1 flex-1 text-left" id="dropdown-text-${index}">${selected ? selected.name_th : 'เลือก...'}</span>
-                        <i class="ph ph-caret-right text-slate-300 group-hover:text-red-400 transition-transform text-[10px] md:text-base shrink-0" id="dropdown-icon-${index}"></i>
+                        <i class="ph ph-caret-right text-slate-300 group-hover:text-red-400 transition-transform text-[10px] md:text-base shrink-0" id="dropdown-icon-${index}" aria-hidden="true"></i>
                     </button>
                     <div id="dropdown-menu-${index}" class="hidden absolute z-50 mt-1 md:mt-2 w-full bg-white/95 backdrop-blur-xl rounded-lg md:rounded-2xl shadow-2xl border border-white overflow-hidden">
                         <div class="p-1.5 md:p-4 border-b bg-slate-50/50">
-                            <input type="text" onkeyup="filterCompareDropdown(${index}, this.value)" class="w-full p-1.5 md:p-3 bg-white rounded-md md:rounded-xl outline-none text-[9px] md:text-sm font-medium border border-slate-200 focus:border-red-300 transition-colors shadow-inner" placeholder="ค้นหาชื่อ...">
+                            <input type="text" onkeyup="filterCompareDropdown(${index}, this.value)" class="w-full p-1.5 md:p-3 bg-white rounded-md md:rounded-xl outline-none text-[9px] md:text-sm font-medium border border-slate-200 focus:border-red-300 transition-colors shadow-inner" placeholder="ค้นหาชื่อ..." aria-label="ค้นหาโปเกมอนเปรียบเทียบ">
                         </div>
                         <div class="max-h-40 md:max-h-60 overflow-y-auto custom-scrollbar" id="dropdown-list-${index}">
                             ${renderCompareListHTML(index, '')}
@@ -914,7 +920,7 @@
             }
             return list.slice(0, 50).map(p => `
                 <div onclick="selectCompare(${index}, ${p.id})" class="p-1.5 md:p-4 hover:bg-red-50/50 cursor-pointer flex items-center gap-1.5 md:gap-4 border-b border-slate-50 last:border-0 transition-colors">
-                    <img src="${getImageUrl(p.id)}" class="w-5 h-5 md:w-10 md:h-10 object-contain drop-shadow-sm" loading="lazy" />
+                    <img src="${getImageUrl(p.id)}" width="40" height="40" class="w-5 h-5 md:w-10 md:h-10 object-contain drop-shadow-sm" loading="lazy" alt="${p.name_th}" />
                     <div class="flex-1 text-[9px] md:text-sm font-bold text-slate-700 truncate">${p.name_th}</div>
                 </div>
             `).join('');
@@ -973,7 +979,7 @@
         function renderCompareView() {
             const renderCard = (index) => {
                 const data = compareData[index];
-                if (!data) return `<div class="p-10 md:p-32 flex justify-center w-full items-center"><i class="ph ph-spinner animate-spin text-slate-300 text-2xl md:text-4xl"></i></div>`;
+                if (!data) return `<div class="p-10 md:p-32 flex justify-center w-full items-center"><i class="ph ph-spinner animate-spin text-slate-300 text-2xl md:text-4xl" aria-hidden="true"></i></div>`;
                 
                 const otherData = compareData[index === 0 ? 1 : 0];
                 const themeColor = TYPE_COLORS[data.types[0].type.name] || '#777';
@@ -994,16 +1000,16 @@
                             <div class="flex-1 bg-slate-100/60 rounded-full h-1 md:h-2.5 overflow-hidden shadow-inner ml-1 md:ml-0 min-w-0">
                                 <div class="h-full rounded-full transition-all duration-1000 relative ${isWinner ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.4)]' : 'bg-slate-300'}" 
                                      style="width: ${percentage}%;">
-                                     <div class="absolute inset-0 bg-white/20"></div>
+                                     <div class="absolute inset-0 bg-white/20" aria-hidden="true"></div>
                                 </div>
                             </div>
                         </div>
                     `;
                 }).join('');
 
-                // บังคับ Layout ให้สมดุล 100% ทั้งบนมือถือและคอมพิวเตอร์ โดยใช้ flex flex-col และ mt-auto
+                // บังคับ Layout ให้สมดุล 100% ทั้งบนมือถือและคอมพิวเตอร์ (Side-by-side)
                 return `
-                    <div class="backdrop-blur-xl rounded-2xl md:rounded-[3rem] p-2 sm:p-3 md:p-10 border relative h-full flex flex-col transition-all overflow-hidden w-full min-w-0"
+                    <div class="backdrop-blur-xl rounded-2xl md:rounded-[3rem] p-2 sm:p-3 md:p-10 border relative h-full flex flex-col transition-colors overflow-hidden w-full min-w-0"
                          style="border-color: ${themeColor}40; background: linear-gradient(145deg, ${themeColor}10 0%, rgba(255,255,255,0.85) 100%); box-shadow: 0 10px 30px -10px ${themeColor}20">
                         <div class="absolute -top-10 -left-10 w-24 h-24 md:w-64 md:h-64 rounded-full blur-xl md:blur-3xl opacity-20 pointer-events-none" style="background-color: ${themeColor}"></div>
                         
@@ -1012,7 +1018,7 @@
                         <div class="flex flex-col items-center mb-2 md:mb-8 min-w-0">
                             <div class="w-16 h-16 sm:w-20 sm:h-20 md:w-56 md:h-56 mb-2 md:mb-8 bg-white rounded-xl md:rounded-[3.5rem] flex items-center justify-center p-2 md:p-12 relative shadow-inner border border-slate-50 overflow-hidden shrink-0">
                                 <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-white"></div>
-                                <img src="${getImageUrl(data.id)}" class="w-full h-full object-contain relative z-10 drop-shadow-lg md:drop-shadow-2xl animate-float" />
+                                <img src="${getImageUrl(data.id)}" width="200" height="200" class="w-full h-full object-contain relative z-10 drop-shadow-lg md:drop-shadow-2xl animate-float" alt="${data.name_th}" />
                             </div>
                             <div class="text-[8px] md:text-2xl font-black italic tracking-widest mb-0.5 md:mb-2 opacity-90 drop-shadow-sm" style="color: ${themeColor}">
                                 #${String(data.id).padStart(3, '0')}
@@ -1023,7 +1029,7 @@
                                     const textColor = TYPE_TEXT_COLORS[t.type.name] || 'text-white';
                                     return `
                                     <span class="${textColor} text-[6px] md:text-[11px] font-bold px-1.5 py-0.5 md:px-3 md:py-1 rounded-full uppercase tracking-widest shadow-sm md:shadow-lg inline-flex items-center gap-0.5 md:gap-1 max-w-[90%] truncate" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
-                                        <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[6px] md:text-[12px] shrink-0"></i>
+                                        <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[6px] md:text-[12px] shrink-0" aria-hidden="true"></i>
                                         <span class="truncate">${TYPE_NAMES_TH[t.type.name] || t.type.name}</span>
                                     </span>
                                     `
