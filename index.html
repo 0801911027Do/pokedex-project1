@@ -22,9 +22,9 @@
     <!-- ⚡ PRELOAD: เร่งการโหลดรูปภาพ LCP ให้ไวที่สุด (ผ่าน WebP Proxy ลดขนาดลง 90%) -->
     <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png&w=200&output=webp&maxage=31536000" fetchpriority="high">
     <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png&w=200&output=webp&maxage=31536000" fetchpriority="high">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png&w=200&output=webp&maxage=31536000" fetchpriority="high">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png&w=200&output=webp&maxage=31536000" fetchpriority="high">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png&w=200&output=webp&maxage=31536000" fetchpriority="high" media="(min-width: 1024px)">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png&w=200&output=webp&maxage=31536000">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png&w=200&output=webp&maxage=31536000">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png&w=200&output=webp&maxage=31536000" media="(min-width: 1024px)">
 
     <!-- ⚡ PERFORMANCE: Preconnect ต้นทางที่จำเป็นทั้งหมด -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -250,7 +250,6 @@
 
         const TYPE_COLORS = { grass: '#7AC74C', fire: '#EE8130', water: '#6390F0', electric: '#F7D02C', normal: '#A8A77A', poison: '#A33EA1', psychic: '#F95587', ghost: '#735797', flying: '#A98FF3', bug: '#A6B91A', ground: '#E2BF65', fairy: '#D685AD', dragon: '#6F35FC', ice: '#96D9D6', fighting: '#C22E28', rock: '#B6A136', steel: '#B7B7CE', dark: '#705746' };
         
-        // 🟢 ACCESSIBILITY: แมปปิ้งสีตัวอักษรเพื่อแก้ปัญหา Color Contrast Ratio 
         const TYPE_TEXT_COLORS = { 
             grass: 'text-slate-900', fire: 'text-slate-900', water: 'text-slate-900', 
             electric: 'text-slate-900', normal: 'text-slate-900', poison: 'text-white', 
@@ -1099,8 +1098,8 @@
             }
         });
 
-        // ⚡ LCP FIX: สั่งเริ่มระบบทันทีที่ DOM จัดโครงสร้างเสร็จ ไม่ต้องรอโหลดทรัพยากรตัวอื่น
-        document.addEventListener('DOMContentLoaded', initApp);
+        // ⚡ LCP FIX: สั่งเริ่มระบบทันที
+        initApp();
 
     </script>
 </body>
