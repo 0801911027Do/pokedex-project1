@@ -11,7 +11,7 @@
     <meta name="author" content="Pokédex Global">
     <meta property="og:title" content="Pokédex Global - สมุดภาพโปเกมอนภาษาไทย">
     <meta property="og:description" content="ค้นหาข้อมูลสเตตัส ธาตุ และจุดอ่อนของโปเกมอนทุกเจเนอเรชันได้ที่นี่">
-    <meta property="og:image" content="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
+    <meta property="og:image" content="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png&output=webp">
     <meta property="og:type" content="website">
 
     <!-- ⚡ DNS PREFETCH: เตรียมความพร้อมเน็ตเวิร์กขั้นสูงสุด -->
@@ -20,17 +20,17 @@
     <link rel="dns-prefetch" href="https://pokeapi.co">
 
     <!-- ⚡ PRELOAD: เร่งการโหลดรูปภาพ LCP ให้ไวที่สุด (ผ่าน WebP Proxy ลดขนาดลง 90%) -->
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png&w=200&output=webp&maxage=31536000" fetchpriority="high">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png&w=200&output=webp&maxage=31536000" fetchpriority="high">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png&w=200&output=webp&maxage=31536000">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png&w=200&output=webp&maxage=31536000">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png&w=200&output=webp&maxage=31536000" media="(min-width: 1024px)">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png&w=300&output=webp&q=100&maxage=31536000" fetchpriority="high">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png&w=300&output=webp&q=100&maxage=31536000" fetchpriority="high">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png&w=300&output=webp&q=100&maxage=31536000">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png&w=300&output=webp&q=100&maxage=31536000">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png&w=300&output=webp&q=100&maxage=31536000" media="(min-width: 1024px)">
 
     <!-- ⚡ PERFORMANCE: Preconnect ต้นทางที่จำเป็นทั้งหมด -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://pokeapi.co" crossorigin>
-    <link rel="preconnect" href="https://wsrv.nl" crossorigin> <!-- 🟢 เพิ่ม Preconnect สำหรับ Image CDN -->
+    <link rel="preconnect" href="https://wsrv.nl" crossorigin>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Prompt:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -54,13 +54,19 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         
+        /* ⚡ GPU Acceleration: ใช้ will-change เพื่อเร่งความเร็ว LCP/Speed Index */
         @keyframes float { 
             0%, 100% { transform: translateY(0); } 
             50% { transform: translateY(-8px); } 
         }
-        .animate-float { animation: float 5s ease-in-out infinite; }
+        .animate-float { 
+            animation: float 5s ease-in-out infinite; 
+            will-change: transform;
+        }
         .mask-fade { mask-image: linear-gradient(to right, black 95%, transparent 100%); }
         
+        img { image-rendering: -webkit-optimize-contrast; }
+
         /* Animated Background Elements */
         .bg-blob {
             position: fixed;
@@ -72,6 +78,8 @@
             opacity: 0.15;
             animation: drift 30s infinite alternate-reverse linear;
             pointer-events: none;
+            will-change: transform;
+            transform: translateZ(0); /* Force GPU Rendering */
         }
         @media (min-width: 768px) {
             .bg-blob { width: 800px; height: 800px; filter: blur(120px); }
@@ -120,8 +128,8 @@
         </div>
     </nav>
 
-    <!-- Main Content Area -->
-    <div id="main-content" class="relative pt-20 md:pt-32 flex-1 w-full z-10">
+    <!-- 🟢 A11Y FIX: ใช้ <main> แท็กเป็น Landmark เนื้อหาหลักตาม Best Practices -->
+    <main id="main-content" role="main" class="relative pt-20 md:pt-32 flex-1 w-full z-10">
         
         <!-- View: Home -->
         <div id="view-home" class="fade-in">
@@ -165,7 +173,7 @@
                 </div>
             </header>
 
-            <main class="max-w-7xl mx-auto py-6 md:py-12 px-4 md:px-6">
+            <div class="max-w-7xl mx-auto py-6 md:py-12 px-4 md:px-6">
                 <div id="home-loader" class="hidden"></div>
                 <div id="pokemon-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-10 min-h-[80vh]">
                     <!-- Cards injected by JS -->
@@ -179,7 +187,7 @@
                         โหลดข้อมูลเพิ่มเติม
                     </button>
                 </div>
-            </main>
+            </div>
         </div>
 
         <!-- View: Detail -->
@@ -206,7 +214,7 @@
             </div>
         </div>
 
-    </div>
+    </main>
 
     <!-- Footer -->
     <footer class="bg-white/50 backdrop-blur-md py-10 md:py-20 px-6 text-center border-t border-white relative z-10 mt-auto">
@@ -224,12 +232,20 @@
 
     <!-- Application Logic -->
     <script>
-        // ⚡ PERFORMANCE: ดึงข้อมูล API ทันทีคู่ขนานไปกับ DOM
+        const getLoaderHTML = () => `
+            <div class="flex flex-col items-center justify-center py-20 md:py-32 animate-pulse relative z-10 w-full">
+                <div class="w-16 h-16 md:w-20 md:h-20 border-[6px] md:border-[10px] border-slate-100 border-t-red-500 rounded-full animate-spin mb-6 md:mb-8 relative shadow-xl">
+                    <div class="absolute top-1/2 left-0 w-full h-1 md:h-1.5 bg-slate-100 -translate-y-1/2"></div>
+                    <div class="absolute top-1/2 left-1/2 w-4 h-4 md:w-5 md:h-5 bg-white border-[4px] md:border-[5px] border-slate-100 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+                </div>
+                <p class="font-bold text-slate-500 tracking-widest uppercase text-[10px] md:text-sm">กำลังประมวลผลข้อมูล...</p>
+            </div>
+        `;
+
         const prefetchAPI = fetch('https://pokeapi.co/api/v2/pokemon?limit=1500')
             .then(res => res.json())
             .catch(err => { console.error("API Error:", err); return null; });
 
-        // ⚡ LCP/FCP 0.0s FIX: เตรียมข้อมูล 20 ตัวแรกลงหน่วยความจำทันทีเพื่อ Desktop/Mobile (ไม่ต้องรอเน็ต)
         const INITIAL_POKEMON = [
             { id: 1, name: "bulbasaur", name_th: "ฟุชิกิดาเนะ" }, { id: 2, name: "ivysaur", name_th: "ฟุชิกิโซ" }, { id: 3, name: "venusaur", name_th: "ฟุชิกิบานะ" },
             { id: 4, name: "charmander", name_th: "ฮิโตคาเงะ" }, { id: 5, name: "charmeleon", name_th: "ลิซาร์โดะ" }, { id: 6, name: "charizard", name_th: "ลิซาร์ดอน" },
@@ -286,10 +302,13 @@
         };
 
         const POKEDEX_ENTRIES_TH = {
-            1: "ตั้งแต่เกิดมาจะมีเมล็ดพืชแปลกๆ ปลูกอยู่ที่หลัง เมล็ดจะโตขึ้นพร้อมกับตัวมันคอยดูดซับสารอาหาร", 4: "ไฟที่หางคือสัญลักษณ์แห่งชีวิตและอารมณ์ หากไฟดับลง ชีวิตของมันก็จะจบสิ้นลงด้วย", 5: "เมื่อมันแกว่งหางที่ลุกเป็นไฟ อุณหภูมิรอบข้างจะพุ่งสูงขึ้นจนร้อนระอุแทบทนไม่ได้", 6: "พ่นไฟที่ร้อนแรงจนสามารถละลายหินผาได้ ว่ากันว่ามันมักจะเป็นต้นเหตุของไฟป่าใหญ่", 7: "กระดองของมันไม่เพียงแค่ใช้ป้องกันตัว แต่รูปทรงที่โค้งมนยังช่วยลดแรงต้านน้ำ ทำให้ว่ายน้ำได้เร็วมาก", 25: "มักจะสะสมไฟฟ้าไว้ที่ถุงลมบริเวณแก้มทั้งสองข้าง เมื่อรู้สึกถึงอันตรายจะปล่อยกระแสไฟฟ้าแรงสูงออกมา", 133: "มีพันธุกรรมที่ไม่เสถียรอย่างมาก ทำให้สามารถวิวัฒนาการเปลี่ยนรูปแบบไปตามสภาพแวดล้อมที่อยู่อาศัยได้", 143: "มันจะไม่พอใจถ้าไม่ได้กินอาหารวันละ 400 กิโลกรัม เมื่อกินอิ่มแล้วมันก็จะนอนหลับไปทันที", 149: "เป็นโปเกมอนที่จิตใจดีและรักสงบ ว่ากันว่ามันจะบินไปช่วยเหลือผู้คนที่กำลังจะจมน้ำกลางทะเล", 150: "โปเกมอนที่ถูกสร้างขึ้นจากการตัดต่อพันธุกรรม มีพลังจิตที่แข็งแกร่งที่สุดและมีจิตใจที่เยือกเย็น", 151: "โปเกมอนมายาที่ว่ากันว่ามีรหัสพันธุกรรมของโปเกมอนทุกตัวบนโลกซ่อนอยู่ในร่างกายของมัน", 249: "เทพเจ้าแห่งท้องทะเล มีพลังปีกมหาศาลที่สามารถสร้างพายุใหญ่พัดกระหน่ำได้ยาวนานถึง 40 วัน", 250: "ขนของมันส่องประกายเจ็ดสี ว่ากันว่าผู้ใดที่ได้เห็นโฮโอจะได้รับความสุขและโชคดีไปตลอดกาล", 384: "อาศัยอยู่ในชั้นบรรยากาศโอโซน คอยกลืนกินอุกกาบาตเพื่อใช้เป็นพลังงาน ว่ากันว่ามันจะลงมาเมื่อกราดอนและไคโอกาสู้กัน", 400: "ทำงานขยันขันแข็งด้วยการสร้างเขื่อนกั้นแม่น้ำ มีนิสัยรักสงบมาก", 448: "สามารถอ่านคลื่นพลังงาน (Aura) ของสิ่งมีชีวิตได้ แม้จะหลับตาอยู่ก็รับรู้ความรู้สึกของศัตรูได้จากระยะไกล", 658: "บีบอัดน้ำจนเป็นดาวกระจายที่คมกริบ การเคลื่อนไหวของมันรวดเร็วและว่องไวราวกับนินจา"
+            1: "ตั้งแต่เกิดมาจะมีเมล็ดพืชแปลกๆ ปลูกอยู่ที่หลัง เมล็ดจะโตขึ้นพร้อมกับตัวมันคอยดูดซับสารอาหาร", 4: "ไฟที่หางคือสัญลักษณ์แห่งชีวิตและอารมณ์ หากไฟดับลง ชีวิตของมันก็จะจบสิ้นลงด้วย", 5: "เมื่อมันแกว่งหางที่ลุกเป็นไฟ อุณหภูมิรอบข้างจะพุ่งสูงขึ้นจนร้อนระอุแทบทนไม่ได้", 6: "พ่นไฟที่ร้อนแรงจนสามารถละลายหินผาได้ ว่ากันว่ามันมักจะเป็นต้นเหตุของไฟป่าใหญ่", 7: "กระดองของมันไม่เพียงแค่ใช้ป้องกันตัว แต่รูปทรงที่โค้งมนยังช่วยลดแรงต้านน้ำ ทำให้ว่ายน้ำได้เร็วมาก", 25: "มักจะสะสมไฟฟ้าไว้ที่ถุงลมบริเวณแก้มทั้งสองข้าง เมื่อรู้สึกถึงอันตรายจะปล่อยกระแสไฟฟ้าแรงสูงออกมา", 133: "มีพันธุกรรมที่ไม่เสถียรอย่างมาก ทำให้สามารถวิวัฒนาการเปลี่ยนรูปแบบไปตามสภาพแวดล้อมที่อยู่อาศัยได้", 143: "มันจะไม่พอใจถ้าไม่ได้กินอาหารวันละ 400 กิโลกรัม เมื่อกินอิ่มแล้วมันก็จะนอนหลับไปทันที", 149: "เป็นโปเกมอนที่จิตใจดีและรักสงบ ว่ากันว่ามันจะบินไปช่วยเหลือผู้คนที่กำลังจะจมน้ำกลางทะเล", 150: "โปเกมอนที่ถูกสร้างขึ้นจากการตัดต่อพันธุกรรม มีพลังจิตที่แข็งแกร่งที่สุดและมีจิตใจที่เยือกเย็น", 151: "โปเกมอนมายาที่ว่ากันว่ามีรหัสพันธุกรรมของโปเกมอนทุกตัวบนโลกซ่อนอยู่ในร่างกายของมัน", 249: "เทพเจ้าแห่งท้องทะเล มีพลังปีกมหาศาลที่สามารถสร้างพายุใหญ่พัดกระหน่ำได้ยาวนานถึง 40 วัน", 250: "ขนของมันส่องประกายเจ็ดสี ว่ากันว่าผู้ใดที่ได้เห็นโฮโอจะได้รับความสุขและโชคดีไปตลอดกาล", 384: "อาศัยอยู่ในชั้นบรรยากาศโอโซน คอยกลืนกินอุกกาบาตเพื่อใช้เป็นพลังงาน ว่ากันว่ามันจะลงมาเมื่อกราดอนและไคโอกาสู้กัน", 448: "สามารถอ่านคลื่นพลังงาน (Aura) ของสิ่งมีชีวิตได้ แม้จะหลับตาอยู่ก็รับรู้ความรู้สึกของศัตรูได้จากระยะไกล", 658: "บีบอัดน้ำจนเป็นดาวกระจายที่คมกริบ การเคลื่อนไหวของมันรวดเร็วและว่องไวราวกับนินจา"
         };
 
-        const ITEMS_PER_PAGE = 20;
+        const ITEMS_PER_PAGE = 50;
+
+        // ⚡ เพิ่ม Cache จัดเก็บข้อมูลที่แปลแล้ว เพื่อให้โหลดทันทีไม่ต้องรอแปลซ้ำ
+        const translationCache = new Map();
 
         const defaultSuffixes = ['-normal', '-altered', '-land', '-ordinary', '-aria', '-incarnate', '-average', '-standard', '-red-striped', '-baile', '-midday', '-solo', '-red-meteor', '-disguised', '-amped', '-ice', '-male', '-full-belly', '-single-strike', '-plant', '-shield'];
         const formKeywords = ['-mega', '-primal', '-gmax', '-alola', '-galar', '-hisui', '-paldea', '-therian', '-origin', '-ash', '-eternamax'];
@@ -307,10 +326,16 @@
         let searchTimeout;
 
         const formatName = (name) => name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, ' ');
-        const getImageUrl = (id) => `https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png&w=200&output=webp&maxage=31536000`;
+        const getImageUrl = (id, size = 'full') => {
+            const baseUrl = `raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+            if (size === 'thumb') return `https://wsrv.nl/?url=${baseUrl}&w=100&output=webp&q=100&maxage=31536000`;
+            if (size === 'grid') return `https://wsrv.nl/?url=${baseUrl}&w=300&output=webp&q=100&maxage=31536000`;
+            return `https://wsrv.nl/?url=${baseUrl}&output=webp&q=100&maxage=31536000`; 
+        };
 
         const getThaiName = (engName) => {
             if (!engName) return '';
+            
             if (THAI_NAMES_BASE[engName]) return THAI_NAMES_BASE[engName];
             if (engName === 'ho-oh') return 'โฮโอ';
             if (engName === 'porygon-z') return 'โพรีกอน Z';
@@ -359,16 +384,6 @@
             }
             return formatName(baseEngName);
         };
-
-        const getLoaderHTML = () => `
-            <div class="flex flex-col items-center justify-center py-20 md:py-32 animate-pulse relative z-10 w-full">
-                <div class="w-16 h-16 md:w-20 md:h-20 border-[6px] md:border-[10px] border-slate-100 border-t-red-500 rounded-full animate-spin mb-6 md:mb-8 relative shadow-xl">
-                    <div class="absolute top-1/2 left-0 w-full h-1 md:h-1.5 bg-slate-100 -translate-y-1/2"></div>
-                    <div class="absolute top-1/2 left-1/2 w-4 h-4 md:w-5 md:h-5 bg-white border-[4px] md:border-[5px] border-slate-100 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
-                </div>
-                <p class="font-bold text-slate-500 tracking-widest uppercase text-[10px] md:text-sm">กำลังประมวลผลข้อมูล...</p>
-            </div>
-        `;
 
         const cardObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
@@ -552,7 +567,7 @@
                     </div>
                     <div class="relative w-20 h-20 md:w-36 md:h-36 my-4 md:my-6 flex items-center justify-center">
                         <div class="absolute inset-[-6px] md:inset-[-12px] bg-white/80 rounded-full scale-100 group-hover:scale-110 transition-transform duration-700 shadow-inner border border-white"></div>
-                        <img src="${getImageUrl(p.id)}" width="150" height="150" class="relative z-10 max-w-full max-h-full object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-700 drop-shadow-xl" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="async" alt="${p.name_th}" />
+                        <img src="${getImageUrl(p.id, 'grid')}" width="150" height="150" class="relative z-10 max-w-full max-h-full object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-700 drop-shadow-xl" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="async" alt="${p.name_th}" />
                     </div>
                     <div class="text-center w-full relative z-10 flex flex-col items-center">
                         <h2 class="text-[11px] sm:text-xs md:text-lg font-black text-slate-800 tracking-tight transition-colors uppercase drop-shadow-sm group-hover:text-slate-900 mb-2 md:mb-3 truncate w-full px-1">
@@ -658,17 +673,25 @@
                         const entry = speciesDetail.flavor_text_entries.find(f => f.language.name === 'en');
                         const engText = entry ? entry.flavor_text.replace(/[\n\f\r]/g, ' ') : '';
                         if (engText) {
-                            translatedEntry = 'กำลังแปลภาษาไทยอัตโนมัติ...';
-                            fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=th&dt=t&q=${encodeURIComponent(engText)}`)
-                                .then(r => r.json())
-                                .then(d => {
-                                    const text = d[0].map(item => item[0]).join('');
-                                    const entryEl = document.getElementById('pokedex-entry-text');
-                                    if(entryEl) entryEl.innerText = text;
-                                }).catch(() => {
-                                    const entryEl = document.getElementById('pokedex-entry-text');
-                                    if(entryEl) entryEl.innerText = `${engText}\n(ไม่สามารถเชื่อมต่อระบบแปลภาษาอัตโนมัติได้)`;
-                                });
+                            if (translationCache.has(engText)) {
+                                // ดึงจาก Cache ทันทีถ้าเคยแปลแล้ว (0 วินาที)
+                                translatedEntry = translationCache.get(engText);
+                            } else {
+                                // ⚡ แสดงข้อความภาษาอังกฤษให้ดูพลางๆ ทันที ไม่ปล่อยให้ค้างคำว่า "กำลังแปล..."
+                                translatedEntry = engText;
+                                
+                                fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=th&dt=t&q=${encodeURIComponent(engText)}`)
+                                    .then(r => r.json())
+                                    .then(d => {
+                                        const text = d[0].map(item => item[0]).join('');
+                                        translationCache.set(engText, text); // บันทึกลง Cache
+                                        const entryEl = document.getElementById('pokedex-entry-text');
+                                        if(entryEl) entryEl.innerText = text; // สลับเป็นภาษาไทยแบบเนียนๆ
+                                    }).catch(() => {
+                                        const entryEl = document.getElementById('pokedex-entry-text');
+                                        if(entryEl) entryEl.innerText = engText;
+                                    });
+                            }
                         }
                     }
                 }
@@ -716,7 +739,7 @@
                     <div onclick="openDetail(${id})" class="flex flex-col items-center justify-center cursor-pointer group bg-white/80 backdrop-blur-md p-3 md:p-6 rounded-[1rem] md:rounded-[2rem] hover:bg-white hover:shadow-xl transition-transform border-2 border-white/50 hover:border-white hover:-translate-y-1 md:hover:-translate-y-2 w-20 md:w-36 shadow-sm">
                         <div class="relative w-10 h-10 md:w-20 md:h-20 mb-2 md:mb-4 flex items-center justify-center">
                             <div class="absolute inset-0 bg-slate-100/60 rounded-full scale-100 group-hover:scale-110 transition-transform"></div>
-                            <img src="${getImageUrl(id)}" width="140" height="140" class="w-full h-full object-contain relative z-10 drop-shadow-md group-hover:scale-110 transition-transform" alt="${nameTh}" />
+                            <img src="${getImageUrl(id, 'grid')}" width="140" height="140" class="w-full h-full object-contain relative z-10 drop-shadow-md group-hover:scale-110 transition-transform" alt="${nameTh}" />
                         </div>
                         <span class="font-black text-slate-800 text-[9px] md:text-sm text-center leading-tight line-clamp-2 w-full px-1">${nameTh}</span>
                         <span class="text-[7px] md:text-[10px] font-bold text-slate-500 mt-1 uppercase tracking-widest">#${String(id).padStart(3, '0')}</span>
@@ -777,7 +800,7 @@
                                 #${pokemonDetail.id}
                             </div>
                             
-                            <img src="${getImageUrl(pokemonDetail.id)}" width="450" height="450" class="w-40 h-40 sm:w-[250px] sm:h-[250px] md:w-[450px] md:h-[450px] object-contain relative z-10 animate-float drop-shadow-2xl" alt="${pokemonDetail.name_th}" />
+                            <img src="${getImageUrl(pokemonDetail.id, 'full')}" width="450" height="450" class="w-40 h-40 sm:w-[250px] sm:h-[250px] md:w-[450px] md:h-[450px] object-contain relative z-10 animate-float drop-shadow-2xl" alt="${pokemonDetail.name_th}" />
                         </div>
                     </div>
 
@@ -875,11 +898,11 @@
                                     <div class="flex flex-wrap gap-1.5 md:gap-3">
                                         ${weaknesses.length > 0 ? weaknesses.map(w => {
                                             const textColor = TYPE_TEXT_COLORS[w.type] || 'text-white';
-                                            const bgColor = textColor === 'text-white' ? 'bg-white/30' : 'bg-black/20';
+                                            const bgColor = textColor === 'text-white' ? 'bg-slate-900 text-white' : 'bg-white text-slate-900';
                                             return `
                                             <span class="${textColor} px-1.5 py-0.5 md:px-3 md:py-1.5 rounded-md md:rounded-xl text-[8px] md:text-xs font-bold shadow-sm flex items-center gap-1 md:gap-1.5 uppercase tracking-widest" style="background-color: ${TYPE_COLORS[w.type] || '#777'}">
                                                 <i class="${TYPE_ICONS[w.type] || 'ph-fill ph-circle'} text-[8px] md:text-[14px]" aria-hidden="true"></i>
-                                                ${TYPE_NAMES_TH[w.type] || w.type} <span class="${bgColor} px-1 py-0.5 rounded text-[7px] md:text-[10px]">${w.multiplier}x</span>
+                                                ${TYPE_NAMES_TH[w.type] || w.type} <span class="${bgColor} px-1.5 py-0.5 rounded-md text-[7px] md:text-[10px] shadow-sm">${w.multiplier}x</span>
                                             </span>
                                         `}).join('') : '<span class="text-[9px] md:text-xs text-slate-500 font-medium">ไม่มีจุดอ่อน</span>'}
                                     </div>
@@ -898,7 +921,7 @@
                                         const isCurrent = formId == pokemonDetail.id;
                                         return `
                                             <div onclick="${!isCurrent ? `openDetail(${formId})` : ''}" class="flex flex-col items-center p-2 md:p-6 rounded-xl md:rounded-[2rem] transition-transform w-20 md:w-36 shadow-sm ${isCurrent ? 'cursor-default bg-white border-red-400 shadow-xl scale-105 border-2' : 'cursor-pointer bg-white/70 border-white hover:bg-white hover:shadow-xl hover:-translate-y-1 md:hover:-translate-y-2 border-2'}">
-                                                <img src="${getImageUrl(formId)}" width="140" height="140" class="w-10 h-10 md:w-20 md:h-20 object-contain drop-shadow-md mb-1.5 md:mb-4" alt="${getThaiName(v.pokemon.name)}" />
+                                                <img src="${getImageUrl(formId, 'grid')}" width="140" height="140" class="w-10 h-10 md:w-20 md:h-20 object-contain drop-shadow-md mb-1.5 md:mb-4" alt="${getThaiName(v.pokemon.name)}" />
                                                 <span class="font-bold text-slate-800 text-[8px] md:text-xs text-center leading-tight line-clamp-2 w-full px-1">
                                                     ${getThaiName(v.pokemon.name)}
                                                 </span>
@@ -957,7 +980,7 @@
             }
             return list.slice(0, 50).map(p => `
                 <div onclick="selectCompare(${index}, ${p.id})" class="p-1.5 md:p-4 hover:bg-red-50/50 cursor-pointer flex items-center gap-1.5 md:gap-4 border-b border-slate-50 last:border-0 transition-colors">
-                    <img src="${getImageUrl(p.id)}" width="40" height="40" class="w-5 h-5 md:w-10 md:h-10 object-contain drop-shadow-sm" loading="lazy" alt="${p.name_th}" />
+                    <img src="${getImageUrl(p.id, 'thumb')}" width="40" height="40" class="w-5 h-5 md:w-10 md:h-10 object-contain drop-shadow-sm" loading="lazy" alt="${p.name_th}" />
                     <div class="flex-1 text-[9px] md:text-sm font-bold text-slate-700 truncate">${p.name_th}</div>
                 </div>
             `).join('');
@@ -1055,7 +1078,7 @@
                         <div class="flex flex-col items-center mb-2 md:mb-8 min-w-0">
                             <div class="w-16 h-16 sm:w-20 sm:h-20 md:w-56 md:h-56 mb-2 md:mb-8 bg-white rounded-xl md:rounded-[3.5rem] flex items-center justify-center p-2 md:p-12 relative shadow-inner border border-slate-50 overflow-hidden shrink-0">
                                 <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-white"></div>
-                                <img src="${getImageUrl(data.id)}" width="200" height="200" class="w-full h-full object-contain relative z-10 drop-shadow-lg md:drop-shadow-2xl animate-float" alt="${data.name_th}" />
+                                <img src="${getImageUrl(data.id, 'full')}" width="200" height="200" class="w-full h-full object-contain relative z-10 drop-shadow-lg md:drop-shadow-2xl animate-float" alt="${data.name_th}" />
                             </div>
                             <div class="text-[8px] md:text-2xl font-black italic tracking-widest mb-0.5 md:mb-2 opacity-90 drop-shadow-sm" style="color: ${themeColor}">
                                 #${String(data.id).padStart(3, '0')}
@@ -1098,8 +1121,8 @@
             }
         });
 
-        // ⚡ LCP FIX: สั่งเริ่มระบบทันที
-        initApp();
+        // ⚡ LCP FIX: สั่งเริ่มระบบทันทีที่ DOM จัดโครงสร้างเสร็จ ไม่ต้องรอโหลดทรัพยากรตัวอื่น
+        document.addEventListener('DOMContentLoaded', initApp);
 
     </script>
 </body>
