@@ -89,14 +89,20 @@
             image-rendering: high-quality;
         }
         
+        /* 🌟 ระบบเพิ่มความคมชัดและมิติให้ภาพ 3D พร้อม Hardware Acceleration (ไหลลื่น) */
         .img-3d-grid {
             filter: drop-shadow(0 15px 25px rgba(0,0,0,0.3)) brightness(1.05) contrast(1.05);
             transform: translateZ(40px);
-            will-change: transform;
+            will-change: transform; /* บังคับใช้ GPU */
         }
         
         .img-3d-detail {
             filter: drop-shadow(0 25px 35px rgba(0,0,0,0.4)) brightness(1.05) contrast(1.05);
+            will-change: transform;
+        }
+
+        .card-bg-wrap {
+            will-change: transform, box-shadow;
         }
 
         .preserve-3d {
@@ -126,7 +132,7 @@
             to { transform: translate(20%, 30%) rotate(360deg); }
         }
 
-        .fade-in { animation: fadeIn 0.3s ease-out; }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -134,42 +140,43 @@
 
     <!-- Background Elements -->
     <div class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
-        <div class="bg-blob bg-red-500 -top-20 -left-20 md:-top-40 md:-left-40"></div>
-        <div class="bg-blob bg-blue-500 top-1/2 -right-20 md:-right-40" style="animation-delay: -10s;"></div>
-        <div class="bg-blob bg-yellow-400 -bottom-20 left-1/4 md:-bottom-40" style="animation-delay: -20s;"></div>
-        <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(currentColor 1px, transparent 0);"></div>
+        <div class="bg-blob bg-red-400 -top-20 -left-20 md:-top-40 md:-left-40"></div>
+        <div class="bg-blob bg-blue-300 top-1/2 -right-20 md:-right-40" style="animation-delay: -10s;"></div>
+        <div class="bg-blob bg-yellow-200 -bottom-20 left-1/4 md:-bottom-40" style="animation-delay: -20s;"></div>
+        <div class="absolute inset-0 opacity-[0.03] bg-[length:30px_30px] md:bg-[length:40px_40px]" style="background-image: radial-gradient(#000 1px, transparent 0);"></div>
     </div>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-[100] bg-white/70 backdrop-blur-xl border-b border-white/50 py-3 px-4 md:py-5 md:px-10 transition-colors duration-500">
+    <nav class="fixed top-0 w-full z-[100] bg-white/70 backdrop-blur-xl border-b border-white/50 py-3 px-3 sm:px-4 md:py-5 md:px-10 transition-colors duration-500">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-2 md:gap-4 cursor-pointer group" onclick="switchView('home')">
-                <div class="relative w-8 h-8 md:w-12 md:h-12" aria-hidden="true">
-                    <div class="absolute inset-0 bg-slate-800 rounded-full shadow-lg transition-transform duration-300 group-hover:rotate-180 border-[2px] md:border-[3px] border-white">
+            <div class="flex items-center gap-1.5 sm:gap-2 md:gap-4 cursor-pointer group" onclick="switchView('home')">
+                <div class="relative w-7 h-7 sm:w-8 sm:h-8 md:w-12 md:h-12" aria-hidden="true">
+                    <div class="absolute inset-0 bg-slate-800 rounded-full shadow-lg transition-transform duration-200 group-hover:rotate-180 border-[2px] md:border-[3px] border-white">
                         <div class="absolute top-1/2 left-0 w-full h-0.5 bg-white/30"></div>
-                        <div class="absolute top-1/2 left-1/2 w-2 h-2 md:w-3 md:h-3 bg-white border md:border-2 border-slate-800 rounded-full -translate-x-1/2 -translate-y-1/2 shadow-inner"></div>
+                        <div class="absolute top-1/2 left-1/2 w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-3 md:h-3 bg-white border md:border-2 border-slate-800 rounded-full -translate-x-1/2 -translate-y-1/2 shadow-inner"></div>
                     </div>
                 </div>
-                <span class="font-black text-lg md:text-2xl tracking-tight text-slate-800 drop-shadow-sm leading-normal pb-1 pt-1 transition-colors duration-500">สมุดภาพ<span class="text-primary ml-0.5 md:ml-1">โปเกมอน</span></span>
+                <span class="font-black text-[13px] sm:text-lg md:text-2xl tracking-tight text-slate-800 drop-shadow-sm leading-normal pb-1 pt-1 transition-colors duration-500">สมุดภาพ<span class="text-red-500 ml-0.5 md:ml-1 hidden min-[380px]:inline">โปเกมอน</span></span>
             </div>
-            <div class="flex gap-4 md:gap-8 font-bold text-[10px] md:text-sm items-center">
-                <button onclick="switchView('home')" id="nav-home" class="text-primary transition-colors relative group py-2 hidden sm:block">
+            <div class="flex gap-2.5 sm:gap-4 md:gap-8 font-bold text-[10px] md:text-sm items-center">
+                <button onclick="switchView('home')" id="nav-home" class="text-red-500 transition-colors relative group py-2">
                     แกลเลอรี
-                    <div class="absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 w-full" id="nav-line-home"></div>
+                    <div class="absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-150 w-full" id="nav-line-home"></div>
                 </button>
-                <button onclick="switchView('favorites')" id="nav-favorites" class="text-slate-500 hover:text-slate-800 transition-colors relative group py-2 flex items-center gap-1">
-                    รายการโปรด
-                    <span id="fav-badge" class="bg-primary text-white text-[8px] md:text-[10px] px-1.5 py-0.5 rounded-full hidden shadow-sm leading-none">0</span>
-                    <div class="absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 w-0 group-hover:w-full" id="nav-line-favorites"></div>
+                <button onclick="switchView('favorites')" id="nav-favorites" class="text-slate-500 hover:text-slate-800 transition-colors relative group py-2 flex items-center gap-0.5 sm:gap-1">
+                    <span class="hidden sm:inline">รายการ</span>โปรด
+                    <span id="fav-badge" class="bg-red-500 text-white text-[8px] md:text-[10px] px-1.5 py-0.5 rounded-full hidden shadow-sm leading-none">0</span>
+                    <div class="absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-150 w-0 group-hover:w-full" id="nav-line-favorites"></div>
                 </button>
-                <button onclick="switchView('compare')" id="nav-compare" class="text-slate-500 hover:text-slate-800 transition-colors relative group py-2 hidden sm:block">
+                <button onclick="switchView('compare')" id="nav-compare" class="text-slate-500 hover:text-slate-800 transition-colors relative group py-2">
                     เปรียบเทียบ
-                    <div class="absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 w-0 group-hover:w-full" id="nav-line-compare"></div>
+                    <div class="absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-150 w-0 group-hover:w-full" id="nav-line-compare"></div>
                 </button>
             </div>
         </div>
     </nav>
 
+    <!-- Main Content Area -->
     <main id="main-content" role="main" class="relative pt-20 md:pt-32 flex-1 w-full z-10">
         
         <!-- View: Home -->
@@ -186,7 +193,7 @@
                                     <div class="w-2 h-2 md:w-3 md:h-3 bg-emerald-400 rounded-full shadow-sm"></div>
                                 </div>
                             </div>
-                            <h1 class="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter leading-tight mb-2 md:mb-4 py-2">
+                            <h1 class="text-4xl sm:text-5xl md:text-7xl font-black text-slate-800 tracking-tighter leading-tight mb-2 md:mb-4 py-2">
                                 สมุดภาพ <span class="text-primary drop-shadow-sm">โปเกมอน</span>
                             </h1>
                             <p class="text-slate-600 font-bold text-[10px] sm:text-xs md:text-base tracking-wide mt-2 md:mt-4 leading-relaxed transition-colors duration-500">รวบรวมข้อมูลโปเกมอนและร่างเมก้าทั้งหมดกว่า 1,025+ รูปแบบ</p>
@@ -217,13 +224,16 @@
                 <div id="pokemon-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-10 min-h-[80vh] preserve-3d">
                     <!-- Cards injected by JS -->
                 </div>
+                
+                <div id="scroll-sentinel" class="w-full h-10 pointer-events-none mt-10"></div>
+
                 <div id="empty-state" class="hidden text-center py-12 md:py-20 bg-slate-50/50 rounded-[2rem] md:rounded-[3rem] border border-dashed border-slate-300 mt-6 md:mt-10 transition-colors duration-500">
                     <p class="text-slate-600 font-bold text-sm md:text-lg leading-normal">ไม่พบข้อมูลโปเกมอนที่คุณค้นหา</p>
                 </div>
                 <div id="load-more-container" class="mt-10 md:mt-24 flex justify-center hidden">
                     <button onclick="loadMore()" class="flex items-center gap-2 md:gap-4 bg-white/80 backdrop-blur-md border border-white px-8 py-3 md:px-16 md:py-6 rounded-full font-black text-[10px] md:text-sm text-slate-600 hover:text-primary hover:border-red-200 hover:shadow-2xl transition-all group shadow-xl leading-normal">
-                        <i class="ph ph-plus text-base md:text-lg transition-transform duration-300 group-hover:rotate-180" aria-hidden="true"></i>
-                        โหลดข้อมูลเพิ่มเติม
+                        <i class="ph ph-plus text-base md:text-lg transition-transform duration-200 group-hover:rotate-180" aria-hidden="true"></i>
+                        กำลังโหลด...
                     </button>
                 </div>
             </div>
@@ -253,7 +263,7 @@
         <!-- View: Compare -->
         <div id="view-compare" class="hidden fade-in pb-16 md:pb-32 max-w-7xl mx-auto px-3 md:px-6">
             <nav class="max-w-6xl mx-auto py-4 md:py-10 mb-2 md:mb-6">
-                <button onclick="switchView('home')" class="flex items-center gap-2 md:gap-3 text-slate-600 hover:text-slate-800 font-bold text-[10px] md:text-sm transition-colors group bg-white/50 px-4 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-white w-fit leading-normal">
+                <button onclick="switchView('home')" class="flex items-center gap-2 md:gap-3 text-slate-600 hover:text-slate-800 font-bold text-[10px] md:text-sm transition-transform group bg-white/50 px-4 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-white w-fit leading-normal">
                     <i class="ph ph-arrow-left text-base md:text-lg transition-transform group-hover:-translate-x-2" aria-hidden="true"></i> กลับไปหน้าสมุดภาพ
                 </button>
             </nav>
@@ -263,7 +273,7 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-16 items-stretch relative w-full" id="compare-grid">
-                <div class="absolute top-[48%] md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-slate-800 text-white w-10 h-10 md:w-24 md:h-24 rounded-full flex items-center justify-center font-black shadow-2xl border-[3px] md:border-[8px] border-slate-50 italic text-[12px] md:text-2xl animate-pulse shadow-[0_0_15px_rgba(0,0,0,0.3)] transition-colors duration-500" aria-hidden="true">VS</div>
+                <div class="absolute top-[48%] md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-slate-800 text-white w-10 h-10 md:w-24 md:h-24 rounded-full flex items-center justify-center font-black shadow-2xl hidden md:flex border-[3px] md:border-[8px] border-slate-50 italic text-[12px] md:text-2xl animate-pulse shadow-[0_0_15px_rgba(0,0,0,0.3)] transition-colors duration-500" aria-hidden="true">VS</div>
                 <div id="compare-card-0" class="h-full w-full flex flex-col min-w-0 preserve-3d"></div>
                 <div id="compare-card-1" class="h-full w-full flex flex-col min-w-0 preserve-3d"></div>
             </div>
@@ -332,33 +342,14 @@
             "chikorita":"ชิโกริตา","bayleef":"เบย์ลีฟ","meganium":"เมกาเนียม","cyndaquil":"ฮิโนอาราชิ","quilava":"แม็กมาราชิ","typhlosion":"บาคุฟูน","totodile":"วานิโนโกะ","croconaw":"อลิเกตส์","feraligatr":"โอไดรุ","sentret":"โอทาจิ","furret":"โอโอทาจิ","hoothoot":"โฮโฮ","noctowl":"โยรุโนะซึคุ","ledyba":"เรดิบา","ledian":"เรดิอัน","spinarak":"อิโตมารุ","ariados":"อาริอาโดส","crobat":"โครแบท","chinchou":"ชอนชี","lanturn":"แลนเทิร์น","pichu":"ปิจู","cleffa":"ปีィ","igglybuff":"พูพูริน","togepi":"โทเงปี","togetic":"โทเงชิก","natu":"เนติ","xatu":"เนติโอ","mareep":"เมรีป","flaaffy":"โมโคโค","ampharos":"เด็นริว","bellossom":"คิเรฮานะ","marill":"มาริล","azumarill":"มาริลริ","sudowoodo":"อุโซกกี","politoed":"เนียวโรโทโนะ","hoppip":"ฮาเน็กโกะ","skiploom":"โปป็อกโกะ","jumpluff":"วาทักโกะ","aipom":"เอปาม","sunkern":"ฮิมานัทสึ","sunflora":"คิมาวาริ","yanma":"ยันยันมา","wooper":"อูปา","quagsire":"นูโอ","espeon":"เอฟี","umbreon":"แบล็กกี","murkrow":"ยามิการาสึ","slowking":"ยาโดคิง","misdreavus":"มูมา","unown":"อันโนน","wobbuffet":"โซนานส์","girafarig":"คิรินริคิ","pineco":"คุนุกิดามะ","forretress":"ฟอเรทอส","dunsparce":"โนก็อตชิ","gligar":"ไกลก้า","steelix":"ฮากาเนล","snubbull":"บลู","granbull":"แกรนบลู","qwilfish":"ฮาริเซน","scizor":"ฮัสซัม","shuckle":"สึโบะซึโบะ","heracross":"เฮราครอส","sneasel":"นิวลา","teddiursa":"ฮิเมกุมะ","ursaring":"ริงกุมะ","slugma":"แม็กมักก์","magcargo":"แม็กคาร์โก","swinub":"อูริมู","piloswine":"อิโนมู","corsola":"ซันนีโก","remoraid":"เทปโปโอ","octillery":"ออกทิลเลอรี","delibird":"เดลิเบิร์ด","mantine":"แมนไทน์","skarmory":"แอร์มุโด","houndour":"เดลวิล","houndoom":"เฮลการ์","kingdra":"คิงดรา","phanpy":"โกมาโซ","donphan":"ดอนฟาน","porygon2":"โพรีกอน2","stantler":"โอโดชิชิ","smeargle":"โดเบิล","tyrogue":"บารูคี","hitmontop":"คาโปเอเรอร์","smoochum":"มุจูล","elekid":"เอเลคิด","magby":"บูบี","miltank":"มิลแทงก์","blissey":"แฮปปีนา","raikou":"ไรโค","entei":"เอ็นเต","suicune":"ซุยคุน","larvitar":"โยกิราส","pupitar":"ซานากิราส","tyranitar":"บันกิราส","lugia":"ลูเกีย","ho-oh":"โฮโอ","celebi":"เซเลบี",
             "treecko":"คิโมริ","grovyle":"จุปทอล","sceptile":"จูไคน์","torchic":"อาชาโม","combusken":"วาคาชาโม","blaziken":"บาชาโม","mudkip":"มิซึโกโร","marshtomp":"นูมาโคร","swampert":"ลากลาจ","poochyena":"โพชิเอนา","mightyena":"กราเอนา","zigzagoon":"จิกุซากุมะ","linoone":"มัสสึงุมะ","wurmple":"เคมุสโซ","silcoon":"คาระซาลิส","beautifly":"อาเกฮันท์","cascoon":"มายุลด","dustox":"โดกุเคล","lotad":"ฮัสโบ","lombre":"ฮัสเบรโร","ludicolo":"รุนปัปปา","seedot":"ทาเนโบ","nuzleaf":"โคโนฮานะ","shiftry":"ดาร์เทงกุ","taillow":"สึบาเมะ","swellow":"โอสึบาเมะ","wingull":"คาโมเมะ","pelipper":"เปลิปเปอร์","ralts":"ราลท์ซ","kirlia":"เคอร์เรีย","gardevoir":"เซอไนท์","surskit":"อาเมทามะ","masquerain":"อาเมมอธ","shroomish":"คิโนโคโกะ","breloom":"คิโนกัสซา","slakoth":"นามาเคโร","vigoroth":"ยารุคิโมโน","slaking":"เคคคิง","nincada":"สึจินิน","ninjask":"เทคคานิน","shedinja":"นูเคะนิน","whismur":"โกเนียวเนียว","loudred":"โดกอม","exploud":"บาคุองก์","makuhita":"มาคุโนชิตะ","hariyama":"ฮาริเตยามะ","azurill":"รุริริ","nosepass":"โนสพาส","skitty":"เอเนโกะ","delcatty":"เอเนโคโรโระ","sableye":"ยามิรามิ","mawile":"คูชีท","aron":"โคโคโดรา","lairon":"โคโดรา","aggron":"บอสโกโดรา","meditite":"อาซานัน","medicham":"เชอร์เรม","electrike":"ราคุไร","manectric":"ไลโวลต์","plusle":"พลาสเซิล","minun":"ไมนั้น","volbeat":"บารุบีท","illumise":"อิลูมิเซ","roselia":"โรเซเลีย","gulpin":"โกคุลิน","swalot":"มารุโนม","carvanha":"คิบาเนีย","sharpedo":"ซาเมฮาเดอร์","wailmer":"เวลโกะ","wailord":"เวลออร์","numel":"ดอนเมล","camerupt":"บาคุูดา","torkoal":"โคทอยส์","spoink":"บาเนบู","grumpig":"บูพิก","spinda":"พัทชีล","trapinch":"บานัคเคิล","vibrava":"วิบราวา","flygon":"ฟลายกอน","cacnea":"ซาโบเนีย","cacturne":"นอคทัส","swablu":"ทิลท์โท","altaria":"ทิลทาลิส","zangoose":"แซงกูส","seviper":"ฮาบูเนค","lunatone":"ลูนาโทน","solrock":"โซลร็อก","barboach":"โดโจทช์","whiscash":"นามาซุน","corphish":"เฮกานิ","crawdaunt":"ชิซาริเกอร์","baltoy":"ยาจิลอน","claydol":"เนนดอล","lileep":"ลิลีลา","cradily":"ยูเรดิล","anorith":"อน็อปส์","armaldo":"อาร์มาลโด","feebas":"ฮินบาส","milotic":"มิโลคาร์รอส","castform":"โปวารุน","kecleon":"คาคุเรอน","shuppet":"คาเงโบซึ","banette":"จุปเปตตา","duskull":"โยมาวารุ","dusclops":"ซามาโยรุ","tropius":"โทรเพียส","chimecho":"ชิรีน","absol":"แอบโซล","wynaut":"โซนาโน","snorunt":"ยูกิวาราชิ","glalie":"โอนิโกริ","spheal":"ทามาซาราชิ","sealeo":"โทโดกุเลอร์","walrein":"โทโดเซลกา","clamperl":"พารูล","huntail":"ฮันเทล","gorebyss":"ซากุระบิส","relicanth":"จีลานซ์","luvdisc":"ลัฟดิสก์","bagon":"ทัตสึเบ","shelgon":"โคโมรู","salamence":"โบมันเดอร์","beldum":"ดันบัล","metang":"เมแทงก์","metagross":"เมทากรอส","regirock":"เรจิร็อก","regice":"เรจิไอซ์","registeel":"เรจิสตีล","latias":"ลาทิอาส","latios":"ลาทิโอส","kyogre":"ไคโอกา","groudon":"กราดอน","rayquaza":"เรควอซา","jirachi":"จิราชิ","deoxys":"เดโอคิซิส",
             "turtwig":"นาเอเติล","grotle":"ฮายาชิกาเมะ","torterra":"โดดายโทส","chimchar":"ฮิโกซารุ","monferno":"โมคาซารุ","infernape":"โกคาซารุ","piplup":"พอจจามะ","prinplup":"พ็อตไทชิ","empoleon":"เอ็มเพลท์","starly":"มุคคุรุ","staravia":"มุคคูเบิร์ด","staraptor":"มุคฮอว์ก","bidoof":"บิปปา","bibarel":"บีดารุล","kricketot":"โคโรโบชิ","kricketune":"โคโรท็อก","shinx":"โคลิงก์","luxio":"ลุคซิโอ","luxray":"เรนโทร่า","budew":"สึโบมิ","roserade":"โรสเรด","cranidos":"ซึไกโดส","rampardos":"แรมพัลด์","shieldon":"ทาเททอปส์","bastiodon":"โทริเดปส","burmy":"มิโนมุจิ","wormadam":"มิโนมาดัม","mothim":"กาเมล","combee":"มิตซึฮันนี","vespiquen":"บีควิน","pachirisu":"พาจิริสึ","buizel":"บุยเซล","floatzel":"โฟลเซล","cherubi":"เชอริมบัม","cherrim":"เชอริม","shellos":"ทามันทา","gastrodon":"โทริโทดอน","ambipom":"เอเตโบส","drifloon":"ฟูวันเตะ","drifblim":"ฟูวะไรด์","buneary":"มิมิโรล","lopunny":"มิมิล็อป","mismagius":"มูมาจิ","honchkrow":"ดอนการาสึ","glameow":"เนียรุมา","purugly":"บูเนียตโตะ","chingling":"ลีชาน","stunky":"สกันพู","skuntank":"สกันแทงก์","bronzor":"โดมิเรอร์","bronzong":"โดทาคุน","bonsly":"อุโซฮาจิ","mime-jr":"มาเนเน","happiny":"พินพินคุ","chatot":"เปราป","spiritomb":"มิคารุเงะ","gible":"ฟุคามารุ","gabite":"กาไบต์","garchomp":"กาเบรียส","munchlax":"กอนเบ","riolu":"ริโอลุ","lucario":"ลูคาริโอ","hippopotas":"ฮิโปโปตัส","hippowdon":"คาบารูดอน","skorupi":"สคอร์ปี","drapion":"โดราเปียน","croagunk":"เกรกกรู","toxicroak":"โดคุร็อก","carnivine":"มัสคิปปา","finneon":"เคย์โคโอ","lumineon":"เนโอแรนท์","mantyke":"ทาแมนทา","snover":"ยูกิคาบุริ","abomasnow":"ยูกิโนโอ","weavile":"มาฟิวลา","magnezone":"จิบะคอยล์","lickilicky":"เบโรเบลท์","rhyperior":"โดไซดอน","tangrowth":"มอนจัมโบ","electivire":"เอเลคิเบิล","magmortar":"บูเบิร์น","togekiss":"โทเกคิส","yanmega":"เมกายันมา","leafeon":"ลีเฟีย","glaceon":"กลาเซีย","gliscor":"ไกลออน","mamoswine":"แมมมู","porygon-z":"โพรีกอน Z","gallade":"เอลูเรด","probopass":"ไดโนส","dusknoir":"ยอนนัวร์","froslass":"ยูกิเมโนโกะ","rotom":"พรอทอม","uxie":"ยุคซี","mesprit":"เอ็มริต","azelf":"อักนอม","dialga":"ดีอัลกา","palkia":"พัลเกีย","heatran":"ฮีดราน","regigigas":"เรจิกิกัส","giratina":"กิราตินา","cresselia":"เครเซเรีย","phione":"ฟิโอเน","manaphy":"มานาฟี","darkrai":"ดาร์กไร","shaymin":"เชมิน","arceus":"อาร์เซอุส",
-            "victini":"วิคทินี","snivy":"สึทาจะ","servine":"จาโนบี","serperior":"จาโรดา","tepig":"โพคาบู","pignite":"ชาโอบู","emboar":"เอ็นบูโอ","oshawott":"มิจูมารุ","dewott":"ฟุตะจิมารุ","samurott":"ไดเคนคิ","patrat":"มิเนซึมิ","watchog":"มิรุฮ็อก","lillipup":"โยเทอรี","herdier":"ฮาเดเรีย","stoutland":"มูแลนด์","purrloin":"โชโรเนโกะ","liepard":"เรปาร์ดัส","pansage":"ยานัปปุ","simisage":"ยานักกี","pansear":"บาโอปปุ","simisear":"บาโอกี","panpour":"ฮิยัปปุ","simipour":"ฮิยักกี","munna":"มุนนะ","musharna":"มุชาร์นา","pidove":"มาเมพาโตะ","tranquill":"ฮาโตโบ","unfezant":"เคนโฮโร","blitzle":"ชิมามา","zebstrika":"เซบไรกา","roggenrola":"ดันโกโร","boldore":"กานทล","gigalith":"กิกาอิอาธ","woobat":"โคโรโมริ","swoobat":"โคโคโรโมริ","drilbur":"โมกิว","excadrill":"โดริวซึ","audino":"ทาบุนเนะ","timburr":"ด็อกโคเลอร์","gurdurr":"โดเทคคทสึ","conkeldurr":"โรบุชิน","tympole":"โอทามาโร","palpitoad":"กามะการุ","seismitoad":"กามะเกโรเกะ","throh":"นาเกคิ","sawk":"ดาเกคิ","sewaddle":"คุรุมิรุ","swadloon":"คุรุมายุ","leavanny":"ฮาฮาโคโมริ","venipede":"ฟุชิเดะ","whirlipede":"โฮอิกะ","scolipede":"เพนดรา","cottonee":"โมนเมน","whimsicott":"เอลฟูน","petilil":"ชูริเนะ","lilligant":"โดเรเดีย","basculin":"บาสราโอ","sandile":"เมกุโระ","krokorok":"วารุบิรุ","krookodile":"วารุวิอัล","darumaka":"ดารุมักกะ","darmanitan":"ฮิฮิดารุมะ","maractus":"มาราคัจจิ","dwebble":"อิชิซึไม","crustle":"อิวาพาเลซ","scraggy":"ซึรุกกุ","scrafty":"ซึรุซึคิน","sigilyph":"ชินโบลาร์","yamask":"เดสมาส","cofagrigus":"เดสคาน","tirtouga":"โปรโตกา","carracosta":"อาบาโกรา","archen":"อาเคน","archeops":"อาเคออส","trubbish":"ยาบุคุรอน","garbodor":"ดัสทอดาส","zorua":"โซรัว","zoroark":"โซโรอาร์ค","minccino":"ชิลลามี","cinccino":"ชิลาชิโน","gothita":"โกธิมู","gothorita":"โกธิมิรุ","gothitelle":"โกธิเทล","solosis":"ยูนิรัน","duosion":"ดาบรัน","reuniclus":"รันคลุส","ducklett":"โคอารูฮี","swanna":"สวอนนา","vanillite":"วานิปุจิ","vanillish":"วานิริช","vanilluxe":"ไบวานิลลา","deerling":"ชิกิจิกะ","sawsbuck":"เมบุกิจิกะ","emolga":"เอมอนกา","karrablast":"คาบุลโม","escavalier":"ชูวาโก","foongus":"ทามาเกตาเกะ","amoonguss":"โมโรบาเรล","frillish":"พูรุริล","jellicent":"บุนเจล","alomomola":"มามันโบ","joltik":"บาชูรุ","galvantula":"เดนชูรา","ferroseed":"เทสซีด","ferrothorn":"นัตโตเรย์","klink":"เกียร์","klang":"กิกิเกียร์","klinklang":"กิกิกิเกียร์","tynamo":"ชิบิชิราสึ","eelektrik":"ชิบิบีล","eelektross":"ชิบิดอน","elgyem":"ลิเกรย์","beheeyem":"โอเบม","litwick":"ฮิโตโมชิ","lampent":"ลามพูลา","chandelure":"แชนเดลา","axew":"คิบาโกะ","fraxure":"โอโนนโดะ","haxorus":"โอโนนคุส","cubchoo":"คุมะชุน","beartic":"ซึนแบร์","cryogonal":"ฟรีจิโอ","shelmet":"ชบอมากิ","accelgor":"อากิลเดอร์","stunfisk":"มักเกียว","mienfoo":"โคโจฟู","mienshao":"โคโจนโดะ","druddigon":"คริมแกน","golett":"โกบิต","golurk":"โกลูก","pawniard":"โคมาทานา","bisharp":"คิริคิซัน","bouffalant":"บัฟฟรอน","rufflet":"วาชิบอน","braviary":"วอร์เกิล","vullaby":"วาร์ไช","mandibuzz":"บัลจินา","heatmor":"ควิทารัน","durant":"ไอแอนท์","deino":"โมโนซึ","zweilous":"จิเฮด","hydreigon":"ซาซันโดรา","larvesta":"เมราลบา","volcarona":"อุลกามอธ","cobalion":"โคบาลูออน","terrakion":"เทราคิออน","virizion":"บิริจิออน","tornadus":"ทอร์เนลอส","thundurus":"โวลโทลอส","reshiram":"เรชรัม","zekrom":"เซครอม","landorus":"แลนโดรอส","kyurem":"คิวเรม","keldeo":"เคลดิโอ","meloetta":"เมโลเอตตา","genesect":"เกโนเซ็กท์",
+            "victini":"วิคทินี","snivy":"สึทาจะ","servine":"จาโนบี","serperior":"จาโรดา","tepig":"โพคาบู","pignite":"ชาโอบู","emboar":"เอ็นบูโอ","oshawott":"มิจูมารุ","dewott":"ฟุตะจิมารุ","samurott":"ไดเคนคิ","patrat":"มิเนซึมิ","watchog":"มิรุฮ็อก","lillipup":"โยเทอรี","herdier":"ฮาเดเรีย","stoutland":"มูแลนด์","purrloin":"โชโรเนโกะ","liepard":"เรปาร์ดัส","pansage":"ยานัปปุ","simisage":"ยานักกี","pansear":"บาโอปปุ","simisear":"บาโอกี","panpour":"ฮิยัปปุ","simipour":"ฮิยักกี","munna":"มุนนะ","musharna":"มุชาร์นา","pidove":"มาเมพาโตะ","tranquill":"ฮาโตโบ","unfezant":"เคนโฮโร","blitzle":"ชิมามา","zebstrika":"เซบไรกา","roggenrola":"ดันโกโร","boldore":"กานทล","gigalith":"กิกาอิอาธ","woobat":"โคโรโมริ","swoobat":"โคโคโรโมริ","drilbur":"โมกิว","excadrill":"โดริวซึ","audino":"ทาบุนเนะ","timburr":"ด็อกโคเลอร์","gurdurr":"โดเทคคทสึ","conkeldurr":"โรบุชิน","tympole":"โอทามาโร","palpitoad":"กามะการุ","seismitoad":"กามะเกโรเกะ","throh":"นาเกคิ","sawk":"ดาเกคิ","sewaddle":"คุรุมิรุ","swadloon":"คุรุมายุ","leavanny":"ฮาฮาโคโมริ","venipede":"ฟุชเดะ","whirlipede":"โฮอิกะ","scolipede":"เพนดรา","cottonee":"โมนเมน","whimsicott":"เอลฟูน","petilil":"ชูริเนะ","lilligant":"โดเรเดีย","basculin":"บาสราโอ","sandile":"เมกุโระ","krokorok":"วารุบิรุ","krookodile":"วารุวิอัล","darumaka":"ดารุมักกะ","darmanitan":"ฮิฮิดารุมะ","maractus":"มาราคัจจิ","dwebble":"อิชิซึไม","crustle":"อิวาพาเลซ","scraggy":"ซึรุกกุ","scrafty":"ซึรุซึคิน","sigilyph":"ชินโบลาร์","yamask":"เดสมาส","cofagrigus":"เดสคาน","tirtouga":"โปรโตกา","carracosta":"อาบาโกรา","archen":"อาเคน","archeops":"อาเคออส","trubbish":"ยาบุคุรอน","garbodor":"ดัสทอดาส","zorua":"โซรัว","zoroark":"โซโรอาร์ค","minccino":"ชิลลามี","cinccino":"ชิลาชิโน","gothita":"โกธิมู","gothorita":"โกธิมิรุ","gothitelle":"โกธิเทล","solosis":"ยูนิรัน","duosion":"ดาบรัน","reuniclus":"รันคลุส","ducklett":"โคอารูฮี","swanna":"สวอนนา","vanillite":"วานิปุจิ","vanillish":"วานิริช","vanilluxe":"ไบวานิลลา","deerling":"ชิกิจิกะ","sawsbuck":"เมบุกิจิกะ","emolga":"เอมอนกา","karrablast":"คาบุลโม","escavalier":"ชูวาโก","foongus":"ทามาเกตาเกะ","amoonguss":"โมโรบาเรล","frillish":"พูรุริล","jellicent":"บุนเจล","alomomola":"มามันโบ","joltik":"บาชูรุ","galvantula":"เดนชูรา","ferroseed":"เทสซีด","ferrothorn":"นัตโตเรย์","klink":"เกียร์","klang":"กิกิเกียร์","klinklang":"กิกิกิเกียร์","tynamo":"ชิบิชิราสึ","eelektrik":"ชิบิบีล","eelektross":"ชิบิดอน","elgyem":"ลิเกรย์","beheeyem":"โอเบม","litwick":"ฮิโตโมชิ","lampent":"ลามพูลา","chandelure":"แชนเดลา","axew":"คิบาโกะ","fraxure":"โอโนนโดะ","haxorus":"โอโนนคุส","cubchoo":"คุมะชุน","beartic":"ซึนแบร์","cryogonal":"ฟรีจิโอ","shelmet":"ชบอมากิ","accelgor":"อากิลเดอร์","stunfisk":"มักเกียว","mienfoo":"โคโจฟู","mienshao":"โคโจนโดะ","druddigon":"คริมแกน","golett":"โกบิต","golurk":"โกลูก","pawniard":"โคมาทานา","bisharp":"คิริคิซัน","bouffalant":"บัฟฟรอน","rufflet":"วาชิบอน","braviary":"วอร์เกิล","vullaby":"วาร์ไช","mandibuzz":"บัลจินา","heatmor":"ควิทารัน","durant":"ไอแอนท์","deino":"โมโนซึ","zweilous":"จิเฮด","hydreigon":"ซาซันโดรา","larvesta":"เมราลบา","volcarona":"อุลกามอธ","cobalion":"โคบาลูออน","terrakion":"เทราคิออน","virizion":"บิริจิออน","tornadus":"ทอร์เนลอส","thundurus":"โวลโทลอส","reshiram":"เรชิรัม","zekrom":"เซครอม","landorus":"แลนโดรอส","kyurem":"คิวเรม","keldeo":"เคลดิโอ","meloetta":"เมโลเอตตา","genesect":"เกโนเซ็กท์",
             "chespin":"ฮาริมารอน","quilladin":"ฮาริบอร์ก","chesnaught":"บริการอน","fennekin":"ฟอคโกะ","braixen":"เทลนาร์","delphox":"มาฟ็อกซี","froakie":"เคโรมัตสึ","frogadier":"เกโคกาชิระ","greninja":"เก็คโคกะ","bunnelby":"โฮรุบี","diggersby":"โฮรุโดะ","fletchling":"ยายาโคมะ","fletchinder":"ฮิโนยาโคมะ","talonflame":"ไฟร์แอโรว์","scatterbug":"โคฟูคิมุชิ","spewpa":"โคฟูไร","vivillon":"วิวิญอง","litleo":"ชิชิโกะ","pyroar":"คายเอนจิ","flabebe":"ฟลาเบเบ","floette":"ฟลาเอตเต","florges":"ฟลาเจส","skiddo":"เมเคิล","gogoat":"โกโกท","pancham":"ยันชัม","pangoro":"กอโรนดะ","furfrou":"ทริเมียน","espurr":"เนียสเปอร์","meowstic":"เนียโอนิกซ์","honedge":"ฮิโตทสึคิ","doublade":"นิแดนกิล","aegislash":"กิลการ์ด","spritzee":"ชูชุป","aromatisse":"เฟรฟุวาน","swirlix":"เปร็อปพัฟ","slurpuff":"เปร็อปเพโร","inkay":"มาอีกะ","malamar":"คาลามาเนโร","binacle":"คาเมเทเตะ","barbaracle":"กาเมโนเดส","skrelp":"คุซึโม","dragalge":"ดรามิโดโร","clauncher":"อุเดปโป","clawitzer":"โบลสเตอร์","helioptile":"เอลิกิเทล","heliolisk":"เอเลซาร์ด","tyrunt":"จิโกรัส","tyrantrum":"กะจิโกรัส","amaura":"อมารัส","aurorus":"อมารูรูกา","sylveon":"นิมเฟีย","hawlucha":"ลูจาบูล","dedenne":"เดเด็นเนะ","carbink":"เมเลซี","goomy":"นูเมรา","sliggoo":"นูเมล","goodra":"นูเมลกอน","klefki":"เคลฟี","phantump":"โบคุเร","trevenant":"ออรอต","pumpkaboo":"บาเคจฉะ","gourgeist":"พัมพจิน","bergmite":"คาจิคจิ","avalugg":"เครเบส","noibat":"ออนแบท","noivern":"ออนเวิร์น","xerneas":"เซลเนียส","yveltal":"อีเวลทอล","zygarde":"ซีการ์ด","diancie":"ดีแอนซี","hoopa":"ฮูปา","volcanion":"โวลเคเนียน",
             "rowlet":"โมคุโร","dartrix":"ฟุคุสึโร","decidueye":"จูไนเปอร์","litten":"เนียบี","torracat":"เนียฮีท","incineroar":"กาโอกาเอ็น","popplio":"อชิมาริ","brionne":"โอชาชิมาริ","primarina":"อชิเรน","pikipek":"สึซึเค","trumbeak":"เคราปัปปา","toucannon":"โดเดคาบาชิ","yungoos":"ยันกูส","gumshoos":"เดคากูส","grubbin":"อาโกจิมุชิ","charjabug":"เดนจิมุชิ","vikavolt":"คุวากานอน","crabrawler":"มาเคคานิ","crabominable":"เคเค็นคานิ","oricorio":"โอริโคริโอ","cutiefly":"อาบูรี","ribombee":"อาบูริบอน","rockruff":"อิวานโกะ","lycanroc":"ลูการูกัน","wishiwashi":"โยวาชิ","mareanie":"ฮิโดอิเดะ","toxapex":"โดฮิโดอิเดะ","mudbray":"โดโรบังโกะ","mudsdale":"บันบะโดโร","dewpider":"ชิซึคุโมะ","araquanid":"โอนิชิซึคุโมะ","fomantis":"คาริคิริ","lurantis":"ลารันเทส","morelull":"เนมาชุ","shiinotic":"มาเชด","salandit":"ยาโทมริ","salazzle":"เอนนิวต์","stufful":"นุยโคกุมะ","bewear":"คิเทรุกุมะ","bounsweet":"อามะคาจิ","steenee":"อามะไมโกะ","tsareena":"อามะโจ","comfey":"คิววาเวอร์","oranguru":"ยาเรยูตัน","passimian":"นาเกทสึเคซารุ","wimpod":"โคโซคุมุชิ","golisopod":"กุโซคุมุชิ","sandygast":"สึนาบะอะ","palossand":"ชิโรเดสนา","pyukumuku":"นามาโคบุชิ","type-null":"ไทป์:นัล","silvally":"ซิลวาดี","minior":"เมเทโน","komala":"เนกโคอาลา","turtonator":"บาคุกาเมส","togedemaru":"โทเกเดมารุ","mimikyu":"มิมิคคิว","bruxish":"ฮากิกิชิ","drampa":"จีจีรอน","dhelmise":"ดาดาริน","jangmo-o":"จารังโกะ","hakamo-o":"จารังโก","kommo-o":"จาราแรนกา","tapu-koko":"คาปู-โคเคโค","tapu-lele":"คาปู-เตเตฟู","tapu-bulu":"คาปู-บูลูลู","tapu-fini":"คาปู-เรฮิเร","cosmog":"คอสม็อก","cosmoem":"คอสโมม","solgaleo":"โซลกาเลโอ","lunala":"ลูนาลา","nihilego":"อุตซึรอยด์","buzzwole":"มัสชิบูน","pheromosa":"ฟีโรเช่","xurkitree":"เด็นจูโมกุ","celesteela":"เทคคากุยะ","kartana":"คามิทสึรุงิ","guzzlord":"อคุจิคิง","necrozma":"เนครอซมา","magearna":"มาเกียนา","marshadow":"มาร์ชาโดว์","poipole":"เบเวนอม","naganadel":"อาร์โกยอน","stakataka":"สึนเดสึนเด","blacephalon":"ซึกะโดน","zeraora":"เซราโอรา","meltan":"เมลตัน","melmetal":"เมลเมทัล",
             "grookey":"ซารุโนริ","thwackey":"บาคีคีย์","rillaboom":"กอริลลันเดอร์","scorbunny":"ฮิบานี","raboot":"แรบบิท","cinderace":"เอสเบิร์น","sobble":"เมซซอน","drizzile":"จิเมเลียน","inteleon":"อินเทเลียน","skwovet":"โฮชิกะริส","greedent":"โยคุบะริส","rookidee":"โคโคะกะระ","corvisquire":"อาโอการาส","corviknight":"อาร์เมอร์ก้า","blipbug":"ซัตจิมุชิ","dottler":"เรดอมุชิ","orbeetle":"อิออร์บ","nickit":"คุสึเนะ","thievul":"ฟ็อกสไล","gossifleur":"ฮิเมนกะ","eldegoss":"วาตะชิรากะ","wooloo":"วูลู","dubwool":"บายวูล","chewtle":"คามุคาเมะ","drednaw":"คาจิริกาเมะ","yamper":"วันปาจิ","boltund":"พัลส์วัน","rolycoly":"ทาตง","carkol":"ทรอคกอน","coalossal":"เซคิทันซัง","applin":"คาจิจู","flapple":"อัปปริว","appletun":"ทารุปเปิล","silicobra":"สึนาเฮบิ","sandaconda":"ซาดายาจา","cramorant":"อุ๊อุ","arrokuda":"อุคุウ","barraskewda":"ซาชิคามะ","toxel":"เอเลซัน","toxtricity":"สตรินเดอร์","sizzlipede":"ยาคุเดะ","centiskorch":"มารุยาคุเดะ","clobbopus":"ทาทัคโค","grapploct":"โอโตสพัส","sinistea":"ยาบาชะ","polteageist":"พอตเดส","hatenna":"มิบรีม","hattrem":"เทบริม","hatterene":"บริมออน","impidimp":"เบโรบา","morgrem":"กิโมจ","grimmsnarl":"ออรอนเกะ","obstagoon":"ทาจิฟุซากุมะ","perrserker":"เนียคิง","cursola":"ซานิโกะ","sirfetchd":"เนกิกะไนท์","mr-rime":"บาริโคโอ","runerigus":"เดสบาร์น","milcery":"มาโฮมิล","alcremie":"มาวิป","falinks":"ไทเรส","pincurchin":"บาจินิอูนิ","snom":"ยูกิฮามิ","frosmoth":"มอสโนว","stonjourner":"อิชิเฮนจิน","eiscue":"โคโอริปโป","indeedee":"อิเอซัน","morpeko":"โมรุเปโกะ","cufant":"โซโดะ","copperajah":"ไดโอโดะ","dracozolt":"พาจิรากอน","arctozolt":"พัตจิรดอน","dracovish":"อูโอโนรากอน","arctovish":"อูโอจิลดอน","duraludon":"จูรัลดอน","dreepy":"โดราเมชิยะ","drakloak":"โดรอนจิ","dragapult":"โดราพัลท์","zacian":"ซาเชียน","zamazenta":"ซามาเซนตา","eternatus":"มุเก็นไดนา","kubfu":"ดาคุมะ","urshifu":"วูลาโอส","zarude":"ซารูด","regieleki":"เรจิเอเลคิ","regidrago":"เรจิดราโก","glastrier":"บลิซซาพอส","spectrier":"เรสพอส","calyrex":"บัดเดร็กซ์","wyrdeer":"อายาชิชิ","kleavor":"บาซากิรี","ursaluna":"กะจิกุมะ","basculegion":"อิไดโตะ","sneasler":"โอนิวลา","overqwil":"ฮาริยามัน","enamorus":"เลิฟทรอส",
             "sprigatito":"เนียวฮะ","floragato":"เนียโรเต","meowscarada":"มาสเคอเนีย","fuecoco":"โฮเกเตอร์","crocalor":"อจิเกเตอร์","skeledirge":"ลาวด์โบน","quaxly":"แคว็กซ์","quaxwell":"แคว็กซ์เวล","quaquaval":"เวนิแคว็กซ์","lechonk":"กูร์ตง","oinkologne":"พาฟิวตง","tarountula":"ทามันชูลา","spidops":"วานัยเดอร์","nymble":"มาเมบัตตะ","lokix":"เอ็กซ์เลก","rellor":"ชิกาโมโกะ","rabsca":"เบรากัส","greavard":"ปาโม","houndstone":"พาโมต","flittle":"พามอต","espathra":"วักคาเนซุมิ","wiglett":"อิกคาเนซุมิ","wugtrio":"ปิปปิ","dondozo":"พาปิมจิ","veluza":"บาวเซล","finizen":"มินีบ","palafin":"โอลีวา","smoliv":"อิคิรินโกะ","dolliv":"โคจิโอ","arboliva":"จิโอซึม","capsakid":"เคียวจิโอ","scovillain":"คาร์โบว","tinkatink":"คานุจัง","tinkatuff":"นากานุจัง","tinkaton":"เดคานุจัง","bombirdier":"ไทไคเดน","varoom":"โอมิกะ","revavroom":"มิมิซึ","orthworm":"โอมิมิซึ","tandemaus":"นาฟิคจิ","maushold":"มิโดะเครสต","cetoddle":"อารุคุจิระ","cetitan":"ฮารุคุจิระ","koraidon":"โคไรดอน","miraidon":"มิไรดอน","gimmighoul":"คอลเลคเรย์","gholdengo":"ซาร์ฟโก","ting-lu":"ติ่งลู่","chien-pao":"เจี้ยนเปา","wo-chien":"โฉงเจี้ยน","chi-yu":"อวี้รุ่ย","ogerpon":"โอกะปอน","terapagos":"เทราปากอส","okidogi":"อี้อินุ","munkidori":"มาชิมาชิระ","fezandipiti":"คิจิคิสึ","pecharunt":"โมโมวาโร่"
         };
 
-        const POKEDEX_ENTRIES_TH = {
-            1: "ตั้งแต่เกิดมาจะมีเมล็ดพืชแปลกๆ ปลูกอยู่ที่หลัง เมล็ดจะโตขึ้นพร้อมกับตัวมันคอยดูดซับสารอาหาร",
-            4: "ไฟที่หางคือสัญลักษณ์แห่งชีวิตและอารมณ์ หากไฟดับลง ชีวิตของมันก็จะจบสิ้นลงด้วย",
-            5: "เมื่อมันแกว่งหางที่ลุกเป็นไฟ อุณหภูมิรอบข้างจะพุ่งสูงขึ้นจนร้อนระอุแทบทนไม่ได้",
-            6: "พ่นไฟที่ร้อนแรงจนสามารถละลายหินผาได้ ว่ากันว่ามันมักจะเป็นต้นเหตุของไฟป่าใหญ่",
-            7: "กระดองของมันไม่เพียงแค่ใช้ป้องกันตัว แต่รูปทรงที่โค้งมนยังช่วยลดแรงต้านน้ำ ทำให้ว่ายน้ำได้เร็วมาก",
-            25: "มักจะสะสมไฟฟ้าไว้ที่ถุงลมบริเวณแก้มทั้งสองข้าง เมื่อรู้สึกถึงอันตรายจะปล่อยกระแสไฟฟ้าแรงสูงออกมา",
-            133: "มีพันธุกรรมที่ไม่เสถียรอย่างมาก ทำให้สามารถวิวัฒนาการเปลี่ยนรูปแบบไปตามสภาพแวดล้อมที่อยู่อาศัยได้",
-            143: "มันจะไม่พอใจถ้าไม่ได้กินอาหารวันละ 400 กิโลกรัม เมื่อกินอิ่มแล้วมันก็จะนอนหลับไปทันที",
-            149: "เป็นโปเกมอนที่จิตใจดีและรักสงบ ว่ากันว่ามันจะบินไปช่วยเหลือผู้คนที่กำลังจะจมน้ำกลางทะเล",
-            150: "โปเกมอนที่ถูกสร้างขึ้นจากการตัดต่อพันธุกรรม มีพลังจิตที่แข็งแกร่งที่สุดและมีจิตใจที่เยือกเย็น",
-            151: "โปเกมอนมายาที่ว่ากันว่ามีรหัสพันธุกรรมของโปเกมอนทุกตัวบนโลกซ่อนอยู่ในร่างกายของมัน",
-            249: "เทพเจ้าแห่งท้องทะเล มีพลังปีกมหาศาลที่สามารถสร้างพายุใหญ่พัดกระหน่ำได้ยาวนานถึง 40 วัน",
-            250: "ขนของมันส่องประกายเจ็ดสี ว่ากันว่าผู้ใดที่ได้เห็นโฮโอจะได้รับความสุขและโชคดีไปตลอดกาล",
-            384: "อาศัยอยู่ในชั้นบรรยากาศโอโซน คอยกลืนกินอุกกาบาตเพื่อใช้เป็นพลังงาน ว่ากันว่ามันจะลงมาเมื่อกราดอนและไคโอกาสู้กัน",
-            448: "สามารถอ่านคลื่นพลังงาน (Aura) ของสิ่งมีชีวิตได้ แม้จะหลับตาอยู่ก็รับรู้ความรู้สึกของศัตรูได้จากระยะไกล",
-            658: "บีบอัดน้ำจนเป็นดาวกระจายที่คมกริบ การเคลื่อนไหวของมันรวดเร็วและว่องไวราวกับนินจา"
-        };
-
-        const ITEMS_PER_PAGE = 50;
+        const ITEMS_PER_PAGE = 100; // 🌟 เพิ่มโหลดทีละ 100 ตัวเพื่อให้เลื่อนดูได้ยาวๆ ไร้รอยต่อ
 
         // ⚡ เพิ่ม Cache จัดเก็บข้อมูลที่แปลแล้ว เพื่อให้โหลดทันทีไม่ต้องรอแปลซ้ำ
         const translationCache = new Map();
@@ -417,33 +408,43 @@
             audio.play().catch(e => console.log('Audio play failed:', e));
         }
 
-        // 🌟 Parallax Helper Functions 🌟
+        // 🌟 Parallax Helper Functions (Using requestAnimationFrame for buttery smoothness)
         function handleParallaxMove(e, container, targetElement, maxRotate, baseZ, scale) {
             if (!targetElement) return;
-            const rect = container.getBoundingClientRect();
-            let clientX = e.clientX;
-            let clientY = e.clientY;
             
-            if (e.touches && e.touches.length > 0) {
-                clientX = e.touches[0].clientX;
-                clientY = e.touches[0].clientY;
-            }
+            // ใช้ dataset tracking เพื่อกันไม่ให้ JS ทำงานหนักเกินไปตอนขยับรัวๆ
+            if (container.dataset.ticking === 'true') return;
+            container.dataset.ticking = 'true';
+            
+            requestAnimationFrame(() => {
+                const rect = container.getBoundingClientRect();
+                let clientX = e.clientX;
+                let clientY = e.clientY;
+                
+                if (e.touches && e.touches.length > 0) {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                }
 
-            const x = clientX - rect.left;
-            const y = clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
+                const x = clientX - rect.left;
+                const y = clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
 
-            const rotateX = ((y - centerY) / centerY) * -maxRotate;
-            const rotateY = ((x - centerX) / centerX) * maxRotate;
+                const rotateX = ((y - centerY) / centerY) * -maxRotate;
+                const rotateY = ((x - centerX) / centerX) * maxRotate;
 
-            targetElement.style.transition = 'none';
-            targetElement.style.transform = `translateZ(${baseZ}px) scale(${scale}) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                targetElement.style.transition = 'none';
+                targetElement.style.transform = `translateZ(${baseZ}px) scale(${scale}) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                
+                container.dataset.ticking = 'false';
+            });
         }
 
         function handleParallaxLeave(targetElement, baseZ, scale) {
             if (!targetElement) return;
-            targetElement.style.transition = 'transform 0.5s ease-out';
+            // 🌟 ปรับให้เด้งกลับไวขึ้นแบบไม่สะดุด (0.2s cubic-bezier)
+            targetElement.style.transition = 'transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             targetElement.style.transform = `translateZ(${baseZ}px) scale(${scale}) rotateX(0deg) rotateY(0deg)`;
         }
 
@@ -577,6 +578,17 @@
             allPokemon = [...INITIAL_POKEMON];
             applyFilters();
 
+            // 🌟 สร้างระบบ Infinite Scroll โหลดอัตโนมัติเมื่อเลื่อนจอ ไม่ต้องกดปุ่ม
+            const sentinel = document.getElementById('scroll-sentinel');
+            if (sentinel) {
+                const observer = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting && filteredList.length > displayLimit) {
+                        loadMore();
+                    }
+                }, { rootMargin: '3000px' }); // โหลดล่วงหน้าก่อนถึงขอบล่าง 3000px ไร้รอยต่อแน่นอน
+                observer.observe(sentinel);
+            }
+
             try {
                 const data = await prefetchAPI;
                 if (!data) return;
@@ -604,7 +616,6 @@
                         allPokemon = uniquePokemon;
                         if (!searchQuery && selectedRegionIndex === 0) {
                             filteredList = allPokemon;
-                            document.getElementById('load-more-container').style.display = 'flex';
                         } else {
                             applyFilters(); 
                         }
@@ -655,22 +666,29 @@
         function renderRegionFilters() {
             const container = document.getElementById('region-filters');
             container.innerHTML = REGIONS.map((reg, index) => `
-                <button onclick="selectRegion(${index})" class="px-6 md:px-8 py-2 md:py-3 rounded-full whitespace-nowrap font-bold text-xs md:text-sm transition-all ${selectedRegionIndex === index ? 'bg-slate-800 text-white shadow-xl -translate-y-1' : 'bg-white/70 backdrop-blur-sm text-slate-500 hover:text-slate-800 border border-white hover:border-slate-300'}">
+                <button onclick="selectRegion(${index})" class="px-6 md:px-8 py-2 md:py-3 rounded-full whitespace-nowrap font-bold text-xs md:text-sm transition-transform active:scale-95 ${selectedRegionIndex === index ? 'bg-slate-800 text-white shadow-xl -translate-y-1' : 'bg-white/70 backdrop-blur-sm text-slate-500 hover:text-slate-800 border border-white hover:border-slate-300'}">
                     ${reg.name}
                 </button>
             `).join('');
         }
 
         function selectRegion(index) {
+            if (selectedRegionIndex === index) return;
             selectedRegionIndex = index;
             displayLimit = ITEMS_PER_PAGE;
-            renderRegionFilters();
+            renderRegionFilters(); 
+            
+            // 🌟 โหลดข้อมูลทันที 0 วินาทีแบบไม่มีดีเลย์
+            document.getElementById('pokemon-grid').innerHTML = '';
+            currentlyRenderedCount = 0;
             applyFilters();
         }
 
         function handleSearch() {
             searchQuery = document.getElementById('searchInput').value.toLowerCase();
             displayLimit = ITEMS_PER_PAGE;
+            document.getElementById('pokemon-grid').innerHTML = '';
+            currentlyRenderedCount = 0;
             applyFilters();
         }
 
@@ -693,8 +711,6 @@
             if (typeof cardObserver !== 'undefined') {
                 cardObserver.disconnect();
             }
-            document.getElementById('pokemon-grid').innerHTML = '';
-            currentlyRenderedCount = 0;
             
             renderNextBatch();
         }
@@ -709,7 +725,8 @@
             const itemsToRender = filteredList.slice(currentlyRenderedCount, displayLimit);
             
             document.getElementById('empty-state').style.display = (filteredList.length === 0) ? 'block' : 'none';
-            document.getElementById('load-more-container').style.display = filteredList.length > displayLimit ? 'flex' : 'none';
+            // ซ่อนปุ่ม เพราะเราใช้ Infinite Scroll เลื่อนละโหลดเองแล้ว
+            document.getElementById('load-more-container').style.display = 'none';
 
             const fragment = document.createDocumentFragment();
 
@@ -725,8 +742,9 @@
                 const isFav = favorites.includes(p.id);
                 const heartClass = isFav ? 'ph-fill ph-heart text-red-500' : 'ph ph-heart text-slate-300 hover:text-red-400';
 
+                // 🌟 อนิเมชันซูมไวขึ้น (duration-200) ไม่สะดุด
                 div.innerHTML = `
-                    <div id="card-${p.id}" data-id="${p.id}" class="card-bg-wrap card-background h-full group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-7 shadow-sm hover:shadow-2xl cursor-pointer border flex flex-col items-center relative overflow-hidden backdrop-blur-md bg-white/40 border-white/60 transition-all duration-500">
+                    <div id="card-${p.id}" data-id="${p.id}" class="card-bg-wrap card-background h-full group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-7 shadow-sm hover:shadow-xl cursor-pointer border flex flex-col items-center relative overflow-hidden backdrop-blur-md bg-white/40 border-white/60 transition-all duration-200">
                         <button onclick="toggleFavorite(${p.id}, event)" class="absolute top-3 md:top-4 left-3 md:left-4 z-20 p-1.5 md:p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-sm hover:scale-110 transition-transform focus:outline-none">
                             <i class="${heartClass} fav-icon-${p.id} text-base md:text-xl transition-colors"></i>
                         </button>
@@ -734,8 +752,8 @@
                             #${String(p.id).padStart(3, '0')}
                         </div>
                         <div class="relative w-20 h-20 md:w-36 md:h-36 my-4 md:my-6 flex items-center justify-center preserve-3d" style="transform: translateZ(40px);">
-                            <div class="absolute inset-[-6px] md:inset-[-12px] bg-white/80 rounded-full scale-100 group-hover:scale-110 transition-transform duration-500 shadow-inner border border-white"></div>
-                            <img src="${getImageUrl(p.id, 'grid')}" class="relative z-10 max-w-full max-h-full object-contain img-3d-grid transition-transform duration-500" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="async" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
+                            <div class="absolute inset-[-6px] md:inset-[-12px] bg-white/80 rounded-full scale-100 group-hover:scale-110 transition-transform duration-200 shadow-inner border border-white"></div>
+                            <img src="${getImageUrl(p.id, 'grid')}" class="relative z-10 max-w-full max-h-full object-contain img-3d-grid transition-transform duration-200" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="async" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
                         </div>
                         <div class="text-center w-full relative z-10 flex flex-col items-center mt-auto" style="transform: translateZ(10px);">
                             <h2 class="text-[11px] sm:text-xs md:text-lg font-bold md:font-black text-slate-800 tracking-tight drop-shadow-sm group-hover:text-slate-900 mb-2 md:mb-3 truncate w-full px-1 leading-normal pt-1 pb-2">
@@ -748,7 +766,7 @@
                 `;
                 
                 div.querySelector('.card-bg-wrap').onclick = () => openDetail(p.id);
-                attachGridParallax(div);
+                attachGridParallax(div); 
                 
                 fragment.appendChild(div);
                 cardObserver.observe(div.querySelector('.card-bg-wrap')); 
@@ -770,7 +788,7 @@
 
                 return `
                 <div id="fav-wrapper-${p.id}" class="preserve-3d relative">
-                    <div id="fav-card-${p.id}" data-id="${p.id}" onclick="openDetail(${p.id})" class="card-bg-wrap card-background h-full group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-7 shadow-sm hover:shadow-2xl cursor-pointer border flex flex-col items-center relative overflow-hidden backdrop-blur-md bg-white/40 border-white/60 transition-all duration-500">
+                    <div id="fav-card-${p.id}" data-id="${p.id}" onclick="openDetail(${p.id})" class="card-bg-wrap card-background h-full group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-7 shadow-sm hover:shadow-2xl cursor-pointer border flex flex-col items-center relative overflow-hidden backdrop-blur-md bg-white/40 border-white/60 transition-all duration-200">
                         <button onclick="toggleFavorite(${p.id}, event)" class="absolute top-3 md:top-4 left-3 md:left-4 z-20 p-1.5 md:p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-sm hover:scale-110 transition-transform focus:outline-none">
                             <i class="${heartClass} fav-icon-${p.id} text-base md:text-xl transition-colors"></i>
                         </button>
@@ -778,8 +796,8 @@
                             #${String(p.id).padStart(3, '0')}
                         </div>
                         <div class="relative w-20 h-20 md:w-36 md:h-36 my-4 md:my-6 flex items-center justify-center preserve-3d" style="transform: translateZ(40px);">
-                            <div class="absolute inset-[-6px] md:inset-[-12px] bg-white/80 rounded-full scale-100 group-hover:scale-110 transition-transform duration-500 shadow-inner border border-white"></div>
-                            <img src="${getImageUrl(p.id, 'grid')}" class="relative z-10 max-w-full max-h-full object-contain img-3d-grid transition-transform duration-500" loading="lazy" decoding="async" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
+                            <div class="absolute inset-[-6px] md:inset-[-12px] bg-white/80 rounded-full scale-100 group-hover:scale-110 transition-transform duration-200 shadow-inner border border-white"></div>
+                            <img src="${getImageUrl(p.id, 'grid')}" class="relative z-10 max-w-full max-h-full object-contain img-3d-grid transition-transform duration-200" loading="lazy" decoding="async" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
                         </div>
                         <div class="text-center w-full relative z-10 flex flex-col items-center mt-auto" style="transform: translateZ(10px);">
                             <h2 class="text-[11px] sm:text-xs md:text-lg font-bold md:font-black text-slate-800 tracking-tight drop-shadow-sm group-hover:text-slate-900 mb-2 md:mb-3 truncate w-full px-1 leading-normal pt-1 pb-2">
@@ -886,6 +904,7 @@
                         evoChain = evoData.chain;
                     }
 
+                    // 🌟 ระบบแปลภาษา 0 วินาทีแบบแสดงอังกฤษก่อนไม่ต้องรอ
                     if (POKEDEX_ENTRIES_TH[pokemonDetail.id]) {
                         translatedEntry = POKEDEX_ENTRIES_TH[pokemonDetail.id];
                     } else {
@@ -895,19 +914,22 @@
                             if (translationCache.has(engText)) {
                                 translatedEntry = translationCache.get(engText);
                             } else {
-                                translatedEntry = engText;
+                                // โชว์ภาษาอังกฤษให้ดูทันที 0 วิ
+                                translatedEntry = engText; 
                                 
+                                // แอบแปลภาษาอยู่ข้างหลัง (พื้นหลัง)
                                 fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=th&dt=t&q=${encodeURIComponent(engText)}`)
                                     .then(r => r.json())
                                     .then(d => {
                                         const text = d[0].map(item => item[0]).join('');
                                         translationCache.set(engText, text);
                                         const entryEl = document.getElementById('pokedex-entry-text');
-                                        if(entryEl) entryEl.innerText = text;
-                                    }).catch(() => {
-                                        const entryEl = document.getElementById('pokedex-entry-text');
-                                        if(entryEl) entryEl.innerText = engText;
-                                    });
+                                        // เช็คก่อนว่าไม่ได้กดหนีไปหน้าอื่นแล้ว
+                                        if(entryEl && entryEl.dataset.pid == pokemonDetail.id) {
+                                            entryEl.innerText = text;
+                                            entryEl.classList.add('fade-in'); // เฟดสวยๆ ตอนเปลี่ยนภาษา
+                                        }
+                                    }).catch(() => {});
                             }
                         }
                     }
@@ -1070,7 +1092,7 @@
                             <h3 class="text-xs md:text-lg font-black text-slate-700 mb-2 md:mb-4 flex items-center gap-2 md:gap-3 relative z-10">
                                 <i class="ph ph-info text-blue-500 text-base md:text-xl" aria-hidden="true"></i> ลักษณะและพฤติกรรม
                             </h3>
-                            <p id="pokedex-entry-text" class="text-slate-700 font-medium leading-relaxed text-[11px] sm:text-sm md:text-lg relative z-10 whitespace-pre-line pt-1 pb-1">${translatedEntry}</p>
+                            <p id="pokedex-entry-text" data-pid="${pokemonDetail.id}" class="text-slate-700 font-medium leading-relaxed text-[11px] sm:text-sm md:text-lg relative z-10 whitespace-pre-line pt-1 pb-1">${translatedEntry}</p>
                         </div>
 
                         <div class="grid grid-cols-2 gap-2 md:gap-6">
@@ -1164,7 +1186,7 @@
                                             <div id="form-wrapper-${formId}" class="preserve-3d relative">
                                                 <div onclick="${!isCurrent ? `openDetail(${formId})` : ''}" class="card-bg-wrap flex flex-col items-center p-2 md:p-6 rounded-xl md:rounded-[2rem] transition-transform w-20 md:w-36 shadow-sm ${isCurrent ? 'cursor-default bg-white border-red-400 shadow-xl scale-105 border-2' : 'cursor-pointer bg-white/70 border-white hover:bg-white hover:shadow-xl hover:-translate-y-1 md:hover:-translate-y-2 border-2'}">
                                                     <div class="relative w-10 h-10 md:w-20 md:h-20 mb-1.5 md:mb-4 preserve-3d" style="transform: translateZ(30px);">
-                                                        <img src="${getImageUrl(formId, 'grid')}" class="w-full h-full object-contain img-3d-grid transition-transform duration-500" alt="${getThaiName(v.pokemon.name)}" onerror="handleImgErr(this, ${formId}, 'grid')" />
+                                                        <img src="${getImageUrl(formId, 'grid')}" class="w-full h-full object-contain img-3d-grid transition-transform duration-200" alt="${getThaiName(v.pokemon.name)}" onerror="handleImgErr(this, ${formId}, 'grid')" />
                                                     </div>
                                                     <span class="font-bold text-slate-800 text-[8px] md:text-xs text-center leading-normal line-clamp-2 w-full px-1 pb-1" style="transform: translateZ(10px);">
                                                         ${getThaiName(v.pokemon.name)}
