@@ -14,18 +14,18 @@
     <meta property="og:image" content="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/25.png&output=webp">
     <meta property="og:type" content="website">
 
-    <!-- ⚡ DNS PREFETCH: เตรียมความพร้อมเน็ตเวิร์กขั้นสูงสุด -->
+    <!-- ⚡ DNS PREFETCH -->
     <link rel="dns-prefetch" href="https://wsrv.nl">
     <link rel="dns-prefetch" href="https://raw.githubusercontent.com">
     <link rel="dns-prefetch" href="https://pokeapi.co">
     <link rel="dns-prefetch" href="https://generativelanguage.googleapis.com">
 
-    <!-- ⚡ PRELOAD: เร่งการโหลดรูปภาพ LCP 3D ให้ไวที่สุด -->
+    <!-- ⚡ PRELOAD -->
     <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png&w=600&dpr=2&output=png&q=100&maxage=31536000" fetchpriority="high">
     <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/2.png&w=600&dpr=2&output=png&q=100&maxage=31536000" fetchpriority="high">
     <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/3.png&w=600&dpr=2&output=png&q=100&maxage=31536000">
 
-    <!-- ⚡ PERFORMANCE: Preconnect ต้นทางที่จำเป็นทั้งหมด -->
+    <!-- ⚡ PERFORMANCE -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://pokeapi.co" crossorigin>
@@ -50,7 +50,7 @@
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
     
-    <!-- 🟢 เพิ่ม Marked.js สำหรับแปลง Markdown เป็นตาราง HTML ได้อย่างสมบูรณ์ -->
+    <!-- Marked.js -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <style>
@@ -79,7 +79,6 @@
         
         img { image-rendering: high-quality; }
         
-        /* 🌟 ระบบเพิ่มความคมชัดและมิติให้ภาพ 3D พร้อม Hardware Acceleration */
         .img-3d-grid {
             filter: drop-shadow(0 15px 25px rgba(0,0,0,0.3)) brightness(1.05) contrast(1.05);
             transform: translateZ(40px);
@@ -101,12 +100,16 @@
             border: none;
             transition: all 0.3s ease;
         }
-        .btn-oak:hover {
+        .btn-oak:hover:not(:disabled) {
             background: linear-gradient(135deg, #059669, #047857);
             box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4);
         }
+        .btn-oak:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+        }
 
-        /* 🌟 ปรับแต่งตาราง Markdown ของ ดร.โอคิโดะ ให้เป็นระเบียบสวยงาม */
         .ai-result-box table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.875rem; border-radius: 0.5rem; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .ai-result-box th { background-color: #ecfdf5; color: #047857; padding: 0.75rem 0.5rem; border: 1px solid #a7f3d0; text-align: center; white-space: nowrap; }
         .ai-result-box td { padding: 0.75rem 0.5rem; border: 1px solid #e2e8f0; text-align: center; background-color: white; }
@@ -118,7 +121,6 @@
             .ai-result-box table { display: block; overflow-x: auto; white-space: nowrap; }
         }
 
-        /* Animated Background Elements */
         .bg-blob {
             position: fixed;
             width: 600px;
@@ -142,6 +144,24 @@
 
         .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Animation for Voice wave */
+        .voice-wave {
+            display: inline-block;
+            width: 3px;
+            height: 12px;
+            background-color: #047857;
+            margin: 0 2px;
+            border-radius: 2px;
+            animation: wave 1s infinite ease-in-out;
+        }
+        .voice-wave:nth-child(2) { animation-delay: 0.2s; }
+        .voice-wave:nth-child(3) { animation-delay: 0.4s; }
+        .voice-wave:nth-child(4) { animation-delay: 0.6s; }
+        @keyframes wave {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(2); }
+        }
     </style>
 </head>
 <body class="text-slate-800 selection:bg-primary/30 overflow-x-hidden relative min-h-screen flex flex-col">
@@ -307,7 +327,7 @@
             </div>
             <p class="text-slate-800 font-black text-sm md:text-2xl tracking-tight mb-1 md:mb-3 leading-normal">ฐานข้อมูลโปเกมอนแห่งประเทศไทย</p>
             <p class="text-slate-600 text-[9px] md:text-sm font-bold max-w-sm mx-auto leading-loose opacity-90">
-                ระบบทำงานด้วย PokeAPI • ข้อมูลวิเคราะห์จำลองสไตล์ ดร.โอคิโดะ
+                ระบบทำงานด้วย PokeAPI • ข้อมูลวิเคราะห์และเสียงพากย์สไตล์ ดร.โอคิโดะ
             </p>
         </div>
     </footer>
@@ -317,12 +337,170 @@
         // 🌟 Gemini API Config (Execution environment provides the key)
         const apiKey = ""; 
         
-        // 🌟 ดึงข้อมูล API โดยใช้ Persona ของ ดร.โอคิโดะ
-        async function callGeminiAPI(prompt, retries = 5, delay = 1000) {
+        let currentAudio = null; // เก็บ instance เสียงไว้เพื่อหยุดเล่นได้
+
+        // 🌟 รูปภาพ Professor Oak (3D Style จาก Pokémon Let's Go - อัปเดตลิงก์ใหม่ให้เสถียร 100%)
+        const PROFESSOR_OAK_IMAGE = "https://images.wikidexcdn.net/mwuploads/wikidex/thumb/f/fa/latest/20180713182855/Profesor_Oak_LGPE.png/250px-Profesor_Oak_LGPE.png";
+
+        // 🌟 ฟังก์ชันระบบเสียง Web Speech API (Fallback หากไม่มี API Key)
+        function playWebTTS(text, btnId) {
+            if (!('speechSynthesis' in window)) {
+                alert("เบราว์เซอร์ของคุณไม่รองรับระบบเสียงอ่านครับ");
+                return;
+            }
+            
+            const btn = document.getElementById(btnId);
+            
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ`;
+                return;
+            }
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'th-TH';
+            utterance.rate = 0.9; // เสียงช้าลงนิดนึงให้ดูภูมิฐาน
+            utterance.pitch = 0.8; // โทนเสียงต่ำลง
+            
+            utterance.onstart = () => {
+                if (btn) btn.innerHTML = `<span class="voice-wave"></span><span class="voice-wave"></span><span class="voice-wave"></span> กำลังพูด... (คลิกหยุด)`;
+            };
+            
+            utterance.onend = () => {
+                if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะอีกครั้ง`;
+            };
+            
+            utterance.onerror = (e) => {
+                console.error("SpeechSynthesis error", e);
+                if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ`;
+            };
+            
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // 🌟 ฟังก์ชันช่วยแปลง PCM16 เป็น WAV สำหรับเล่นเสียง TTS
+        function createWavBlob(pcmBuffer, sampleRate = 24000) {
+            const numChannels = 1;
+            const bitsPerSample = 16;
+            const byteRate = sampleRate * numChannels * (bitsPerSample / 8);
+            const blockAlign = numChannels * (bitsPerSample / 8);
+            const dataSize = pcmBuffer.byteLength;
+            const buffer = new ArrayBuffer(44 + dataSize);
+            const view = new DataView(buffer);
+
+            const writeString = (v, offset, str) => {
+                for (let i = 0; i < str.length; i++) v.setUint8(offset + i, str.charCodeAt(i));
+            };
+
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + dataSize, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, numChannels, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, byteRate, true);
+            view.setUint16(32, blockAlign, true);
+            view.setUint16(34, bitsPerSample, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, dataSize, true);
+
+            new Uint8Array(buffer, 44).set(new Uint8Array(pcmBuffer));
+            return new Blob([buffer], { type: 'audio/wav' });
+        }
+
+        // 🌟 ฟังก์ชันดึงเสียงพูด ดร.โอคิโดะ (TTS) พร้อมกรองอักขระที่ทำให้สะดุด
+        async function fetchDrOakVoice(textToSpeak, btnId) {
+            if (!textToSpeak || !apiKey) return null;
+            
+            const btn = document.getElementById(btnId);
+            if (btn) btn.innerHTML = `<span class="voice-wave"></span><span class="voice-wave"></span><span class="voice-wave"></span><span class="voice-wave"></span> ด็อกเตอร์กำลังเตรียมเสียง...`;
+
+            try {
+                // 🛠️ ลบ Emoji และสัญลักษณ์พิเศษออก เพื่อให้เสียงอ่านออกเสียงลื่นไหล ไม่สะดุด
+                const cleanText = textToSpeak.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '').replace(/[*_#"`~]/g, '').trim();
+                
+                // 🛠️ เติมคำนำหน้าเพื่อบรีฟน้ำเสียงให้ AI พากย์เสียงเป็น "อาจารย์ชราที่ใจดีและกระตือรือร้น" (โทน ดร.โอคิโดะ)
+                const voicePrompt = "Speak enthusiastically, warmly, and wisely like an old professor: " + cleanText;
+                
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+                const payload = {
+                    contents: [{ parts: [{ text: voicePrompt }] }],
+                    generationConfig: {
+                        responseModalities: ["AUDIO"],
+                        speechConfig: {
+                            voiceConfig: { prebuiltVoiceConfig: { voiceName: "Iapetus" } } // เสียงผู้ชายทุ้ม อบอุ่น มีอายุ
+                        }
+                    }
+                };
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error("TTS Request failed");
+                const data = await response.json();
+                
+                const base64Pcm = data.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+                if (!base64Pcm) throw new Error("No audio data returned");
+
+                // Decode Base64
+                const binaryStr = window.atob(base64Pcm);
+                const bytes = new Uint8Array(binaryStr.length);
+                for (let i = 0; i < binaryStr.length; i++) {
+                    bytes[i] = binaryStr.charCodeAt(i);
+                }
+
+                // แปลงเป็น WAV
+                const wavBlob = createWavBlob(bytes.buffer, 24000);
+                const audioUrl = URL.createObjectURL(wavBlob);
+                return audioUrl;
+
+            } catch (error) {
+                console.error("TTS Error:", error);
+                if (btn) btn.innerHTML = `<i class="ph-fill ph-warning-circle"></i> ระบบเสียงขัดข้อง`;
+                return null;
+            }
+        }
+
+        function playOakAudio(audioUrl, btnId) {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+            if (!audioUrl) return;
+
+            currentAudio = new Audio(audioUrl);
+            const btn = document.getElementById(btnId);
+            
+            currentAudio.onplay = () => {
+                if (btn) btn.innerHTML = `<span class="voice-wave"></span><span class="voice-wave"></span><span class="voice-wave"></span> กำลังพูด... (คลิกเพื่อหยุด)`;
+            };
+            currentAudio.onended = () => {
+                if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะอีกครั้ง`;
+            };
+            currentAudio.play().catch(e => console.log(e));
+        }
+
+        function toggleOakAudio(audioUrl, btnId) {
+            if (currentAudio && !currentAudio.paused) {
+                currentAudio.pause();
+                const btn = document.getElementById(btnId);
+                if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ`;
+            } else {
+                playOakAudio(audioUrl, btnId);
+            }
+        }
+
+        // 🌟 ดึงข้อมูล API (วิเคราะห์ Text) แบบไวขึ้น
+        async function callGeminiAPI(prompt, retries = 3, delay = 1000) {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
-                systemInstruction: { parts: [{ text: "คุณคือ 'ดร.โอคิโดะ' (Professor Oak) โปเกมอนด็อกเตอร์ผู้เชี่ยวชาญ ตอบคำถามเป็นภาษาไทยด้วยน้ำเสียงแบบอาจารย์ที่รอบรู้ ใจดี มักจะอุทานว่า 'โอ้!' หรือ 'อืม...' \nกฎเหล็ก:\n1. ห้ามใช้เครื่องหมาย # หรือ ### สร้างหัวข้อเด็ดขาด (ให้ใช้ตัวหนาแทน)\n2. ให้วิเคราะห์ความได้เปรียบเสียเปรียบตามสเตตัสและธาตุ\n3. ต้องฟันธงผู้ชนะเสมอ\n4. อธิบายให้สนุกและอ่านง่าย มีอีโมจิประกอบพอเหมาะ" }] }
+                systemInstruction: { parts: [{ text: "คุณคือ 'ดร.โอคิโดะ' (Professor Oak) โปเกมอนด็อกเตอร์ผู้เชี่ยวชาญ ตอบคำถามสั้นๆ กระชับ เป็นภาษาไทยด้วยน้ำเสียงแบบอาจารย์ที่รอบรู้ ใจดี มักจะอุทานว่า 'โอ้!' หรือ 'อืม...' \nกฎเหล็ก:\n1. ห้ามใช้เครื่องหมาย # หรือ ### สร้างหัวข้อเด็ดขาด (ให้ใช้ตัวหนาแทน)\n2. ให้วิเคราะห์ตรงประเด็นเพื่อความรวดเร็ว\n3. สำคัญมาก: ให้เพิ่มแท็ก <voice>คำพูดสรุปสั้นๆ ฟันธง ไม่เกิน 2 ประโยค</voice> ไว้ที่บรรทัดสุดท้ายของคำตอบเสมอ เพื่อนำไปสังเคราะห์เสียงพากย์ (ห้ามมีอีโมจิ หรือสัญลักษณ์พิเศษในแท็ก voice เด็ดขาด เพื่อให้เสียงพูดลื่นไหล)" }] }
             };
 
             for (let i = 0; i < retries; i++) {
@@ -332,13 +510,11 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     });
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
+                    if (!response.ok) throw new Error(`HTTP error!`);
                     const data = await response.json();
                     return data.candidates[0].content.parts[0].text;
                 } catch (error) {
-                    if (i === retries - 1) return "โอ้! ขออภัยด้วยนะ ระบบคอมพิวเตอร์ในศูนย์วิจัยกำลังขัดข้องชั่วคราว ลองใหม่อีกครั้งนะ 😅";
+                    if (i === retries - 1) throw error; // โยน error ออกไปเพื่อให้ Fallback ทำงาน
                     await new Promise(res => setTimeout(res, delay));
                     delay *= 2;
                 }
@@ -386,40 +562,17 @@
         const HABITAT_TH = { 'cave': 'ถ้ำ', 'forest': 'ป่าไม้', 'grassland': 'ทุ่งหญ้า', 'mountain': 'ภูเขา', 'rare': 'พื้นที่ลึกลับ', 'rough-terrain': 'พื้นที่ขรุขระ', 'sea': 'ทะเล', 'urban': 'เขตเมือง', 'waters-edge': 'ริมน้ำ' };
 
         const THAI_NAMES_BASE = {
-            "bulbasaur":"ฟุชิกิดาเนะ","ivysaur":"ฟุชิกิโซ","venusaur":"ฟุชิกิบานะ","charmander":"ฮิโตคาเงะ","charmeleon":"ลิซาร์โดะ","charizard":"ลิซาร์ดอน","squirtle":"เซนิกาเมะ","wartortle":"คาเมล","blastoise":"คาเม็กซ์","caterpie":"คาเตอร์ปี","metapod":"ทรานเซล","butterfree":"บัตเตอร์ฟรี","weedle":"บีเดิล","kakuna":"โคคูน","beedrill":"สเปียร์","pidgey":"ป๊ปโปะ","pidgeotto":"พีเจียน","pidgeot":"พีจ็อต","rattata":"โครัตตา","raticate":"รัตตา","spearow":"โอนิซึซึเมะ","fearow":"โอนิดริล","ekans":"อาร์โบ","arbok":"อาร์บ็อก","pikachu":"พิคาชู","raichu":"ไรชู","sandshrew":"แซนด์","sandslash":"แซนด์แพน","nidoran-f":"นิโดรัน♀","nidorina":"นิโดรินา","nidoqueen":"นิโดควีน","nidoran-m":"นิโดรัน♂","nidorino":"นิโดริโน","nidoking":"นิโดคิง","clefairy":"ปิปปี","clefable":"พิคซี","vulpix":"โรคอน","ninetales":"คิวคอน","jigglypuff":"พูริน","wigglytuff":"พุคุริน","zubat":"ซูแบท","golbat":"โกลแบท","oddish":"นาโซโนะคุสะ","gloom":"คุไซฮานะ","vileplume":"รัฟเฟลเซีย","paras":"พารัส","parasect":"พาราเซ็กต์","venonat":"คงปัง","venomoth":"โมรุฟอน","diglett":"ดิกด้า","dugtrio":"ดักทริโอ","meowth":"เนียซ","persian":"เปอร์เซียน","psyduck":"โคดัก","golduck":"โกลดัก","mankey":"แมนคีย์","primeape":"โอโคริซารุ","growlithe":"การ์ดี","arcanine":"วินดี","poliwag":"เนียวโรโมะ","poliwhirl":"เนียวโรโซ","poliwrath":"เนียวโรบอน","abra":"เคซี","kadabra":"ยุนเกอร์เรอร์","alakazam":"ฟูดิน","machop":"วันริกี","machoke":"โกริกี","machamp":"ไคริกี","bellsprout":"มาดาสึโบมิ","weepinbell":"อุซึดง","victreebel":"อุซึบอท","tentacool":"เมโนคุราเกะ","tentacruel":"โดคุคุราเกะ","geodude":"อิชิซึบุเตะ","graveler":"โกโลน","golem":"โกโลเนีย","ponyta":"โพนีตา","rapidash":"แกงลอป","slowpoke":"ยาดง","slowbro":"ยาโดรัน","magnemite":"คอยล์","magneton":"เรคอยล์","farfetchd":"คาโมเนกิ","doduo":"โดโด","dodrio":"โดโดริโอ","seel":"พาวาว","dewgong":"จูกอน","grimer":"เบโตเบตา","muk":"เบโตเบตอน","shellder":"เชลเดอร์","cloyster":"พาร์เชน","gastly":"โกส","haunter":"โกสต์","gengar":"เกงกา","onix":"อิวาร์ค","drowzee":"สลีป","hypno":"สลีปเปอร์","krabby":"แคร็บ","kingler":"คิงเกลอร์","voltorb":"บิริริดามา","electrode":"มารุมายน์","exeggcute":"ทามาทามะ","exeggutor":"นัซซี","cubone":"คาระคาระ","marowak":"กะระการะ","hitmonlee":"ซาวามูลาร์","hitmonchan":"เอบิวาลาร์","lickitung":"เบโรริงกา","koffing":"โดกัส","weezing":"มาตาโดกัส","rhyhorn":"ไซฮอร์น","rhydon":"ไซดอน","chansey":"ลัคกี้","tangela":"มอนจารา","kangaskhan":"การูรา","horsea":"ทัททู","seadra":"ซีดรา","goldeen":"โทซาคินโตะ","seaking":"อซึมาโอ","staryu":"ฮิโตเดมัน","starmie":"สตาร์มี","mr-mime":"บาร์เรียด","scyther":"สไตรค์","jynx":"รูจูลา","electabuzz":"เอเลบู","magmar":"บูเบอร์","pinsir":"ไคลอส","tauros":"เคนทารอส","magikarp":"คอยคิง","gyarados":"เกียราดอส","lapras":"ลาพลาส","ditto":"เมตามอน","eevee":"อีวุย","vaporeon":"ชาวเวอร์ส","jolteon":"ธันเดอร์ส","flareon":"บูสเตอร์","porygon":"โพรีกอน","omanyte":"ออมไนต์","omastar":"ออมสตาร์","kabuto":"คาบูโตะ","kabutops":"คาบูทอปส์","aerodactyl":"พเทอรา","snorlax":"คาบิกอน","articuno":"ฟรีเซอร์","zapdos":"ธันเดอร์","moltres":"ไฟเยอร์","dratini":"มินิริว","dragonair":"ฮาคุริว","dragonite":"ไคริว","mewtwo":"มิวทู","mew":"มิว",
-            "chikorita":"ชิโกริตา","bayleef":"เบย์ลีฟ","meganium":"เมกาเนียม","cyndaquil":"ฮิโนอาราชิ","quilava":"แม็กมาราชิ","typhlosion":"บาคุฟูน","totodile":"วานิโนโกะ","croconaw":"อลิเกตส์","feraligatr":"โอไดรุ","sentret":"โอทาจิ","furret":"โอโอทาจิ","hoothoot":"โฮโฮ","noctowl":"โยรุโนะซึคุ","ledyba":"เรดิบา","ledian":"เรดิอัน","spinarak":"อิโตมารุ","ariados":"อาริอาโดส","crobat":"โครแบท","chinchou":"ชอนชี","lanturn":"แลนเทิร์น","pichu":"ปิจู","cleffa":"ปีィ","igglybuff":"พูพูริน","togepi":"โทเงปี","togetic":"โทเงชิก","natu":"เนติ","xatu":"เนติโอ","mareep":"เมรีป","flaaffy":"โมโคโค","ampharos":"เด็นริว","bellossom":"คิเรฮานะ","marill":"มาริล","azumarill":"มาริลริ","sudowoodo":"อุโซกกี","politoed":"เนียวโรโทโนะ","hoppip":"ฮาเน็กโกะ","skiploom":"โปป็อกโกะ","jumpluff":"วาทักโกะ","aipom":"เอปาม","sunkern":"ฮิมานัทสึ","sunflora":"คิมาวาริ","yanma":"ยันยันมา","wooper":"อูปา","quagsire":"นูโอ","espeon":"เอฟี","umbreon":"แบล็กกี","murkrow":"ยามิการาสึ","slowking":"ยาโดคิง","misdreavus":"มูมา","unown":"อันโนน","wobbuffet":"โซนานส์","girafarig":"คิรินริคิ","pineco":"คุนุกิดามะ","forretress":"ฟอเรทอส","dunsparce":"โนก็อตชิ","gligar":"ไกลก้า","steelix":"ฮากาเนล","snubbull":"บลู","granbull":"แกรนบลู","qwilfish":"ฮาริเซน","scizor":"ฮัสซัม","shuckle":"สึโบะซึโบะ","heracross":"เฮราครอส","sneasel":"นิวลา","teddiursa":"ฮิเมกุมะ","ursaring":"ริงกุมะ","slugma":"แม็กมักก์","magcargo":"แม็กคาร์โก","swinub":"อูริมู","piloswine":"อิโนมู","corsola":"ซันนีโก","remoraid":"เทปโปโอ","octillery":"ออกทิลเลอรี","delibird":"เดลิเบิร์ด","mantine":"แมนไทน์","skarmory":"แอร์มุโด","houndour":"เดลวิล","houndoom":"เฮลการ์","kingdra":"คิงดรา","phanpy":"โกมาโซ","donphan":"ดอนฟาน","porygon2":"โพรีกอน2","stantler":"โอโดชิชิ","smeargle":"โดเบิล","tyrogue":"บารูคี","hitmontop":"คาโปเอเรอร์","smoochum":"มุจูล","elekid":"เอเลคิด","magby":"บูบี","miltank":"มิลแทงก์","blissey":"แฮปปีนา","raikou":"ไรโค","entei":"เอ็นเต","suicune":"ซุยคุน","larvitar":"โยกิราส","pupitar":"ซานากิราส","tyranitar":"บันกิราส","lugia":"ลูเกีย","ho-oh":"โฮโอ","celebi":"เซเลบี",
-            "treecko":"คิโมริ","grovyle":"จุปทอล","sceptile":"จูไคน์","torchic":"อาชาโม","combusken":"วาคาชาโม","blaziken":"บาชาโม","mudkip":"มิซึโกโร","marshtomp":"นูมาโคร","swampert":"ลากลาจ","poochyena":"โพชิเอนา","mightyena":"กราเอนา","zigzagoon":"จิกุซากุมะ","linoone":"มัสสึงุมะ","wurmple":"เคมุสโซ","silcoon":"คาระซาลิส","beautifly":"อาเกฮันท์","cascoon":"มายุลด","dustox":"โดกุเคล","lotad":"ฮัสโบ","lombre":"ฮัสเบรโร","ludicolo":"รุนปัปปา","seedot":"ทาเนโบ","nuzleaf":"โคโนฮานะ","shiftry":"ดาร์เทงกุ","taillow":"สึบาเมะ","swellow":"โอสึบาเมะ","wingull":"คาโมเมะ","pelipper":"เปลิปเปอร์","ralts":"ราลท์ซ","kirlia":"เคอร์เรีย","gardevoir":"เซอไนท์","surskit":"อาเมทามะ","masquerain":"อาเมมอธ","shroomish":"คิโนโคโกะ","breloom":"คิโนกัสซา","slakoth":"นามาเคโร","vigoroth":"ยารุคิโมโน","slaking":"เคคคิง","nincada":"สึจินิน","ninjask":"เทคคานิน","shedinja":"นูเคะนิน","whismur":"โกเนียวเนียว","loudred":"โดกอม","exploud":"บาคุองก์","makuhita":"มาคุโนชิตะ","hariyama":"ฮาริเตยามะ","azurill":"รุริริ","nosepass":"โนสพาส","skitty":"เอเนโกะ","delcatty":"เอเนโคโรโระ","sableye":"ยามิรามิ","mawile":"คูชีท","aron":"โคโคโดรา","lairon":"โคโดรา","aggron":"บอสโกโดรา","meditite":"อาซานัน","medicham":"เชอร์เรม","electrike":"ราคุไร","manectric":"ไลโวลต์","plusle":"พลาสเซิล","minun":"ไมนั้น","volbeat":"บารุบีท","illumise":"อิลูมิเซ","roselia":"โรเซเลีย","gulpin":"โกคุลิน","swalot":"มารุโนม","carvanha":"คิบาเนีย","sharpedo":"ซาเมฮาเดอร์","wailmer":"เวลโกะ","wailord":"เวลออร์","numel":"ดอนเมล","camerupt":"บาคุูดา","torkoal":"โคทอยส์","spoink":"บาเนบู","grumpig":"บูพิก","spinda":"พัทชีล","trapinch":"บานัคเคิล","vibrava":"วิบราวา","flygon":"ฟลายกอน","cacnea":"ซาโบเนีย","cacturne":"นอคทัส","swablu":"ทิลท์โท","altaria":"ทิลทาลิส","zangoose":"แซงกูส","seviper":"ฮาบูเนค","lunatone":"ลูนาโทน","solrock":"โซลร็อก","barboach":"โดโจทช์","whiscash":"นามาซุน","corphish":"เฮกานิ","crawdaunt":"ชิซาริเกอร์","baltoy":"ยาจิลอน","claydol":"เนนดอล","lileep":"ลิลีลา","cradily":"ยูเรดิล","anorith":"อน็อปส์","armaldo":"อาร์มาลโด","feebas":"ฮินบาส","milotic":"มิโลคาร์รอส","castform":"โปวารุน","kecleon":"คาคุเรอน","shuppet":"คาเงโบซึ","banette":"จุปเปตตา","duskull":"โยมาวารุ","dusclops":"ซามาโยรุ","tropius":"โทรเพียส","chimecho":"ชิรีน","absol":"แอบโซล","wynaut":"โซนาโน","snorunt":"ยูกิวาราชิ","glalie":"โอนิโกริ","spheal":"ทามาซาราชิ","sealeo":"โทโดกุเลอร์","walrein":"โทโดเซลกา","clamperl":"พารูล","huntail":"ฮันเทล","gorebyss":"ซากุระบิส","relicanth":"จีลานซ์","luvdisc":"ลัฟดิสก์","bagon":"ทัตสึเบ","shelgon":"โคโมรู","salamence":"โบมันเดอร์","beldum":"ดันบัล","metang":"เมแทงก์","metagross":"เมทากรอส","regirock":"เรจิร็อก","regice":"เรจิไอซ์","registeel":"เรจิสตีล","latias":"ลาทิอาส","latios":"ลาทิโอส","kyogre":"ไคโอกา","groudon":"กราดอน","rayquaza":"เรควอซา","jirachi":"จิราชิ","deoxys":"เดโอคิซิส",
-            "turtwig":"นาเอเติล","grotle":"ฮายาชิกาเมะ","torterra":"โดดายโทส","chimchar":"ฮิโกซารุ","monferno":"โมคาซารุ","infernape":"โกคาซารุ","piplup":"พอจจามะ","prinplup":"พ็อตไทชิ","empoleon":"เอ็มเพลท์","starly":"มุคคุรุ","staravia":"มุคคูเบิร์ด","staraptor":"มุคฮอว์ก","bidoof":"บิปปา","bibarel":"บีดารุล","kricketot":"โคโรโบชิ","kricketune":"โคโรท็อก","shinx":"โคลิงก์","luxio":"ลุคซิโอ","luxray":"เรนโทร่า","budew":"สึโบมิ","roserade":"โรสเรด","cranidos":"ซึไกโดส","rampardos":"แรมพัลด์","shieldon":"ทาเททอปส์","bastiodon":"โทริเดปส","burmy":"มิโนมุจิ","wormadam":"มิโนมาดัม","mothim":"กาเมล","combee":"มิตซึฮันนี","vespiquen":"บีควิน","pachirisu":"พาจิริสึ","buizel":"บุยเซล","floatzel":"โฟลเซล","cherubi":"เชอริมบัม","cherrim":"เชอริม","shellos":"ทามันทา","gastrodon":"โทริโทดอน","ambipom":"เอเตโบส","drifloon":"ฟูวันเตะ","drifblim":"ฟูวะไรด์","buneary":"มิมิโรล","lopunny":"มิมิล็อป","mismagius":"มูมาจิ","honchkrow":"ดอนการาสึ","glameow":"เนียรุมา","purugly":"บูเนียตโตะ","chingling":"ลีชาน","stunky":"สกันพู","skuntank":"สกันแทงก์","bronzor":"โดมิเรอร์","bronzong":"โดทาคุน","bonsly":"อุโซฮาจิ","mime-jr":"มาเนเน","happiny":"พินพินคุ","chatot":"เปราป","spiritomb":"มิคารุเงะ","gible":"ฟุคามารุ","gabite":"กาไบต์","garchomp":"กาเบรียส","munchlax":"กอนเบ","riolu":"ริโอลุ","lucario":"ลูคาริโอ","hippopotas":"ฮิโปโปตัส","hippowdon":"คาบารูดอน","skorupi":"สคอร์ปี","drapion":"โดราเปียน","croagunk":"เกรกกรู","toxicroak":"โดคุร็อก","carnivine":"มัสคิปปา","finneon":"เคย์โคโอ","lumineon":"เนโอแรนท์","mantyke":"ทาแมนทา","snover":"ยูกิคาบุริ","abomasnow":"ยูกิโนโอ","weavile":"มาฟิวลา","magnezone":"จิบะคอยล์","lickilicky":"เบโรเบลท์","rhyperior":"โดไซดอน","tangrowth":"มอนจัมโบ","electivire":"เอเลคิเบิล","magmortar":"บูเบิร์น","togekiss":"โทเกคิส","yanmega":"เมกายันมา","leafeon":"ลีเฟีย","glaceon":"กลาเซีย","gliscor":"ไกลออน","mamoswine":"แมมมู","porygon-z":"โพรีกอน Z","gallade":"เอลูเรด","probopass":"ไดโนส","dusknoir":"ยอนนัวร์","froslass":"ยูกิเมโนโกะ","rotom":"พรอทอม","uxie":"ยุคซี","mesprit":"เอ็มริต","azelf":"อักนอม","dialga":"ดีอัลกา","palkia":"พัลเกีย","heatran":"ฮีดราน","regigigas":"เรจิกิกัส","giratina":"กิราตินา","cresselia":"เครเซเรีย","phione":"ฟิโอเน","manaphy":"มานาฟี","darkrai":"ดาร์กไร","shaymin":"เชมิน","arceus":"อาร์เซอุส",
-            "victini":"วิคทินี","snivy":"สึทาจะ","servine":"จาโนบี","serperior":"จาโรดา","tepig":"โพคาบู","pignite":"ชาโอบู","emboar":"เอ็นบูโอ","oshawott":"มิจูมารุ","dewott":"ฟุตะจิมารุ","samurott":"ไดเคนคิ","patrat":"มิเนซึมิ","watchog":"มิรุฮ็อก","lillipup":"โยเทอรี","herdier":"ฮาเดเรีย","stoutland":"มูแลนด์","purrloin":"โชโรเนโกะ","liepard":"เรปาร์ดัส","pansage":"ยานัปปุ","simisage":"ยานักกี","pansear":"บาโอปปุ","simisear":"บาโอกี","panpour":"ฮิยัปปุ","simipour":"ฮิยักกี","munna":"มุนนะ","musharna":"มุชาร์นา","pidove":"มาเมพาโตะ","tranquill":"ฮาโตโบ","unfezant":"เคนโฮโร","blitzle":"ชิมามา","zebstrika":"เซบไรกา","roggenrola":"ดันโกโร","boldore":"กานทล","gigalith":"กิกาอิอาธ","woobat":"โคโรโมริ","swoobat":"โคโคโรโมริ","drilbur":"โมกิว","excadrill":"โดริวซึ","audino":"ทาบุนเนะ","timburr":"ด็อกโคเลอร์","gurdurr":"โดเทคคทสึ","conkeldurr":"โรบุชิน","tympole":"โอทามาโร","palpitoad":"กามะการุ","seismitoad":"กามะเกโรเกะ","throh":"นาเกคิ","sawk":"ดาเกคิ","sewaddle":"คุรุมิรุ","swadloon":"คุรุมายุ","leavanny":"ฮาฮาโคโมริ","venipede":"ฟุชิเดะ","whirlipede":"โฮอิกะ","scolipede":"เพนดรา","cottonee":"โมนเมน","whimsicott":"เอลฟูน","petilil":"ชูริเนะ","lilligant":"โดเรเดีย","basculin":"บาสราโอ","sandile":"เมกุโระ","krokorok":"วารุบิรุ","krookodile":"วารุวิอัล","darumaka":"ดารุมักกะ","darmanitan":"ฮิฮิดารุมะ","maractus":"มาราคัจจิ","dwebble":"อิชิซึไม","crustle":"อิวาพาเลซ","scraggy":"ซึรุกกุ","scrafty":"ซึรุซึคิน","sigilyph":"ชินโบลาร์","yamask":"เดสมาส","cofagrigus":"เดสคาน","tirtouga":"โปรโตกา","carracosta":"อาบาโกรา","archen":"อาเคน","archeops":"อาเคออส","trubbish":"ยาบุคุรอน","garbodor":"ดัสทอดาส","zorua":"โซรัว","zoroark":"โซโรอาร์ค","minccino":"ชิลลามี","cinccino":"ชิลาชิโน","gothita":"โกธิมู","gothorita":"โกธิมิรุ","gothitelle":"โกธิเทล","solosis":"ยูนิรัน","duosion":"ดาบรัน","reuniclus":"รันคลุส","ducklett":"โคอารูฮี","swanna":"สวอนนา","vanillite":"วานิปุจิ","vanillish":"วานิริช","vanilluxe":"ไบวานิลลา","deerling":"ชิกิจิกะ","sawsbuck":"เมบุกิจิกะ","emolga":"เอมอนกา","karrablast":"คาบุลโม","escavalier":"ชูวาโก","foongus":"ทามาเกตาเกะ","amoonguss":"โมโรบาเรล","frillish":"พูรุริล","jellicent":"บุนเจล","alomomola":"มามันโบ","joltik":"บาชูรุ","galvantula":"เดนชูรา","ferroseed":"เทสซีด","ferrothorn":"นัตโตเรย์","klink":"เกียร์","klang":"กิกิเกียร์","klinklang":"กิกิกิเกียร์","tynamo":"ชิบิชิราสึ","eelektrik":"ชิบิบีล","eelektross":"ชิบิดอน","elgyem":"ลิเกรย์","beheeyem":"โอเบม","litwick":"ฮิโตโมชิ","lampent":"ลามพูลา","chandelure":"แชนเดลา","axew":"คิบาโกะ","fraxure":"โอโนนโดะ","haxorus":"โอโนนคุส","cubchoo":"คุมะชุน","beartic":"ซึนแบร์","cryogonal":"ฟรีจิโอ","shelmet":"ชบอมากิ","accelgor":"อากิลเดอร์","stunfisk":"มักเกียว","mienfoo":"โคโจฟู","mienshao":"โคโจนโดะ","druddigon":"คริมแกน","golett":"โกบิต","golurk":"โกลูก","pawniard":"โคมาทานา","bisharp":"คิริคิซัน","bouffalant":"บัฟฟรอน","rufflet":"วาชิบอน","braviary":"วอร์เกิล","vullaby":"วาร์ไช","mandibuzz":"บัลจินา","heatmor":"ควิทารัน","durant":"ไอแอนท์","deino":"โมโนซึ","zweilous":"จิเฮด","hydreigon":"ซาซันโดรา","larvesta":"เมราลบา","volcarona":"อุลกามอธ","cobalion":"โคบาลูออน","terrakion":"เทราคิออน","virizion":"บิริจิออน","tornadus":"ทอร์เนลอส","thundurus":"โวลโทลอส","reshiram":"เรชิรัม","zekrom":"เซครอม","landorus":"แลนโดรอส","kyurem":"คิวเรม","keldeo":"เคลดิโอ","meloetta":"เมโลเอตตา","genesect":"เกโนเซ็กท์",
-            "chespin":"ฮาริมารอน","quilladin":"ฮาริบอร์ก","chesnaught":"บริการอน","fennekin":"ฟอคโกะ","braixen":"เทลนาร์","delphox":"มาฟ็อกซี","froakie":"เคโรมัตสึ","frogadier":"เกโคกาชิระ","greninja":"เก็คโคกะ","bunnelby":"โฮรุบี","diggersby":"โฮรุโดะ","fletchling":"ยายาโคมะ","fletchinder":"ฮิโนยาโคมะ","talonflame":"ไฟร์แอโรว์","scatterbug":"โคฟูคิมุชิ","spewpa":"โคฟูไร","vivillon":"วิวิญอง","litleo":"ชิชิโกะ","pyroar":"คายเอนจิ","flabebe":"ฟลาเบเบ","floette":"ฟลาเอตเต","florges":"ฟลาเจส","skiddo":"เมเคิล","gogoat":"โกโกท","pancham":"ยันชัม","pangoro":"กอโรนดะ","furfrou":"ทริเมียน","espurr":"เนียสเปอร์","meowstic":"เนียโอนิกซ์","honedge":"ฮิโตทสึคิ","doublade":"นิแดนกิล","aegislash":"กิลการ์ด","spritzee":"ชูชุป","aromatisse":"เฟรฟุวาน","swirlix":"เปร็อปพัฟ","slurpuff":"เปร็อปเพโร","inkay":"มาอีกะ","malamar":"คาลามาเนโร","binacle":"คาเมเทเตะ","barbaracle":"กาเมโนเดส","skrelp":"คุซึโม","dragalge":"ดรามิโดโร","clauncher":"อุเดปโป","clawitzer":"โบลสเตอร์","helioptile":"เอลิกิเทล","heliolisk":"เอเลซาร์ด","tyrunt":"จิโกรัส","tyrantrum":"กะจิโกรัส","amaura":"อมารัส","aurorus":"อมารูรูกา","sylveon":"นิมเฟีย","hawlucha":"ลูจาบูล","dedenne":"เดเด็นเนะ","carbink":"เมเลซี","goomy":"นูเมรา","sliggoo":"นูเมล","goodra":"นูเมลกอน","klefki":"เคลฟี","phantump":"โบคุเร","trevenant":"ออรอต","pumpkaboo":"บาเคจฉะ","gourgeist":"พัมพจิน","bergmite":"คาจิคจิ","avalugg":"เครเบส","noibat":"ออนแบท","noivern":"ออนเวิร์น","xerneas":"เซลเนียส","yveltal":"อีเวลทอล","zygarde":"ซีการ์ด","diancie":"ดีแอนซี","hoopa":"ฮูปา","volcanion":"โวลเคเนียน",
-            "rowlet":"โมคุโร","dartrix":"ฟุคุสึโร","decidueye":"จูไนเปอร์","litten":"เนียบี","torracat":"เนียฮีท","incineroar":"กาโอกาเอ็น","popplio":"อชิมาริ","brionne":"โอชาชิมาริ","primarina":"อชิเรน","pikipek":"สึซึเค","trumbeak":"เคราปัปปา","toucannon":"โดเดคาบาชิ","yungoos":"ยันกูส","gumshoos":"เดคากูส","grubbin":"อาโกจิมุชิ","charjabug":"เดนจิมุชิ","vikavolt":"คุวากานอน","crabrawler":"มาเคคานิ","crabominable":"เคเค็นคานิ","oricorio":"โอริโคริโอ","cutiefly":"อาบูรี","ribombee":"อาบูริบอน","rockruff":"อิวานโกะ","lycanroc":"ลูการูกัน","wishiwashi":"โยวาชิ","mareanie":"ฮิโดอิเดะ","toxapex":"โดฮิโดอิเดะ","mudbray":"โดโรบังโกะ","mudsdale":"บันบะโดโร","dewpider":"ชิซึคุโมะ","araquanid":"โอนิชิซึคุโมะ","fomantis":"คาริคิริ","lurantis":"ลารันเทส","morelull":"เนมาชุ","shiinotic":"มาเชด","salandit":"ยาโทมริ","salazzle":"เอนนิวต์","stufful":"นุยโคกุมะ","bewear":"คิเทรุกุมะ","bounsweet":"อามะคาจิ","steenee":"อามะไมโกะ","tsareena":"อามะโจ","comfey":"คิววาเวอร์","oranguru":"ยาเรยูตัน","passimian":"นาเกทสึเคซารุ","wimpod":"โคโซคุมุชิ","golisopod":"กุโซคุมุชิ","sandygast":"สึนาบะอะ","palossand":"ชิโรเดสนา","pyukumuku":"นามาโคบุชิ","type-null":"ไทป์:นัล","silvally":"ซิลวาดี","minior":"เมเทโน","komala":"เนกโคอาลา","turtonator":"บาคุกาเมส","togedemaru":"โทเกเดมารุ","mimikyu":"มิมิคคิว","bruxish":"ฮากิกิชิ","drampa":"จีจีรอน","dhelmise":"ดาดาริน","jangmo-o":"จารังโกะ","hakamo-o":"จารังโก","kommo-o":"จาราแรนกา","tapu-koko":"คาปู-โคเคโค","tapu-lele":"คาปู-เตเตฟู","tapu-bulu":"คาปู-บูลูลู","tapu-fini":"คาปู-เรฮิเร","cosmog":"คอสม็อก","cosmoem":"คอสโมม","solgaleo":"โซลกาเลโอ","lunala":"ลูนาลา","nihilego":"อุตซึรอยด์","buzzwole":"มัสชิบูน","pheromosa":"ฟีโรเช่","xurkitree":"เด็นจูโมกุ","celesteela":"เทคคากุยะ","kartana":"คามิทสึรุงิ","guzzlord":"อคุจิคิง","necrozma":"เนครอซมา","magearna":"มาเกียนา","marshadow":"มาร์ชาโดว์","poipole":"เบเวนอม","naganadel":"อาร์โกยอน","stakataka":"สึนเดสึนเด","blacephalon":"ซึกะโดน","zeraora":"เซราโอรา","meltan":"เมลตัน","melmetal":"เมลเมทัล",
-            "grookey":"ซารุโนริ","thwackey":"บาคีคีย์","rillaboom":"กอริลลันเดอร์","scorbunny":"ฮิบานี","raboot":"แรบบิท","cinderace":"เอสเบิร์น","sobble":"เมซซอน","drizzile":"จิเมเลียน","inteleon":"อินเทเลียน","skwovet":"โฮชิกะริส","greedent":"โยคุบะริส","rookidee":"โคโคะกะระ","corvisquire":"อาโอการาส","corviknight":"อาร์เมอร์ก้า","blipbug":"ซัตจิมุชิ","dottler":"เรดอมุชิ","orbeetle":"อิออร์บ","nickit":"คุสึเนะ","thievul":"ฟ็อกสไล","gossifleur":"ฮิเมนกะ","eldegoss":"วาตะชิรากะ","wooloo":"วูลู","dubwool":"บายวูล","chewtle":"คามุคาเมะ","drednaw":"คาจิริกาเมะ","yamper":"วันปาจิ","boltund":"พัลส์วัน","rolycoly":"ทาตง","carkol":"ทรอคกอน","coalossal":"เซคิทันซัง","applin":"คาจิจู","flapple":"อัปปริว","appletun":"ทารุปเปิล","silicobra":"สึนาเฮบิ","sandaconda":"ซาดายาจา","cramorant":"อุ๊อุ","arrokuda":"อุคุウ","barraskewda":"ซาชิคามะ","toxel":"เอเลซัน","toxtricity":"สตรินเดอร์","sizzlipede":"ยาคุเดะ","centiskorch":"มารุยาคุเดะ","clobbopus":"ทาทัคโค","grapploct":"โอโตสพัส","sinistea":"ยาบาชะ","polteageist":"พอตเดส","hatenna":"มิบรีม","hattrem":"เทบริม","hatterene":"บริมออน","impidimp":"เบโรบา","morgrem":"กิโมจ","grimmsnarl":"ออรอนเกะ","obstagoon":"ทาจิฟุซากุมะ","perrserker":"เนียคิง","cursola":"ซานิโกะ","sirfetchd":"เนกิกะไนท์","mr-rime":"บาริโคโอ","runerigus":"เดสบาร์น","milcery":"มาโฮมิล","alcremie":"มาวิป","falinks":"ไทเรส","pincurchin":"บาจินิอูนิ","snom":"ยูกิฮามิ","frosmoth":"มอสโนว","stonjourner":"อิชิเฮนจิน","eiscue":"โคโอริปโป","indeedee":"อิเอซัน","morpeko":"โมรุเปโกะ","cufant":"โซโดะ","copperajah":"ไดโอโดะ","dracozolt":"พาจิรากอน","arctozolt":"พัตจิรดอน","dracovish":"อูโอโนรากอน","arctovish":"อูโอจิลดอน","duraludon":"จูรัลดอน","dreepy":"โดราเมชิยะ","drakloak":"โดรอนจิ","dragapult":"โดราพัลท์","zacian":"ซาเชียน","zamazenta":"ซามาเซนตา","eternatus":"มุเก็นไดนา","kubfu":"ดาคุมะ","urshifu":"วูลาโอส","zarude":"ซารูด","regieleki":"เรจิเอเลคิ","regidrago":"เรจิดราโก","glastrier":"บลิซซาพอส","spectrier":"เรสพอส","calyrex":"บัดเดร็กซ์","wyrdeer":"อายาชิชิ","kleavor":"บาซากิรี","ursaluna":"กะจิกุมะ","basculegion":"อิไดโตะ","sneasler":"โอนิวลา","overqwil":"ฮาริยามัน","enamorus":"เลิฟทรอส",
-            "sprigatito":"เนียวฮะ","floragato":"เนียโรเต","meowscarada":"มาสเคอเนีย","fuecoco":"โฮเกเตอร์","crocalor":"อจิเกเตอร์","skeledirge":"ลาวด์โบน","quaxly":"แคว็กซ์","quaxwell":"แคว็กซ์เวล","quaquaval":"เวนิแคว็กซ์","lechonk":"กูร์ตง","oinkologne":"พาฟิวตง","tarountula":"ทามันชูลา","spidops":"วานัยเดอร์","nymble":"มาเมบัตตะ","lokix":"เอ็กซ์เลก","rellor":"ชิกาโมโกะ","rabsca":"เบรากัส","greavard":"ปาโม","houndstone":"พาโมต","flittle":"พามอต","espathra":"วักคาเนซุมิ","wiglett":"อิกคาเนซุมิ","wugtrio":"ปิปปิ","dondozo":"พาปิมจิ","veluza":"บาวเซล","finizen":"มินีบ","palafin":"โอลีวา","smoliv":"อิคิรินโกะ","dolliv":"โคจิโอ","arboliva":"จิโอซึม","capsakid":"เคียวจิโอ","scovillain":"คาร์โบว","tinkatink":"คานุจัง","tinkatuff":"นากานุจัง","tinkaton":"เดคานุจัง","bombirdier":"ไทไคเดน","varoom":"โอมิกะ","revavroom":"มิมิซึ","orthworm":"โอมิมิซึ","tandemaus":"นาฟิคจิ","maushold":"มิโดะเครสต","cetoddle":"อารุคุจิระ","cetitan":"ฮารุคุจิระ","koraidon":"โคไรดอน","miraidon":"มิไรดอน","gimmighoul":"คอลเลคเรย์","gholdengo":"ซาร์ฟโก","ting-lu":"ติ่งลู่","chien-pao":"เจี้ยนเปา","wo-chien":"โฉงเจี้ยน","chi-yu":"อวี้รุ่ย","ogerpon":"โอกะปอน","terapagos":"เทราปากอส","okidogi":"อี้อินุ","munkidori":"มาชิมาชิระ","fezandipiti":"คิจิคิสึ","pecharunt":"โมโมวาโร่"
+            "bulbasaur":"ฟุชิกิดาเนะ","ivysaur":"ฟุชิกิโซ","venusaur":"ฟุชิกิบานะ","charmander":"ฮิโตคาเงะ","charmeleon":"ลิซาร์โดะ","charizard":"ลิซาร์ดอน","squirtle":"เซนิกาเมะ","wartortle":"คาเมล","blastoise":"คาเม็กซ์","caterpie":"คาเตอร์ปี","metapod":"ทรานเซล","butterfree":"บัตเตอร์ฟรี","weedle":"บีเดิล","kakuna":"โคคูน","beedrill":"สเปียร์","pidgey":"ป๊ปโปะ","pidgeotto":"พีเจียน","pidgeot":"พีจ็อต","rattata":"โครัตตา","raticate":"รัตตา","spearow":"โอนิซึซึเมะ","fearow":"โอนิดริล","ekans":"อาร์โบ","arbok":"อาร์บ็อก","pikachu":"พิคาชู","raichu":"ไรชู","sandshrew":"แซนด์","sandslash":"แซนด์แพน","nidoran-f":"นิโดรัน♀","nidorina":"นิโดรินา","nidoqueen":"นิโดควีน","nidoran-m":"นิโดรัน♂","nidorino":"นิโดริโน","nidoking":"นิโดคิง","clefairy":"ปิปปี","clefable":"พิคซี","vulpix":"โรคอน","ninetales":"คิวคอน","jigglypuff":"พูริน","wigglytuff":"พุคุริน","zubat":"ซูแบท","golbat":"โกลแบท","oddish":"นาโซโนะคุสะ","gloom":"คุไซฮานะ","vileplume":"รัฟเฟลเซีย","paras":"พารัส","parasect":"พาราเซ็กต์","venonat":"คงปัง","venomoth":"โมรุฟอน","diglett":"ดิกด้า","dugtrio":"ดักทริโอ","meowth":"เนียซ","persian":"เปอร์เซียน","psyduck":"โคดัก","golduck":"โกลดัก","mankey":"แมนคีย์","primeape":"โอโคริซารุ","growlithe":"การ์ดี","arcanine":"วินดี","poliwag":"เนียวโรโมะ","poliwhirl":"เนียวโรโซ","poliwrath":"เนียวโรบอน","abra":"เคซี","kadabra":"ยุนเกอร์เรอร์","alakazam":"ฟูดิน","machop":"วันริกี","machoke":"โกริกี","machamp":"ไคริกี","bellsprout":"มาดาสึโบมิ","weepinbell":"อุซึดง","victreebel":"อุซึบอท","tentacool":"เมโนคุราเกะ","tentacruel":"โดคุคุราเกะ","geodude":"อิชิซึบุเตะ","graveler":"โกโลน","golem":"โกโลเนีย","ponyta":"โพนีตา","rapidash":"แกงลอป","slowpoke":"ยาดง","slowbro":"ยาโดรัน","magnemite":"คอยล์","magneton":"เรคอยล์","farfetchd":"คาโมเนกิ","doduo":"โดโด","dodrio":"โดโดริโอ","seel":"พาวาว","dewgong":"จูกอน","grimer":"เบโตเบตา","muk":"เบโตเบตอน","shellder":"เชลเดอร์","cloyster":"พาร์เชน","gastly":"โกส","haunter":"โกสต์","gengar":"เกงกา","onix":"อิวาร์ค","drowzee":"สลีป","hypno":"สลีปเปอร์","krabby":"แคร็บ","kingler":"คิงเกลอร์","voltorb":"บิริริดามา","electrode":"มารุมายน์","exeggcute":"ทามาทามะ","exeggutor":"นัซซี","cubone":"คาระคาระ","marowak":"กะระการะ","hitmonlee":"ซาวามูลาร์","hitmonchan":"เอบิวาลาร์","lickitung":"เบโรริงกา","koffing":"โดกัส","weezing":"มาตาโดกัส","rhyhorn":"ไซฮอร์น","rhydon":"ไซดอน","chansey":"ลัคกี้","tangela":"มอนจารา","kangaskhan":"การูรา","horsea":"ทัททู","seadra":"ซีดรา","goldeen":"โทซาคินโตะ","seaking":"อซึมาโอ","staryu":"ฮิโตเดมัน","starmie":"สตาร์มี","mr-mime":"บาร์เรียด","scyther":"สไตรค์","jynx":"รูจูลา","electabuzz":"เอเลบู","magmar":"บูเบอร์","pinsir":"ไคลอส","tauros":"เคนทารอส","magikarp":"คอยคิง","gyarados":"เกียราดอส","lapras":"ลาพลาส","ditto":"เมตามอน","eevee":"อีวุย","vaporeon":"ชาวเวอร์ส","jolteon":"ธันเดอร์ส","flareon":"บูสเตอร์","porygon":"โพรีกอน","omanyte":"ออมไนต์","omastar":"ออมสตาร์","kabuto":"คาบูโตะ","kabutops":"คาบูทอปส์","aerodactyl":"พเทอรา","snorlax":"คาบิกอน","articuno":"ฟรีเซอร์","zapdos":"ธันเดอร์","moltres":"ไฟเยอร์","dratini":"มินิริว","dragonair":"ฮาคุริว","dragonite":"ไคริว","mewtwo":"มิวทู","mew":"มิว"
         };
 
         const POKEDEX_ENTRIES_TH = {
             1: "ตั้งแต่เกิดมาจะมีเมล็ดพืชแปลกๆ ปลูกอยู่ที่หลัง เมล็ดจะโตขึ้นพร้อมกับตัวมันคอยดูดซับสารอาหาร",
             4: "ไฟที่หางคือสัญลักษณ์แห่งชีวิตและอารมณ์ หากไฟดับลง ชีวิตของมันก็จะจบสิ้นลงด้วย",
-            5: "เมื่อมันแกว่งหางที่ลุกเป็นไฟ อุณหภูมิรอบข้างจะพุ่งสูงขึ้นจนร้อนระอุแทบทนไม่ได้",
-            6: "พ่นไฟที่ร้อนแรงจนสามารถละลายหินผาได้ ว่ากันว่ามันมักจะเป็นต้นเหตุของไฟป่าใหญ่",
-            7: "กระดองของมันไม่เพียงแค่ใช้ป้องกันตัว แต่รูปทรงที่โค้งมนยังช่วยลดแรงต้านน้ำ ทำให้ว่ายน้ำได้เร็วมาก",
-            25: "มักจะสะสมไฟฟ้าไว้ที่ถุงลมบริเวณแก้มทั้งสองข้าง เมื่อรู้สึกถึงอันตรายจะปล่อยกระแสไฟฟ้าแรงสูงออกมา",
-            133: "มีพันธุกรรมที่ไม่เสถียรอย่างมาก ทำให้สามารถวิวัฒนาการเปลี่ยนรูปแบบไปตามสภาพแวดล้อมที่อยู่อาศัยได้",
-            143: "มันจะไม่พอใจถ้าไม่ได้กินอาหารวันละ 400 กิโลกรัม เมื่อกินอิ่มแล้วมันก็จะนอนหลับไปทันที",
-            149: "เป็นโปเกมอนที่จิตใจดีและรักสงบ ว่ากันว่ามันจะบินไปช่วยเหลือผู้คนที่กำลังจะจมน้ำกลางทะเล",
-            150: "โปเกมอนที่ถูกสร้างขึ้นจากการตัดต่อพันธุกรรม มีพลังจิตที่แข็งแกร่งที่สุดและมีจิตใจที่เยือกเย็น",
-            151: "โปเกมอนมายาที่ว่ากันว่ามีรหัสพันธุกรรมของโปเกมอนทุกตัวบนโลกซ่อนอยู่ในร่างกายของมัน",
-            249: "เทพเจ้าแห่งท้องทะเล มีพลังปีกมหาศาลที่สามารถสร้างพายุใหญ่พัดกระหน่ำได้ยาวนานถึง 40 วัน",
-            250: "ขนของมันส่องประกายเจ็ดสี ว่ากันว่าผู้ใดที่ได้เห็นโฮโอจะได้รับความสุขและโชคดีไปตลอดกาล",
-            384: "อาศัยอยู่ในชั้นบรรยากาศโอโซน คอยกลืนกินอุกกาบาตเพื่อใช้เป็นพลังงาน ว่ากันว่ามันจะลงมาเมื่อกราดอนและไคโอกาสู้กัน",
-            448: "สามารถอ่านคลื่นพลังงาน (Aura) ของสิ่งมีชีวิตได้ แม้จะหลับตาอยู่ก็รับรู้ความรู้สึกของศัตรูได้จากระยะไกล",
-            658: "บีบอัดน้ำจนเป็นดาวกระจายที่คมกริบ การเคลื่อนไหวของมันรวดเร็วและว่องไวราวกับนินจา"
+            25: "มักจะสะสมไฟฟ้าไว้ที่ถุงลมบริเวณแก้มทั้งสองข้าง เมื่อรู้สึกถึงอันตรายจะปล่อยกระแสไฟฟ้าแรงสูงออกมา"
         };
 
         const ITEMS_PER_PAGE = 100;
-
         const translationCache = new Map();
-
         const defaultSuffixes = ['-normal', '-altered', '-land', '-ordinary', '-aria', '-incarnate', '-average', '-standard', '-red-striped', '-baile', '-midday', '-solo', '-red-meteor', '-disguised', '-amped', '-ice', '-male', '-full-belly', '-single-strike', '-plant', '-shield'];
         const formKeywords = ['-mega', '-primal', '-gmax', '-alola', '-galar', '-hisui', '-paldea', '-therian', '-origin', '-ash', '-eternamax'];
         const formRegex = /-(mega(-[xy])?|primal|gmax|alola|galar|hisui|paldea|therian|origin|ash|eternamax).*/;
@@ -524,6 +677,44 @@
             cardElement.addEventListener('touchcancel', leaveHandler);
         }
 
+        // 🌟 Fallback Analysis (If API Fails/Offline)
+        function calculateFallbackBattle(p1, p2) {
+            const sumP1 = p1.stats.reduce((acc, s) => acc + s.base_stat, 0);
+            const sumP2 = p2.stats.reduce((acc, s) => acc + s.base_stat, 0);
+            const winner = sumP1 > sumP2 ? p1.name_th : (sumP2 > sumP1 ? p2.name_th : "ทั้งคู่สูสีกันมาก");
+
+            // หาค่าสเตตัสที่เด่นที่สุดของแต่ละตัวเพื่อให้ด็อกเตอร์วิเคราะห์ได้ลึกขึ้น
+            const getHighestStat = (pokemon) => pokemon.stats.reduce((max, stat) => max.base_stat > stat.base_stat ? max : stat);
+            const p1Best = getHighestStat(p1);
+            const p2Best = getHighestStat(p2);
+            
+            const statNamesTH = { 'hp': 'ความทนทาน (HP)', 'attack': 'พลังโจมตีทางกายภาพ', 'defense': 'พลังป้องกัน', 'special-attack': 'พลังโจมตีพิเศษ', 'special-defense': 'พลังป้องกันพิเศษ', 'speed': 'ความเร็วในการเคลื่อนที่' };
+            
+            return `
+อืม... ถึงระบบเมนเฟรมของศูนย์วิจัยจะออฟไลน์อยู่ แต่ในฐานะศาสตราจารย์ ด็อกเตอร์จะวิเคราะห์โครงสร้างทางสรีรวิทยาให้ฟังเอง!
+
+จากการเปรียบเทียบสถิติเชิงลึก...
+**${p1.name_th}** มีจุดเด่นทางสายพันธุ์อยู่ที่ **${statNamesTH[p1Best.stat.name] || p1Best.stat.name}** (Base: ${p1Best.base_stat}) และมีค่าพลังศักยภาพรวมที่ ${sumP1}
+ส่วน **${p2.name_th}** โดดเด่นในด้าน **${statNamesTH[p2Best.stat.name] || p2Best.stat.name}** (Base: ${p2Best.base_stat}) โดยมีค่าพลังศักยภาพรวม ${sumP2}
+
+เมื่อนำตัวเลขทางสถิติมาประมวลผล หากต้องประชันหน้ากันจริงๆ โปเกมอนที่มีศักยภาพโดยรวมเหนือกว่าและมีโอกาสกุมความได้เปรียบคือ... **${winner}**! 
+
+แต่จงจำไว้นะเจ้าหนู! การต่อสู้จริงยังขึ้นอยู่กับกลยุทธ์และการแพ้ทางธาตุด้วย!
+
+<voice>อืม จากการประเมินสถิติพื้นฐานแล้ว ${winner} ดูจะมีศักยภาพรวมที่เหนือกว่า และมีโอกาสคว้าชัยชนะไปได้นะ</voice>
+            `;
+        }
+        
+        function getFallbackLore(name) {
+             return `
+อืม... แฟ้มบันทึกงานวิจัยเชิงลึกของโปเกมอนตัวนี้กำลังอยู่ในขั้นตอนรวบรวมและตรวจสอบความถูกต้องนะ แต่สำหรับ **${name}** แล้ว จากประสบการณ์ตรงของด็อกเตอร์ มันเป็นโปเกมอนที่มีลักษณะทางสายพันธุ์ที่น่าหลงใหลมากทีเดียว! 
+
+ด็อกเตอร์เชื่อมั่นเลยว่า หากได้รับการฝึกฝนและดูแลเอาใจใส่จากเทรนเนอร์ที่ดี มันจะสามารถดึงศักยภาพระดับสูงที่ซ่อนอยู่ออกมาได้อย่างมหาศาลเลยล่ะ!
+
+<voice>อืม แฟ้มงานวิจัยกำลังถูกรวบรวมอยู่น่ะ แต่สำหรับ ${name} แล้ว ถือเป็นโปเกมอนที่มีศักยภาพน่าทึ่งมากทีเดียวล่ะ!</voice>
+             `;
+        }
+
         // 🌟 AI Handlers (Professor Oak Persona)
         async function analyzeBattle() {
             if (!compareData[0] || !compareData[1]) {
@@ -537,36 +728,110 @@
             btn.disabled = true;
             resultDiv.innerHTML = '';
             
+            const p1 = compareData[0];
+            const p2 = compareData[1];
+
             try {
-                const p1 = compareData[0];
-                const p2 = compareData[1];
                 const prompt = `ดร.โอคิโดะ ช่วยวิเคราะห์การต่อสู้ระหว่าง ${p1.name_th} กับ ${p2.name_th} ให้หน่อยครับ!
-ข้อมูลสเตตัส:
-${p1.name_th}: HP ${p1.stats[0].base_stat}, Atk ${p1.stats[1].base_stat}, Def ${p1.stats[2].base_stat}, Sp.Atk ${p1.stats[3].base_stat}, Sp.Def ${p1.stats[4].base_stat}, Spd ${p1.stats[5].base_stat}
-${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${p2.stats[2].base_stat}, Sp.Atk ${p2.stats[3].base_stat}, Sp.Def ${p2.stats[4].base_stat}, Spd ${p2.stats[5].base_stat}
-ธาตุ:
-${p1.name_th}: ${p1.types.map(t=>t.type.name).join(', ')}
-${p2.name_th}: ${p2.types.map(t=>t.type.name).join(', ')}
+ข้อมูลสเตตัส (สั้นๆ):
+${p1.name_th}: HP ${p1.stats[0].base_stat}, Atk ${p1.stats[1].base_stat}, Def ${p1.stats[2].base_stat}, Sp.Atk ${p1.stats[3].base_stat}, Sp.Def ${p1.stats[4].base_stat}, Spd ${p1.stats[5].base_stat} (Total: ${p1.stats.reduce((a,b)=>a+b.base_stat,0)})
+${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${p2.stats[2].base_stat}, Sp.Atk ${p2.stats[3].base_stat}, Sp.Def ${p2.stats[4].base_stat}, Spd ${p2.stats[5].base_stat} (Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)})
+ธาตุ: ${p1.name_th}=${p1.types.map(t=>t.type.name).join(', ')} VS ${p2.name_th}=${p2.types.map(t=>t.type.name).join(', ')}
 
 สิ่งที่ต้องทำ:
-1. สร้างตาราง Markdown เปรียบเทียบสเตตัส โดยใช้หัวคอลัมน์: | โปเกมอน | HP | พลังโจมตี | พลังป้องกัน | พลังโจมตีพิเศษ | พลังป้องกันพิเศษ | ความเร็ว |
-2. วิเคราะห์ความได้เปรียบเสียเปรียบ
-3. ฟันธงผู้ชนะให้ชัดเจน
-(จำไว้: ห้ามใช้เครื่องหมาย ### ทำหัวข้อเด็ดขาด ให้ใช้ตัวหนาแทน)`;
+1. ไม่ต้องสร้างตารางสเตตัส (เพราะมีแสดงในหน้าเว็บแล้ว) ให้วิเคราะห์ความได้เปรียบเสียเปรียบแบบตรงไปตรงมา
+2. ฟันธงผู้ชนะให้ชัดเจน
+3. อย่าลืมแท็ก <voice>คำฟันธงสั้นๆ 1-2 ประโยค</voice> ไว้บรรทัดสุดท้าย (สำคัญมาก เพื่อนำไปพากย์เสียง ห้ามใส่อีโมจิหรือสัญลักษณ์ในแท็กนี้เด็ดขาด และใช้ภาษาพูดที่เป็นธรรมชาติเหมือนศาสตราจารย์พูด)`;
                 
-                const response = await callGeminiAPI(prompt);
+                let response = "";
+                if (!apiKey) {
+                    response = calculateFallbackBattle(p1, p2); // กรณีไม่มี API Key ให้ใช้ Fallback ทันที
+                } else {
+                    response = await callGeminiAPI(prompt);
+                }
+
+                // สกัดแยกส่วนเสียงพากย์ออกจากข้อความหลัก
+                let voiceText = "";
+                const voiceMatch = response.match(/<voice>(.*?)<\/voice>/i);
+                if (voiceMatch) {
+                    voiceText = voiceMatch[1];
+                    response = response.replace(/<voice>.*?<\/voice>/ig, ''); // ลบแท็กออกจากข้อความที่จะแสดงผล
+                } else {
+                    voiceText = response.replace(/[*#|]/g, '').substring(0, 150); // ถ้า AI ไม่ใส่แท็กมา ให้ดึงข้อความแรกๆ ไปพากย์
+                }
+
                 const htmlResponse = marked.parse(response);
+                const btnVoiceId = 'voice-btn-battle';
                 
                 resultDiv.innerHTML = `
-                    <div class="ai-result-box p-6 md:p-8 rounded-2xl shadow-xl mt-6 fade-in text-sm md:text-base text-slate-700 leading-relaxed border border-slate-200" style="border-left-color: #10b981;">
-                        <div class="flex items-center gap-3 mb-4 border-b pb-4 border-slate-100">
-                            <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-xl text-emerald-600 shadow-inner">👨‍🔬</div>
-                            <h3 class="font-black text-lg text-slate-800">บทวิเคราะห์จาก ดร.โอคิโดะ</h3>
+                    <div class="ai-result-box p-6 md:p-8 rounded-2xl shadow-xl mt-10 md:mt-12 fade-in text-sm md:text-base text-slate-700 leading-relaxed border border-slate-200" style="border-left-color: #10b981;">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-4 border-b pb-4 border-slate-100">
+                            <div class="flex items-end gap-2 md:gap-4 relative -mt-12 md:-mt-16">
+                                <img src="${PROFESSOR_OAK_IMAGE}" class="w-24 h-24 md:w-36 md:h-36 object-contain animate-float drop-shadow-[0_15px_15px_rgba(0,0,0,0.25)] shrink-0" style="animation-duration: 4s; filter: brightness(1.05);" alt="Professor Oak" />
+                                <h3 class="font-black text-lg md:text-2xl text-slate-800 pb-1 md:pb-3">บทวิเคราะห์จาก ดร.โอคิโดะ</h3>
+                            </div>
+                            <!-- Audio Button Container -->
+                            <button id="${btnVoiceId}" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all shadow-md focus:outline-none shrink-0 active:scale-95 sm:mb-2">
+                                <i class="ph ph-spinner animate-spin text-lg"></i> กำลังเตรียมเสียง...
+                            </button>
                         </div>
                         ${htmlResponse}
                     </div>`;
+
+                // เรียกระบบเสียง
+                if (voiceText) {
+                    const btnVoice = document.getElementById(btnVoiceId);
+                    if (apiKey) {
+                        const audioUrl = await fetchDrOakVoice(voiceText, btnVoiceId);
+                        if (audioUrl) {
+                            btnVoice.onclick = () => toggleOakAudio(audioUrl, btnVoiceId);
+                            playOakAudio(audioUrl, btnVoiceId); // เล่นอัตโนมัติเมื่อเสียงพร้อม
+                        } else {
+                            // Fallback TTS ถ้า API พัง
+                            btnVoice.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ`;
+                            btnVoice.onclick = () => playWebTTS(voiceText, btnVoiceId);
+                        }
+                    } else {
+                        // ใช้ Web Speech API แทนเมื่อไม่มี API Key
+                        btnVoice.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ`;
+                        btnVoice.onclick = () => playWebTTS(voiceText, btnVoiceId);
+                        playWebTTS(voiceText, btnVoiceId); // ออโต้เพลย์
+                    }
+                } else {
+                    document.getElementById(btnVoiceId).style.display = 'none';
+                }
+
             } catch (e) {
-                resultDiv.innerHTML = `<div class="p-4 text-red-500 text-sm mt-4 text-center">เกิดข้อผิดพลาดในการเชื่อมต่อข้อมูล</div>`;
+                console.error(e);
+                // Fallback แบบสมบูรณ์เมื่อ Network Error
+                const fallbackResponse = calculateFallbackBattle(p1, p2);
+                let voiceText = "";
+                const voiceMatch = fallbackResponse.match(/<voice>(.*?)<\/voice>/i);
+                if (voiceMatch) voiceText = voiceMatch[1];
+                
+                const fallbackHtml = marked.parse(fallbackResponse.replace(/<voice>.*?<\/voice>/ig, ''));
+                const btnVoiceId = 'voice-btn-battle-fallback';
+
+                resultDiv.innerHTML = `
+                    <div class="ai-result-box p-6 md:p-8 rounded-2xl shadow-xl mt-10 md:mt-12 fade-in text-sm md:text-base text-slate-700 leading-relaxed border border-slate-200" style="border-left-color: #10b981;">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-4 border-b pb-4 border-slate-100">
+                            <div class="flex items-end gap-2 md:gap-4 relative -mt-12 md:-mt-16">
+                                <img src="${PROFESSOR_OAK_IMAGE}" class="w-24 h-24 md:w-36 md:h-36 object-contain animate-float drop-shadow-[0_15px_15px_rgba(0,0,0,0.25)] shrink-0" style="animation-duration: 4s; filter: brightness(1.05);" alt="Professor Oak" />
+                                <h3 class="font-black text-lg md:text-2xl text-slate-800 pb-1 md:pb-3">บทวิเคราะห์จาก ดร.โอคิโดะ</h3>
+                            </div>
+                            <button id="${btnVoiceId}" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all shadow-md focus:outline-none shrink-0 active:scale-95 sm:mb-2">
+                                <i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ
+                            </button>
+                        </div>
+                        ${fallbackHtml}
+                    </div>`;
+
+                if (voiceText) {
+                    const btnVoice = document.getElementById(btnVoiceId);
+                    btnVoice.onclick = () => playWebTTS(voiceText, btnVoiceId);
+                } else {
+                    document.getElementById(btnVoiceId).style.display = 'none';
+                }
             }
             
             btn.innerHTML = `<i class="ph-fill ph-microscope text-xl"></i> ดร.โอคิโดะ วิเคราะห์ข้อมูล`;
@@ -577,28 +842,105 @@ ${p2.name_th}: ${p2.types.map(t=>t.type.name).join(', ')}
             const btn = document.getElementById(`ai-lore-btn-${id}`);
             const resultDiv = document.getElementById(`ai-lore-result-${id}`);
             
-            btn.innerHTML = `<i class="ph ph-spinner animate-spin text-sm"></i> กำลังดึงข้อมูลงานวิจัย...`;
+            btn.innerHTML = `<i class="ph ph-spinner animate-spin text-sm"></i> กำลังดึงข้อมูล...`;
             btn.disabled = true;
             
             try {
-                const prompt = `ช่วยเล่าเกร็ดความรู้ นิสัย หรือข้อมูลงานวิจัยที่น่าสนใจเกี่ยวกับ ${name} ให้ฟังหน่อยครับ ดร. ขอสั้นๆ ประมาณ 1 ย่อหน้า (ห้ามใช้เครื่องหมาย ###)`;
-                const response = await callGeminiAPI(prompt);
+                const prompt = `ช่วยเล่าเกร็ดความรู้ นิสัย หรือข้อมูลงานวิจัยที่น่าสนใจเกี่ยวกับ ${name} ให้ฟังหน่อยครับ ดร. ขอสั้นๆ ประมาณ 1 ย่อหน้า (ห้ามใช้เครื่องหมาย ###) 
+และอย่าลืมแท็ก <voice>คำพูดสั้นๆ 1-2 ประโยค</voice> ไว้บรรทัดสุดท้าย (ห้ามใส่อีโมจิในแท็กนี้ และเขียนให้เป็นภาษาพูดที่ไหลลื่นเหมือนด็อกเตอร์ในการ์ตูน)`;
+                
+                let response = "";
+                if (!apiKey) {
+                    response = getFallbackLore(name);
+                } else {
+                    response = await callGeminiAPI(prompt);
+                }
+
+                // สกัดแยกส่วนเสียงพากย์
+                let voiceText = "";
+                const voiceMatch = response.match(/<voice>(.*?)<\/voice>/i);
+                if (voiceMatch) {
+                    voiceText = voiceMatch[1];
+                    response = response.replace(/<voice>.*?<\/voice>/ig, ''); 
+                } else {
+                    voiceText = response.replace(/[*#|]/g, '').substring(0, 100);
+                }
+
                 const htmlResponse = marked.parse(response);
+                const voiceBtnId = `voice-btn-lore-${id}`;
                 
                 resultDiv.innerHTML = `
-                    <div class="p-4 md:p-5 bg-emerald-50 rounded-xl border border-emerald-200 mt-4 text-[11px] sm:text-sm text-slate-700 leading-relaxed fade-in flex flex-col gap-2 shadow-inner ai-result-box">
-                        <span class="font-black text-emerald-700 text-xs md:text-sm flex items-center gap-2"><i class="ph-fill ph-book-bookmark text-base"></i> บันทึกการวิจัยของดร.โอคิโดะ:</span>
+                    <div class="p-4 md:p-5 bg-emerald-50 rounded-xl border border-emerald-200 mt-8 md:mt-10 text-[11px] sm:text-sm text-slate-700 leading-relaxed fade-in flex flex-col gap-3 shadow-inner ai-result-box relative">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-1 pb-3 border-b border-emerald-200/50">
+                            <div class="flex items-end gap-2 md:gap-3 relative -mt-10 md:-mt-14">
+                                <img src="${PROFESSOR_OAK_IMAGE}" class="w-20 h-20 md:w-28 md:h-28 object-contain drop-shadow-lg shrink-0 animate-float" style="animation-duration: 3.5s; filter: brightness(1.05);" alt="Professor Oak" />
+                                <span class="font-black text-emerald-800 text-sm md:text-lg pb-1 md:pb-2">บันทึกของดร.โอคิโดะ:</span>
+                            </div>
+                            <button id="${voiceBtnId}" class="hidden flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-full text-[10px] md:text-xs font-bold transition-all shadow-sm focus:outline-none active:scale-95 w-full sm:w-auto justify-center sm:mb-1">
+                                <i class="ph ph-spinner animate-spin text-sm md:text-base"></i> รอเสียงพากย์...
+                            </button>
+                        </div>
                         ${htmlResponse}
                     </div>`;
                 btn.style.display = 'none'; 
+
+                // เรียกระบบเสียง
+                if (voiceText) {
+                    const btnVoice = document.getElementById(voiceBtnId);
+                    if (apiKey) {
+                        const audioUrl = await fetchDrOakVoice(voiceText, voiceBtnId);
+                        if (audioUrl) {
+                            btnVoice.onclick = () => toggleOakAudio(audioUrl, voiceBtnId);
+                            playOakAudio(audioUrl, voiceBtnId);
+                        } else {
+                            btnVoice.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ`;
+                            btnVoice.onclick = () => playWebTTS(voiceText, voiceBtnId);
+                        }
+                    } else {
+                        btnVoice.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ`;
+                        btnVoice.onclick = () => playWebTTS(voiceText, voiceBtnId);
+                        // playWebTTS(voiceText, voiceBtnId); // ไม่ต้อง autoplay ทุกครั้งเผื่อผู้ใช้รำคาญ
+                    }
+                } else {
+                    document.getElementById(voiceBtnId).style.display = 'none';
+                }
+
             } catch (e) {
-                resultDiv.innerHTML = `<div class="p-4 text-red-500 text-xs">เกิดข้อผิดพลาดในการโหลดข้อมูล</div>`;
-                btn.innerHTML = `<i class="ph-fill ph-microscope text-base"></i> ดร.โอคิโดะ เล่าเกร็ดความรู้`;
-                btn.disabled = false;
+                console.error(e);
+                const fallbackResponse = getFallbackLore(name);
+                let voiceText = "";
+                const voiceMatch = fallbackResponse.match(/<voice>(.*?)<\/voice>/i);
+                if (voiceMatch) voiceText = voiceMatch[1];
+                
+                const fallbackHtml = marked.parse(fallbackResponse.replace(/<voice>.*?<\/voice>/ig, ''));
+                const voiceBtnId = `voice-btn-lore-fallback-${id}`;
+
+                resultDiv.innerHTML = `
+                    <div class="p-4 md:p-5 bg-emerald-50 rounded-xl border border-emerald-200 mt-8 md:mt-10 text-[11px] sm:text-sm text-slate-700 leading-relaxed fade-in flex flex-col gap-3 shadow-inner ai-result-box relative">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-1 pb-3 border-b border-emerald-200/50">
+                            <div class="flex items-end gap-2 md:gap-3 relative -mt-10 md:-mt-14">
+                                <img src="${PROFESSOR_OAK_IMAGE}" class="w-20 h-20 md:w-28 md:h-28 object-contain drop-shadow-lg shrink-0 animate-float" style="animation-duration: 3.5s; filter: brightness(1.05);" alt="Professor Oak" />
+                                <span class="font-black text-emerald-800 text-sm md:text-lg pb-1 md:pb-2">บันทึกของดร.โอคิโดะ:</span>
+                            </div>
+                            <button id="${voiceBtnId}" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-full text-[10px] md:text-xs font-bold transition-all shadow-sm focus:outline-none active:scale-95 w-full sm:w-auto justify-center sm:mb-1">
+                                <i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ
+                            </button>
+                        </div>
+                        ${fallbackHtml}
+                    </div>`;
+                btn.style.display = 'none';
+                
+                if (voiceText) {
+                    const btnVoice = document.getElementById(voiceBtnId);
+                    btnVoice.onclick = () => playWebTTS(voiceText, voiceBtnId);
+                } else {
+                    document.getElementById(voiceBtnId).style.display = 'none';
+                }
             }
         }
 
         // ---------------------------------
+        // ... (Data processing & Render Logic remain unchanged below) ...
 
         let allPokemon = [];
         let filteredList = [];
@@ -766,6 +1108,7 @@ ${p2.name_th}: ${p2.types.map(t=>t.type.name).join(', ')}
 
         function switchView(viewName) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (currentAudio) { currentAudio.pause(); } // หยุดเสียงเมื่อเปลี่ยนหน้า
             
             ['home', 'detail', 'compare', 'favorites'].forEach(v => {
                 const el = document.getElementById(`view-${v}`);
@@ -1555,7 +1898,12 @@ function renderCompareView() {
             const card = document.getElementById(`compare-inner-${i}`);
             if (card) attachGridParallax(card);
         });
-        document.getElementById('ai-battle-result').innerHTML = ''; // Reset AI text when cards change
+        
+        // Reset AI text when cards change so user knows they need to click analyze again
+        const resultDiv = document.getElementById('ai-battle-result');
+        if (resultDiv.innerHTML !== '') {
+            resultDiv.innerHTML = `<div class="text-slate-400 text-sm mt-4 text-center italic">ข้อมูลมีการเปลี่ยนแปลง กรุณากดวิเคราะห์อีกครั้ง</div>`;
+        }
     }, 50);
 }
 
