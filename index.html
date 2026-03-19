@@ -11,7 +11,7 @@
     <meta name="author" content="Pokédex Global">
     <meta property="og:title" content="Pokédex Global - สมุดภาพโปเกมอนภาษาไทย">
     <meta property="og:description" content="ค้นหาข้อมูลสเตตัส ธาตุ และจุดอ่อนของโปเกมอนทุกเจเนอเรชันได้ที่นี่">
-    <meta property="og:image" content="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png&output=webp">
+    <meta property="og:image" content="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/25.png&output=webp">
     <meta property="og:type" content="website">
 
     <!-- ⚡ DNS PREFETCH: เตรียมความพร้อมเน็ตเวิร์กขั้นสูงสุด -->
@@ -19,12 +19,12 @@
     <link rel="dns-prefetch" href="https://raw.githubusercontent.com">
     <link rel="dns-prefetch" href="https://pokeapi.co">
 
-    <!-- ⚡ PRELOAD: เร่งการโหลดรูปภาพ LCP ให้ไวที่สุด (ผ่าน WebP Proxy ลดขนาดลง 90%) -->
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png&w=300&output=webp&q=100&maxage=31536000" fetchpriority="high">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png&w=300&output=webp&q=100&maxage=31536000" fetchpriority="high">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png&w=300&output=webp&q=100&maxage=31536000">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png&w=300&output=webp&q=100&maxage=31536000">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png&w=300&output=webp&q=100&maxage=31536000" media="(min-width: 1024px)">
+    <!-- ⚡ PRELOAD: เร่งการโหลดรูปภาพ LCP 3D ให้ไวที่สุด พร้อมความคมชัดสูงสุด (filt=sharpen) -->
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png&w=600&dpr=2&output=png&q=100&filt=sharpen&maxage=31536000" fetchpriority="high">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/2.png&w=600&dpr=2&output=png&q=100&filt=sharpen&maxage=31536000" fetchpriority="high">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/3.png&w=600&dpr=2&output=png&q=100&filt=sharpen&maxage=31536000">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/4.png&w=600&dpr=2&output=png&q=100&filt=sharpen&maxage=31536000">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/5.png&w=600&dpr=2&output=png&q=100&filt=sharpen&maxage=31536000" media="(min-width: 1024px)">
 
     <!-- ⚡ PERFORMANCE: Preconnect ต้นทางที่จำเป็นทั้งหมด -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,7 +65,21 @@
         }
         .mask-fade { mask-image: linear-gradient(to right, black 95%, transparent 100%); }
         
-        img { image-rendering: -webkit-optimize-contrast; }
+        /* 🌟 ระบบเพิ่มความคมชัดและมิติให้ภาพ 3D ระดับ MAX (Ultra HD Equivalent) */
+        img { 
+            image-rendering: -webkit-optimize-contrast; 
+            image-rendering: high-quality;
+        }
+        
+        .img-3d-grid {
+            filter: drop-shadow(0 15px 20px rgba(0,0,0,0.5)) contrast(1.15) saturate(1.25);
+            transform: translateZ(0); /* Force GPU Rendering for sharpness */
+        }
+        
+        .img-3d-detail {
+            filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6)) contrast(1.2) saturate(1.3);
+            transform: translateZ(0);
+        }
 
         /* Animated Background Elements */
         .bg-blob {
@@ -79,7 +93,7 @@
             animation: drift 30s infinite alternate-reverse linear;
             pointer-events: none;
             will-change: transform;
-            transform: translateZ(0); /* Force GPU Rendering */
+            transform: translateZ(0);
         }
         @media (min-width: 768px) {
             .bg-blob { width: 800px; height: 800px; filter: blur(120px); }
@@ -89,7 +103,7 @@
             to { transform: translate(20%, 30%) rotate(360deg); }
         }
 
-        .fade-in { animation: fadeIn 0.4s ease-out; }
+        .fade-in { animation: fadeIn 0.15s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -108,21 +122,21 @@
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-2 md:gap-4 cursor-pointer group" onclick="switchView('home')">
                 <div class="relative w-8 h-8 md:w-12 md:h-12" aria-hidden="true">
-                    <div class="absolute inset-0 bg-slate-800 rounded-full shadow-lg transition-transform duration-700 group-hover:rotate-180 border-[2px] md:border-[3px] border-white">
+                    <div class="absolute inset-0 bg-slate-800 rounded-full shadow-lg transition-transform duration-200 group-hover:rotate-180 border-[2px] md:border-[3px] border-white">
                         <div class="absolute top-1/2 left-0 w-full h-0.5 bg-white/30"></div>
                         <div class="absolute top-1/2 left-1/2 w-2 h-2 md:w-3 md:h-3 bg-white border md:border-2 border-slate-800 rounded-full -translate-x-1/2 -translate-y-1/2 shadow-inner"></div>
                     </div>
                 </div>
-                <span class="font-black text-lg md:text-2xl tracking-tight text-slate-800 drop-shadow-sm">สมุดภาพ<span class="text-red-500 ml-0.5 md:ml-1">โปเกมอน</span></span>
+                <span class="font-black text-lg md:text-2xl tracking-tight text-slate-800 drop-shadow-sm leading-normal pb-1 pt-1">สมุดภาพ<span class="text-red-500 ml-0.5 md:ml-1">โปเกมอน</span></span>
             </div>
             <div class="flex gap-4 md:gap-10 font-bold text-[10px] md:text-sm">
                 <button onclick="switchView('home')" id="nav-home" class="text-red-500 transition-colors relative group py-2">
                     แกลเลอรี
-                    <div class="absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-300 w-full" id="nav-line-home"></div>
+                    <div class="absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-150 w-full" id="nav-line-home"></div>
                 </button>
                 <button onclick="switchView('compare')" id="nav-compare" class="text-slate-500 hover:text-slate-800 transition-colors relative group py-2">
                     เปรียบเทียบ
-                    <div class="absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-300 w-0 group-hover:w-full" id="nav-line-compare"></div>
+                    <div class="absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-150 w-0 group-hover:w-full" id="nav-line-compare"></div>
                 </button>
             </div>
         </div>
@@ -145,12 +159,12 @@
                                     <div class="w-2 h-2 md:w-3 md:h-3 bg-emerald-400 rounded-full shadow-sm"></div>
                                 </div>
                             </div>
-                            <h1 class="text-4xl sm:text-5xl md:text-7xl font-black text-slate-800 tracking-tighter leading-none mb-2 md:mb-4">
+                            <h1 class="text-4xl sm:text-5xl md:text-7xl font-black text-slate-800 tracking-tighter leading-tight mb-2 md:mb-4 py-2">
                                 สมุดภาพ <span class="text-red-500 drop-shadow-sm">โปเกมอน</span>
                             </h1>
-                            <p class="text-slate-600 font-bold text-[10px] sm:text-xs md:text-base tracking-wide mt-2 md:mt-4">รวบรวมข้อมูลโปเกมอนและร่างเมก้าทั้งหมดกว่า 1,025+ รูปแบบ</p>
+                            <p class="text-slate-600 font-bold text-[10px] sm:text-xs md:text-base tracking-wide mt-2 md:mt-4 leading-relaxed">รวบรวมข้อมูลโปเกมอนและร่างเมก้าทั้งหมดกว่า 1,025+ รูปแบบ</p>
                         </div>
-                        <button onclick="switchView('compare')" class="bg-slate-800 text-white px-6 py-3 md:px-10 md:py-5 rounded-[2rem] font-black text-[10px] sm:text-xs md:text-sm hover:bg-red-500 transition-colors shadow-2xl hover:-translate-y-1 md:hover:-translate-y-2 active:scale-95 mx-auto md:mx-0 flex items-center gap-2 md:gap-3 group">
+                        <button onclick="switchView('compare')" class="bg-slate-800 text-white px-6 py-3 md:px-10 md:py-5 rounded-[2rem] font-black text-[10px] sm:text-xs md:text-sm hover:bg-red-500 transition-colors shadow-2xl hover:-translate-y-1 md:hover:-translate-y-2 active:scale-95 mx-auto md:mx-0 flex items-center gap-2 md:gap-3 group leading-normal">
                             <i class="ph ph-scales text-base md:text-lg transition-transform group-hover:rotate-12" aria-hidden="true"></i>
                             วิเคราะห์การต่อสู้
                         </button>
@@ -159,14 +173,12 @@
                     <div class="relative mb-6 md:mb-14 max-w-4xl mx-auto md:mx-0">
                         <label for="searchInput" class="sr-only">ค้นหาโปเกมอน</label>
                         <i class="ph ph-magnifying-glass absolute left-5 md:left-6 top-1/2 -translate-y-1/2 text-slate-500 text-xl md:text-2xl" aria-hidden="true"></i>
-                        <input type="text" id="searchInput" placeholder="ค้นหาด้วยชื่อภาษาไทย, อังกฤษ หรือหมายเลข..." class="w-full pl-12 pr-4 py-4 md:pl-14 md:pr-10 md:py-6 bg-white/80 backdrop-blur-md border border-white focus:border-red-300 focus:bg-white rounded-[2rem] md:rounded-[2.5rem] outline-none transition-colors text-sm sm:text-base md:text-xl font-medium text-slate-800 shadow-lg placeholder:text-slate-500" onkeyup="handleSearch()">
+                        <input type="text" id="searchInput" placeholder="ค้นหาด้วยชื่อภาษาไทย, อังกฤษ หรือหมายเลข..." class="w-full pl-12 pr-4 py-4 md:pl-14 md:pr-10 md:py-6 bg-white/80 backdrop-blur-md border border-white focus:border-red-300 focus:bg-white rounded-[2rem] md:rounded-[2.5rem] outline-none transition-colors text-sm sm:text-base md:text-xl font-medium text-slate-800 shadow-lg placeholder:text-slate-500 leading-normal" onkeyup="handleSearch()">
                     </div>
 
-                    <nav aria-label="กรองตามภูมิภาค" id="region-filters" class="flex gap-2 md:gap-3 overflow-x-auto pb-3 md:pb-4 no-scrollbar mask-fade scroll-smooth min-h-[44px]">
-                        <!-- Filters injected by JS -->
-                    </nav>
+                    <nav aria-label="กรองตามภูมิภาค" id="region-filters" class="flex gap-2 md:gap-3 overflow-x-auto pb-3 md:pb-4 no-scrollbar mask-fade scroll-smooth min-h-[44px]"></nav>
                     
-                    <div class="mt-4 md:mt-8 text-[10px] md:text-sm font-bold text-slate-500 flex items-center justify-center md:justify-start gap-3 md:gap-4">
+                    <div class="mt-4 md:mt-8 text-[10px] md:text-sm font-bold text-slate-500 flex items-center justify-center md:justify-start gap-3 md:gap-4 leading-normal">
                         <div class="w-6 md:w-12 h-0.5 bg-slate-300" aria-hidden="true"></div>
                         พบโปเกมอนทั้งหมด <span id="total-count" class="text-slate-900 inline-block min-w-[40px] text-center">0</span> รูปแบบ
                     </div>
@@ -179,11 +191,11 @@
                     <!-- Cards injected by JS -->
                 </div>
                 <div id="empty-state" class="hidden text-center py-12 md:py-20 bg-slate-50 rounded-[2rem] md:rounded-[3rem] border border-dashed border-slate-300 mt-6 md:mt-10">
-                    <p class="text-slate-600 font-bold text-sm md:text-lg">ไม่พบข้อมูลโปเกมอนที่คุณค้นหา</p>
+                    <p class="text-slate-600 font-bold text-sm md:text-lg leading-normal">ไม่พบข้อมูลโปเกมอนที่คุณค้นหา</p>
                 </div>
                 <div id="load-more-container" class="mt-10 md:mt-24 flex justify-center hidden">
-                    <button onclick="loadMore()" class="flex items-center gap-2 md:gap-4 bg-white/80 backdrop-blur-md border border-white px-8 py-3 md:px-16 md:py-6 rounded-full font-black text-[10px] md:text-sm text-slate-600 hover:text-red-500 hover:border-red-200 hover:shadow-2xl transition-all group shadow-xl">
-                        <i class="ph ph-plus text-base md:text-lg transition-transform duration-500 group-hover:rotate-180" aria-hidden="true"></i>
+                    <button onclick="loadMore()" class="flex items-center gap-2 md:gap-4 bg-white/80 backdrop-blur-md border border-white px-8 py-3 md:px-16 md:py-6 rounded-full font-black text-[10px] md:text-sm text-slate-600 hover:text-red-500 hover:border-red-200 hover:shadow-2xl transition-all group shadow-xl leading-normal">
+                        <i class="ph ph-plus text-base md:text-lg transition-transform duration-200 group-hover:rotate-180" aria-hidden="true"></i>
                         โหลดข้อมูลเพิ่มเติม
                     </button>
                 </div>
@@ -198,12 +210,12 @@
         <!-- View: Compare -->
         <div id="view-compare" class="hidden fade-in pb-16 md:pb-32 max-w-7xl mx-auto px-3 md:px-6">
             <nav class="max-w-6xl mx-auto py-4 md:py-10 mb-2 md:mb-6">
-                <button onclick="switchView('home')" class="flex items-center gap-2 md:gap-3 text-slate-600 hover:text-slate-800 font-bold text-[10px] md:text-sm transition-transform group bg-white/50 px-4 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-white w-fit">
+                <button onclick="switchView('home')" class="flex items-center gap-2 md:gap-3 text-slate-600 hover:text-slate-800 font-bold text-[10px] md:text-sm transition-transform group bg-white/50 px-4 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-white w-fit leading-normal">
                     <i class="ph ph-arrow-left text-base md:text-lg transition-transform group-hover:-translate-x-2" aria-hidden="true"></i> กลับไปหน้าสมุดภาพ
                 </button>
             </nav>
             <div class="text-center mb-6 md:mb-16">
-                <h1 class="text-2xl md:text-5xl font-black text-slate-800 tracking-tight mb-2 md:mb-6">จำลองการต่อสู้ (Battle)</h1>
+                <h1 class="text-2xl md:text-5xl font-black text-slate-800 tracking-tight mb-2 md:mb-6 leading-normal py-2">จำลองการต่อสู้ (Battle)</h1>
                 <div class="w-12 md:w-24 h-1 md:h-1.5 bg-red-500 mx-auto rounded-full shadow-lg" aria-hidden="true"></div>
             </div>
             
@@ -220,10 +232,10 @@
     <footer class="bg-white/50 backdrop-blur-md py-10 md:py-20 px-6 text-center border-t border-white relative z-10 mt-auto">
         <div class="max-w-6xl mx-auto">
             <div class="w-10 h-10 md:w-16 md:h-16 bg-white/80 rounded-xl md:rounded-[1.5rem] mx-auto mb-4 md:mb-8 border border-white shadow-xl flex items-center justify-center group overflow-hidden relative" aria-hidden="true">
-                <div class="absolute inset-0 bg-red-500 translate-y-full transition-transform duration-500 group-hover:translate-y-1/2"></div>
+                <div class="absolute inset-0 bg-red-500 translate-y-full transition-transform duration-200 group-hover:translate-y-1/2"></div>
                 <div class="w-2.5 h-2.5 md:w-4 md:h-4 bg-slate-200 rounded-full border-2 border-white relative z-10"></div>
             </div>
-            <p class="text-slate-800 font-black text-sm md:text-2xl tracking-tight mb-1 md:mb-3">ฐานข้อมูลโปเกมอนแห่งประเทศไทย</p>
+            <p class="text-slate-800 font-black text-sm md:text-2xl tracking-tight mb-1 md:mb-3 leading-normal">ฐานข้อมูลโปเกมอนแห่งประเทศไทย</p>
             <p class="text-slate-600 text-[9px] md:text-sm font-bold max-w-sm mx-auto leading-loose opacity-90">
                 ระบบทำงานด้วย PokeAPI รองรับการค้นหาครบทั้งรูปแบบปกติและร่างเมก้า
             </p>
@@ -238,7 +250,7 @@
                     <div class="absolute top-1/2 left-0 w-full h-1 md:h-1.5 bg-slate-100 -translate-y-1/2"></div>
                     <div class="absolute top-1/2 left-1/2 w-4 h-4 md:w-5 md:h-5 bg-white border-[4px] md:border-[5px] border-slate-100 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
                 </div>
-                <p class="font-bold text-slate-500 tracking-widest uppercase text-[10px] md:text-sm">กำลังประมวลผลข้อมูล...</p>
+                <p class="font-bold text-slate-500 tracking-widest uppercase text-[10px] md:text-sm leading-normal">กำลังประมวลผลข้อมูล...</p>
             </div>
         `;
 
@@ -326,11 +338,27 @@
         let searchTimeout;
 
         const formatName = (name) => name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, ' ');
+        
+        // 🌟 อัปเกรดขีดจำกัดรูปภาพ (Max Quality & Lossless PNG)
         const getImageUrl = (id, size = 'full') => {
-            const baseUrl = `raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
-            if (size === 'thumb') return `https://wsrv.nl/?url=${baseUrl}&w=100&output=webp&q=100&maxage=31536000`;
-            if (size === 'grid') return `https://wsrv.nl/?url=${baseUrl}&w=300&output=webp&q=100&maxage=31536000`;
-            return `https://wsrv.nl/?url=${baseUrl}&output=webp&q=100&maxage=31536000`; 
+            const baseUrl = `raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`;
+            if (size === 'thumb') return `https://wsrv.nl/?url=${baseUrl}&w=200&dpr=2&output=png&q=100&filt=sharpen&maxage=31536000`;
+            if (size === 'grid') return `https://wsrv.nl/?url=${baseUrl}&w=600&dpr=2&output=png&q=100&filt=sharpen&maxage=31536000`;
+            // ภาพเต็ม ขยายความละเอียด 1200px * 2 (dpr) = 2400px
+            return `https://wsrv.nl/?url=${baseUrl}&w=1200&dpr=2&output=png&q=100&filt=sharpen&maxage=31536000`; 
+        };
+
+        const handleImgErr = (img, id, size) => {
+            if (!img.dataset.fallback) {
+                img.dataset.fallback = 'artwork';
+                let w = size === 'thumb' ? 200 : (size === 'grid' ? 600 : 1200);
+                img.src = `https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png&w=${w}&dpr=2&output=png&q=100&filt=sharpen`;
+            } else if (img.dataset.fallback === 'artwork') {
+                img.dataset.fallback = 'sprite';
+                img.style.imageRendering = 'pixelated';
+                img.style.filter = 'drop-shadow(0 10px 10px rgba(0,0,0,0.4))';
+                img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+            }
         };
 
         const getThaiName = (engName) => {
@@ -347,6 +375,10 @@
             if (engName === 'zygarde' || engName === 'zygarde-50') return 'ซีการ์ด (ฟอร์ม 50%)';
             if (engName === 'zygarde-10-power-construct' || engName === 'zygarde-10') return 'ซีการ์ด (ฟอร์ม 10%)';
             if (engName === 'zygarde-complete') return 'ซีการ์ด (เพอร์เฟกต์ฟอร์ม)';
+
+            if (engName.includes('mimikyu-busted')) return 'มิมิคคิว (ร่างความลับแตก)';
+            if (engName.includes('mimikyu-totem-disguised')) return 'มิมิคคิว เจ้าถิ่น (ร่างจำแลง)';
+            if (engName.includes('mimikyu-totem-busted')) return 'มิมิคคิว เจ้าถิ่น (ร่างความลับแตก)';
 
             let baseEngName = engName;
             for (let i = 0; i < defaultSuffixes.length; i++) {
@@ -554,7 +586,7 @@
                 const div = document.createElement('div');
                 div.id = `card-${p.id}`;
                 div.dataset.id = p.id;
-                div.className = "group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-7 shadow-sm hover:shadow-xl transition-transform duration-500 cursor-pointer border flex flex-col items-center relative hover:-translate-y-2 md:hover:-translate-y-3 overflow-hidden backdrop-blur-md bg-white/40 border-white/60";
+                div.className = "group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-7 shadow-sm hover:shadow-xl transition-transform duration-150 cursor-pointer border flex flex-col items-center relative hover:-translate-y-2 md:hover:-translate-y-3 overflow-hidden backdrop-blur-md bg-white/40 border-white/60";
                 div.onclick = () => openDetail(p.id);
 
                 const isTopRow = currentlyRenderedCount === 0 && index < 6;
@@ -562,15 +594,15 @@
                 const fetchPriorityAttr = isTopRow ? 'high' : 'auto';
 
                 div.innerHTML = `
-                    <div class="absolute top-3 right-4 md:top-4 md:right-5 font-black text-lg md:text-3xl italic select-none transition-opacity duration-500 opacity-70 group-hover:opacity-100 text-slate-700">
+                    <div class="absolute top-3 right-4 md:top-4 md:right-5 font-black text-lg md:text-3xl italic select-none transition-opacity duration-150 opacity-70 group-hover:opacity-100 text-slate-700">
                         #${String(p.id).padStart(3, '0')}
                     </div>
                     <div class="relative w-20 h-20 md:w-36 md:h-36 my-4 md:my-6 flex items-center justify-center">
-                        <div class="absolute inset-[-6px] md:inset-[-12px] bg-white/80 rounded-full scale-100 group-hover:scale-110 transition-transform duration-700 shadow-inner border border-white"></div>
-                        <img src="${getImageUrl(p.id, 'grid')}" width="150" height="150" class="relative z-10 max-w-full max-h-full object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-700 drop-shadow-xl" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="async" alt="${p.name_th}" />
+                        <div class="absolute inset-[-6px] md:inset-[-12px] bg-white/80 rounded-full scale-100 group-hover:scale-110 transition-transform duration-200 shadow-inner border border-white"></div>
+                        <img src="${getImageUrl(p.id, 'grid')}" class="relative z-10 max-w-full max-h-full object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-200 img-3d-grid" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="async" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
                     </div>
                     <div class="text-center w-full relative z-10 flex flex-col items-center">
-                        <h2 class="text-[11px] sm:text-xs md:text-lg font-black text-slate-800 tracking-tight transition-colors uppercase drop-shadow-sm group-hover:text-slate-900 mb-2 md:mb-3 truncate w-full px-1">
+                        <h2 class="text-[11px] sm:text-xs md:text-lg font-bold md:font-black text-slate-800 tracking-tight transition-colors drop-shadow-sm group-hover:text-slate-900 mb-2 md:mb-3 truncate w-full px-1 leading-normal pt-1 pb-2">
                             ${p.name_th}
                         </h2>
                         <div id="types-${p.id}" class="flex justify-center gap-1 md:gap-1.5 h-6 md:h-8 items-center w-full">
@@ -739,9 +771,9 @@
                     <div onclick="openDetail(${id})" class="flex flex-col items-center justify-center cursor-pointer group bg-white/80 backdrop-blur-md p-3 md:p-6 rounded-[1rem] md:rounded-[2rem] hover:bg-white hover:shadow-xl transition-transform border-2 border-white/50 hover:border-white hover:-translate-y-1 md:hover:-translate-y-2 w-20 md:w-36 shadow-sm">
                         <div class="relative w-10 h-10 md:w-20 md:h-20 mb-2 md:mb-4 flex items-center justify-center">
                             <div class="absolute inset-0 bg-slate-100/60 rounded-full scale-100 group-hover:scale-110 transition-transform"></div>
-                            <img src="${getImageUrl(id, 'grid')}" width="140" height="140" class="w-full h-full object-contain relative z-10 drop-shadow-md group-hover:scale-110 transition-transform" alt="${nameTh}" />
+                            <img src="${getImageUrl(id, 'grid')}" class="w-full h-full object-contain relative z-10 group-hover:scale-110 transition-transform img-3d-grid" alt="${nameTh}" onerror="handleImgErr(this, ${id}, 'grid')" />
                         </div>
-                        <span class="font-black text-slate-800 text-[9px] md:text-sm text-center leading-tight line-clamp-2 w-full px-1">${nameTh}</span>
+                        <span class="font-bold md:font-black text-slate-800 text-[9px] md:text-sm text-center leading-normal line-clamp-2 w-full px-1 pt-1 pb-2">${nameTh}</span>
                         <span class="text-[7px] md:text-[10px] font-bold text-slate-500 mt-1 uppercase tracking-widest">#${String(id).padStart(3, '0')}</span>
                     </div>
             `;
@@ -791,7 +823,7 @@
                 <div class="max-w-7xl mx-auto px-4 md:px-6 grid lg:grid-cols-2 gap-6 md:gap-16 items-start">
                     
                     <div class="relative group lg:sticky lg:top-32">
-                        <div class="backdrop-blur-xl rounded-[2rem] md:rounded-[4rem] p-6 md:p-20 shadow-2xl flex flex-col items-center border relative overflow-hidden w-full min-h-[220px] md:min-h-[500px] justify-center transition-colors duration-700"
+                        <div class="backdrop-blur-xl rounded-[2rem] md:rounded-[4rem] p-6 md:p-20 shadow-2xl flex flex-col items-center border relative overflow-hidden w-full min-h-[220px] md:min-h-[500px] justify-center transition-colors duration-200"
                             style="border-color: ${themeColor}40; background: linear-gradient(145deg, ${themeColor}10 0%, rgba(255,255,255,0.7) 100%)">
                             <div class="absolute inset-0 opacity-20 pointer-events-none mix-blend-multiply" style="background: radial-gradient(circle at top right, ${themeColor}, transparent 70%)"></div>
                             <div class="absolute -bottom-10 -left-10 md:-bottom-20 md:-left-20 w-48 h-48 md:w-96 md:h-96 blur-2xl md:blur-3xl opacity-20 pointer-events-none rounded-full" style="background-color: ${themeColor}"></div>
@@ -800,7 +832,7 @@
                                 #${pokemonDetail.id}
                             </div>
                             
-                            <img src="${getImageUrl(pokemonDetail.id, 'full')}" width="450" height="450" class="w-40 h-40 sm:w-[250px] sm:h-[250px] md:w-[450px] md:h-[450px] object-contain relative z-10 animate-float drop-shadow-2xl" alt="${pokemonDetail.name_th}" />
+                            <img src="${getImageUrl(pokemonDetail.id, 'full')}" class="w-40 h-40 sm:w-[250px] sm:h-[250px] md:w-[450px] md:h-[450px] object-contain relative z-10 animate-float img-3d-detail" alt="${pokemonDetail.name_th}" onerror="handleImgErr(this, ${pokemonDetail.id}, 'full')" />
                         </div>
                     </div>
 
@@ -809,8 +841,8 @@
                             <div class="text-xl md:text-4xl font-black italic tracking-widest mb-1 opacity-90 drop-shadow-sm" style="color: ${themeColor}">
                                 #${String(pokemonDetail.id).padStart(3, '0')}
                             </div>
-                            <h2 class="text-3xl sm:text-5xl md:text-7xl font-black text-slate-800 tracking-tighter mb-1.5 md:mb-4 leading-none md:leading-tight uppercase drop-shadow-sm truncate w-full">${pokemonDetail.name_th}</h2>
-                            <p class="text-xs sm:text-sm md:text-xl text-slate-500 font-bold italic mb-3 md:mb-6 uppercase tracking-widest">${formatName(pokemonDetail.name)}</p>
+                            <h2 class="text-3xl sm:text-5xl md:text-7xl font-black text-slate-800 tracking-tighter mb-1.5 md:mb-4 leading-normal drop-shadow-sm w-full py-2">${pokemonDetail.name_th}</h2>
+                            <p class="text-xs sm:text-sm md:text-xl text-slate-500 font-bold italic mb-3 md:mb-6 uppercase tracking-widest leading-normal">${formatName(pokemonDetail.name)}</p>
                             <div class="flex flex-wrap gap-1.5 md:gap-3">
                                 ${pokemonDetail.types.map(t => {
                                     const textColor = TYPE_TEXT_COLORS[t.type.name] || 'text-white';
@@ -829,7 +861,7 @@
                             <h3 class="text-xs md:text-lg font-black text-slate-700 mb-2 md:mb-4 flex items-center gap-2 md:gap-3 relative z-10">
                                 <i class="ph ph-info text-blue-500 text-base md:text-xl" aria-hidden="true"></i> ลักษณะและพฤติกรรม
                             </h3>
-                            <p id="pokedex-entry-text" class="text-slate-700 font-medium leading-relaxed text-[11px] sm:text-sm md:text-lg relative z-10 whitespace-pre-line">${translatedEntry}</p>
+                            <p id="pokedex-entry-text" class="text-slate-700 font-medium leading-relaxed text-[11px] sm:text-sm md:text-lg relative z-10 whitespace-pre-line pt-1 pb-1">${translatedEntry}</p>
                         </div>
 
                         <div class="grid grid-cols-2 gap-2 md:gap-6">
@@ -843,11 +875,11 @@
                             </div>
                             <div class="bg-white/60 backdrop-blur-md p-2 md:p-6 rounded-[1rem] md:rounded-[2rem] border border-white shadow-md flex flex-col justify-center items-center text-center">
                                 <p class="text-[8px] md:text-xs font-bold text-slate-500 uppercase tracking-widest mb-1 md:mb-2">สายพันธุ์ (Category)</p>
-                                <p class="font-black text-[11px] md:text-xl text-slate-800">${category}</p>
+                                <p class="font-black text-[11px] md:text-xl text-slate-800 leading-normal pb-1">${category}</p>
                             </div>
                             <div class="bg-white/60 backdrop-blur-md p-2 md:p-6 rounded-[1rem] md:rounded-[2rem] border border-white shadow-md flex flex-col justify-center items-center text-center">
                                 <p class="text-[8px] md:text-xs font-bold text-slate-500 uppercase tracking-widest mb-1 md:mb-2">ถิ่นที่อยู่ (Habitat)</p>
-                                <p class="font-black text-[11px] md:text-xl text-slate-800">${habitat}</p>
+                                <p class="font-black text-[11px] md:text-xl text-slate-800 leading-normal pb-1">${habitat}</p>
                             </div>
                         </div>
                         
@@ -869,10 +901,10 @@
                                     const statName = STAT_NAMES_TH[s.stat.name] || s.stat.name;
                                     return `
                                         <div class="flex items-center gap-1.5 md:gap-4 mb-1 md:mb-4 w-full">
-                                            <span class="text-[8px] md:text-xs font-bold text-slate-500 uppercase tracking-wider w-10 md:w-20 text-right shrink-0">${statName}</span>
+                                            <span class="text-[8px] md:text-xs font-bold text-slate-500 uppercase tracking-wider w-10 md:w-20 text-right shrink-0 leading-normal">${statName}</span>
                                             <span class="text-[9px] md:text-sm font-black text-slate-700 w-5 md:w-8 text-right shrink-0">${s.base_stat}</span>
                                             <div class="flex-1 bg-slate-100/60 rounded-full h-1 md:h-2.5 overflow-hidden shadow-inner min-w-0">
-                                                <div class="h-full rounded-full transition-all duration-1000 ease-out relative" 
+                                                <div class="h-full rounded-full transition-all duration-300 ease-out relative" 
                                                      style="width: ${percentage}%; background: linear-gradient(90deg, ${themeColor}80, ${themeColor}); box-shadow: 0 0 10px ${themeColor}60;">
                                                     <div class="absolute inset-0 bg-white/20" aria-hidden="true"></div>
                                                 </div>
@@ -887,7 +919,7 @@
                                     <h3 class="text-[9px] md:text-sm font-black text-slate-500 mb-2 md:mb-5 uppercase tracking-widest flex items-center gap-1.5 md:gap-2"><i class="ph ph-star text-yellow-500 text-sm md:text-xl" aria-hidden="true"></i> ความสามารถ</h3>
                                     <div class="flex flex-wrap gap-1.5 md:gap-3">
                                         ${pokemonDetail.abilities.map(a => `
-                                            <span class="px-2 py-1 md:px-5 md:py-2 bg-white/90 rounded-md md:rounded-xl text-[8px] md:text-xs font-black text-slate-600 border border-white shadow-sm hover:text-blue-500 transition-colors cursor-default uppercase tracking-wider">
+                                            <span class="px-2 py-1 md:px-5 md:py-2 bg-white/90 rounded-md md:rounded-xl text-[8px] md:text-xs font-black text-slate-600 border border-white shadow-sm hover:text-blue-500 transition-colors cursor-default uppercase tracking-wider leading-normal">
                                                 ${formatName(a.ability.name)}
                                             </span>
                                         `).join('')}
@@ -902,9 +934,9 @@
                                             return `
                                             <span class="${textColor} px-1.5 py-0.5 md:px-3 md:py-1.5 rounded-md md:rounded-xl text-[8px] md:text-xs font-bold shadow-sm flex items-center gap-1 md:gap-1.5 uppercase tracking-widest" style="background-color: ${TYPE_COLORS[w.type] || '#777'}">
                                                 <i class="${TYPE_ICONS[w.type] || 'ph-fill ph-circle'} text-[8px] md:text-[14px]" aria-hidden="true"></i>
-                                                ${TYPE_NAMES_TH[w.type] || w.type} <span class="${bgColor} px-1.5 py-0.5 rounded-md text-[7px] md:text-[10px] shadow-sm">${w.multiplier}x</span>
+                                                <span class="leading-normal pb-0.5">${TYPE_NAMES_TH[w.type] || w.type}</span> <span class="${bgColor} px-1.5 py-0.5 rounded-md text-[7px] md:text-[10px] shadow-sm">${w.multiplier}x</span>
                                             </span>
-                                        `}).join('') : '<span class="text-[9px] md:text-xs text-slate-500 font-medium">ไม่มีจุดอ่อน</span>'}
+                                        `}).join('') : '<span class="text-[9px] md:text-xs text-slate-500 font-medium leading-normal">ไม่มีจุดอ่อน</span>'}
                                     </div>
                                 </div>
                             </div>
@@ -921,8 +953,8 @@
                                         const isCurrent = formId == pokemonDetail.id;
                                         return `
                                             <div onclick="${!isCurrent ? `openDetail(${formId})` : ''}" class="flex flex-col items-center p-2 md:p-6 rounded-xl md:rounded-[2rem] transition-transform w-20 md:w-36 shadow-sm ${isCurrent ? 'cursor-default bg-white border-red-400 shadow-xl scale-105 border-2' : 'cursor-pointer bg-white/70 border-white hover:bg-white hover:shadow-xl hover:-translate-y-1 md:hover:-translate-y-2 border-2'}">
-                                                <img src="${getImageUrl(formId, 'grid')}" width="140" height="140" class="w-10 h-10 md:w-20 md:h-20 object-contain drop-shadow-md mb-1.5 md:mb-4" alt="${getThaiName(v.pokemon.name)}" />
-                                                <span class="font-bold text-slate-800 text-[8px] md:text-xs text-center leading-tight line-clamp-2 w-full px-1">
+                                                <img src="${getImageUrl(formId, 'grid')}" class="w-10 h-10 md:w-20 md:h-20 object-contain drop-shadow-md mb-1.5 md:mb-4 img-3d-grid" alt="${getThaiName(v.pokemon.name)}" onerror="handleImgErr(this, ${formId}, 'grid')" />
+                                                <span class="font-bold text-slate-800 text-[8px] md:text-xs text-center leading-normal line-clamp-2 w-full px-1 pb-1">
                                                     ${getThaiName(v.pokemon.name)}
                                                 </span>
                                             </div>
@@ -957,12 +989,12 @@
             return `
                 <div class="relative w-full mb-2 md:mb-6 compare-dropdown" id="dropdown-${index}">
                     <button onclick="toggleCompareDropdown(${index})" class="w-full bg-white/80 backdrop-blur-md p-2 md:p-5 rounded-lg md:rounded-2xl flex justify-between items-center border border-white hover:border-red-400 transition-colors font-bold text-slate-700 shadow-md group text-[9px] md:text-base min-w-0">
-                        <span class="truncate pr-1 flex-1 text-left" id="dropdown-text-${index}">${selected ? selected.name_th : 'เลือก...'}</span>
+                        <span class="truncate pr-1 flex-1 text-left leading-normal py-1" id="dropdown-text-${index}">${selected ? selected.name_th : 'เลือก...'}</span>
                         <i class="ph ph-caret-right text-slate-400 group-hover:text-red-400 transition-transform text-[10px] md:text-base shrink-0" id="dropdown-icon-${index}" aria-hidden="true"></i>
                     </button>
                     <div id="dropdown-menu-${index}" class="hidden absolute z-50 mt-1 md:mt-2 w-full bg-white/95 backdrop-blur-xl rounded-lg md:rounded-2xl shadow-2xl border border-white overflow-hidden">
                         <div class="p-1.5 md:p-4 border-b bg-slate-50/50">
-                            <input type="text" onkeyup="filterCompareDropdown(${index}, this.value)" class="w-full p-1.5 md:p-3 bg-white rounded-md md:rounded-xl outline-none text-[9px] md:text-sm font-medium border border-slate-200 focus:border-red-300 transition-colors shadow-inner" placeholder="ค้นหาชื่อ..." aria-label="ค้นหาโปเกมอนเปรียบเทียบ">
+                            <input type="text" onkeyup="filterCompareDropdown(${index}, this.value)" class="w-full p-1.5 md:p-3 bg-white rounded-md md:rounded-xl outline-none text-[9px] md:text-sm font-medium border border-slate-200 focus:border-red-300 transition-colors shadow-inner leading-normal" placeholder="ค้นหาชื่อ..." aria-label="ค้นหาโปเกมอนเปรียบเทียบ">
                         </div>
                         <div class="max-h-40 md:max-h-60 overflow-y-auto custom-scrollbar" id="dropdown-list-${index}">
                             ${renderCompareListHTML(index, '')}
@@ -980,8 +1012,8 @@
             }
             return list.slice(0, 50).map(p => `
                 <div onclick="selectCompare(${index}, ${p.id})" class="p-1.5 md:p-4 hover:bg-red-50/50 cursor-pointer flex items-center gap-1.5 md:gap-4 border-b border-slate-50 last:border-0 transition-colors">
-                    <img src="${getImageUrl(p.id, 'thumb')}" width="40" height="40" class="w-5 h-5 md:w-10 md:h-10 object-contain drop-shadow-sm" loading="lazy" alt="${p.name_th}" />
-                    <div class="flex-1 text-[9px] md:text-sm font-bold text-slate-700 truncate">${p.name_th}</div>
+                    <img src="${getImageUrl(p.id, 'thumb')}" class="w-5 h-5 md:w-10 md:h-10 object-contain drop-shadow-sm img-3d-grid" loading="lazy" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'thumb')" />
+                    <div class="flex-1 text-[9px] md:text-sm font-bold text-slate-700 truncate leading-normal py-1">${p.name_th}</div>
                 </div>
             `).join('');
         }
@@ -1055,10 +1087,10 @@
                     const percentage = Math.min((s.base_stat / 255) * 100, 100);
                     return `
                         <div class="flex items-center gap-1 md:gap-4 mb-1.5 md:mb-4 w-full min-w-0">
-                            <span class="text-[7px] md:text-xs font-bold text-slate-500 uppercase tracking-tight w-7 sm:w-8 md:w-16 shrink-0 text-right truncate">${statName}</span>
+                            <span class="text-[7px] md:text-xs font-bold text-slate-500 uppercase tracking-tight w-7 sm:w-8 md:w-16 shrink-0 text-right truncate leading-normal">${statName}</span>
                             <span class="text-[8px] md:text-sm font-black w-4 md:w-8 shrink-0 text-right ${isWinner ? 'text-emerald-500' : 'text-slate-700'}">${s.base_stat}</span>
                             <div class="flex-1 bg-slate-100/60 rounded-full h-1 md:h-2.5 overflow-hidden shadow-inner ml-1 md:ml-0 min-w-0">
-                                <div class="h-full rounded-full transition-all duration-1000 relative ${isWinner ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.4)]' : 'bg-slate-300'}" 
+                                <div class="h-full rounded-full transition-all duration-300 relative ${isWinner ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.4)]' : 'bg-slate-300'}" 
                                      style="width: ${percentage}%;">
                                      <div class="absolute inset-0 bg-white/20" aria-hidden="true"></div>
                                 </div>
@@ -1078,20 +1110,19 @@
                         <div class="flex flex-col items-center mb-2 md:mb-8 min-w-0">
                             <div class="w-16 h-16 sm:w-20 sm:h-20 md:w-56 md:h-56 mb-2 md:mb-8 bg-white rounded-xl md:rounded-[3.5rem] flex items-center justify-center p-2 md:p-12 relative shadow-inner border border-slate-50 overflow-hidden shrink-0">
                                 <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-white"></div>
-                                <img src="${getImageUrl(data.id, 'full')}" width="200" height="200" class="w-full h-full object-contain relative z-10 drop-shadow-lg md:drop-shadow-2xl animate-float" alt="${data.name_th}" />
+                                <img src="${getImageUrl(data.id, 'full')}" class="w-full h-full object-contain relative z-10 animate-float img-3d-detail" alt="${data.name_th}" onerror="handleImgErr(this, ${data.id}, 'full')" />
                             </div>
                             <div class="text-[8px] md:text-2xl font-black italic tracking-widest mb-0.5 md:mb-2 opacity-90 drop-shadow-sm" style="color: ${themeColor}">
                                 #${String(data.id).padStart(3, '0')}
                             </div>
-                            <h2 class="text-xs sm:text-sm md:text-4xl font-black text-slate-800 tracking-tighter uppercase mb-1 md:mb-4 text-center leading-none truncate block w-full px-1">${data.name_th}</h2>
-                            <!-- ⚡ CLS FIX: ใส่ h-6 md:h-8 คงที่ -->
+                            <h2 class="text-xs sm:text-sm md:text-4xl font-bold md:font-black text-slate-800 tracking-tight mb-1 md:mb-4 text-center leading-normal truncate block w-full px-1 py-1 sm:py-2">${data.name_th}</h2>
                             <div class="flex justify-center gap-0.5 md:gap-2 mt-0.5 md:mt-0 h-6 md:h-8 overflow-hidden items-center shrink-0 w-full flex-wrap md:flex-nowrap">
                                 ${data.types.map(t => {
                                     const textColor = TYPE_TEXT_COLORS[t.type.name] || 'text-white';
                                     return `
                                     <span class="${textColor} text-[6px] md:text-[11px] font-bold px-1.5 py-0.5 md:px-3 md:py-1 rounded-full uppercase tracking-widest shadow-sm md:shadow-lg inline-flex items-center gap-0.5 md:gap-1 max-w-[90%] truncate" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
                                         <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[6px] md:text-[12px] shrink-0" aria-hidden="true"></i>
-                                        <span class="truncate">${TYPE_NAMES_TH[t.type.name] || t.type.name}</span>
+                                        <span class="truncate leading-normal pb-0.5">${TYPE_NAMES_TH[t.type.name] || t.type.name}</span>
                                     </span>
                                     `
                                 }).join('')}
@@ -1101,7 +1132,7 @@
                         <div class="flex-1 pt-2 md:pt-6 border-t border-white/50 flex flex-col min-w-0">
                             <div class="flex flex-col justify-center flex-1 w-full min-w-0">${statsHtml}</div>
                             <div class="mt-auto pt-2 md:pt-4 border-t border-white/50 flex justify-between items-center px-1 md:px-2 w-full min-w-0">
-                                <span class="text-[7px] md:text-sm font-black text-slate-500 uppercase tracking-widest shrink-0">Total</span>
+                                <span class="text-[7px] md:text-sm font-black text-slate-500 uppercase tracking-widest shrink-0 leading-normal">Total</span>
                                 <span class="text-[10px] md:text-2xl font-black shrink-0 ${isTotalWinner ? 'text-emerald-500' : 'text-slate-700'}">${totalStats}</span>
                             </div>
                         </div>
