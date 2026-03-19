@@ -6,11 +6,11 @@
     <title>Pokédex Global - สมุดภาพโปเกมอน</title>
     
     <!-- 🟢 SEO & Social Media Meta Tags -->
-    <meta name="description" content="สมุดภาพโปเกมอน (Pokédex) รวบรวมข้อมูลสเตตัส ธาตุ จุดอ่อน และสายวิวัฒนาการกว่า 1,025 รูปแบบ พร้อมระบบจำลองการต่อสู้">
+    <meta name="description" content="สมุดภาพโปเกมอน (Pokédex) รวบรวมข้อมูลสเตตัส ธาตุ จุดอ่อน และสายวิวัฒนาการ พร้อมระบบวิเคราะห์โดย ดร.โอคิโดะ">
     <meta name="keywords" content="โปเกมอน, สมุดภาพโปเกมอน, Pokedex, Pokemon, ข้อมูลโปเกมอน">
     <meta name="author" content="Pokédex Global">
     <meta property="og:title" content="Pokédex Global - สมุดภาพโปเกมอนภาษาไทย">
-    <meta property="og:description" content="ค้นหาข้อมูลสเตตัส ธาตุ และจุดอ่อนของโปเกมอนทุกเจเนอเรชันได้ที่นี่">
+    <meta property="og:description" content="ค้นหาข้อมูลสเตตัส ธาตุ และวิเคราะห์การต่อสู้โดย ดร.โอคิโดะ">
     <meta property="og:image" content="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/25.png&output=webp">
     <meta property="og:type" content="website">
 
@@ -18,13 +18,12 @@
     <link rel="dns-prefetch" href="https://wsrv.nl">
     <link rel="dns-prefetch" href="https://raw.githubusercontent.com">
     <link rel="dns-prefetch" href="https://pokeapi.co">
+    <link rel="dns-prefetch" href="https://generativelanguage.googleapis.com">
 
-    <!-- ⚡ PRELOAD: เร่งการโหลดรูปภาพ LCP 3D ให้ไวที่สุด พร้อมความเนียนสมูทระดับสูงสุด -->
+    <!-- ⚡ PRELOAD: เร่งการโหลดรูปภาพ LCP 3D ให้ไวที่สุด -->
     <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png&w=600&dpr=2&output=png&q=100&maxage=31536000" fetchpriority="high">
     <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/2.png&w=600&dpr=2&output=png&q=100&maxage=31536000" fetchpriority="high">
     <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/3.png&w=600&dpr=2&output=png&q=100&maxage=31536000">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/4.png&w=600&dpr=2&output=png&q=100&maxage=31536000">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/5.png&w=600&dpr=2&output=png&q=100&maxage=31536000" media="(min-width: 1024px)">
 
     <!-- ⚡ PERFORMANCE: Preconnect ต้นทางที่จำเป็นทั้งหมด -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,12 +40,8 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        primary: '#EF4444', 
-                    },
-                    fontFamily: {
-                        sans: ['Prompt', 'Inter', 'sans-serif'],
-                    }
+                    colors: { primary: '#EF4444' },
+                    fontFamily: { sans: ['Prompt', 'Inter', 'sans-serif'] }
                 }
             }
         }
@@ -54,19 +49,16 @@
     
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
+    
+    <!-- 🟢 เพิ่ม Marked.js สำหรับแปลง Markdown เป็นตาราง HTML ได้อย่างสมบูรณ์ -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <style>
-        :root {
-            --card-bg: rgba(255, 255, 255, 0.85);
-            --card-border: rgba(255, 255, 255, 0.6);
-            --card-hover: rgba(255, 255, 255, 0.95);
-        }
-
         body {
             font-family: 'Prompt', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            transition: background-color 0.5s ease, color 0.5s ease;
+            background-color: #f8fafc;
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -85,15 +77,13 @@
         }
         .mask-fade { mask-image: linear-gradient(to right, black 95%, transparent 100%); }
         
-        img { 
-            image-rendering: high-quality;
-        }
+        img { image-rendering: high-quality; }
         
-        /* 🌟 ระบบเพิ่มความคมชัดและมิติให้ภาพ 3D พร้อม Hardware Acceleration (ไหลลื่น) */
+        /* 🌟 ระบบเพิ่มความคมชัดและมิติให้ภาพ 3D พร้อม Hardware Acceleration */
         .img-3d-grid {
             filter: drop-shadow(0 15px 25px rgba(0,0,0,0.3)) brightness(1.05) contrast(1.05);
             transform: translateZ(40px);
-            will-change: transform; /* บังคับใช้ GPU */
+            will-change: transform;
         }
         
         .img-3d-detail {
@@ -101,15 +91,34 @@
             will-change: transform;
         }
 
-        .card-bg-wrap {
-            will-change: transform, box-shadow;
+        .card-bg-wrap { will-change: transform, box-shadow; }
+        .preserve-3d { transform-style: preserve-3d; perspective: 1000px; }
+
+        /* Dr. Oak AI Button Styling */
+        .btn-oak {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-oak:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4);
         }
 
-        .preserve-3d {
-            transform-style: preserve-3d;
-            perspective: 1000px;
+        /* 🌟 ปรับแต่งตาราง Markdown ของ ดร.โอคิโดะ ให้เป็นระเบียบสวยงาม */
+        .ai-result-box table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.875rem; border-radius: 0.5rem; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .ai-result-box th { background-color: #ecfdf5; color: #047857; padding: 0.75rem 0.5rem; border: 1px solid #a7f3d0; text-align: center; white-space: nowrap; }
+        .ai-result-box td { padding: 0.75rem 0.5rem; border: 1px solid #e2e8f0; text-align: center; background-color: white; }
+        .ai-result-box p { margin-bottom: 0.75rem; }
+        .ai-result-box strong { color: #059669; font-weight: 900; }
+        .ai-result-box ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .ai-result-box li { margin-bottom: 0.25rem; }
+        @media (max-width: 640px) {
+            .ai-result-box table { display: block; overflow-x: auto; white-space: nowrap; }
         }
 
+        /* Animated Background Elements */
         .bg-blob {
             position: fixed;
             width: 600px;
@@ -123,7 +132,6 @@
             will-change: transform;
             transform: translateZ(0);
         }
-        
         @media (min-width: 768px) {
             .bg-blob { width: 800px; height: 800px; filter: blur(120px); }
         }
@@ -136,7 +144,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 selection:bg-primary/30 overflow-x-hidden relative min-h-screen flex flex-col transition-colors duration-500">
+<body class="text-slate-800 selection:bg-primary/30 overflow-x-hidden relative min-h-screen flex flex-col">
 
     <!-- Background Elements -->
     <div class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
@@ -156,7 +164,7 @@
                         <div class="absolute top-1/2 left-1/2 w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-3 md:h-3 bg-white border md:border-2 border-slate-800 rounded-full -translate-x-1/2 -translate-y-1/2 shadow-inner"></div>
                     </div>
                 </div>
-                <span class="font-black text-[13px] sm:text-lg md:text-2xl tracking-tight text-slate-800 drop-shadow-sm leading-normal pb-1 pt-1 transition-colors duration-500">สมุดภาพ<span class="text-red-500 ml-0.5 md:ml-1 hidden min-[380px]:inline">โปเกมอน</span></span>
+                <span class="font-black text-[13px] sm:text-lg md:text-2xl tracking-tight text-slate-800 drop-shadow-sm leading-normal pb-1 pt-1">สมุดภาพ<span class="text-red-500 ml-0.5 md:ml-1 hidden min-[380px]:inline">โปเกมอน</span></span>
             </div>
             <div class="flex gap-2.5 sm:gap-4 md:gap-8 font-bold text-[10px] md:text-sm items-center">
                 <button onclick="switchView('home')" id="nav-home" class="text-red-500 transition-colors relative group py-2">
@@ -186,7 +194,7 @@
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-10 mb-8 md:mb-16">
                         <div class="relative">
                             <div class="flex items-center justify-center md:justify-start gap-3 md:gap-4 mb-4 md:mb-6" aria-hidden="true">
-                                <div class="w-8 h-8 md:w-12 md:h-12 bg-blue-500 rounded-full border-[3px] md:border-[5px] border-white shadow-xl animate-pulse ring-4 ring-blue-500/20 transition-colors duration-500"></div>
+                                <div class="w-8 h-8 md:w-12 md:h-12 bg-blue-500 rounded-full border-[3px] md:border-[5px] border-white shadow-xl animate-pulse ring-4 ring-blue-500/20"></div>
                                 <div class="flex gap-1.5 md:gap-3">
                                     <div class="w-2 h-2 md:w-3 md:h-3 bg-red-400 rounded-full shadow-sm"></div>
                                     <div class="w-2 h-2 md:w-3 md:h-3 bg-yellow-300 rounded-full shadow-sm"></div>
@@ -194,11 +202,11 @@
                                 </div>
                             </div>
                             <h1 class="text-4xl sm:text-5xl md:text-7xl font-black text-slate-800 tracking-tighter leading-tight mb-2 md:mb-4 py-2">
-                                สมุดภาพ <span class="text-primary drop-shadow-sm">โปเกมอน</span>
+                                สมุดภาพ <span class="text-red-500 drop-shadow-sm">โปเกมอน</span>
                             </h1>
-                            <p class="text-slate-600 font-bold text-[10px] sm:text-xs md:text-base tracking-wide mt-2 md:mt-4 leading-relaxed transition-colors duration-500">รวบรวมข้อมูลโปเกมอนและร่างเมก้าทั้งหมดกว่า 1,025+ รูปแบบ</p>
+                            <p class="text-slate-600 font-bold text-[10px] sm:text-xs md:text-base tracking-wide mt-2 md:mt-4 leading-relaxed">รวบรวมข้อมูลโปเกมอนและร่างเมก้าทั้งหมดกว่า 1,025+ รูปแบบ</p>
                         </div>
-                        <button onclick="switchView('compare')" class="bg-slate-800 text-white px-6 py-3 md:px-10 md:py-5 rounded-[2rem] font-black text-[10px] sm:text-xs md:text-sm hover:bg-primary transition-colors shadow-2xl hover:-translate-y-1 md:hover:-translate-y-2 active:scale-95 mx-auto md:mx-0 flex items-center gap-2 md:gap-3 group leading-normal">
+                        <button onclick="switchView('compare')" class="bg-slate-800 text-white px-6 py-3 md:px-10 md:py-5 rounded-[2rem] font-black text-[10px] sm:text-xs md:text-sm hover:bg-red-500 transition-colors shadow-2xl hover:-translate-y-1 md:hover:-translate-y-2 active:scale-95 mx-auto md:mx-0 flex items-center gap-2 md:gap-3 group leading-normal">
                             <i class="ph ph-scales text-base md:text-lg transition-transform group-hover:rotate-12" aria-hidden="true"></i>
                             วิเคราะห์การต่อสู้
                         </button>
@@ -207,12 +215,12 @@
                     <div class="relative mb-6 md:mb-14 max-w-4xl mx-auto md:mx-0">
                         <label for="searchInput" class="sr-only">ค้นหาโปเกมอน</label>
                         <i class="ph ph-magnifying-glass absolute left-5 md:left-6 top-1/2 -translate-y-1/2 text-slate-500 text-xl md:text-2xl pointer-events-none" aria-hidden="true"></i>
-                        <input type="text" id="searchInput" placeholder="ค้นหาด้วยชื่อภาษาไทย, อังกฤษ หรือหมายเลข..." class="w-full pl-12 pr-4 py-4 md:pl-14 md:pr-10 md:py-6 bg-white/80 backdrop-blur-md border border-white focus:border-primary focus:bg-white rounded-[2rem] md:rounded-[2.5rem] outline-none transition-all text-sm sm:text-base md:text-xl font-medium text-slate-800 shadow-lg placeholder:text-slate-500 leading-normal" onkeyup="handleSearch()">
+                        <input type="text" id="searchInput" placeholder="ค้นหาด้วยชื่อภาษาไทย, อังกฤษ หรือหมายเลข ID..." class="w-full pl-12 pr-4 py-4 md:pl-14 md:pr-10 md:py-6 bg-white/80 backdrop-blur-md border border-white focus:border-red-300 focus:bg-white rounded-[2rem] md:rounded-[2.5rem] outline-none transition-all text-sm sm:text-base md:text-xl font-medium text-slate-800 shadow-lg placeholder:text-slate-500 leading-normal" onkeyup="handleSearch()">
                     </div>
 
                     <nav aria-label="กรองตามภูมิภาค" id="region-filters" class="flex gap-2 md:gap-3 overflow-x-auto pb-3 md:pb-4 no-scrollbar mask-fade scroll-smooth min-h-[44px]"></nav>
                     
-                    <div class="mt-4 md:mt-8 text-[10px] md:text-sm font-bold text-slate-500 flex items-center justify-center md:justify-start gap-3 md:gap-4 leading-normal transition-colors duration-500">
+                    <div class="mt-4 md:mt-8 text-[10px] md:text-sm font-bold text-slate-500 flex items-center justify-center md:justify-start gap-3 md:gap-4 leading-normal">
                         <div class="w-6 md:w-12 h-0.5 bg-slate-300"></div>
                         พบโปเกมอนทั้งหมด <span id="total-count" class="text-slate-900 inline-block min-w-[40px] text-center">0</span> รูปแบบ
                     </div>
@@ -227,11 +235,11 @@
                 
                 <div id="scroll-sentinel" class="w-full h-10 pointer-events-none mt-10"></div>
 
-                <div id="empty-state" class="hidden text-center py-12 md:py-20 bg-slate-50/50 rounded-[2rem] md:rounded-[3rem] border border-dashed border-slate-300 mt-6 md:mt-10 transition-colors duration-500">
+                <div id="empty-state" class="hidden text-center py-12 md:py-20 bg-slate-50/50 rounded-[2rem] md:rounded-[3rem] border border-dashed border-slate-300 mt-6 md:mt-10">
                     <p class="text-slate-600 font-bold text-sm md:text-lg leading-normal">ไม่พบข้อมูลโปเกมอนที่คุณค้นหา</p>
                 </div>
                 <div id="load-more-container" class="mt-10 md:mt-24 flex justify-center hidden">
-                    <button onclick="loadMore()" class="flex items-center gap-2 md:gap-4 bg-white/80 backdrop-blur-md border border-white px-8 py-3 md:px-16 md:py-6 rounded-full font-black text-[10px] md:text-sm text-slate-600 hover:text-primary hover:border-red-200 hover:shadow-2xl transition-all group shadow-xl leading-normal">
+                    <button onclick="loadMore()" class="flex items-center gap-2 md:gap-4 bg-white/80 backdrop-blur-md border border-white px-8 py-3 md:px-16 md:py-6 rounded-full font-black text-[10px] md:text-sm text-slate-600 hover:text-red-500 hover:border-red-200 hover:shadow-2xl transition-all group shadow-xl leading-normal">
                         <i class="ph ph-plus text-base md:text-lg transition-transform duration-200 group-hover:rotate-180" aria-hidden="true"></i>
                         กำลังโหลด...
                     </button>
@@ -242,16 +250,17 @@
         <!-- View: Favorites -->
         <div id="view-favorites" class="hidden fade-in pb-16 md:pb-32 max-w-7xl mx-auto px-4 md:px-6 pt-6 md:pt-10">
             <div class="text-center mb-10 md:mb-16">
-                <h1 class="text-3xl md:text-5xl font-black text-slate-800 tracking-tighter mb-4 transition-colors duration-500">โปเกมอน <span class="text-primary drop-shadow-sm">ตัวโปรด</span></h1>
-                <div class="w-16 md:w-24 h-1.5 bg-primary mx-auto rounded-full shadow-lg"></div>
+                <h1 class="text-3xl md:text-5xl font-black text-slate-800 tracking-tighter mb-4">โปเกมอน <span class="text-red-500 drop-shadow-sm">ตัวโปรด</span></h1>
+                <div class="w-16 md:w-24 h-1.5 bg-red-500 mx-auto rounded-full shadow-lg"></div>
             </div>
+
             <div id="favorites-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-10 min-h-[50vh] preserve-3d">
                 <!-- Fav Cards injected by JS -->
             </div>
-            <div id="fav-empty-state" class="hidden text-center py-12 md:py-20 bg-slate-50/50 rounded-[2rem] md:rounded-[3rem] border border-dashed border-slate-300 mt-6 md:mt-10 transition-colors duration-500">
+            <div id="fav-empty-state" class="hidden text-center py-12 md:py-20 bg-slate-50/50 rounded-[2rem] md:rounded-[3rem] border border-dashed border-slate-300 mt-6 md:mt-10">
                 <i class="ph ph-heart-break text-4xl md:text-6xl text-slate-300 mb-4"></i>
                 <p class="text-slate-500 font-bold text-sm md:text-lg leading-normal">คุณยังไม่มีโปเกมอนในรายการโปรด</p>
-                <button onclick="switchView('home')" class="mt-6 bg-slate-800 text-white px-6 py-2.5 rounded-full font-bold text-xs md:text-sm hover:bg-primary transition-colors shadow-lg">กลับไปค้นหาโปเกมอน</button>
+                <button onclick="switchView('home')" class="mt-6 bg-slate-800 text-white px-6 py-2.5 rounded-full font-bold text-xs md:text-sm hover:bg-red-500 transition-colors shadow-lg">กลับไปค้นหาโปเกมอน</button>
             </div>
         </div>
 
@@ -268,39 +277,78 @@
                 </button>
             </nav>
             <div class="text-center mb-6 md:mb-16">
-                <h1 class="text-2xl md:text-5xl font-black text-slate-800 tracking-tight mb-2 md:mb-6 leading-normal py-2 transition-colors duration-500">จำลองการต่อสู้ (Battle)</h1>
-                <div class="w-12 md:w-24 h-1 md:h-1.5 bg-primary mx-auto rounded-full shadow-lg" aria-hidden="true"></div>
+                <h1 class="text-2xl md:text-5xl font-black text-slate-800 tracking-tight mb-2 md:mb-6 leading-normal py-2">จำลองการต่อสู้ (Battle)</h1>
+                <div class="w-12 md:w-24 h-1 md:h-1.5 bg-red-500 mx-auto rounded-full shadow-lg" aria-hidden="true"></div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-16 items-stretch relative w-full" id="compare-grid">
-                <div class="absolute top-[48%] md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-slate-800 text-white w-10 h-10 md:w-24 md:h-24 rounded-full flex items-center justify-center font-black shadow-2xl hidden md:flex border-[3px] md:border-[8px] border-slate-50 italic text-[12px] md:text-2xl animate-pulse shadow-[0_0_15px_rgba(0,0,0,0.3)] transition-colors duration-500" aria-hidden="true">VS</div>
+            <div class="grid grid-cols-2 gap-2 sm:gap-4 md:gap-16 items-stretch relative w-full" id="compare-grid">
+                <div class="absolute top-[48%] md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-slate-800 text-white w-6 h-6 sm:w-10 sm:h-10 md:w-24 md:h-24 rounded-full flex items-center justify-center font-black shadow-2xl border-[2px] md:border-[8px] border-slate-50 italic text-[7px] sm:text-[10px] md:text-2xl animate-pulse shadow-[0_0_15px_rgba(0,0,0,0.3)]" aria-hidden="true">VS</div>
                 <div id="compare-card-0" class="h-full w-full flex flex-col min-w-0 preserve-3d"></div>
                 <div id="compare-card-1" class="h-full w-full flex flex-col min-w-0 preserve-3d"></div>
+            </div>
+
+            <!-- 🌟 AI Battle Analyzer Section -->
+            <div class="mt-12 md:mt-20 text-center max-w-4xl mx-auto">
+                <button id="ai-battle-btn" onclick="analyzeBattle()" class="btn-oak mx-auto flex items-center gap-2 px-8 py-4 md:px-12 md:py-5 rounded-full font-black text-sm md:text-lg shadow-xl hover:-translate-y-1 transition-all">
+                    <i class="ph-fill ph-microscope text-xl"></i> ดร.โอคิโดะ วิเคราะห์ข้อมูล
+                </button>
+                <div id="ai-battle-result" class="text-left mt-6"></div>
             </div>
         </div>
 
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white/50 backdrop-blur-md py-10 md:py-20 px-6 text-center border-t border-white relative z-10 mt-auto transition-colors duration-500">
+    <footer class="bg-white/50 backdrop-blur-md py-10 md:py-20 px-6 text-center border-t border-white relative z-10 mt-auto">
         <div class="max-w-6xl mx-auto">
             <div class="w-10 h-10 md:w-16 md:h-16 bg-white/80 rounded-xl md:rounded-[1.5rem] mx-auto mb-4 md:mb-8 border border-white shadow-xl flex items-center justify-center group overflow-hidden relative" aria-hidden="true">
-                <div class="absolute inset-0 bg-primary translate-y-full transition-transform duration-300 group-hover:translate-y-1/2"></div>
-                <div class="w-2.5 h-2.5 md:w-4 md:h-4 bg-slate-200 rounded-full border-2 border-white relative z-10 transition-colors duration-500"></div>
+                <div class="absolute inset-0 bg-red-500 translate-y-full transition-transform duration-200 group-hover:translate-y-1/2"></div>
+                <div class="w-2.5 h-2.5 md:w-4 md:h-4 bg-slate-200 rounded-full border-2 border-white relative z-10"></div>
             </div>
-            <p class="text-slate-800 font-black text-sm md:text-2xl tracking-tight mb-1 md:mb-3 leading-normal transition-colors duration-500">ฐานข้อมูลโปเกมอนแห่งประเทศไทย</p>
-            <p class="text-slate-600 text-[9px] md:text-sm font-bold max-w-sm mx-auto leading-loose opacity-90 transition-colors duration-500">
-                ระบบทำงานด้วย PokeAPI รองรับการค้นหาครบทั้งรูปแบบปกติและร่างเมก้า
+            <p class="text-slate-800 font-black text-sm md:text-2xl tracking-tight mb-1 md:mb-3 leading-normal">ฐานข้อมูลโปเกมอนแห่งประเทศไทย</p>
+            <p class="text-slate-600 text-[9px] md:text-sm font-bold max-w-sm mx-auto leading-loose opacity-90">
+                ระบบทำงานด้วย PokeAPI • ข้อมูลวิเคราะห์จำลองสไตล์ ดร.โอคิโดะ
             </p>
         </div>
     </footer>
 
     <!-- Application Logic -->
     <script>
+        // 🌟 Gemini API Config (Execution environment provides the key)
+        const apiKey = ""; 
+        
+        // 🌟 ดึงข้อมูล API โดยใช้ Persona ของ ดร.โอคิโดะ
+        async function callGeminiAPI(prompt, retries = 5, delay = 1000) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: "คุณคือ 'ดร.โอคิโดะ' (Professor Oak) โปเกมอนด็อกเตอร์ผู้เชี่ยวชาญ ตอบคำถามเป็นภาษาไทยด้วยน้ำเสียงแบบอาจารย์ที่รอบรู้ ใจดี มักจะอุทานว่า 'โอ้!' หรือ 'อืม...' \nกฎเหล็ก:\n1. ห้ามใช้เครื่องหมาย # หรือ ### สร้างหัวข้อเด็ดขาด (ให้ใช้ตัวหนาแทน)\n2. ให้วิเคราะห์ความได้เปรียบเสียเปรียบตามสเตตัสและธาตุ\n3. ต้องฟันธงผู้ชนะเสมอ\n4. อธิบายให้สนุกและอ่านง่าย มีอีโมจิประกอบพอเหมาะ" }] }
+            };
+
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    return data.candidates[0].content.parts[0].text;
+                } catch (error) {
+                    if (i === retries - 1) return "โอ้! ขออภัยด้วยนะ ระบบคอมพิวเตอร์ในศูนย์วิจัยกำลังขัดข้องชั่วคราว ลองใหม่อีกครั้งนะ 😅";
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
         // --- Core Functions & Data ---
         const getLoaderHTML = () => `
             <div class="flex flex-col items-center justify-center py-20 md:py-32 animate-pulse relative z-10 w-full">
-                <div class="w-16 h-16 md:w-20 md:h-20 border-[6px] md:border-[10px] border-slate-200 border-t-primary rounded-full animate-spin mb-6 md:mb-8 relative shadow-xl">
+                <div class="w-16 h-16 md:w-20 md:h-20 border-[6px] md:border-[10px] border-slate-200 border-t-red-500 rounded-full animate-spin mb-6 md:mb-8 relative shadow-xl">
                     <div class="absolute top-1/2 left-0 w-full h-1 md:h-1.5 bg-slate-200 -translate-y-1/2"></div>
                     <div class="absolute top-1/2 left-1/2 w-4 h-4 md:w-5 md:h-5 bg-white border-[4px] md:border-[5px] border-slate-200 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
                 </div>
@@ -334,7 +382,7 @@
         const TYPE_TEXT_COLORS = { grass: 'text-slate-900', fire: 'text-slate-900', water: 'text-slate-900', electric: 'text-slate-900', normal: 'text-slate-900', poison: 'text-white', psychic: 'text-slate-900', ghost: 'text-white', flying: 'text-slate-900', bug: 'text-slate-900', ground: 'text-slate-900', fairy: 'text-slate-900', dragon: 'text-white', ice: 'text-slate-900', fighting: 'text-white', rock: 'text-slate-900', steel: 'text-slate-900', dark: 'text-white' };
         const TYPE_NAMES_TH = { grass: 'หญ้า', fire: 'ไฟ', water: 'น้ำ', electric: 'ไฟฟ้า', normal: 'ปกติ', poison: 'พิษ', psychic: 'พลังจิต', ghost: 'ผี', flying: 'บิน', bug: 'แมลง', ground: 'ดิน', fairy: 'แฟรี่', dragon: 'มังกร', ice: 'น้ำแข็ง', fighting: 'ต่อสู้', rock: 'หิน', steel: 'เหล็ก', dark: 'ความมืด' };
         const TYPE_ICONS = { grass: 'ph-fill ph-leaf', fire: 'ph-fill ph-fire', water: 'ph-fill ph-drop', electric: 'ph-fill ph-lightning', normal: 'ph-fill ph-star', poison: 'ph-fill ph-skull', psychic: 'ph-fill ph-eye', ghost: 'ph-fill ph-ghost', flying: 'ph-fill ph-wind', bug: 'ph-fill ph-bug', ground: 'ph-fill ph-mountains', fairy: 'ph-fill ph-sparkle', dragon: 'ph-fill ph-shooting-star', ice: 'ph-fill ph-snowflake', fighting: 'ph-fill ph-sword', rock: 'ph-fill ph-hexagon', steel: 'ph-fill ph-shield-chevron', dark: 'ph-fill ph-moon' };
-        const STAT_NAMES_TH = { 'hp': 'HP', 'attack': 'Atk', 'defense': 'Def', 'special-attack': 'Sp.A', 'special-defense': 'Sp.D', 'speed': 'Spd' };
+        const STAT_NAMES_TH = { 'hp': 'HP', 'attack': 'พลังโจมตี', 'defense': 'พลังป้องกัน', 'special-attack': 'พลังโจมตีพิเศษ', 'special-defense': 'พลังป้องกันพิเศษ', 'speed': 'ความเร็ว' };
         const HABITAT_TH = { 'cave': 'ถ้ำ', 'forest': 'ป่าไม้', 'grassland': 'ทุ่งหญ้า', 'mountain': 'ภูเขา', 'rare': 'พื้นที่ลึกลับ', 'rough-terrain': 'พื้นที่ขรุขระ', 'sea': 'ทะเล', 'urban': 'เขตเมือง', 'waters-edge': 'ริมน้ำ' };
 
         const THAI_NAMES_BASE = {
@@ -342,16 +390,34 @@
             "chikorita":"ชิโกริตา","bayleef":"เบย์ลีฟ","meganium":"เมกาเนียม","cyndaquil":"ฮิโนอาราชิ","quilava":"แม็กมาราชิ","typhlosion":"บาคุฟูน","totodile":"วานิโนโกะ","croconaw":"อลิเกตส์","feraligatr":"โอไดรุ","sentret":"โอทาจิ","furret":"โอโอทาจิ","hoothoot":"โฮโฮ","noctowl":"โยรุโนะซึคุ","ledyba":"เรดิบา","ledian":"เรดิอัน","spinarak":"อิโตมารุ","ariados":"อาริอาโดส","crobat":"โครแบท","chinchou":"ชอนชี","lanturn":"แลนเทิร์น","pichu":"ปิจู","cleffa":"ปีィ","igglybuff":"พูพูริน","togepi":"โทเงปี","togetic":"โทเงชิก","natu":"เนติ","xatu":"เนติโอ","mareep":"เมรีป","flaaffy":"โมโคโค","ampharos":"เด็นริว","bellossom":"คิเรฮานะ","marill":"มาริล","azumarill":"มาริลริ","sudowoodo":"อุโซกกี","politoed":"เนียวโรโทโนะ","hoppip":"ฮาเน็กโกะ","skiploom":"โปป็อกโกะ","jumpluff":"วาทักโกะ","aipom":"เอปาม","sunkern":"ฮิมานัทสึ","sunflora":"คิมาวาริ","yanma":"ยันยันมา","wooper":"อูปา","quagsire":"นูโอ","espeon":"เอฟี","umbreon":"แบล็กกี","murkrow":"ยามิการาสึ","slowking":"ยาโดคิง","misdreavus":"มูมา","unown":"อันโนน","wobbuffet":"โซนานส์","girafarig":"คิรินริคิ","pineco":"คุนุกิดามะ","forretress":"ฟอเรทอส","dunsparce":"โนก็อตชิ","gligar":"ไกลก้า","steelix":"ฮากาเนล","snubbull":"บลู","granbull":"แกรนบลู","qwilfish":"ฮาริเซน","scizor":"ฮัสซัม","shuckle":"สึโบะซึโบะ","heracross":"เฮราครอส","sneasel":"นิวลา","teddiursa":"ฮิเมกุมะ","ursaring":"ริงกุมะ","slugma":"แม็กมักก์","magcargo":"แม็กคาร์โก","swinub":"อูริมู","piloswine":"อิโนมู","corsola":"ซันนีโก","remoraid":"เทปโปโอ","octillery":"ออกทิลเลอรี","delibird":"เดลิเบิร์ด","mantine":"แมนไทน์","skarmory":"แอร์มุโด","houndour":"เดลวิล","houndoom":"เฮลการ์","kingdra":"คิงดรา","phanpy":"โกมาโซ","donphan":"ดอนฟาน","porygon2":"โพรีกอน2","stantler":"โอโดชิชิ","smeargle":"โดเบิล","tyrogue":"บารูคี","hitmontop":"คาโปเอเรอร์","smoochum":"มุจูล","elekid":"เอเลคิด","magby":"บูบี","miltank":"มิลแทงก์","blissey":"แฮปปีนา","raikou":"ไรโค","entei":"เอ็นเต","suicune":"ซุยคุน","larvitar":"โยกิราส","pupitar":"ซานากิราส","tyranitar":"บันกิราส","lugia":"ลูเกีย","ho-oh":"โฮโอ","celebi":"เซเลบี",
             "treecko":"คิโมริ","grovyle":"จุปทอล","sceptile":"จูไคน์","torchic":"อาชาโม","combusken":"วาคาชาโม","blaziken":"บาชาโม","mudkip":"มิซึโกโร","marshtomp":"นูมาโคร","swampert":"ลากลาจ","poochyena":"โพชิเอนา","mightyena":"กราเอนา","zigzagoon":"จิกุซากุมะ","linoone":"มัสสึงุมะ","wurmple":"เคมุสโซ","silcoon":"คาระซาลิส","beautifly":"อาเกฮันท์","cascoon":"มายุลด","dustox":"โดกุเคล","lotad":"ฮัสโบ","lombre":"ฮัสเบรโร","ludicolo":"รุนปัปปา","seedot":"ทาเนโบ","nuzleaf":"โคโนฮานะ","shiftry":"ดาร์เทงกุ","taillow":"สึบาเมะ","swellow":"โอสึบาเมะ","wingull":"คาโมเมะ","pelipper":"เปลิปเปอร์","ralts":"ราลท์ซ","kirlia":"เคอร์เรีย","gardevoir":"เซอไนท์","surskit":"อาเมทามะ","masquerain":"อาเมมอธ","shroomish":"คิโนโคโกะ","breloom":"คิโนกัสซา","slakoth":"นามาเคโร","vigoroth":"ยารุคิโมโน","slaking":"เคคคิง","nincada":"สึจินิน","ninjask":"เทคคานิน","shedinja":"นูเคะนิน","whismur":"โกเนียวเนียว","loudred":"โดกอม","exploud":"บาคุองก์","makuhita":"มาคุโนชิตะ","hariyama":"ฮาริเตยามะ","azurill":"รุริริ","nosepass":"โนสพาส","skitty":"เอเนโกะ","delcatty":"เอเนโคโรโระ","sableye":"ยามิรามิ","mawile":"คูชีท","aron":"โคโคโดรา","lairon":"โคโดรา","aggron":"บอสโกโดรา","meditite":"อาซานัน","medicham":"เชอร์เรม","electrike":"ราคุไร","manectric":"ไลโวลต์","plusle":"พลาสเซิล","minun":"ไมนั้น","volbeat":"บารุบีท","illumise":"อิลูมิเซ","roselia":"โรเซเลีย","gulpin":"โกคุลิน","swalot":"มารุโนม","carvanha":"คิบาเนีย","sharpedo":"ซาเมฮาเดอร์","wailmer":"เวลโกะ","wailord":"เวลออร์","numel":"ดอนเมล","camerupt":"บาคุูดา","torkoal":"โคทอยส์","spoink":"บาเนบู","grumpig":"บูพิก","spinda":"พัทชีล","trapinch":"บานัคเคิล","vibrava":"วิบราวา","flygon":"ฟลายกอน","cacnea":"ซาโบเนีย","cacturne":"นอคทัส","swablu":"ทิลท์โท","altaria":"ทิลทาลิส","zangoose":"แซงกูส","seviper":"ฮาบูเนค","lunatone":"ลูนาโทน","solrock":"โซลร็อก","barboach":"โดโจทช์","whiscash":"นามาซุน","corphish":"เฮกานิ","crawdaunt":"ชิซาริเกอร์","baltoy":"ยาจิลอน","claydol":"เนนดอล","lileep":"ลิลีลา","cradily":"ยูเรดิล","anorith":"อน็อปส์","armaldo":"อาร์มาลโด","feebas":"ฮินบาส","milotic":"มิโลคาร์รอส","castform":"โปวารุน","kecleon":"คาคุเรอน","shuppet":"คาเงโบซึ","banette":"จุปเปตตา","duskull":"โยมาวารุ","dusclops":"ซามาโยรุ","tropius":"โทรเพียส","chimecho":"ชิรีน","absol":"แอบโซล","wynaut":"โซนาโน","snorunt":"ยูกิวาราชิ","glalie":"โอนิโกริ","spheal":"ทามาซาราชิ","sealeo":"โทโดกุเลอร์","walrein":"โทโดเซลกา","clamperl":"พารูล","huntail":"ฮันเทล","gorebyss":"ซากุระบิส","relicanth":"จีลานซ์","luvdisc":"ลัฟดิสก์","bagon":"ทัตสึเบ","shelgon":"โคโมรู","salamence":"โบมันเดอร์","beldum":"ดันบัล","metang":"เมแทงก์","metagross":"เมทากรอส","regirock":"เรจิร็อก","regice":"เรจิไอซ์","registeel":"เรจิสตีล","latias":"ลาทิอาส","latios":"ลาทิโอส","kyogre":"ไคโอกา","groudon":"กราดอน","rayquaza":"เรควอซา","jirachi":"จิราชิ","deoxys":"เดโอคิซิส",
             "turtwig":"นาเอเติล","grotle":"ฮายาชิกาเมะ","torterra":"โดดายโทส","chimchar":"ฮิโกซารุ","monferno":"โมคาซารุ","infernape":"โกคาซารุ","piplup":"พอจจามะ","prinplup":"พ็อตไทชิ","empoleon":"เอ็มเพลท์","starly":"มุคคุรุ","staravia":"มุคคูเบิร์ด","staraptor":"มุคฮอว์ก","bidoof":"บิปปา","bibarel":"บีดารุล","kricketot":"โคโรโบชิ","kricketune":"โคโรท็อก","shinx":"โคลิงก์","luxio":"ลุคซิโอ","luxray":"เรนโทร่า","budew":"สึโบมิ","roserade":"โรสเรด","cranidos":"ซึไกโดส","rampardos":"แรมพัลด์","shieldon":"ทาเททอปส์","bastiodon":"โทริเดปส","burmy":"มิโนมุจิ","wormadam":"มิโนมาดัม","mothim":"กาเมล","combee":"มิตซึฮันนี","vespiquen":"บีควิน","pachirisu":"พาจิริสึ","buizel":"บุยเซล","floatzel":"โฟลเซล","cherubi":"เชอริมบัม","cherrim":"เชอริม","shellos":"ทามันทา","gastrodon":"โทริโทดอน","ambipom":"เอเตโบส","drifloon":"ฟูวันเตะ","drifblim":"ฟูวะไรด์","buneary":"มิมิโรล","lopunny":"มิมิล็อป","mismagius":"มูมาจิ","honchkrow":"ดอนการาสึ","glameow":"เนียรุมา","purugly":"บูเนียตโตะ","chingling":"ลีชาน","stunky":"สกันพู","skuntank":"สกันแทงก์","bronzor":"โดมิเรอร์","bronzong":"โดทาคุน","bonsly":"อุโซฮาจิ","mime-jr":"มาเนเน","happiny":"พินพินคุ","chatot":"เปราป","spiritomb":"มิคารุเงะ","gible":"ฟุคามารุ","gabite":"กาไบต์","garchomp":"กาเบรียส","munchlax":"กอนเบ","riolu":"ริโอลุ","lucario":"ลูคาริโอ","hippopotas":"ฮิโปโปตัส","hippowdon":"คาบารูดอน","skorupi":"สคอร์ปี","drapion":"โดราเปียน","croagunk":"เกรกกรู","toxicroak":"โดคุร็อก","carnivine":"มัสคิปปา","finneon":"เคย์โคโอ","lumineon":"เนโอแรนท์","mantyke":"ทาแมนทา","snover":"ยูกิคาบุริ","abomasnow":"ยูกิโนโอ","weavile":"มาฟิวลา","magnezone":"จิบะคอยล์","lickilicky":"เบโรเบลท์","rhyperior":"โดไซดอน","tangrowth":"มอนจัมโบ","electivire":"เอเลคิเบิล","magmortar":"บูเบิร์น","togekiss":"โทเกคิส","yanmega":"เมกายันมา","leafeon":"ลีเฟีย","glaceon":"กลาเซีย","gliscor":"ไกลออน","mamoswine":"แมมมู","porygon-z":"โพรีกอน Z","gallade":"เอลูเรด","probopass":"ไดโนส","dusknoir":"ยอนนัวร์","froslass":"ยูกิเมโนโกะ","rotom":"พรอทอม","uxie":"ยุคซี","mesprit":"เอ็มริต","azelf":"อักนอม","dialga":"ดีอัลกา","palkia":"พัลเกีย","heatran":"ฮีดราน","regigigas":"เรจิกิกัส","giratina":"กิราตินา","cresselia":"เครเซเรีย","phione":"ฟิโอเน","manaphy":"มานาฟี","darkrai":"ดาร์กไร","shaymin":"เชมิน","arceus":"อาร์เซอุส",
-            "victini":"วิคทินี","snivy":"สึทาจะ","servine":"จาโนบี","serperior":"จาโรดา","tepig":"โพคาบู","pignite":"ชาโอบู","emboar":"เอ็นบูโอ","oshawott":"มิจูมารุ","dewott":"ฟุตะจิมารุ","samurott":"ไดเคนคิ","patrat":"มิเนซึมิ","watchog":"มิรุฮ็อก","lillipup":"โยเทอรี","herdier":"ฮาเดเรีย","stoutland":"มูแลนด์","purrloin":"โชโรเนโกะ","liepard":"เรปาร์ดัส","pansage":"ยานัปปุ","simisage":"ยานักกี","pansear":"บาโอปปุ","simisear":"บาโอกี","panpour":"ฮิยัปปุ","simipour":"ฮิยักกี","munna":"มุนนะ","musharna":"มุชาร์นา","pidove":"มาเมพาโตะ","tranquill":"ฮาโตโบ","unfezant":"เคนโฮโร","blitzle":"ชิมามา","zebstrika":"เซบไรกา","roggenrola":"ดันโกโร","boldore":"กานทล","gigalith":"กิกาอิอาธ","woobat":"โคโรโมริ","swoobat":"โคโคโรโมริ","drilbur":"โมกิว","excadrill":"โดริวซึ","audino":"ทาบุนเนะ","timburr":"ด็อกโคเลอร์","gurdurr":"โดเทคคทสึ","conkeldurr":"โรบุชิน","tympole":"โอทามาโร","palpitoad":"กามะการุ","seismitoad":"กามะเกโรเกะ","throh":"นาเกคิ","sawk":"ดาเกคิ","sewaddle":"คุรุมิรุ","swadloon":"คุรุมายุ","leavanny":"ฮาฮาโคโมริ","venipede":"ฟุชเดะ","whirlipede":"โฮอิกะ","scolipede":"เพนดรา","cottonee":"โมนเมน","whimsicott":"เอลฟูน","petilil":"ชูริเนะ","lilligant":"โดเรเดีย","basculin":"บาสราโอ","sandile":"เมกุโระ","krokorok":"วารุบิรุ","krookodile":"วารุวิอัล","darumaka":"ดารุมักกะ","darmanitan":"ฮิฮิดารุมะ","maractus":"มาราคัจจิ","dwebble":"อิชิซึไม","crustle":"อิวาพาเลซ","scraggy":"ซึรุกกุ","scrafty":"ซึรุซึคิน","sigilyph":"ชินโบลาร์","yamask":"เดสมาส","cofagrigus":"เดสคาน","tirtouga":"โปรโตกา","carracosta":"อาบาโกรา","archen":"อาเคน","archeops":"อาเคออส","trubbish":"ยาบุคุรอน","garbodor":"ดัสทอดาส","zorua":"โซรัว","zoroark":"โซโรอาร์ค","minccino":"ชิลลามี","cinccino":"ชิลาชิโน","gothita":"โกธิมู","gothorita":"โกธิมิรุ","gothitelle":"โกธิเทล","solosis":"ยูนิรัน","duosion":"ดาบรัน","reuniclus":"รันคลุส","ducklett":"โคอารูฮี","swanna":"สวอนนา","vanillite":"วานิปุจิ","vanillish":"วานิริช","vanilluxe":"ไบวานิลลา","deerling":"ชิกิจิกะ","sawsbuck":"เมบุกิจิกะ","emolga":"เอมอนกา","karrablast":"คาบุลโม","escavalier":"ชูวาโก","foongus":"ทามาเกตาเกะ","amoonguss":"โมโรบาเรล","frillish":"พูรุริล","jellicent":"บุนเจล","alomomola":"มามันโบ","joltik":"บาชูรุ","galvantula":"เดนชูรา","ferroseed":"เทสซีด","ferrothorn":"นัตโตเรย์","klink":"เกียร์","klang":"กิกิเกียร์","klinklang":"กิกิกิเกียร์","tynamo":"ชิบิชิราสึ","eelektrik":"ชิบิบีล","eelektross":"ชิบิดอน","elgyem":"ลิเกรย์","beheeyem":"โอเบม","litwick":"ฮิโตโมชิ","lampent":"ลามพูลา","chandelure":"แชนเดลา","axew":"คิบาโกะ","fraxure":"โอโนนโดะ","haxorus":"โอโนนคุส","cubchoo":"คุมะชุน","beartic":"ซึนแบร์","cryogonal":"ฟรีจิโอ","shelmet":"ชบอมากิ","accelgor":"อากิลเดอร์","stunfisk":"มักเกียว","mienfoo":"โคโจฟู","mienshao":"โคโจนโดะ","druddigon":"คริมแกน","golett":"โกบิต","golurk":"โกลูก","pawniard":"โคมาทานา","bisharp":"คิริคิซัน","bouffalant":"บัฟฟรอน","rufflet":"วาชิบอน","braviary":"วอร์เกิล","vullaby":"วาร์ไช","mandibuzz":"บัลจินา","heatmor":"ควิทารัน","durant":"ไอแอนท์","deino":"โมโนซึ","zweilous":"จิเฮด","hydreigon":"ซาซันโดรา","larvesta":"เมราลบา","volcarona":"อุลกามอธ","cobalion":"โคบาลูออน","terrakion":"เทราคิออน","virizion":"บิริจิออน","tornadus":"ทอร์เนลอส","thundurus":"โวลโทลอส","reshiram":"เรชิรัม","zekrom":"เซครอม","landorus":"แลนโดรอส","kyurem":"คิวเรม","keldeo":"เคลดิโอ","meloetta":"เมโลเอตตา","genesect":"เกโนเซ็กท์",
+            "victini":"วิคทินี","snivy":"สึทาจะ","servine":"จาโนบี","serperior":"จาโรดา","tepig":"โพคาบู","pignite":"ชาโอบู","emboar":"เอ็นบูโอ","oshawott":"มิจูมารุ","dewott":"ฟุตะจิมารุ","samurott":"ไดเคนคิ","patrat":"มิเนซึมิ","watchog":"มิรุฮ็อก","lillipup":"โยเทอรี","herdier":"ฮาเดเรีย","stoutland":"มูแลนด์","purrloin":"โชโรเนโกะ","liepard":"เรปาร์ดัส","pansage":"ยานัปปุ","simisage":"ยานักกี","pansear":"บาโอปปุ","simisear":"บาโอกี","panpour":"ฮิยัปปุ","simipour":"ฮิยักกี","munna":"มุนนะ","musharna":"มุชาร์นา","pidove":"มาเมพาโตะ","tranquill":"ฮาโตโบ","unfezant":"เคนโฮโร","blitzle":"ชิมามา","zebstrika":"เซบไรกา","roggenrola":"ดันโกโร","boldore":"กานทล","gigalith":"กิกาอิอาธ","woobat":"โคโรโมริ","swoobat":"โคโคโรโมริ","drilbur":"โมกิว","excadrill":"โดริวซึ","audino":"ทาบุนเนะ","timburr":"ด็อกโคเลอร์","gurdurr":"โดเทคคทสึ","conkeldurr":"โรบุชิน","tympole":"โอทามาโร","palpitoad":"กามะการุ","seismitoad":"กามะเกโรเกะ","throh":"นาเกคิ","sawk":"ดาเกคิ","sewaddle":"คุรุมิรุ","swadloon":"คุรุมายุ","leavanny":"ฮาฮาโคโมริ","venipede":"ฟุชิเดะ","whirlipede":"โฮอิกะ","scolipede":"เพนดรา","cottonee":"โมนเมน","whimsicott":"เอลฟูน","petilil":"ชูริเนะ","lilligant":"โดเรเดีย","basculin":"บาสราโอ","sandile":"เมกุโระ","krokorok":"วารุบิรุ","krookodile":"วารุวิอัล","darumaka":"ดารุมักกะ","darmanitan":"ฮิฮิดารุมะ","maractus":"มาราคัจจิ","dwebble":"อิชิซึไม","crustle":"อิวาพาเลซ","scraggy":"ซึรุกกุ","scrafty":"ซึรุซึคิน","sigilyph":"ชินโบลาร์","yamask":"เดสมาส","cofagrigus":"เดสคาน","tirtouga":"โปรโตกา","carracosta":"อาบาโกรา","archen":"อาเคน","archeops":"อาเคออส","trubbish":"ยาบุคุรอน","garbodor":"ดัสทอดาส","zorua":"โซรัว","zoroark":"โซโรอาร์ค","minccino":"ชิลลามี","cinccino":"ชิลาชิโน","gothita":"โกธิมู","gothorita":"โกธิมิรุ","gothitelle":"โกธิเทล","solosis":"ยูนิรัน","duosion":"ดาบรัน","reuniclus":"รันคลุส","ducklett":"โคอารูฮี","swanna":"สวอนนา","vanillite":"วานิปุจิ","vanillish":"วานิริช","vanilluxe":"ไบวานิลลา","deerling":"ชิกิจิกะ","sawsbuck":"เมบุกิจิกะ","emolga":"เอมอนกา","karrablast":"คาบุลโม","escavalier":"ชูวาโก","foongus":"ทามาเกตาเกะ","amoonguss":"โมโรบาเรล","frillish":"พูรุริล","jellicent":"บุนเจล","alomomola":"มามันโบ","joltik":"บาชูรุ","galvantula":"เดนชูรา","ferroseed":"เทสซีด","ferrothorn":"นัตโตเรย์","klink":"เกียร์","klang":"กิกิเกียร์","klinklang":"กิกิกิเกียร์","tynamo":"ชิบิชิราสึ","eelektrik":"ชิบิบีล","eelektross":"ชิบิดอน","elgyem":"ลิเกรย์","beheeyem":"โอเบม","litwick":"ฮิโตโมชิ","lampent":"ลามพูลา","chandelure":"แชนเดลา","axew":"คิบาโกะ","fraxure":"โอโนนโดะ","haxorus":"โอโนนคุส","cubchoo":"คุมะชุน","beartic":"ซึนแบร์","cryogonal":"ฟรีจิโอ","shelmet":"ชบอมากิ","accelgor":"อากิลเดอร์","stunfisk":"มักเกียว","mienfoo":"โคโจฟู","mienshao":"โคโจนโดะ","druddigon":"คริมแกน","golett":"โกบิต","golurk":"โกลูก","pawniard":"โคมาทานา","bisharp":"คิริคิซัน","bouffalant":"บัฟฟรอน","rufflet":"วาชิบอน","braviary":"วอร์เกิล","vullaby":"วาร์ไช","mandibuzz":"บัลจินา","heatmor":"ควิทารัน","durant":"ไอแอนท์","deino":"โมโนซึ","zweilous":"จิเฮด","hydreigon":"ซาซันโดรา","larvesta":"เมราลบา","volcarona":"อุลกามอธ","cobalion":"โคบาลูออน","terrakion":"เทราคิออน","virizion":"บิริจิออน","tornadus":"ทอร์เนลอส","thundurus":"โวลโทลอส","reshiram":"เรชิรัม","zekrom":"เซครอม","landorus":"แลนโดรอส","kyurem":"คิวเรม","keldeo":"เคลดิโอ","meloetta":"เมโลเอตตา","genesect":"เกโนเซ็กท์",
             "chespin":"ฮาริมารอน","quilladin":"ฮาริบอร์ก","chesnaught":"บริการอน","fennekin":"ฟอคโกะ","braixen":"เทลนาร์","delphox":"มาฟ็อกซี","froakie":"เคโรมัตสึ","frogadier":"เกโคกาชิระ","greninja":"เก็คโคกะ","bunnelby":"โฮรุบี","diggersby":"โฮรุโดะ","fletchling":"ยายาโคมะ","fletchinder":"ฮิโนยาโคมะ","talonflame":"ไฟร์แอโรว์","scatterbug":"โคฟูคิมุชิ","spewpa":"โคฟูไร","vivillon":"วิวิญอง","litleo":"ชิชิโกะ","pyroar":"คายเอนจิ","flabebe":"ฟลาเบเบ","floette":"ฟลาเอตเต","florges":"ฟลาเจส","skiddo":"เมเคิล","gogoat":"โกโกท","pancham":"ยันชัม","pangoro":"กอโรนดะ","furfrou":"ทริเมียน","espurr":"เนียสเปอร์","meowstic":"เนียโอนิกซ์","honedge":"ฮิโตทสึคิ","doublade":"นิแดนกิล","aegislash":"กิลการ์ด","spritzee":"ชูชุป","aromatisse":"เฟรฟุวาน","swirlix":"เปร็อปพัฟ","slurpuff":"เปร็อปเพโร","inkay":"มาอีกะ","malamar":"คาลามาเนโร","binacle":"คาเมเทเตะ","barbaracle":"กาเมโนเดส","skrelp":"คุซึโม","dragalge":"ดรามิโดโร","clauncher":"อุเดปโป","clawitzer":"โบลสเตอร์","helioptile":"เอลิกิเทล","heliolisk":"เอเลซาร์ด","tyrunt":"จิโกรัส","tyrantrum":"กะจิโกรัส","amaura":"อมารัส","aurorus":"อมารูรูกา","sylveon":"นิมเฟีย","hawlucha":"ลูจาบูล","dedenne":"เดเด็นเนะ","carbink":"เมเลซี","goomy":"นูเมรา","sliggoo":"นูเมล","goodra":"นูเมลกอน","klefki":"เคลฟี","phantump":"โบคุเร","trevenant":"ออรอต","pumpkaboo":"บาเคจฉะ","gourgeist":"พัมพจิน","bergmite":"คาจิคจิ","avalugg":"เครเบส","noibat":"ออนแบท","noivern":"ออนเวิร์น","xerneas":"เซลเนียส","yveltal":"อีเวลทอล","zygarde":"ซีการ์ด","diancie":"ดีแอนซี","hoopa":"ฮูปา","volcanion":"โวลเคเนียน",
             "rowlet":"โมคุโร","dartrix":"ฟุคุสึโร","decidueye":"จูไนเปอร์","litten":"เนียบี","torracat":"เนียฮีท","incineroar":"กาโอกาเอ็น","popplio":"อชิมาริ","brionne":"โอชาชิมาริ","primarina":"อชิเรน","pikipek":"สึซึเค","trumbeak":"เคราปัปปา","toucannon":"โดเดคาบาชิ","yungoos":"ยันกูส","gumshoos":"เดคากูส","grubbin":"อาโกจิมุชิ","charjabug":"เดนจิมุชิ","vikavolt":"คุวากานอน","crabrawler":"มาเคคานิ","crabominable":"เคเค็นคานิ","oricorio":"โอริโคริโอ","cutiefly":"อาบูรี","ribombee":"อาบูริบอน","rockruff":"อิวานโกะ","lycanroc":"ลูการูกัน","wishiwashi":"โยวาชิ","mareanie":"ฮิโดอิเดะ","toxapex":"โดฮิโดอิเดะ","mudbray":"โดโรบังโกะ","mudsdale":"บันบะโดโร","dewpider":"ชิซึคุโมะ","araquanid":"โอนิชิซึคุโมะ","fomantis":"คาริคิริ","lurantis":"ลารันเทส","morelull":"เนมาชุ","shiinotic":"มาเชด","salandit":"ยาโทมริ","salazzle":"เอนนิวต์","stufful":"นุยโคกุมะ","bewear":"คิเทรุกุมะ","bounsweet":"อามะคาจิ","steenee":"อามะไมโกะ","tsareena":"อามะโจ","comfey":"คิววาเวอร์","oranguru":"ยาเรยูตัน","passimian":"นาเกทสึเคซารุ","wimpod":"โคโซคุมุชิ","golisopod":"กุโซคุมุชิ","sandygast":"สึนาบะอะ","palossand":"ชิโรเดสนา","pyukumuku":"นามาโคบุชิ","type-null":"ไทป์:นัล","silvally":"ซิลวาดี","minior":"เมเทโน","komala":"เนกโคอาลา","turtonator":"บาคุกาเมส","togedemaru":"โทเกเดมารุ","mimikyu":"มิมิคคิว","bruxish":"ฮากิกิชิ","drampa":"จีจีรอน","dhelmise":"ดาดาริน","jangmo-o":"จารังโกะ","hakamo-o":"จารังโก","kommo-o":"จาราแรนกา","tapu-koko":"คาปู-โคเคโค","tapu-lele":"คาปู-เตเตฟู","tapu-bulu":"คาปู-บูลูลู","tapu-fini":"คาปู-เรฮิเร","cosmog":"คอสม็อก","cosmoem":"คอสโมม","solgaleo":"โซลกาเลโอ","lunala":"ลูนาลา","nihilego":"อุตซึรอยด์","buzzwole":"มัสชิบูน","pheromosa":"ฟีโรเช่","xurkitree":"เด็นจูโมกุ","celesteela":"เทคคากุยะ","kartana":"คามิทสึรุงิ","guzzlord":"อคุจิคิง","necrozma":"เนครอซมา","magearna":"มาเกียนา","marshadow":"มาร์ชาโดว์","poipole":"เบเวนอม","naganadel":"อาร์โกยอน","stakataka":"สึนเดสึนเด","blacephalon":"ซึกะโดน","zeraora":"เซราโอรา","meltan":"เมลตัน","melmetal":"เมลเมทัล",
             "grookey":"ซารุโนริ","thwackey":"บาคีคีย์","rillaboom":"กอริลลันเดอร์","scorbunny":"ฮิบานี","raboot":"แรบบิท","cinderace":"เอสเบิร์น","sobble":"เมซซอน","drizzile":"จิเมเลียน","inteleon":"อินเทเลียน","skwovet":"โฮชิกะริส","greedent":"โยคุบะริส","rookidee":"โคโคะกะระ","corvisquire":"อาโอการาส","corviknight":"อาร์เมอร์ก้า","blipbug":"ซัตจิมุชิ","dottler":"เรดอมุชิ","orbeetle":"อิออร์บ","nickit":"คุสึเนะ","thievul":"ฟ็อกสไล","gossifleur":"ฮิเมนกะ","eldegoss":"วาตะชิรากะ","wooloo":"วูลู","dubwool":"บายวูล","chewtle":"คามุคาเมะ","drednaw":"คาจิริกาเมะ","yamper":"วันปาจิ","boltund":"พัลส์วัน","rolycoly":"ทาตง","carkol":"ทรอคกอน","coalossal":"เซคิทันซัง","applin":"คาจิจู","flapple":"อัปปริว","appletun":"ทารุปเปิล","silicobra":"สึนาเฮบิ","sandaconda":"ซาดายาจา","cramorant":"อุ๊อุ","arrokuda":"อุคุウ","barraskewda":"ซาชิคามะ","toxel":"เอเลซัน","toxtricity":"สตรินเดอร์","sizzlipede":"ยาคุเดะ","centiskorch":"มารุยาคุเดะ","clobbopus":"ทาทัคโค","grapploct":"โอโตสพัส","sinistea":"ยาบาชะ","polteageist":"พอตเดส","hatenna":"มิบรีม","hattrem":"เทบริม","hatterene":"บริมออน","impidimp":"เบโรบา","morgrem":"กิโมจ","grimmsnarl":"ออรอนเกะ","obstagoon":"ทาจิฟุซากุมะ","perrserker":"เนียคิง","cursola":"ซานิโกะ","sirfetchd":"เนกิกะไนท์","mr-rime":"บาริโคโอ","runerigus":"เดสบาร์น","milcery":"มาโฮมิล","alcremie":"มาวิป","falinks":"ไทเรส","pincurchin":"บาจินิอูนิ","snom":"ยูกิฮามิ","frosmoth":"มอสโนว","stonjourner":"อิชิเฮนจิน","eiscue":"โคโอริปโป","indeedee":"อิเอซัน","morpeko":"โมรุเปโกะ","cufant":"โซโดะ","copperajah":"ไดโอโดะ","dracozolt":"พาจิรากอน","arctozolt":"พัตจิรดอน","dracovish":"อูโอโนรากอน","arctovish":"อูโอจิลดอน","duraludon":"จูรัลดอน","dreepy":"โดราเมชิยะ","drakloak":"โดรอนจิ","dragapult":"โดราพัลท์","zacian":"ซาเชียน","zamazenta":"ซามาเซนตา","eternatus":"มุเก็นไดนา","kubfu":"ดาคุมะ","urshifu":"วูลาโอส","zarude":"ซารูด","regieleki":"เรจิเอเลคิ","regidrago":"เรจิดราโก","glastrier":"บลิซซาพอส","spectrier":"เรสพอส","calyrex":"บัดเดร็กซ์","wyrdeer":"อายาชิชิ","kleavor":"บาซากิรี","ursaluna":"กะจิกุมะ","basculegion":"อิไดโตะ","sneasler":"โอนิวลา","overqwil":"ฮาริยามัน","enamorus":"เลิฟทรอส",
             "sprigatito":"เนียวฮะ","floragato":"เนียโรเต","meowscarada":"มาสเคอเนีย","fuecoco":"โฮเกเตอร์","crocalor":"อจิเกเตอร์","skeledirge":"ลาวด์โบน","quaxly":"แคว็กซ์","quaxwell":"แคว็กซ์เวล","quaquaval":"เวนิแคว็กซ์","lechonk":"กูร์ตง","oinkologne":"พาฟิวตง","tarountula":"ทามันชูลา","spidops":"วานัยเดอร์","nymble":"มาเมบัตตะ","lokix":"เอ็กซ์เลก","rellor":"ชิกาโมโกะ","rabsca":"เบรากัส","greavard":"ปาโม","houndstone":"พาโมต","flittle":"พามอต","espathra":"วักคาเนซุมิ","wiglett":"อิกคาเนซุมิ","wugtrio":"ปิปปิ","dondozo":"พาปิมจิ","veluza":"บาวเซล","finizen":"มินีบ","palafin":"โอลีวา","smoliv":"อิคิรินโกะ","dolliv":"โคจิโอ","arboliva":"จิโอซึม","capsakid":"เคียวจิโอ","scovillain":"คาร์โบว","tinkatink":"คานุจัง","tinkatuff":"นากานุจัง","tinkaton":"เดคานุจัง","bombirdier":"ไทไคเดน","varoom":"โอมิกะ","revavroom":"มิมิซึ","orthworm":"โอมิมิซึ","tandemaus":"นาฟิคจิ","maushold":"มิโดะเครสต","cetoddle":"อารุคุจิระ","cetitan":"ฮารุคุจิระ","koraidon":"โคไรดอน","miraidon":"มิไรดอน","gimmighoul":"คอลเลคเรย์","gholdengo":"ซาร์ฟโก","ting-lu":"ติ่งลู่","chien-pao":"เจี้ยนเปา","wo-chien":"โฉงเจี้ยน","chi-yu":"อวี้รุ่ย","ogerpon":"โอกะปอน","terapagos":"เทราปากอส","okidogi":"อี้อินุ","munkidori":"มาชิมาชิระ","fezandipiti":"คิจิคิสึ","pecharunt":"โมโมวาโร่"
         };
 
-        const ITEMS_PER_PAGE = 100; // 🌟 เพิ่มโหลดทีละ 100 ตัวเพื่อให้เลื่อนดูได้ยาวๆ ไร้รอยต่อ
+        const POKEDEX_ENTRIES_TH = {
+            1: "ตั้งแต่เกิดมาจะมีเมล็ดพืชแปลกๆ ปลูกอยู่ที่หลัง เมล็ดจะโตขึ้นพร้อมกับตัวมันคอยดูดซับสารอาหาร",
+            4: "ไฟที่หางคือสัญลักษณ์แห่งชีวิตและอารมณ์ หากไฟดับลง ชีวิตของมันก็จะจบสิ้นลงด้วย",
+            5: "เมื่อมันแกว่งหางที่ลุกเป็นไฟ อุณหภูมิรอบข้างจะพุ่งสูงขึ้นจนร้อนระอุแทบทนไม่ได้",
+            6: "พ่นไฟที่ร้อนแรงจนสามารถละลายหินผาได้ ว่ากันว่ามันมักจะเป็นต้นเหตุของไฟป่าใหญ่",
+            7: "กระดองของมันไม่เพียงแค่ใช้ป้องกันตัว แต่รูปทรงที่โค้งมนยังช่วยลดแรงต้านน้ำ ทำให้ว่ายน้ำได้เร็วมาก",
+            25: "มักจะสะสมไฟฟ้าไว้ที่ถุงลมบริเวณแก้มทั้งสองข้าง เมื่อรู้สึกถึงอันตรายจะปล่อยกระแสไฟฟ้าแรงสูงออกมา",
+            133: "มีพันธุกรรมที่ไม่เสถียรอย่างมาก ทำให้สามารถวิวัฒนาการเปลี่ยนรูปแบบไปตามสภาพแวดล้อมที่อยู่อาศัยได้",
+            143: "มันจะไม่พอใจถ้าไม่ได้กินอาหารวันละ 400 กิโลกรัม เมื่อกินอิ่มแล้วมันก็จะนอนหลับไปทันที",
+            149: "เป็นโปเกมอนที่จิตใจดีและรักสงบ ว่ากันว่ามันจะบินไปช่วยเหลือผู้คนที่กำลังจะจมน้ำกลางทะเล",
+            150: "โปเกมอนที่ถูกสร้างขึ้นจากการตัดต่อพันธุกรรม มีพลังจิตที่แข็งแกร่งที่สุดและมีจิตใจที่เยือกเย็น",
+            151: "โปเกมอนมายาที่ว่ากันว่ามีรหัสพันธุกรรมของโปเกมอนทุกตัวบนโลกซ่อนอยู่ในร่างกายของมัน",
+            249: "เทพเจ้าแห่งท้องทะเล มีพลังปีกมหาศาลที่สามารถสร้างพายุใหญ่พัดกระหน่ำได้ยาวนานถึง 40 วัน",
+            250: "ขนของมันส่องประกายเจ็ดสี ว่ากันว่าผู้ใดที่ได้เห็นโฮโอจะได้รับความสุขและโชคดีไปตลอดกาล",
+            384: "อาศัยอยู่ในชั้นบรรยากาศโอโซน คอยกลืนกินอุกกาบาตเพื่อใช้เป็นพลังงาน ว่ากันว่ามันจะลงมาเมื่อกราดอนและไคโอกาสู้กัน",
+            448: "สามารถอ่านคลื่นพลังงาน (Aura) ของสิ่งมีชีวิตได้ แม้จะหลับตาอยู่ก็รับรู้ความรู้สึกของศัตรูได้จากระยะไกล",
+            658: "บีบอัดน้ำจนเป็นดาวกระจายที่คมกริบ การเคลื่อนไหวของมันรวดเร็วและว่องไวราวกับนินจา"
+        };
 
-        // ⚡ เพิ่ม Cache จัดเก็บข้อมูลที่แปลแล้ว เพื่อให้โหลดทันทีไม่ต้องรอแปลซ้ำ
+        const ITEMS_PER_PAGE = 100;
+
         const translationCache = new Map();
 
         const defaultSuffixes = ['-normal', '-altered', '-land', '-ordinary', '-aria', '-incarnate', '-average', '-standard', '-red-striped', '-baile', '-midday', '-solo', '-red-meteor', '-disguised', '-amped', '-ice', '-male', '-full-belly', '-single-strike', '-plant', '-shield'];
@@ -385,13 +451,11 @@
             const heartIcons = document.querySelectorAll(`.fav-icon-${id}`);
             heartIcons.forEach(icon => {
                 if (favorites.includes(id)) {
-                    icon.classList.replace('ph-heart', 'ph-fill');
-                    icon.classList.add('text-red-500');
-                    icon.classList.remove('text-slate-300', 'text-slate-400', 'hover:text-red-400');
+                    icon.classList.remove('ph', 'text-slate-400', 'hover:text-red-400');
+                    icon.classList.add('ph-fill', 'text-red-500');
                 } else {
-                    icon.classList.replace('ph-fill', 'ph-heart');
-                    icon.classList.remove('text-red-500');
-                    icon.classList.add('text-slate-300', 'hover:text-red-400');
+                    icon.classList.remove('ph-fill', 'text-red-500');
+                    icon.classList.add('ph', 'text-slate-400', 'hover:text-red-400');
                 }
             });
 
@@ -408,11 +472,9 @@
             audio.play().catch(e => console.log('Audio play failed:', e));
         }
 
-        // 🌟 Parallax Helper Functions (Using requestAnimationFrame for buttery smoothness)
+        // 🌟 Parallax Helper Functions
         function handleParallaxMove(e, container, targetElement, maxRotate, baseZ, scale) {
             if (!targetElement) return;
-            
-            // ใช้ dataset tracking เพื่อกันไม่ให้ JS ทำงานหนักเกินไปตอนขยับรัวๆ
             if (container.dataset.ticking === 'true') return;
             container.dataset.ticking = 'true';
             
@@ -443,7 +505,6 @@
 
         function handleParallaxLeave(targetElement, baseZ, scale) {
             if (!targetElement) return;
-            // 🌟 ปรับให้เด้งกลับไวขึ้นแบบไม่สะดุด (0.2s cubic-bezier)
             targetElement.style.transition = 'transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             targetElement.style.transform = `translateZ(${baseZ}px) scale(${scale}) rotateX(0deg) rotateY(0deg)`;
         }
@@ -462,6 +523,81 @@
             cardElement.addEventListener('touchend', leaveHandler);
             cardElement.addEventListener('touchcancel', leaveHandler);
         }
+
+        // 🌟 AI Handlers (Professor Oak Persona)
+        async function analyzeBattle() {
+            if (!compareData[0] || !compareData[1]) {
+                alert("กรุณาเลือกโปเกมอนทั้ง 2 ฝั่งก่อนครับ");
+                return;
+            }
+            const btn = document.getElementById('ai-battle-btn');
+            const resultDiv = document.getElementById('ai-battle-result');
+            
+            btn.innerHTML = `<i class="ph ph-spinner animate-spin text-lg md:text-xl"></i> กำลังวิเคราะห์ข้อมูล...`;
+            btn.disabled = true;
+            resultDiv.innerHTML = '';
+            
+            try {
+                const p1 = compareData[0];
+                const p2 = compareData[1];
+                const prompt = `ดร.โอคิโดะ ช่วยวิเคราะห์การต่อสู้ระหว่าง ${p1.name_th} กับ ${p2.name_th} ให้หน่อยครับ!
+ข้อมูลสเตตัส:
+${p1.name_th}: HP ${p1.stats[0].base_stat}, Atk ${p1.stats[1].base_stat}, Def ${p1.stats[2].base_stat}, Sp.Atk ${p1.stats[3].base_stat}, Sp.Def ${p1.stats[4].base_stat}, Spd ${p1.stats[5].base_stat}
+${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${p2.stats[2].base_stat}, Sp.Atk ${p2.stats[3].base_stat}, Sp.Def ${p2.stats[4].base_stat}, Spd ${p2.stats[5].base_stat}
+ธาตุ:
+${p1.name_th}: ${p1.types.map(t=>t.type.name).join(', ')}
+${p2.name_th}: ${p2.types.map(t=>t.type.name).join(', ')}
+
+สิ่งที่ต้องทำ:
+1. สร้างตาราง Markdown เปรียบเทียบสเตตัส โดยใช้หัวคอลัมน์: | โปเกมอน | HP | พลังโจมตี | พลังป้องกัน | พลังโจมตีพิเศษ | พลังป้องกันพิเศษ | ความเร็ว |
+2. วิเคราะห์ความได้เปรียบเสียเปรียบ
+3. ฟันธงผู้ชนะให้ชัดเจน
+(จำไว้: ห้ามใช้เครื่องหมาย ### ทำหัวข้อเด็ดขาด ให้ใช้ตัวหนาแทน)`;
+                
+                const response = await callGeminiAPI(prompt);
+                const htmlResponse = marked.parse(response);
+                
+                resultDiv.innerHTML = `
+                    <div class="ai-result-box p-6 md:p-8 rounded-2xl shadow-xl mt-6 fade-in text-sm md:text-base text-slate-700 leading-relaxed border border-slate-200" style="border-left-color: #10b981;">
+                        <div class="flex items-center gap-3 mb-4 border-b pb-4 border-slate-100">
+                            <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-xl text-emerald-600 shadow-inner">👨‍🔬</div>
+                            <h3 class="font-black text-lg text-slate-800">บทวิเคราะห์จาก ดร.โอคิโดะ</h3>
+                        </div>
+                        ${htmlResponse}
+                    </div>`;
+            } catch (e) {
+                resultDiv.innerHTML = `<div class="p-4 text-red-500 text-sm mt-4 text-center">เกิดข้อผิดพลาดในการเชื่อมต่อข้อมูล</div>`;
+            }
+            
+            btn.innerHTML = `<i class="ph-fill ph-microscope text-xl"></i> ดร.โอคิโดะ วิเคราะห์ข้อมูล`;
+            btn.disabled = false;
+        }
+
+        async function generateAILore(id, name) {
+            const btn = document.getElementById(`ai-lore-btn-${id}`);
+            const resultDiv = document.getElementById(`ai-lore-result-${id}`);
+            
+            btn.innerHTML = `<i class="ph ph-spinner animate-spin text-sm"></i> กำลังดึงข้อมูลงานวิจัย...`;
+            btn.disabled = true;
+            
+            try {
+                const prompt = `ช่วยเล่าเกร็ดความรู้ นิสัย หรือข้อมูลงานวิจัยที่น่าสนใจเกี่ยวกับ ${name} ให้ฟังหน่อยครับ ดร. ขอสั้นๆ ประมาณ 1 ย่อหน้า (ห้ามใช้เครื่องหมาย ###)`;
+                const response = await callGeminiAPI(prompt);
+                const htmlResponse = marked.parse(response);
+                
+                resultDiv.innerHTML = `
+                    <div class="p-4 md:p-5 bg-emerald-50 rounded-xl border border-emerald-200 mt-4 text-[11px] sm:text-sm text-slate-700 leading-relaxed fade-in flex flex-col gap-2 shadow-inner ai-result-box">
+                        <span class="font-black text-emerald-700 text-xs md:text-sm flex items-center gap-2"><i class="ph-fill ph-book-bookmark text-base"></i> บันทึกการวิจัยของดร.โอคิโดะ:</span>
+                        ${htmlResponse}
+                    </div>`;
+                btn.style.display = 'none'; 
+            } catch (e) {
+                resultDiv.innerHTML = `<div class="p-4 text-red-500 text-xs">เกิดข้อผิดพลาดในการโหลดข้อมูล</div>`;
+                btn.innerHTML = `<i class="ph-fill ph-microscope text-base"></i> ดร.โอคิโดะ เล่าเกร็ดความรู้`;
+                btn.disabled = false;
+            }
+        }
+
         // ---------------------------------
 
         let allPokemon = [];
@@ -578,14 +714,13 @@
             allPokemon = [...INITIAL_POKEMON];
             applyFilters();
 
-            // 🌟 สร้างระบบ Infinite Scroll โหลดอัตโนมัติเมื่อเลื่อนจอ ไม่ต้องกดปุ่ม
             const sentinel = document.getElementById('scroll-sentinel');
             if (sentinel) {
                 const observer = new IntersectionObserver((entries) => {
                     if (entries[0].isIntersecting && filteredList.length > displayLimit) {
                         loadMore();
                     }
-                }, { rootMargin: '3000px' }); // โหลดล่วงหน้าก่อนถึงขอบล่าง 3000px ไร้รอยต่อแน่นอน
+                }, { rootMargin: '3000px' }); 
                 observer.observe(sentinel);
             }
 
@@ -666,7 +801,7 @@
         function renderRegionFilters() {
             const container = document.getElementById('region-filters');
             container.innerHTML = REGIONS.map((reg, index) => `
-                <button onclick="selectRegion(${index})" class="px-6 md:px-8 py-2 md:py-3 rounded-full whitespace-nowrap font-bold text-xs md:text-sm transition-transform active:scale-95 ${selectedRegionIndex === index ? 'bg-slate-800 text-white shadow-xl -translate-y-1' : 'bg-white/70 backdrop-blur-sm text-slate-500 hover:text-slate-800 border border-white hover:border-slate-300'}">
+                <button onclick="selectRegion(${index})" class="px-4 md:px-6 py-1.5 md:py-2.5 rounded-full whitespace-nowrap font-bold text-[10px] md:text-sm transition-transform active:scale-95 border ${selectedRegionIndex === index ? 'bg-slate-800 text-white shadow-md border-slate-800 -translate-y-0.5' : 'bg-white/80 backdrop-blur-sm text-slate-500 hover:text-slate-800 border-slate-200/60 hover:border-slate-300 hover:bg-white'}">
                     ${reg.name}
                 </button>
             `).join('');
@@ -678,7 +813,6 @@
             displayLimit = ITEMS_PER_PAGE;
             renderRegionFilters(); 
             
-            // 🌟 โหลดข้อมูลทันที 0 วินาทีแบบไม่มีดีเลย์
             document.getElementById('pokemon-grid').innerHTML = '';
             currentlyRenderedCount = 0;
             applyFilters();
@@ -725,7 +859,6 @@
             const itemsToRender = filteredList.slice(currentlyRenderedCount, displayLimit);
             
             document.getElementById('empty-state').style.display = (filteredList.length === 0) ? 'block' : 'none';
-            // ซ่อนปุ่ม เพราะเราใช้ Infinite Scroll เลื่อนละโหลดเองแล้ว
             document.getElementById('load-more-container').style.display = 'none';
 
             const fragment = document.createDocumentFragment();
@@ -740,20 +873,21 @@
                 const fetchPriorityAttr = isTopRow ? 'high' : 'auto';
 
                 const isFav = favorites.includes(p.id);
-                const heartClass = isFav ? 'ph-fill ph-heart text-red-500' : 'ph ph-heart text-slate-300 hover:text-red-400';
+                const heartClass = isFav ? 'ph-fill text-red-500' : 'ph text-slate-400';
 
-                // 🌟 อนิเมชันซูมไวขึ้น (duration-200) ไม่สะดุด
                 div.innerHTML = `
                     <div id="card-${p.id}" data-id="${p.id}" class="card-bg-wrap card-background h-full group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-7 shadow-sm hover:shadow-xl cursor-pointer border flex flex-col items-center relative overflow-hidden backdrop-blur-md bg-white/40 border-white/60 transition-all duration-200">
-                        <button onclick="toggleFavorite(${p.id}, event)" class="absolute top-3 md:top-4 left-3 md:left-4 z-20 p-1.5 md:p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-sm hover:scale-110 transition-transform focus:outline-none">
-                            <i class="${heartClass} fav-icon-${p.id} text-base md:text-xl transition-colors"></i>
+                        
+                        <button onclick="toggleFavorite(${p.id}, event)" class="absolute top-4 left-4 md:top-6 md:left-6 z-20 hover:scale-125 transition-transform focus:outline-none drop-shadow-md group/btn">
+                            <i class="${heartClass} ph-heart fav-icon-${p.id} text-2xl md:text-3xl transition-colors group-hover/btn:text-red-400"></i>
                         </button>
+
                         <div class="absolute top-3 right-4 md:top-4 md:right-5 font-black text-lg md:text-3xl italic select-none transition-opacity duration-150 opacity-70 group-hover:opacity-100 text-slate-700">
                             #${String(p.id).padStart(3, '0')}
                         </div>
-                        <div class="relative w-20 h-20 md:w-36 md:h-36 my-4 md:my-6 flex items-center justify-center preserve-3d" style="transform: translateZ(40px);">
-                            <div class="absolute inset-[-6px] md:inset-[-12px] bg-white/80 rounded-full scale-100 group-hover:scale-110 transition-transform duration-200 shadow-inner border border-white"></div>
-                            <img src="${getImageUrl(p.id, 'grid')}" class="relative z-10 max-w-full max-h-full object-contain img-3d-grid transition-transform duration-200" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="async" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
+                        <div class="relative w-full aspect-square max-w-[100px] md:max-w-[140px] my-4 md:my-6 flex items-center justify-center preserve-3d mx-auto" style="transform: translateZ(40px);">
+                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-white/80 rounded-full group-hover:scale-105 transition-transform duration-200 shadow-inner border border-white"></div>
+                            <img src="${getImageUrl(p.id, 'grid')}" class="relative z-10 w-full h-full object-contain img-3d-grid transition-transform duration-200" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="async" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
                         </div>
                         <div class="text-center w-full relative z-10 flex flex-col items-center mt-auto" style="transform: translateZ(10px);">
                             <h2 class="text-[11px] sm:text-xs md:text-lg font-bold md:font-black text-slate-800 tracking-tight drop-shadow-sm group-hover:text-slate-900 mb-2 md:mb-3 truncate w-full px-1 leading-normal pt-1 pb-2">
@@ -784,20 +918,22 @@
 
             container.innerHTML = favPokemonList.map(p => {
                 const isFav = favorites.includes(p.id);
-                const heartClass = isFav ? 'ph-fill ph-heart text-red-500' : 'ph ph-heart text-slate-300 hover:text-red-400';
+                const heartClass = isFav ? 'ph-fill text-red-500' : 'ph text-slate-400';
 
                 return `
                 <div id="fav-wrapper-${p.id}" class="preserve-3d relative">
                     <div id="fav-card-${p.id}" data-id="${p.id}" onclick="openDetail(${p.id})" class="card-bg-wrap card-background h-full group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-7 shadow-sm hover:shadow-2xl cursor-pointer border flex flex-col items-center relative overflow-hidden backdrop-blur-md bg-white/40 border-white/60 transition-all duration-200">
-                        <button onclick="toggleFavorite(${p.id}, event)" class="absolute top-3 md:top-4 left-3 md:left-4 z-20 p-1.5 md:p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-sm hover:scale-110 transition-transform focus:outline-none">
-                            <i class="${heartClass} fav-icon-${p.id} text-base md:text-xl transition-colors"></i>
+                        
+                        <button onclick="toggleFavorite(${p.id}, event)" class="absolute top-4 left-4 md:top-6 md:left-6 z-20 hover:scale-125 transition-transform focus:outline-none drop-shadow-md group/btn">
+                            <i class="${heartClass} ph-heart fav-icon-${p.id} text-2xl md:text-3xl transition-colors group-hover/btn:text-red-400"></i>
                         </button>
+
                         <div class="absolute top-3 right-4 md:top-4 md:right-5 font-black text-lg md:text-3xl italic select-none transition-opacity duration-150 opacity-70 group-hover:opacity-100 text-slate-700">
                             #${String(p.id).padStart(3, '0')}
                         </div>
-                        <div class="relative w-20 h-20 md:w-36 md:h-36 my-4 md:my-6 flex items-center justify-center preserve-3d" style="transform: translateZ(40px);">
-                            <div class="absolute inset-[-6px] md:inset-[-12px] bg-white/80 rounded-full scale-100 group-hover:scale-110 transition-transform duration-200 shadow-inner border border-white"></div>
-                            <img src="${getImageUrl(p.id, 'grid')}" class="relative z-10 max-w-full max-h-full object-contain img-3d-grid transition-transform duration-200" loading="lazy" decoding="async" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
+                        <div class="relative w-full aspect-square max-w-[100px] md:max-w-[140px] my-4 md:my-6 flex items-center justify-center preserve-3d mx-auto" style="transform: translateZ(40px);">
+                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-white/80 rounded-full group-hover:scale-105 transition-transform duration-200 shadow-inner border border-white"></div>
+                            <img src="${getImageUrl(p.id, 'grid')}" class="relative z-10 w-full h-full object-contain img-3d-grid transition-transform duration-200" loading="lazy" decoding="async" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
                         </div>
                         <div class="text-center w-full relative z-10 flex flex-col items-center mt-auto" style="transform: translateZ(10px);">
                             <h2 class="text-[11px] sm:text-xs md:text-lg font-bold md:font-black text-slate-800 tracking-tight drop-shadow-sm group-hover:text-slate-900 mb-2 md:mb-3 truncate w-full px-1 leading-normal pt-1 pb-2">
@@ -834,12 +970,11 @@
                 const typesContainer = card.querySelector('.types-container');
                 
                 if(card && typesContainer) {
-                    card.style.background = `linear-gradient(145deg, ${themeColor}60 0%, rgba(255, 255, 255, 0.85) 100%)`;
-                    card.style.borderColor = `${themeColor}60`;
-                    card.style.boxShadow = `0 10px 30px -10px ${themeColor}40`;
+                    card.style.background = `linear-gradient(145deg, ${themeColor}10 0%, rgba(255, 255, 255, 0.85) 100%)`;
+                    card.style.borderColor = `${themeColor}40`;
                     
                     const glow = document.createElement('div');
-                    glow.className = "absolute -top-10 -right-10 w-32 h-32 md:w-40 md:h-40 rounded-full blur-3xl opacity-40 group-hover:opacity-70 transition-opacity duration-500 pointer-events-none";
+                    glow.className = "absolute -top-10 -right-10 w-32 h-32 md:w-40 md:h-40 rounded-full blur-3xl opacity-30 pointer-events-none";
                     glow.style.backgroundColor = themeColor;
                     card.prepend(glow);
                     
@@ -904,7 +1039,6 @@
                         evoChain = evoData.chain;
                     }
 
-                    // 🌟 ระบบแปลภาษา 0 วินาทีแบบแสดงอังกฤษก่อนไม่ต้องรอ
                     if (POKEDEX_ENTRIES_TH[pokemonDetail.id]) {
                         translatedEntry = POKEDEX_ENTRIES_TH[pokemonDetail.id];
                     } else {
@@ -914,20 +1048,16 @@
                             if (translationCache.has(engText)) {
                                 translatedEntry = translationCache.get(engText);
                             } else {
-                                // โชว์ภาษาอังกฤษให้ดูทันที 0 วิ
                                 translatedEntry = engText; 
-                                
-                                // แอบแปลภาษาอยู่ข้างหลัง (พื้นหลัง)
                                 fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=th&dt=t&q=${encodeURIComponent(engText)}`)
                                     .then(r => r.json())
                                     .then(d => {
                                         const text = d[0].map(item => item[0]).join('');
                                         translationCache.set(engText, text);
                                         const entryEl = document.getElementById('pokedex-entry-text');
-                                        // เช็คก่อนว่าไม่ได้กดหนีไปหน้าอื่นแล้ว
                                         if(entryEl && entryEl.dataset.pid == pokemonDetail.id) {
                                             entryEl.innerText = text;
-                                            entryEl.classList.add('fade-in'); // เฟดสวยๆ ตอนเปลี่ยนภาษา
+                                            entryEl.classList.add('fade-in'); 
                                         }
                                     }).catch(() => {});
                             }
@@ -978,7 +1108,7 @@
                     <div id="evo-wrapper-${id}" class="preserve-3d relative">
                         <div id="evo-card-${id}" onclick="openDetail(${id})" class="card-bg-wrap flex flex-col items-center justify-center cursor-pointer group bg-white/60 backdrop-blur-md p-3 md:p-6 rounded-[1rem] md:rounded-[2rem] hover:bg-white hover:shadow-xl transition-all border-2 border-white/50">
                             <div class="relative w-10 h-10 md:w-20 md:h-20 mb-2 md:mb-4 flex items-center justify-center preserve-3d" style="transform: translateZ(30px);">
-                                <div class="absolute inset-0 bg-slate-100/60 rounded-full scale-100 group-hover:scale-110 transition-transform"></div>
+                                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 md:w-24 md:h-24 bg-slate-100/60 rounded-full scale-100 group-hover:scale-110 transition-transform"></div>
                                 <img src="${getImageUrl(id, 'grid')}" class="w-full h-full object-contain relative z-10 group-hover:scale-110 transition-transform img-3d-grid" alt="${nameTh}" onerror="handleImgErr(this, ${id}, 'grid')" />
                             </div>
                             <span class="font-bold md:font-black text-slate-800 text-[9px] md:text-sm text-center leading-normal line-clamp-2 w-full px-1 pt-1 pb-2" style="transform: translateZ(10px);">${nameTh}</span>
@@ -1041,33 +1171,34 @@
                 <div class="max-w-7xl mx-auto px-4 md:px-6 grid lg:grid-cols-2 gap-6 md:gap-16 items-start">
                     
                     <div class="relative group lg:sticky lg:top-32" id="detail-img-container" style="perspective: 1000px;">
-                        <div id="detail-card-inner" class="backdrop-blur-xl rounded-[2rem] md:rounded-[4rem] p-6 md:p-20 shadow-2xl flex flex-col items-center border relative overflow-hidden w-full min-h-[220px] md:min-h-[500px] justify-center transition-all duration-200"
-                            style="border-color: ${themeColor}40; background: linear-gradient(145deg, ${themeColor}60 0%, rgba(255,255,255,0.85) 100%); box-shadow: 0 10px 30px -10px ${themeColor}40;">
+                        <div id="detail-card-inner" class="backdrop-blur-xl rounded-[2rem] md:rounded-[4rem] p-6 md:p-20 shadow-2xl flex flex-col items-center border relative overflow-hidden w-full min-h-[350px] md:min-h-[500px] justify-center transition-all duration-200"
+                            style="border-color: ${themeColor}40; background: linear-gradient(145deg, ${themeColor}10 0%, rgba(255,255,255,0.85) 100%); box-shadow: 0 10px 30px -10px ${themeColor}40;">
 
                             <div class="absolute inset-0 opacity-20 pointer-events-none mix-blend-multiply" style="background: radial-gradient(circle at top right, ${themeColor}, transparent 70%);"></div>
-                            <div class="absolute -bottom-10 -left-10 md:-bottom-20 md:-left-20 w-48 h-48 md:w-96 md:h-96 blur-2xl md:blur-3xl opacity-20 pointer-events-none rounded-full" style="background-color: ${themeColor};"></div>
+                            
+                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 md:w-96 md:h-96 blur-2xl md:blur-3xl opacity-25 pointer-events-none rounded-full" style="background-color: ${themeColor};"></div>
                             
                             <div class="absolute top-0 right-0 p-4 md:p-16 font-black text-[4rem] md:text-[12rem] italic leading-none select-none opacity-[0.12]" style="color: ${themeColor};" aria-hidden="true">
                                 #${pokemonDetail.id}
                             </div>
                             
-                            <div class="relative z-20 w-40 h-40 sm:w-[250px] sm:h-[250px] md:w-[450px] md:h-[450px] mx-auto preserve-3d" style="transform: translateZ(60px);" id="detail-img-wrapper">
-                                <img id="detail-img" src="${getImageUrl(pokemonDetail.id, 'full')}" class="w-full h-full object-contain img-3d-detail animate-float" alt="${pokemonDetail.name_th}" onerror="handleImgErr(this, ${pokemonDetail.id}, 'full')" />
+                            <div class="relative z-20 w-48 h-48 sm:w-[250px] sm:h-[250px] md:w-[450px] md:h-[450px] mx-auto preserve-3d flex items-center justify-center" style="transform: translateZ(60px);" id="detail-img-wrapper">
+                                <img id="detail-img" src="${getImageUrl(pokemonDetail.id, 'full')}" class="max-w-full max-h-full object-contain img-3d-detail animate-float" alt="${pokemonDetail.name_th}" onerror="handleImgErr(this, ${pokemonDetail.id}, 'full')" />
                             </div>
                         </div>
                     </div>
 
                     <div class="flex flex-col gap-4 md:gap-8 mt-2 md:mt-0 min-w-0">
                         <div>
-                            <div class="flex items-center justify-between">
-                                <div class="text-xl md:text-4xl font-black italic tracking-widest mb-1 opacity-90 drop-shadow-sm" style="color: ${themeColor}">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="text-xl md:text-4xl font-black italic tracking-widest opacity-90 drop-shadow-sm" style="color: ${themeColor}">
                                     #${String(pokemonDetail.id).padStart(3, '0')}
                                 </div>
-                                <div class="flex items-center gap-2">
-                                    ${cryUrl ? `<button onclick="playCry('${cryUrl}')" class="p-2 md:p-3 bg-white/80 backdrop-blur-md rounded-full shadow-md hover:bg-blue-50 text-blue-500 transition-colors border border-white focus:outline-none" title="ฟังเสียงร้อง"><i class="ph-fill ph-speaker-high text-lg md:text-2xl"></i></button>` : ''}
+                                <div class="flex items-center gap-4">
+                                    ${cryUrl ? `<button onclick="playCry('${cryUrl}')" class="hover:scale-110 text-blue-500 transition-transform focus:outline-none drop-shadow-md" title="ฟังเสียงร้อง"><i class="ph-fill ph-speaker-high text-3xl md:text-4xl"></i></button>` : ''}
                                     
-                                    <button onclick="toggleFavorite(${pokemonDetail.id})" class="p-2 md:p-3 bg-white/80 backdrop-blur-md rounded-full shadow-md hover:bg-red-50 transition-colors border border-white focus:outline-none" title="เพิ่ม/ลบ รายการโปรด">
-                                        <i class="${heartClass} ph-heart fav-icon-${pokemonDetail.id} text-lg md:text-2xl transition-colors"></i>
+                                    <button onclick="toggleFavorite(${pokemonDetail.id})" class="hover:scale-125 transition-transform focus:outline-none drop-shadow-md group/btn" title="เพิ่ม/ลบ รายการโปรด">
+                                        <i class="${heartClass} ph-heart fav-icon-${pokemonDetail.id} text-3xl md:text-4xl transition-colors group-hover/btn:text-red-400"></i>
                                     </button>
                                 </div>
                             </div>
@@ -1093,6 +1224,14 @@
                                 <i class="ph ph-info text-blue-500 text-base md:text-xl" aria-hidden="true"></i> ลักษณะและพฤติกรรม
                             </h3>
                             <p id="pokedex-entry-text" data-pid="${pokemonDetail.id}" class="text-slate-700 font-medium leading-relaxed text-[11px] sm:text-sm md:text-lg relative z-10 whitespace-pre-line pt-1 pb-1">${translatedEntry}</p>
+                            
+                            <!-- 🌟 AI Lore Analyzer Section -->
+                            <div class="mt-5 pt-5 border-t border-slate-200/60 relative z-10">
+                                <button id="ai-lore-btn-${pokemonDetail.id}" onclick="generateAILore(${pokemonDetail.id}, '${pokemonDetail.name_th}')" class="flex items-center gap-2 text-[10px] md:text-sm font-bold text-emerald-600 bg-emerald-100 hover:bg-emerald-200 px-4 py-2 rounded-full transition-colors focus:outline-none">
+                                    <i class="ph-fill ph-microscope text-base"></i> ดร.โอคิโดะ เล่าเกร็ดความรู้
+                                </button>
+                                <div id="ai-lore-result-${pokemonDetail.id}"></div>
+                            </div>
                         </div>
 
                         <div class="grid grid-cols-2 gap-2 md:gap-6">
@@ -1247,14 +1386,14 @@
 function buildDropdownHTML(index, currentId) {
     const selected = allPokemon.find(p => p.id === currentId);
     return `
-        <div class="relative w-full mb-2 md:mb-6 compare-dropdown" id="dropdown-${index}">
-            <button onclick="toggleCompareDropdown(${index})" class="w-full bg-white/80 backdrop-blur-md p-2 md:p-5 rounded-lg md:rounded-2xl flex justify-between items-center border border-white hover:border-red-400 transition-colors font-bold text-slate-700 shadow-md group text-[9px] md:text-base min-w-0">
-                <span class="truncate pr-1 flex-1 text-left leading-normal py-1" id="dropdown-text-${index}">${selected ? selected.name_th : 'เลือก...'}</span>
+        <div class="relative w-full mb-1.5 md:mb-6 compare-dropdown" id="dropdown-${index}">
+            <button onclick="toggleCompareDropdown(${index})" class="w-full bg-white/80 backdrop-blur-md p-1.5 sm:p-2 md:p-5 rounded-md sm:rounded-lg md:rounded-2xl flex justify-between items-center border border-white hover:border-red-400 transition-colors font-bold text-slate-700 shadow-sm md:shadow-md group text-[8px] sm:text-[10px] md:text-base min-w-0">
+                <span class="truncate pr-1 flex-1 text-left leading-normal py-0.5 md:py-1" id="dropdown-text-${index}">${selected ? selected.name_th : 'เลือก...'}</span>
                 <i class="ph ph-caret-right text-slate-400 group-hover:text-red-400 transition-transform text-[10px] md:text-base shrink-0" id="dropdown-icon-${index}" aria-hidden="true"></i>
             </button>
             <div id="dropdown-menu-${index}" class="hidden absolute z-50 mt-1 md:mt-2 w-full bg-white/95 backdrop-blur-xl rounded-lg md:rounded-2xl shadow-2xl border border-white overflow-hidden">
                 <div class="p-1.5 md:p-4 border-b bg-slate-50/50">
-                    <input type="text" onkeyup="filterCompareDropdown(${index}, this.value)" class="w-full p-1.5 md:p-3 bg-white rounded-md md:rounded-xl outline-none text-[9px] md:text-sm font-medium border border-slate-200 focus:border-red-300 transition-colors shadow-inner leading-normal" placeholder="ค้นหาชื่อ..." aria-label="ค้นหาโปเกมอนเปรียบเทียบ">
+                    <input type="text" onkeyup="filterCompareDropdown(${index}, this.value)" class="w-full p-1.5 md:p-3 bg-white rounded-md md:rounded-xl outline-none text-[8px] md:text-sm font-medium border border-slate-200 focus:border-red-300 transition-colors shadow-inner leading-normal" placeholder="ค้นหาชื่อ..." aria-label="ค้นหาโปเกมอนเปรียบเทียบ">
                 </div>
                 <div class="max-h-40 md:max-h-60 overflow-y-auto custom-scrollbar" id="dropdown-list-${index}">
                     ${renderCompareListHTML(index, '')}
@@ -1284,7 +1423,7 @@ function toggleCompareDropdown(index) {
     const isHidden = menu.classList.contains('hidden');
     
     document.querySelectorAll('.compare-dropdown > div:nth-child(2)').forEach(el => el.classList.add('hidden'));
-    document.querySelectorAll('.compare-dropdown i').forEach(el => el.classList.remove('rotate-90'));
+    document.querySelectorAll('.compare-dropdown i.ph-caret-right').forEach(el => el.classList.remove('rotate-90'));
 
     if (isHidden) {
         menu.classList.remove('hidden');
@@ -1339,6 +1478,8 @@ function renderCompareView() {
         const otherTotal = otherData ? otherData.stats.reduce((sum, s) => sum + s.base_stat, 0) : 0;
         const isTotalWinner = totalStats > otherTotal;
         const cryUrl = data.cries ? data.cries.latest : '';
+        
+        const cardBgStyle = `background: linear-gradient(145deg, ${themeColor}10 0%, rgba(255,255,255,0.85) 100%); border-color: ${themeColor}40;`;
 
         let statsHtml = data.stats.map((s, idx) => {
             const otherVal = otherData?.stats[idx]?.base_stat || 0;
@@ -1346,10 +1487,10 @@ function renderCompareView() {
             const statName = STAT_NAMES_TH[s.stat.name] || s.stat.name;
             const percentage = Math.min((s.base_stat / 255) * 100, 100);
             return `
-                <div class="flex items-center gap-1 md:gap-4 mb-1.5 md:mb-4 w-full min-w-0">
-                    <span class="text-[7px] md:text-xs font-bold text-slate-500 uppercase tracking-tight w-7 sm:w-8 md:w-16 shrink-0 text-right truncate leading-normal">${statName}</span>
-                    <span class="text-[8px] md:text-sm font-black w-4 md:w-8 shrink-0 text-right ${isWinner ? 'text-emerald-500' : 'text-slate-700'}">${s.base_stat}</span>
-                    <div class="flex-1 bg-slate-100/60 rounded-full h-1 md:h-2.5 overflow-hidden shadow-inner ml-1 md:ml-0 min-w-0">
+                <div class="flex items-center gap-0.5 md:gap-4 mb-1 md:mb-4 w-full min-w-0">
+                    <span class="text-[6px] sm:text-[7px] md:text-xs font-bold text-slate-500 uppercase tracking-tight w-6 sm:w-8 md:w-16 shrink-0 text-right truncate leading-normal transition-colors duration-500">${statName}</span>
+                    <span class="text-[8px] md:text-sm font-black w-4 md:w-8 shrink-0 text-right transition-colors duration-500 ${isWinner ? 'text-emerald-500' : 'text-slate-700'}">${s.base_stat}</span>
+                    <div class="flex-1 bg-slate-100/60 rounded-full h-1 md:h-2.5 overflow-hidden shadow-inner ml-0.5 md:ml-0 min-w-0 transition-colors duration-500">
                         <div class="h-full rounded-full transition-all duration-300 relative ${isWinner ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.4)]' : 'bg-slate-300'}" 
                              style="width: ${percentage}%;">
                              <div class="absolute inset-0 bg-white/20" aria-hidden="true"></div>
@@ -1360,42 +1501,45 @@ function renderCompareView() {
         }).join('');
 
         return `
-            <div id="compare-inner-${index}" class="backdrop-blur-xl rounded-2xl md:rounded-[3rem] p-2 sm:p-3 md:p-10 border relative h-full flex flex-col transition-colors overflow-hidden w-full min-w-0 preserve-3d"
-                 style="border-color: ${themeColor}40; background: linear-gradient(145deg, ${themeColor}60 0%, rgba(255,255,255,0.85) 100%); box-shadow: 0 10px 30px -10px ${themeColor}40;">
-                <div class="absolute -top-10 -left-10 w-24 h-24 md:w-64 md:h-64 rounded-full blur-xl md:blur-3xl opacity-20 pointer-events-none" style="background-color: ${themeColor}"></div>
+            <div id="compare-inner-${index}" class="backdrop-blur-xl rounded-xl md:rounded-[3rem] p-1.5 sm:p-2 md:p-10 border relative h-full flex flex-col transition-all duration-500 w-full min-w-0 preserve-3d"
+                 style="${cardBgStyle} box-shadow: 0 10px 30px -10px ${themeColor}20">
                 
-                <div style="transform: translateZ(10px);">${buildDropdownHTML(index, data.id)}</div>
+                <div class="absolute inset-0 rounded-xl md:rounded-[3rem] overflow-hidden pointer-events-none">
+                    <div class="absolute -top-10 -left-10 w-24 h-24 md:w-64 md:h-64 rounded-full blur-xl md:blur-3xl opacity-20 pointer-events-none" style="background-color: ${themeColor}"></div>
+                </div>
                 
-                <div class="flex flex-col items-center mb-2 md:mb-8 min-w-0 preserve-3d" style="transform: translateZ(30px);">
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 md:w-56 md:h-56 mb-2 md:mb-8 bg-white rounded-xl md:rounded-[3.5rem] flex items-center justify-center p-2 md:p-12 relative shadow-inner border border-slate-50 overflow-hidden shrink-0 preserve-3d">
-                        <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-white"></div>
+                <div style="transform: translateZ(5px);" class="relative z-50">${buildDropdownHTML(index, data.id)}</div>
+                
+                <div class="flex flex-col items-center mb-1 md:mb-8 min-w-0 preserve-3d relative z-10" style="transform: translateZ(15px);">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 md:w-56 md:h-56 mb-1.5 md:mb-8 bg-white rounded-lg md:rounded-[3.5rem] flex items-center justify-center p-1.5 md:p-12 relative shadow-inner border border-slate-50 overflow-hidden shrink-0 transition-colors duration-500 preserve-3d">
+                        <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-white transition-colors duration-500"></div>
                         <img src="${getImageUrl(data.id, 'full')}" class="w-full h-full object-contain relative z-10 animate-float img-3d-detail" alt="${data.name_th}" onerror="handleImgErr(this, ${data.id}, 'full')" />
                     </div>
-                    <div class="text-[8px] md:text-2xl font-black italic tracking-widest mb-0.5 md:mb-2 opacity-90 drop-shadow-sm" style="color: ${themeColor}">
+                    <div class="text-[7px] sm:text-[9px] md:text-2xl font-black italic tracking-widest mb-0 md:mb-2 opacity-90 drop-shadow-sm" style="color: ${themeColor}">
                         #${String(data.id).padStart(3, '0')}
                     </div>
-                    <h2 class="text-xs sm:text-sm md:text-4xl font-bold md:font-black text-slate-800 tracking-tight mb-1 md:mb-4 text-center leading-normal truncate block w-full px-1 py-1 sm:py-2 flex items-center justify-center gap-1.5 md:gap-3">
+                    <h2 class="text-[9px] sm:text-[11px] md:text-4xl font-bold md:font-black text-slate-800 tracking-tight mb-0.5 md:mb-4 text-center leading-tight truncate block w-full px-0.5 py-0.5 md:py-2 flex items-center justify-center gap-0.5 md:gap-3 transition-colors duration-500">
                         ${data.name_th}
-                        ${cryUrl ? `<button onclick="playCry('${cryUrl}')" class="p-1 md:p-2 bg-blue-100 text-blue-500 rounded-full hover:bg-blue-500 hover:text-white transition-colors shadow-sm focus:outline-none"><i class="ph-fill ph-speaker-high text-[10px] md:text-base"></i></button>` : ''}
+                        ${cryUrl ? `<button onclick="playCry('${cryUrl}')" class="p-0.5 md:p-2 bg-blue-100 text-blue-500 rounded-full hover:bg-blue-500 hover:text-white transition-colors shadow-sm focus:outline-none"><i class="ph-fill ph-speaker-high text-[7px] md:text-base"></i></button>` : ''}
                     </h2>
-                    <div class="flex justify-center gap-0.5 md:gap-2 mt-0.5 md:mt-0 h-6 md:h-8 overflow-hidden items-center shrink-0 w-full flex-wrap md:flex-nowrap">
+                    <div class="flex justify-center gap-0.5 md:gap-2 mt-0.5 md:mt-0 h-4 md:h-8 overflow-hidden items-center shrink-0 w-full flex-wrap md:flex-nowrap">
                         ${data.types.map(t => {
                             const textColor = TYPE_TEXT_COLORS[t.type.name] || 'text-white';
                             return `
-                            <span class="${textColor} text-[6px] md:text-[11px] font-bold px-1.5 py-0.5 md:px-3 md:py-1 rounded-full uppercase tracking-widest shadow-sm md:shadow-lg inline-flex items-center gap-0.5 md:gap-1 max-w-[90%] truncate" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
-                                <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[6px] md:text-[12px] shrink-0" aria-hidden="true"></i>
-                                <span class="truncate leading-normal pb-0.5">${TYPE_NAMES_TH[t.type.name] || t.type.name}</span>
+                            <span class="${textColor} text-[5px] md:text-[11px] font-bold px-1 py-0.5 md:px-3 md:py-1 rounded-full uppercase tracking-widest shadow-sm md:shadow-lg inline-flex items-center gap-0.5 md:gap-1 max-w-[90%] truncate" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
+                                <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[5px] md:text-[12px] shrink-0" aria-hidden="true"></i>
+                                <span class="truncate leading-none">${TYPE_NAMES_TH[t.type.name] || t.type.name}</span>
                             </span>
                             `
                         }).join('')}
                     </div>
                 </div>
                 
-                <div class="flex-1 pt-2 md:pt-6 border-t border-white/50 flex flex-col min-w-0" style="transform: translateZ(10px);">
+                <div class="flex-1 pt-1 md:pt-6 border-t border-white/50 flex flex-col min-w-0 transition-colors duration-500 relative z-10" style="transform: translateZ(5px);">
                     <div class="flex flex-col justify-center flex-1 w-full min-w-0">${statsHtml}</div>
-                    <div class="mt-auto pt-2 md:pt-4 border-t border-white/50 flex justify-between items-center px-1 md:px-2 w-full min-w-0">
-                        <span class="text-[7px] md:text-sm font-black text-slate-500 uppercase tracking-widest shrink-0 leading-normal">Total</span>
-                        <span class="text-[10px] md:text-2xl font-black shrink-0 ${isTotalWinner ? 'text-emerald-500' : 'text-slate-700'}">${totalStats}</span>
+                    <div class="mt-auto pt-1 md:pt-4 border-t border-white/50 flex justify-between items-center px-0.5 md:px-2 w-full min-w-0 transition-colors duration-500">
+                        <span class="text-[6px] md:text-sm font-black text-slate-500 uppercase tracking-widest shrink-0 leading-normal transition-colors duration-500">Total</span>
+                        <span class="text-[8px] md:text-2xl font-black shrink-0 transition-colors duration-500 ${isTotalWinner ? 'text-emerald-500' : 'text-slate-700'}">${totalStats}</span>
                     </div>
                 </div>
             </div>
@@ -1411,13 +1555,14 @@ function renderCompareView() {
             const card = document.getElementById(`compare-inner-${i}`);
             if (card) attachGridParallax(card);
         });
+        document.getElementById('ai-battle-result').innerHTML = ''; // Reset AI text when cards change
     }, 50);
 }
 
 document.addEventListener('click', (e) => {
     if(!e.target.closest('.compare-dropdown')) {
         document.querySelectorAll('.compare-dropdown > div:nth-child(2)').forEach(el => el.classList.add('hidden'));
-        document.querySelectorAll('.compare-dropdown i').forEach(el => el.classList.remove('rotate-90'));
+        document.querySelectorAll('.compare-dropdown i.ph-caret-right').forEach(el => el.classList.remove('rotate-90'));
     }
 });
 
