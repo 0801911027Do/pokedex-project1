@@ -38,7 +38,7 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com" fetchpriority="high"></script>
     
-    <!-- Phosphor Icons (Defer เพื่อไม่ให้บล็อกการเรนเดอร์หน้าเว็บ) -->
+    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
 
     <style>
@@ -54,7 +54,6 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         
-        /* ⚡ GPU Acceleration: ใช้ will-change เพื่อเร่งความเร็ว LCP/Speed Index */
         @keyframes float { 
             0%, 100% { transform: translateY(0); } 
             50% { transform: translateY(-8px); } 
@@ -78,7 +77,11 @@
         
         .img-3d-detail {
             filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6)) contrast(1.2) saturate(1.3);
-            transform: translateZ(0);
+        }
+
+        /* 🌟 คลาสพิเศษสำหรับทำ Perspective 3D ทะลุจอ */
+        .preserve-3d {
+            transform-style: preserve-3d;
         }
 
         /* Animated Background Elements */
@@ -142,7 +145,7 @@
         </div>
     </nav>
 
-    <!-- 🟢 A11Y FIX: ใช้ <main> แท็กเป็น Landmark เนื้อหาหลักตาม Best Practices -->
+    <!-- Main Content Area -->
     <main id="main-content" role="main" class="relative pt-20 md:pt-32 flex-1 w-full z-10">
         
         <!-- View: Home -->
@@ -304,7 +307,7 @@
         const THAI_NAMES_BASE = {
             "bulbasaur":"ฟุชิกิดาเนะ","ivysaur":"ฟุชิกิโซ","venusaur":"ฟุชิกิบานะ","charmander":"ฮิโตคาเงะ","charmeleon":"ลิซาร์โดะ","charizard":"ลิซาร์ดอน","squirtle":"เซนิกาเมะ","wartortle":"คาเมล","blastoise":"คาเม็กซ์","caterpie":"คาเตอร์ปี","metapod":"ทรานเซล","butterfree":"บัตเตอร์ฟรี","weedle":"บีเดิล","kakuna":"โคคูน","beedrill":"สเปียร์","pidgey":"ป๊ปโปะ","pidgeotto":"พีเจียน","pidgeot":"พีจ็อต","rattata":"โครัตตา","raticate":"รัตตา","spearow":"โอนิซึซึเมะ","fearow":"โอนิดริล","ekans":"อาร์โบ","arbok":"อาร์บ็อก","pikachu":"พิคาชู","raichu":"ไรชู","sandshrew":"แซนด์","sandslash":"แซนด์แพน","nidoran-f":"นิโดรัน♀","nidorina":"นิโดรินา","nidoqueen":"นิโดควีน","nidoran-m":"นิโดรัน♂","nidorino":"นิโดริโน","nidoking":"นิโดคิง","clefairy":"ปิปปี","clefable":"พิคซี","vulpix":"โรคอน","ninetales":"คิวคอน","jigglypuff":"พูริน","wigglytuff":"พุคุริน","zubat":"ซูแบท","golbat":"โกลแบท","oddish":"นาโซโนะคุสะ","gloom":"คุไซฮานะ","vileplume":"รัฟเฟลเซีย","paras":"พารัส","parasect":"พาราเซ็กต์","venonat":"คงปัง","venomoth":"โมรุฟอน","diglett":"ดิกด้า","dugtrio":"ดักทริโอ","meowth":"เนียซ","persian":"เปอร์เซียน","psyduck":"โคดัก","golduck":"โกลดัก","mankey":"แมนคีย์","primeape":"โอโคริซารุ","growlithe":"การ์ดี","arcanine":"วินดี","poliwag":"เนียวโรโมะ","poliwhirl":"เนียวโรโซ","poliwrath":"เนียวโรบอน","abra":"เคซี","kadabra":"ยุนเกอร์เรอร์","alakazam":"ฟูดิน","machop":"วันริกี","machoke":"โกริกี","machamp":"ไคริกี","bellsprout":"มาดาสึโบมิ","weepinbell":"อุซึดง","victreebel":"อุซึบอท","tentacool":"เมโนคุราเกะ","tentacruel":"โดคุคุราเกะ","geodude":"อิชิซึบุเตะ","graveler":"โกโลน","golem":"โกโลเนีย","ponyta":"โพนีตา","rapidash":"แกงลอป","slowpoke":"ยาดง","slowbro":"ยาโดรัน","magnemite":"คอยล์","magneton":"เรคอยล์","farfetchd":"คาโมเนกิ","doduo":"โดโด","dodrio":"โดโดริโอ","seel":"พาวาว","dewgong":"จูกอน","grimer":"เบโตเบตา","muk":"เบโตเบตอน","shellder":"เชลเดอร์","cloyster":"พาร์เชน","gastly":"โกส","haunter":"โกสต์","gengar":"เกงกา","onix":"อิวาร์ค","drowzee":"สลีป","hypno":"สลีปเปอร์","krabby":"แคร็บ","kingler":"คิงเกลอร์","voltorb":"บิริริดามา","electrode":"มารุมายน์","exeggcute":"ทามาทามะ","exeggutor":"นัซซี","cubone":"คาระคาระ","marowak":"กะระการะ","hitmonlee":"ซาวามูลาร์","hitmonchan":"เอบิวาลาร์","lickitung":"เบโรริงกา","koffing":"โดกัส","weezing":"มาตาโดกัส","rhyhorn":"ไซฮอร์น","rhydon":"ไซดอน","chansey":"ลัคกี้","tangela":"มอนจารา","kangaskhan":"การูรา","horsea":"ทัททู","seadra":"ซีดรา","goldeen":"โทซาคินโตะ","seaking":"อซึมาโอ","staryu":"ฮิโตเดมัน","starmie":"สตาร์มี","mr-mime":"บาร์เรียด","scyther":"สไตรค์","jynx":"รูจูลา","electabuzz":"เอเลบู","magmar":"บูเบอร์","pinsir":"ไคลอส","tauros":"เคนทารอส","magikarp":"คอยคิง","gyarados":"เกียราดอส","lapras":"ลาพลาส","ditto":"เมตามอน","eevee":"อีวุย","vaporeon":"ชาวเวอร์ส","jolteon":"ธันเดอร์ส","flareon":"บูสเตอร์","porygon":"โพรีกอน","omanyte":"ออมไนต์","omastar":"ออมสตาร์","kabuto":"คาบูโตะ","kabutops":"คาบูทอปส์","aerodactyl":"พเทอรา","snorlax":"คาบิกอน","articuno":"ฟรีเซอร์","zapdos":"ธันเดอร์","moltres":"ไฟเยอร์","dratini":"มินิริว","dragonair":"ฮาคุริว","dragonite":"ไคริว","mewtwo":"มิวทู","mew":"มิว",
             "chikorita":"ชิโกริตา","bayleef":"เบย์ลีฟ","meganium":"เมกาเนียม","cyndaquil":"ฮิโนอาราชิ","quilava":"แม็กมาราชิ","typhlosion":"บาคุฟูน","totodile":"วานิโนโกะ","croconaw":"อลิเกตส์","feraligatr":"โอไดรุ","sentret":"โอทาจิ","furret":"โอโอทาจิ","hoothoot":"โฮโฮ","noctowl":"โยรุโนะซึคุ","ledyba":"เรดิบา","ledian":"เรดิอัน","spinarak":"อิโตมารุ","ariados":"อาริอาโดส","crobat":"โครแบท","chinchou":"ชอนชี","lanturn":"แลนเทิร์น","pichu":"ปิจู","cleffa":"ปีィ","igglybuff":"พูพูริน","togepi":"โทเงปี","togetic":"โทเงชิก","natu":"เนติ","xatu":"เนติโอ","mareep":"เมรีป","flaaffy":"โมโคโค","ampharos":"เด็นริว","bellossom":"คิเรฮานะ","marill":"มาริล","azumarill":"มาริลริ","sudowoodo":"อุโซกกี","politoed":"เนียวโรโทโนะ","hoppip":"ฮาเน็กโกะ","skiploom":"โปป็อกโกะ","jumpluff":"วาทักโกะ","aipom":"เอปาม","sunkern":"ฮิมานัทสึ","sunflora":"คิมาวาริ","yanma":"ยันยันมา","wooper":"อูปา","quagsire":"นูโอ","espeon":"เอฟี","umbreon":"แบล็กกี","murkrow":"ยามิการาสึ","slowking":"ยาโดคิง","misdreavus":"มูมา","unown":"อันโนน","wobbuffet":"โซนานส์","girafarig":"คิรินริคิ","pineco":"คุนุกิดามะ","forretress":"ฟอเรทอส","dunsparce":"โนก็อตชิ","gligar":"ไกลก้า","steelix":"ฮากาเนล","snubbull":"บลู","granbull":"แกรนบลู","qwilfish":"ฮาริเซน","scizor":"ฮัสซัม","shuckle":"สึโบะซึโบะ","heracross":"เฮราครอส","sneasel":"นิวลา","teddiursa":"ฮิเมกุมะ","ursaring":"ริงกุมะ","slugma":"แม็กมักก์","magcargo":"แม็กคาร์โก","swinub":"อูริมู","piloswine":"อิโนมู","corsola":"ซันนีโก","remoraid":"เทปโปโอ","octillery":"ออกทิลเลอรี","delibird":"เดลิเบิร์ด","mantine":"แมนไทน์","skarmory":"แอร์มุโด","houndour":"เดลวิล","houndoom":"เฮลการ์","kingdra":"คิงดรา","phanpy":"โกมาโซ","donphan":"ดอนฟาน","porygon2":"โพรีกอน2","stantler":"โอโดชิชิ","smeargle":"โดเบิล","tyrogue":"บารูคี","hitmontop":"คาโปเอเรอร์","smoochum":"มุจูล","elekid":"เอเลคิด","magby":"บูบี","miltank":"มิลแทงก์","blissey":"แฮปปีนา","raikou":"ไรโค","entei":"เอ็นเต","suicune":"ซุยคุน","larvitar":"โยกิราส","pupitar":"ซานากิราส","tyranitar":"บันกิราส","lugia":"ลูเกีย","ho-oh":"โฮโอ","celebi":"เซเลบี",
-            "treecko":"คิโมริ","grovyle":"จุปทอล","sceptile":"จูไคน์","torchic":"อาชาโม","combusken":"วาคาชาโม","blaziken":"บาชาโม","mudkip":"มิซึโกโร","marshtomp":"นูมาโคร","swampert":"ลากลาจ","poochyena":"โพชิเอนา","mightyena":"กราเอนา","zigzagoon":"จิกุซากุมะ","linoone":"มัสสึงุมะ","wurmple":"เคมุสโซ","silcoon":"คาระซาลิส","beautifly":"อาเกฮันท์","cascoon":"มายุลด","dustox":"โดกุเคล","lotad":"ฮัสโบ","lombre":"ฮัสเบรโร","ludicolo":"รุนปัปปา","seedot":"ทาเนโบ","nuzleaf":"โคโนฮานะ","shiftry":"ดาร์เทงกุ","taillow":"สึบาเมะ","swellow":"โอสึบาเมะ","wingull":"คาโมเมะ","pelipper":"เปลิปเปอร์","ralts":"ราลท์ซ","kirlia":"เคอร์เรีย","gardevoir":"เซอไนท์","surskit":"อาเมทามะ","masquerain":"อาเมมอธ","shroomish":"คิโนโคโกะ","breloom":"คิโนกัสซา","slakoth":"นามาเคโร","vigoroth":"ยารุคิโมโน","slaking":"เคคคิง","nincada":"สึจินิน","ninjask":"เทคคานิน","shedinja":"นูเคะนิน","whismur":"โกเนียวเนียว","loudred":"โดกอม","exploud":"บาคุองก์","makuhita":"มาคุโนชิตะ","hariyama":"ฮาริเตยามะ","azurill":"รุริริ","nosepass":"โนสพาส","skitty":"เอเนโกะ","delcatty":"เอเนโคโรโระ","sableye":"ยามิรามิ","mawile":"คูชีท","aron":"โคโคโดรา","lairon":"โคโดรา","aggron":"บอสโกโดรา","meditite":"อาซานัน","medicham":"เชอร์เรม","electrike":"ราคุไร","manectric":"ไลโวลต์","plusle":"พลาสเซิล","minun":"ไมนั้น","volbeat":"บารุบีท","illumise":"อิลูมิเซ","roselia":"โรเซเลีย","gulpin":"โกคุลิน","swalot":"มารุโนม","carvanha":"คิบาเนีย","sharpedo":"ซาเมฮาเดอร์","wailmer":"เวลโกะ","wailord":"เวลออร์","numel":"ดอนเมล","camerupt":"บาคุูดา","torkoal":"โคทอยส์","spoink":"บาเนบู","grumpig":"บูพิก","spinda":"พัทชีล","trapinch":"บานัคเคิล","vibrava":"วิบราวา","flygon":"ฟลายกอน","cacnea":"ซาโบเนีย","cacturne":"นอคทัส","swablu":"ทิลท์โท","altaria":"ทิลทาลิส","zangoose":"แซงกูส","seviper":"ฮาบูเนค","lunatone":"ลูนาโทน","solrock":"โซลร็อก","barboach":"โดโจทช์","whiscash":"นามาซุน","corphish":"เฮกานิ","crawdaunt":"ชิซาริเกอร์","baltoy":"ยาจิลอน","claydol":"เนนดอล","lileep":"ลิลีลา","cradily":"ยูเรดิล","anorith":"อน็อปส์","armaldo":"อาร์มาลโด","feebas":"ฮินบาส","milotic":"มิโลคาร์รอส","castform":"โปวารุน","kecleon":"คาคุเรอน","shuppet":"คาเงโบซึ","banette":"จุปเปตตา","duskull":"โยมาวารุ","dusclops":"ซามาโยรุ","tropius":"โทรเพียส","chimecho":"ชิรีน","absol":"แอบโซล","wynaut":"โซนาโน","snorunt":"ยูกิวาราชิ","glalie":"โอนิโกริ","spheal":"ทามาซาราชิ","sealeo":"โทโดกุเลอร์","walrein":"โทโดเซลกา","clamperl":"พารูล","huntail":"ฮันเทล","gorebyss":"ซากุระบิส","relicanth":"จีลานซ์","luvdisc":"ลัฟดิสก์","bagon":"ทัตสึเบ","shelgon":"โคโมรู","salamence":"โบมันเดอร์","beldum":"ดันบัล","metang":"เมแทงก์","metagross":"เมทากรอส","regirock":"เรจิร็อก","regice":"เรจิไอซ์","registeel":"เรจิสตีล","latias":"ลาทิอาส","latios":"ลาทิโอส","kyogre":"ไคโอกา","groudon":"กราดอน","rayquaza":"เรควอซา","jirachi":"จิราชิ","deoxys":"เดโอคิซิส",
+            "treecko":"คิโมริ","grovyle":"จุปทอล","sceptile":"จูไคน์","torchic":"อาชาโม","combusken":"วาคาชาโม","blaziken":"บาชาโม","mudkip":"มิซึโกโร","marshtomp":"นูมาโคร","swampert":"ลากลาจ","poochyena":"โพชิเอนา","mightyena":"กราเอนา","zigzagoon":"จิกุซากุมะ","linoone":"มัสสึงุมะ","wurmple":"เคมุสโซ","silcoon":"คาระซาลิส","beautifly":"อาเกฮันท์","cascoon":"มายุลด","dustox":"โดกุเคล","lotad":"ฮัสโบ","lombre":"ฮัสเบรโร","ludicolo":"รุนปัปปา","seedot":"ทาเนโบ","nuzleaf":"โคโนฮานะ","shiftry":"ดาร์เทงกุ","taillow":"สึบาเมะ","swellow":"โอสึบาเมะ","wingull":"คาโมเมะ","pelipper":"เปลิปเปอร์","ralts":"ราลท์ซ","kirlia":"เคอร์เรีย","gardevoir":"เซอไนท์","surskit":"อาเมทามะ","masquerain":"อาเมมอธ","shroomish":"คิโนโคโกะ","breloom":"คิโนกัสซา","slakoth":"นามาเคโร","vigoroth":"ยารุคิโมโน","slaking":"เคคคิง","nincada":"สึจินิน","ninjask":"เทคคานิน","shedinja":"นูเคะนิน","whismur":"โกเนียวเนียว","loudred":"โดกอม","exploud":"บาคุองก์","makuhita":"มาคุโนชิตะ","hariyama":"ฮาริเตยามะ","azurill":"รุริริ","nosepass":"โนสพาส","skitty":"เอเนโกะ","delcatty":"เอเนโคโรโระ","sableye":"ยามิรามิ","mawile":"คูชีท","aron":"โคโคโดรา","lairon":"โคโดรา","aggron":"บอสโกโดรา","meditite":"อาซานัน","medicham":"เชอร์เรม","electrike":"ราคุไร","manectric":"ไลโวลต์","plusle":"พลาสเซิล","minun":"ไมนั้น","volbeat":"บารุบีท","illumise":"อิลูมิเซ","roselia":"โรเซเลีย","gulpin":"โกคุลิน","swalot":"มารุโนม","carvanha":"คิบาเนีย","sharpedo":"ซาเมฮาเดอร์","wailmer":"เวลโกะ","wailord":"เวลออร์","numel":"ดอนเมล","camerupt":"บาคุูดา","torkoal":"โคทอยส์","spoink":"บาเนบู","grumpig":"บูพิก","spinda":"พัทชีล","trapinch":"บานัคเคิล","vibrava":"วิบราวา","flygon":"ฟลายกอน","cacnea":"ซาโบเนีย","cacturne":"นอคทัส","swablu":"ทิลท์โท","altaria":"ทิลทาลิส","zangoose":"แซงกูส","seviper":"ฮาบูเนค","lunatone":"ลูนาโทน","solrock":"โซลร็อก","barboach":"โดโจทช์","whiscash":"นามาซุน","corphish":"เฮกานิ","crawdaunt":"ชิซาริเกอร์","baltoy":"ยาจิลอน","claydol":"เนนดอล","lileep":"ลิลีลา","cradily":"ยูเรดิล","anorith":"อน็อปส์","armaldo":"อาร์มาลโด","feebas":"ฮินบาส","milotic":"มิโลคาร์รอส","castform":"โปวารุน","kecleon":"คาคุเรอน","shuppet":"คาเงโบซึ","banette":"จุปเปตตา","duskull":"โยมาวารุ","dusclops":"ซามาโยรุ","tropius":"โทรเพียส","chimecho":"ชิรีน","absol":"แอบโซล","wynaut":"โซนาโน","snorunt":"ยูกิวาราชิ","glalie":"โอนโกริ","spheal":"ทามาซาราชิ","sealeo":"โทโดกุเลอร์","walrein":"โทโดเซลกา","clamperl":"พารูล","huntail":"ฮันเทล","gorebyss":"ซากุระบิส","relicanth":"จีลานซ์","luvdisc":"ลัฟดิสก์","bagon":"ทัตสึเบ","shelgon":"โคโมรู","salamence":"โบมันเดอร์","beldum":"ดันบัล","metang":"เมแทงก์","metagross":"เมทากรอส","regirock":"เรจิร็อก","regice":"เรจิไอซ์","registeel":"เรจิสตีล","latias":"ลาทิอาส","latios":"ลาทิโอส","kyogre":"ไคโอกา","groudon":"กราดอน","rayquaza":"เรควอซา","jirachi":"จิราชิ","deoxys":"เดโอคิซิส",
             "turtwig":"นาเอเติล","grotle":"ฮายาชิกาเมะ","torterra":"โดดายโทส","chimchar":"ฮิโกซารุ","monferno":"โมคาซารุ","infernape":"โกคาซารุ","piplup":"พอจจามะ","prinplup":"พ็อตไทชิ","empoleon":"เอ็มเพลท์","starly":"มุคคุรุ","staravia":"มุคคูเบิร์ด","staraptor":"มุคฮอว์ก","bidoof":"บิปปา","bibarel":"บีดารุล","kricketot":"โคโรโบชิ","kricketune":"โคโรท็อก","shinx":"โคลิงก์","luxio":"ลุคซิโอ","luxray":"เรนโทร่า","budew":"สึโบมิ","roserade":"โรสเรด","cranidos":"ซึไกโดส","rampardos":"แรมพัลด์","shieldon":"ทาเททอปส์","bastiodon":"โทริเดปส","burmy":"มิโนมุจิ","wormadam":"มิโนมาดัม","mothim":"กาเมล","combee":"มิตซึฮันนี","vespiquen":"บีควิน","pachirisu":"พาจิริสึ","buizel":"บุยเซล","floatzel":"โฟลเซล","cherubi":"เชอริมบัม","cherrim":"เชอริม","shellos":"ทามันทา","gastrodon":"โทริโทดอน","ambipom":"เอเตโบส","drifloon":"ฟูวันเตะ","drifblim":"ฟูวะไรด์","buneary":"มิมิโรล","lopunny":"มิมิล็อป","mismagius":"มูมาจิ","honchkrow":"ดอนการาสึ","glameow":"เนียรุมา","purugly":"บูเนียตโตะ","chingling":"ลีชาน","stunky":"สกันพู","skuntank":"สกันแทงก์","bronzor":"โดมิเรอร์","bronzong":"โดทาคุน","bonsly":"อุโซฮาจิ","mime-jr":"มาเนเน","happiny":"พินพินคุ","chatot":"เปราป","spiritomb":"มิคารุเงะ","gible":"ฟุคามารุ","gabite":"กาไบต์","garchomp":"กาเบรียส","munchlax":"กอนเบ","riolu":"ริโอลุ","lucario":"ลูคาริโอ","hippopotas":"ฮิโปโปตัส","hippowdon":"คาบารูดอน","skorupi":"สคอร์ปี","drapion":"โดราเปียน","croagunk":"เกรกกรู","toxicroak":"โดคุร็อก","carnivine":"มัสคิปปา","finneon":"เคย์โคโอ","lumineon":"เนโอแรนท์","mantyke":"ทาแมนทา","snover":"ยูกิคาบุริ","abomasnow":"ยูกิโนโอ","weavile":"มาฟิวลา","magnezone":"จิบะคอยล์","lickilicky":"เบโรเบลท์","rhyperior":"โดไซดอน","tangrowth":"มอนจัมโบ","electivire":"เอเลคิเบิล","magmortar":"บูเบิร์น","togekiss":"โทเกคิส","yanmega":"เมกายันมา","leafeon":"ลีเฟีย","glaceon":"กลาเซีย","gliscor":"ไกลออน","mamoswine":"แมมมู","porygon-z":"โพรีกอน Z","gallade":"เอลูเรด","probopass":"ไดโนส","dusknoir":"ยอนนัวร์","froslass":"ยูกิเมโนโกะ","rotom":"พรอทอม","uxie":"ยุคซี","mesprit":"เอ็มริต","azelf":"อักนอม","dialga":"ดีอัลกา","palkia":"พัลเกีย","heatran":"ฮีดราน","regigigas":"เรจิกิกัส","giratina":"กิราตินา","cresselia":"เครเซเรีย","phione":"ฟิโอเน","manaphy":"มานาฟี","darkrai":"ดาร์กไร","shaymin":"เชมิน","arceus":"อาร์เซอุส",
             "victini":"วิคทินี","snivy":"สึทาจะ","servine":"จาโนบี","serperior":"จาโรดา","tepig":"โพคาบู","pignite":"ชาโอบู","emboar":"เอ็นบูโอ","oshawott":"มิจูมารุ","dewott":"ฟุตะจิมารุ","samurott":"ไดเคนคิ","patrat":"มิเนซึมิ","watchog":"มิรุฮ็อก","lillipup":"โยเทอรี","herdier":"ฮาเดเรีย","stoutland":"มูแลนด์","purrloin":"โชโรเนโกะ","liepard":"เรปาร์ดัส","pansage":"ยานัปปุ","simisage":"ยานักกี","pansear":"บาโอปปุ","simisear":"บาโอกี","panpour":"ฮิยัปปุ","simipour":"ฮิยักกี","munna":"มุนนะ","musharna":"มุชาร์นา","pidove":"มาเมพาโตะ","tranquill":"ฮาโตโบ","unfezant":"เคนโฮโร","blitzle":"ชิมามา","zebstrika":"เซบไรกา","roggenrola":"ดันโกโร","boldore":"กานทล","gigalith":"กิกาอิอาธ","woobat":"โคโรโมริ","swoobat":"โคโคโรโมริ","drilbur":"โมกิว","excadrill":"โดริวซึ","audino":"ทาบุนเนะ","timburr":"ด็อกโคเลอร์","gurdurr":"โดเทคคทสึ","conkeldurr":"โรบุชิน","tympole":"โอทามาโร","palpitoad":"กามะการุ","seismitoad":"กามะเกโรเกะ","throh":"นาเกคิ","sawk":"ดาเกคิ","sewaddle":"คุรุมิรุ","swadloon":"คุรุมายุ","leavanny":"ฮาฮาโคโมริ","venipede":"ฟุชิเดะ","whirlipede":"โฮอิกะ","scolipede":"เพนดรา","cottonee":"โมนเมน","whimsicott":"เอลฟูน","petilil":"ชูริเนะ","lilligant":"โดเรเดีย","basculin":"บาสราโอ","sandile":"เมกุโระ","krokorok":"วารุบิรุ","krookodile":"วารุวิอัล","darumaka":"ดารุมักกะ","darmanitan":"ฮิฮิดารุมะ","maractus":"มาราคัจจิ","dwebble":"อิชิซึไม","crustle":"อิวาพาเลซ","scraggy":"ซึรุกกุ","scrafty":"ซึรุซึคิน","sigilyph":"ชินโบลาร์","yamask":"เดสมาส","cofagrigus":"เดสคาน","tirtouga":"โปรโตกา","carracosta":"อาบาโกรา","archen":"อาเคน","archeops":"อาเคออส","trubbish":"ยาบุคุรอน","garbodor":"ดัสทอดาส","zorua":"โซรัว","zoroark":"โซโรอาร์ค","minccino":"ชิลลามี","cinccino":"ชิลาชิโน","gothita":"โกธิมู","gothorita":"โกธิมิรุ","gothitelle":"โกธิเทล","solosis":"ยูนิรัน","duosion":"ดาบรัน","reuniclus":"รันคลุส","ducklett":"โคอารูฮี","swanna":"สวอนนา","vanillite":"วานิปุจิ","vanillish":"วานิริช","vanilluxe":"ไบวานิลลา","deerling":"ชิกิจิกะ","sawsbuck":"เมบุกิจิกะ","emolga":"เอมอนกา","karrablast":"คาบุลโม","escavalier":"ชูวาโก","foongus":"ทามาเกตาเกะ","amoonguss":"โมโรบาเรล","frillish":"พูรุริล","jellicent":"บุนเจล","alomomola":"มามันโบ","joltik":"บาชูรุ","galvantula":"เดนชูรา","ferroseed":"เทสซีด","ferrothorn":"นัตโตเรย์","klink":"เกียร์","klang":"กิกิเกียร์","klinklang":"กิกิกิเกียร์","tynamo":"ชิบิชิราสึ","eelektrik":"ชิบิบีล","eelektross":"ชิบิดอน","elgyem":"ลิเกรย์","beheeyem":"โอเบม","litwick":"ฮิโตโมชิ","lampent":"ลามพูลา","chandelure":"แชนเดลา","axew":"คิบาโกะ","fraxure":"โอโนนโดะ","haxorus":"โอโนนคุส","cubchoo":"คุมะชุน","beartic":"ซึนแบร์","cryogonal":"ฟรีจิโอ","shelmet":"ชบอมากิ","accelgor":"อากิลเดอร์","stunfisk":"มักเกียว","mienfoo":"โคโจฟู","mienshao":"โคโจนโดะ","druddigon":"คริมแกน","golett":"โกบิต","golurk":"โกลูก","pawniard":"โคมาทานา","bisharp":"คิริคิซัน","bouffalant":"บัฟฟรอน","rufflet":"วาชิบอน","braviary":"วอร์เกิล","vullaby":"วาร์ไช","mandibuzz":"บัลจินา","heatmor":"ควิทารัน","durant":"ไอแอนท์","deino":"โมโนซึ","zweilous":"จิเฮด","hydreigon":"ซาซันโดรา","larvesta":"เมราลบา","volcarona":"อุลกามอธ","cobalion":"โคบาลูออน","terrakion":"เทราคิออน","virizion":"บิริจิออน","tornadus":"ทอร์เนลอส","thundurus":"โวลโทลอส","reshiram":"เรชิรัม","zekrom":"เซครอม","landorus":"แลนโดรอส","kyurem":"คิวเรม","keldeo":"เคลดิโอ","meloetta":"เมโลเอตตา","genesect":"เกโนเซ็กท์",
             "chespin":"ฮาริมารอน","quilladin":"ฮาริบอร์ก","chesnaught":"บริการอน","fennekin":"ฟอคโกะ","braixen":"เทลนาร์","delphox":"มาฟ็อกซี","froakie":"เคโรมัตสึ","frogadier":"เกโคกาชิระ","greninja":"เก็คโคกะ","bunnelby":"โฮรุบี","diggersby":"โฮรุโดะ","fletchling":"ยายาโคมะ","fletchinder":"ฮิโนยาโคมะ","talonflame":"ไฟร์แอโรว์","scatterbug":"โคฟูคิมุชิ","spewpa":"โคฟูไร","vivillon":"วิวิญอง","litleo":"ชิชิโกะ","pyroar":"คายเอนจิ","flabebe":"ฟลาเบเบ","floette":"ฟลาเอตเต","florges":"ฟลาเจส","skiddo":"เมเคิล","gogoat":"โกโกท","pancham":"ยันชัม","pangoro":"กอโรนดะ","furfrou":"ทริเมียน","espurr":"เนียสเปอร์","meowstic":"เนียโอนิกซ์","honedge":"ฮิโตทสึคิ","doublade":"นิแดนกิล","aegislash":"กิลการ์ด","spritzee":"ชูชุป","aromatisse":"เฟรฟุวาน","swirlix":"เปร็อปพัฟ","slurpuff":"เปร็อปเพโร","inkay":"มาอีกะ","malamar":"คาลามาเนโร","binacle":"คาเมเทเตะ","barbaracle":"กาเมโนเดส","skrelp":"คุซึโม","dragalge":"ดรามิโดโร","clauncher":"อุเดปโป","clawitzer":"โบลสเตอร์","helioptile":"เอลิกิเทล","heliolisk":"เอเลซาร์ด","tyrunt":"จิโกรัส","tyrantrum":"กะจิโกรัส","amaura":"อมารัส","aurorus":"อมารูรูกา","sylveon":"นิมเฟีย","hawlucha":"ลูจาบูล","dedenne":"เดเด็นเนะ","carbink":"เมเลซี","goomy":"นูเมรา","sliggoo":"นูเมล","goodra":"นูเมลกอน","klefki":"เคลฟี","phantump":"โบคุเร","trevenant":"ออรอต","pumpkaboo":"บาเคจฉะ","gourgeist":"พัมพจิน","bergmite":"คาจิคจิ","avalugg":"เครเบส","noibat":"ออนแบท","noivern":"ออนเวิร์น","xerneas":"เซลเนียส","yveltal":"อีเวลทอล","zygarde":"ซีการ์ด","diancie":"ดีแอนซี","hoopa":"ฮูปา","volcanion":"โวลเคเนียน",
@@ -314,7 +317,22 @@
         };
 
         const POKEDEX_ENTRIES_TH = {
-            1: "ตั้งแต่เกิดมาจะมีเมล็ดพืชแปลกๆ ปลูกอยู่ที่หลัง เมล็ดจะโตขึ้นพร้อมกับตัวมันคอยดูดซับสารอาหาร", 4: "ไฟที่หางคือสัญลักษณ์แห่งชีวิตและอารมณ์ หากไฟดับลง ชีวิตของมันก็จะจบสิ้นลงด้วย", 5: "เมื่อมันแกว่งหางที่ลุกเป็นไฟ อุณหภูมิรอบข้างจะพุ่งสูงขึ้นจนร้อนระอุแทบทนไม่ได้", 6: "พ่นไฟที่ร้อนแรงจนสามารถละลายหินผาได้ ว่ากันว่ามันมักจะเป็นต้นเหตุของไฟป่าใหญ่", 7: "กระดองของมันไม่เพียงแค่ใช้ป้องกันตัว แต่รูปทรงที่โค้งมนยังช่วยลดแรงต้านน้ำ ทำให้ว่ายน้ำได้เร็วมาก", 25: "มักจะสะสมไฟฟ้าไว้ที่ถุงลมบริเวณแก้มทั้งสองข้าง เมื่อรู้สึกถึงอันตรายจะปล่อยกระแสไฟฟ้าแรงสูงออกมา", 133: "มีพันธุกรรมที่ไม่เสถียรอย่างมาก ทำให้สามารถวิวัฒนาการเปลี่ยนรูปแบบไปตามสภาพแวดล้อมที่อยู่อาศัยได้", 143: "มันจะไม่พอใจถ้าไม่ได้กินอาหารวันละ 400 กิโลกรัม เมื่อกินอิ่มแล้วมันก็จะนอนหลับไปทันที", 149: "เป็นโปเกมอนที่จิตใจดีและรักสงบ ว่ากันว่ามันจะบินไปช่วยเหลือผู้คนที่กำลังจะจมน้ำกลางทะเล", 150: "โปเกมอนที่ถูกสร้างขึ้นจากการตัดต่อพันธุกรรม มีพลังจิตที่แข็งแกร่งที่สุดและมีจิตใจที่เยือกเย็น", 151: "โปเกมอนมายาที่ว่ากันว่ามีรหัสพันธุกรรมของโปเกมอนทุกตัวบนโลกซ่อนอยู่ในร่างกายของมัน", 249: "เทพเจ้าแห่งท้องทะเล มีพลังปีกมหาศาลที่สามารถสร้างพายุใหญ่พัดกระหน่ำได้ยาวนานถึง 40 วัน", 250: "ขนของมันส่องประกายเจ็ดสี ว่ากันว่าผู้ใดที่ได้เห็นโฮโอจะได้รับความสุขและโชคดีไปตลอดกาล", 384: "อาศัยอยู่ในชั้นบรรยากาศโอโซน คอยกลืนกินอุกกาบาตเพื่อใช้เป็นพลังงาน ว่ากันว่ามันจะลงมาเมื่อกราดอนและไคโอกาสู้กัน", 448: "สามารถอ่านคลื่นพลังงาน (Aura) ของสิ่งมีชีวิตได้ แม้จะหลับตาอยู่ก็รับรู้ความรู้สึกของศัตรูได้จากระยะไกล", 658: "บีบอัดน้ำจนเป็นดาวกระจายที่คมกริบ การเคลื่อนไหวของมันรวดเร็วและว่องไวราวกับนินจา"
+            1: "ตั้งแต่เกิดมาจะมีเมล็ดพืชแปลกๆ ปลูกอยู่ที่หลัง เมล็ดจะโตขึ้นพร้อมกับตัวมันคอยดูดซับสารอาหาร",
+            4: "ไฟที่หางคือสัญลักษณ์แห่งชีวิตและอารมณ์ หากไฟดับลง ชีวิตของมันก็จะจบสิ้นลงด้วย",
+            5: "เมื่อมันแกว่งหางที่ลุกเป็นไฟ อุณหภูมิรอบข้างจะพุ่งสูงขึ้นจนร้อนระอุแทบทนไม่ได้",
+            6: "พ่นไฟที่ร้อนแรงจนสามารถละลายหินผาได้ ว่ากันว่ามันมักจะเป็นต้นเหตุของไฟป่าใหญ่",
+            7: "กระดองของมันไม่เพียงแค่ใช้ป้องกันตัว แต่รูปทรงที่โค้งมนยังช่วยลดแรงต้านน้ำ ทำให้ว่ายน้ำได้เร็วมาก",
+            25: "มักจะสะสมไฟฟ้าไว้ที่ถุงลมบริเวณแก้มทั้งสองข้าง เมื่อรู้สึกถึงอันตรายจะปล่อยกระแสไฟฟ้าแรงสูงออกมา",
+            133: "มีพันธุกรรมที่ไม่เสถียรอย่างมาก ทำให้สามารถวิวัฒนาการเปลี่ยนรูปแบบไปตามสภาพแวดล้อมที่อยู่อาศัยได้",
+            143: "มันจะไม่พอใจถ้าไม่ได้กินอาหารวันละ 400 กิโลกรัม เมื่อกินอิ่มแล้วมันก็จะนอนหลับไปทันที",
+            149: "เป็นโปเกมอนที่จิตใจดีและรักสงบ ว่ากันว่ามันจะบินไปช่วยเหลือผู้คนที่กำลังจะจมน้ำกลางทะเล",
+            150: "โปเกมอนที่ถูกสร้างขึ้นจากการตัดต่อพันธุกรรม มีพลังจิตที่แข็งแกร่งที่สุดและมีจิตใจที่เยือกเย็น",
+            151: "โปเกมอนมายาที่ว่ากันว่ามีรหัสพันธุกรรมของโปเกมอนทุกตัวบนโลกซ่อนอยู่ในร่างกายของมัน",
+            249: "เทพเจ้าแห่งท้องทะเล มีพลังปีกมหาศาลที่สามารถสร้างพายุใหญ่พัดกระหน่ำได้ยาวนานถึง 40 วัน",
+            250: "ขนของมันส่องประกายเจ็ดสี ว่ากันว่าผู้ใดที่ได้เห็นโฮโอจะได้รับความสุขและโชคดีไปตลอดกาล",
+            384: "อาศัยอยู่ในชั้นบรรยากาศโอโซน คอยกลืนกินอุกกาบาตเพื่อใช้เป็นพลังงาน ว่ากันว่ามันจะลงมาเมื่อกราดอนและไคโอกาสู้กัน",
+            448: "สามารถอ่านคลื่นพลังงาน (Aura) ของสิ่งมีชีวิตได้ แม้จะหลับตาอยู่ก็รับรู้ความรู้สึกของศัตรูได้จากระยะไกล",
+            658: "บีบอัดน้ำจนเป็นดาวกระจายที่คมกริบ การเคลื่อนไหวของมันรวดเร็วและว่องไวราวกับนินจา"
         };
 
         const ITEMS_PER_PAGE = 50;
@@ -339,20 +357,19 @@
 
         const formatName = (name) => name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, ' ');
         
-        // 🌟 อัปเกรดขีดจำกัดรูปภาพ (Max Quality & Lossless PNG)
+        // 🌟 ลดความสดของสีด้วยการเอา filt=sharpen และออปชันการเร่งสีออก กลับมาใช้รูปแบบปกติที่ชัดเจน
         const getImageUrl = (id, size = 'full') => {
             const baseUrl = `raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`;
-            if (size === 'thumb') return `https://wsrv.nl/?url=${baseUrl}&w=200&dpr=2&output=png&q=100&filt=sharpen&maxage=31536000`;
-            if (size === 'grid') return `https://wsrv.nl/?url=${baseUrl}&w=600&dpr=2&output=png&q=100&filt=sharpen&maxage=31536000`;
-            // ภาพเต็ม ขยายความละเอียด 1200px * 2 (dpr) = 2400px
-            return `https://wsrv.nl/?url=${baseUrl}&w=1200&dpr=2&output=png&q=100&filt=sharpen&maxage=31536000`; 
+            if (size === 'thumb') return `https://wsrv.nl/?url=${baseUrl}&w=150&dpr=2&output=webp&q=90`;
+            if (size === 'grid') return `https://wsrv.nl/?url=${baseUrl}&w=400&dpr=2&output=webp&q=90`;
+            return `https://wsrv.nl/?url=${baseUrl}&w=1000&dpr=2&output=png&q=100`; 
         };
 
         const handleImgErr = (img, id, size) => {
             if (!img.dataset.fallback) {
                 img.dataset.fallback = 'artwork';
                 let w = size === 'thumb' ? 200 : (size === 'grid' ? 600 : 1200);
-                img.src = `https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png&w=${w}&dpr=2&output=png&q=100&filt=sharpen`;
+                img.src = `https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png&w=${w}&dpr=2&output=png&q=100`;
             } else if (img.dataset.fallback === 'artwork') {
                 img.dataset.fallback = 'sprite';
                 img.style.imageRendering = 'pixelated';
@@ -599,7 +616,7 @@
                     </div>
                     <div class="relative w-20 h-20 md:w-36 md:h-36 my-4 md:my-6 flex items-center justify-center">
                         <div class="absolute inset-[-6px] md:inset-[-12px] bg-white/80 rounded-full scale-100 group-hover:scale-110 transition-transform duration-200 shadow-inner border border-white"></div>
-                        <img src="${getImageUrl(p.id, 'grid')}" class="relative z-10 max-w-full max-h-full object-contain transform group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-200 img-3d-grid" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="async" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
+                        <img src="${getImageUrl(p.id, 'grid')}" class="relative z-10 max-w-full max-h-full object-contain transform group-hover:scale-110 transition-transform duration-200 img-3d-grid" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="async" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
                     </div>
                     <div class="text-center w-full relative z-10 flex flex-col items-center">
                         <h2 class="text-[11px] sm:text-xs md:text-lg font-bold md:font-black text-slate-800 tracking-tight transition-colors drop-shadow-sm group-hover:text-slate-900 mb-2 md:mb-3 truncate w-full px-1 leading-normal pt-1 pb-2">
@@ -706,19 +723,17 @@
                         const engText = entry ? entry.flavor_text.replace(/[\n\f\r]/g, ' ') : '';
                         if (engText) {
                             if (translationCache.has(engText)) {
-                                // ดึงจาก Cache ทันทีถ้าเคยแปลแล้ว (0 วินาที)
                                 translatedEntry = translationCache.get(engText);
                             } else {
-                                // ⚡ แสดงข้อความภาษาอังกฤษให้ดูพลางๆ ทันที ไม่ปล่อยให้ค้างคำว่า "กำลังแปล..."
                                 translatedEntry = engText;
                                 
                                 fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=th&dt=t&q=${encodeURIComponent(engText)}`)
                                     .then(r => r.json())
                                     .then(d => {
                                         const text = d[0].map(item => item[0]).join('');
-                                        translationCache.set(engText, text); // บันทึกลง Cache
+                                        translationCache.set(engText, text);
                                         const entryEl = document.getElementById('pokedex-entry-text');
-                                        if(entryEl) entryEl.innerText = text; // สลับเป็นภาษาไทยแบบเนียนๆ
+                                        if(entryEl) entryEl.innerText = text;
                                     }).catch(() => {
                                         const entryEl = document.getElementById('pokedex-entry-text');
                                         if(entryEl) entryEl.innerText = engText;
@@ -822,17 +837,23 @@
 
                 <div class="max-w-7xl mx-auto px-4 md:px-6 grid lg:grid-cols-2 gap-6 md:gap-16 items-start">
                     
-                    <div class="relative group lg:sticky lg:top-32">
-                        <div class="backdrop-blur-xl rounded-[2rem] md:rounded-[4rem] p-6 md:p-20 shadow-2xl flex flex-col items-center border relative overflow-hidden w-full min-h-[220px] md:min-h-[500px] justify-center transition-colors duration-200"
+                    <div class="relative group lg:sticky lg:top-32" id="detail-img-container" style="perspective: 1000px;">
+                        <div id="detail-card-inner" class="backdrop-blur-xl rounded-[2rem] md:rounded-[4rem] p-6 md:p-20 shadow-2xl flex flex-col items-center border relative overflow-hidden w-full min-h-[220px] md:min-h-[500px] justify-center transition-all duration-200 preserve-3d"
                             style="border-color: ${themeColor}40; background: linear-gradient(145deg, ${themeColor}10 0%, rgba(255,255,255,0.7) 100%)">
-                            <div class="absolute inset-0 opacity-20 pointer-events-none mix-blend-multiply" style="background: radial-gradient(circle at top right, ${themeColor}, transparent 70%)"></div>
-                            <div class="absolute -bottom-10 -left-10 md:-bottom-20 md:-left-20 w-48 h-48 md:w-96 md:h-96 blur-2xl md:blur-3xl opacity-20 pointer-events-none rounded-full" style="background-color: ${themeColor}"></div>
                             
-                            <div class="absolute top-0 right-0 p-4 md:p-16 font-black text-[4rem] md:text-[12rem] italic leading-none select-none opacity-[0.12]" style="color: ${themeColor}" aria-hidden="true">
+                            <!-- 🌟 แสงสะท้อน (Glare) -->
+                            <div id="detail-glare" class="absolute inset-0 z-50 pointer-events-none opacity-0 transition-opacity duration-300" style="mix-blend-mode: overlay;"></div>
+
+                            <div class="absolute inset-0 opacity-20 pointer-events-none mix-blend-multiply" style="background: radial-gradient(circle at top right, ${themeColor}, transparent 70%); transform: translateZ(-20px);"></div>
+                            <div class="absolute -bottom-10 -left-10 md:-bottom-20 md:-left-20 w-48 h-48 md:w-96 md:h-96 blur-2xl md:blur-3xl opacity-20 pointer-events-none rounded-full" style="background-color: ${themeColor}; transform: translateZ(-30px);"></div>
+                            
+                            <div class="absolute top-0 right-0 p-4 md:p-16 font-black text-[4rem] md:text-[12rem] italic leading-none select-none opacity-[0.12]" style="color: ${themeColor}; transform: translateZ(-40px);" aria-hidden="true">
                                 #${pokemonDetail.id}
                             </div>
                             
-                            <img src="${getImageUrl(pokemonDetail.id, 'full')}" class="w-40 h-40 sm:w-[250px] sm:h-[250px] md:w-[450px] md:h-[450px] object-contain relative z-10 animate-float img-3d-detail" alt="${pokemonDetail.name_th}" onerror="handleImgErr(this, ${pokemonDetail.id}, 'full')" />
+                            <div class="relative z-20 w-40 h-40 sm:w-[250px] sm:h-[250px] md:w-[450px] md:h-[450px] mx-auto" style="transform: translateZ(60px);" id="detail-img-wrapper">
+                                <img id="detail-img" src="${getImageUrl(pokemonDetail.id, 'full')}" class="w-full h-full object-contain img-3d-detail animate-float" alt="${pokemonDetail.name_th}" onerror="handleImgErr(this, ${pokemonDetail.id}, 'full')" />
+                            </div>
                         </div>
                     </div>
 
@@ -978,183 +999,234 @@
                     </div>
                 </div>
             `;
-            viewDetail.innerHTML = html;
-        }
+    viewDetail.innerHTML = html;
+
+    // 🌟 ระบบ Interactive 2.5D Hologram Parallax 🌟
+    const container = document.getElementById('detail-img-container');
+    const innerCard = document.getElementById('detail-card-inner');
+    const imgWrapper = document.getElementById('detail-img-wrapper');
+    const glare = document.getElementById('detail-glare');
+    
+    if (container && innerCard && imgWrapper) {
+        container.addEventListener('mousemove', (e) => {
+            const rect = container.getBoundingClientRect();
+            const x = e.clientX - rect.left; 
+            const y = e.clientY - rect.top;  
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            // เอียงการ์ดทั้งใบ (สูงสุด 15 องศา)
+            const rotateX = ((y - centerY) / centerY) * -15;
+            const rotateY = ((x - centerX) / centerX) * 15;
+
+            // เลื่อนภาพโปเกมอนส่วนตัวให้ลอยเหลื่อมกัน (Parallax)
+            const translateX = ((x - centerX) / centerX) * -15;
+            const translateY = ((y - centerY) / centerY) * -15;
+
+            innerCard.style.transition = 'transform 0.1s ease-out';
+            innerCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            
+            imgWrapper.style.transition = 'transform 0.1s ease-out';
+            imgWrapper.style.transform = `translateZ(60px) scale(1.05) translate(${translateX}px, ${translateY}px)`;
+
+            if (glare) {
+                // ขยับแสงสะท้อนตามเมาส์
+                const glareX = (x / rect.width) * 100;
+                const glareY = (y / rect.height) * 100;
+                glare.style.opacity = '0.8';
+                glare.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.9), transparent 40%)`;
+            }
+        });
+
+        container.addEventListener('mouseleave', () => {
+            // เมื่อเอาเมาส์ออก ให้ค่อยๆ เด้งกลับมาเป็นแนวระนาบปกติ
+            innerCard.style.transition = 'transform 0.5s ease-out';
+            innerCard.style.transform = `rotateX(0deg) rotateY(0deg)`;
+            
+            imgWrapper.style.transition = 'transform 0.5s ease-out';
+            imgWrapper.style.transform = `translateZ(60px) scale(1) translate(0px, 0px)`;
+
+            if (glare) {
+                glare.style.opacity = '0';
+            }
+        });
+    }
+}
 
 
-        // --- Compare View Logic ---
+// --- Compare View Logic ---
 
-        function buildDropdownHTML(index, currentId) {
-            const selected = allPokemon.find(p => p.id === currentId);
+function buildDropdownHTML(index, currentId) {
+    const selected = allPokemon.find(p => p.id === currentId);
+    return `
+        <div class="relative w-full mb-2 md:mb-6 compare-dropdown" id="dropdown-${index}">
+            <button onclick="toggleCompareDropdown(${index})" class="w-full bg-white/80 backdrop-blur-md p-2 md:p-5 rounded-lg md:rounded-2xl flex justify-between items-center border border-white hover:border-red-400 transition-colors font-bold text-slate-700 shadow-md group text-[9px] md:text-base min-w-0">
+                <span class="truncate pr-1 flex-1 text-left leading-normal py-1" id="dropdown-text-${index}">${selected ? selected.name_th : 'เลือก...'}</span>
+                <i class="ph ph-caret-right text-slate-400 group-hover:text-red-400 transition-transform text-[10px] md:text-base shrink-0" id="dropdown-icon-${index}" aria-hidden="true"></i>
+            </button>
+            <div id="dropdown-menu-${index}" class="hidden absolute z-50 mt-1 md:mt-2 w-full bg-white/95 backdrop-blur-xl rounded-lg md:rounded-2xl shadow-2xl border border-white overflow-hidden">
+                <div class="p-1.5 md:p-4 border-b bg-slate-50/50">
+                    <input type="text" onkeyup="filterCompareDropdown(${index}, this.value)" class="w-full p-1.5 md:p-3 bg-white rounded-md md:rounded-xl outline-none text-[9px] md:text-sm font-medium border border-slate-200 focus:border-red-300 transition-colors shadow-inner leading-normal" placeholder="ค้นหาชื่อ..." aria-label="ค้นหาโปเกมอนเปรียบเทียบ">
+                </div>
+                <div class="max-h-40 md:max-h-60 overflow-y-auto custom-scrollbar" id="dropdown-list-${index}">
+                    ${renderCompareListHTML(index, '')}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function renderCompareListHTML(index, query) {
+    let list = allPokemon;
+    if(query) {
+        query = query.toLowerCase();
+        list = list.filter(p => p.name.toLowerCase().includes(query) || p.name_th.includes(query) || p.id.toString() === query);
+    }
+    return list.slice(0, 50).map(p => `
+        <div onclick="selectCompare(${index}, ${p.id})" class="p-1.5 md:p-4 hover:bg-red-50/50 cursor-pointer flex items-center gap-1.5 md:gap-4 border-b border-slate-50 last:border-0 transition-colors">
+            <img src="${getImageUrl(p.id, 'thumb')}" class="w-5 h-5 md:w-10 md:h-10 object-contain drop-shadow-sm img-3d-grid" loading="lazy" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'thumb')" />
+            <div class="flex-1 text-[9px] md:text-sm font-bold text-slate-700 truncate leading-normal py-1">${p.name_th}</div>
+        </div>
+    `).join('');
+}
+
+function toggleCompareDropdown(index) {
+    const menu = document.getElementById(`dropdown-menu-${index}`);
+    const icon = document.getElementById(`dropdown-icon-${index}`);
+    const isHidden = menu.classList.contains('hidden');
+    
+    // Close all first
+    document.querySelectorAll('.compare-dropdown > div:nth-child(2)').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.compare-dropdown i').forEach(el => el.classList.remove('rotate-90'));
+
+    if (isHidden) {
+        menu.classList.remove('hidden');
+        icon.classList.add('rotate-90');
+    }
+}
+
+function filterCompareDropdown(index, query) {
+    document.getElementById(`dropdown-list-${index}`).innerHTML = renderCompareListHTML(index, query);
+}
+
+function selectCompare(index, id) {
+    compareIds[index] = id;
+    document.getElementById(`dropdown-menu-${index}`).classList.add('hidden');
+    document.getElementById(`dropdown-icon-${index}`).classList.remove('rotate-90');
+    fetchCompareData();
+}
+
+async function fetchCompareData() {
+    try {
+        const results = await Promise.all(
+            compareIds.map(async id => {
+                let data = pokemonCache.get(id);
+                if (!data) {
+                    const r = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+                    data = await r.json();
+                    pokemonCache.set(id, data);
+                }
+                return data;
+            })
+        );
+        compareData = results.map(data => {
+            if(!data) return null;
+            data.name_th = getThaiName(data.name);
+            return data;
+        });
+        renderCompareView();
+    } catch(e) {
+        console.error("Error fetching compare data", e);
+    }
+}
+
+function renderCompareView() {
+    const renderCard = (index) => {
+        const data = compareData[index];
+        if (!data) return `<div class="p-10 md:p-32 flex justify-center w-full items-center"><i class="ph ph-spinner animate-spin text-slate-400 text-2xl md:text-4xl" aria-hidden="true"></i></div>`;
+        
+        const otherData = compareData[index === 0 ? 1 : 0];
+        const themeColor = TYPE_COLORS[data.types[0].type.name] || '#777';
+
+        const totalStats = data.stats.reduce((sum, s) => sum + s.base_stat, 0);
+        const otherTotal = otherData ? otherData.stats.reduce((sum, s) => sum + s.base_stat, 0) : 0;
+        const isTotalWinner = totalStats > otherTotal;
+
+        let statsHtml = data.stats.map((s, idx) => {
+            const otherVal = otherData?.stats[idx]?.base_stat || 0;
+            const isWinner = s.base_stat > otherVal;
+            const statName = STAT_NAMES_TH[s.stat.name] || s.stat.name;
+            const percentage = Math.min((s.base_stat / 255) * 100, 100);
             return `
-                <div class="relative w-full mb-2 md:mb-6 compare-dropdown" id="dropdown-${index}">
-                    <button onclick="toggleCompareDropdown(${index})" class="w-full bg-white/80 backdrop-blur-md p-2 md:p-5 rounded-lg md:rounded-2xl flex justify-between items-center border border-white hover:border-red-400 transition-colors font-bold text-slate-700 shadow-md group text-[9px] md:text-base min-w-0">
-                        <span class="truncate pr-1 flex-1 text-left leading-normal py-1" id="dropdown-text-${index}">${selected ? selected.name_th : 'เลือก...'}</span>
-                        <i class="ph ph-caret-right text-slate-400 group-hover:text-red-400 transition-transform text-[10px] md:text-base shrink-0" id="dropdown-icon-${index}" aria-hidden="true"></i>
-                    </button>
-                    <div id="dropdown-menu-${index}" class="hidden absolute z-50 mt-1 md:mt-2 w-full bg-white/95 backdrop-blur-xl rounded-lg md:rounded-2xl shadow-2xl border border-white overflow-hidden">
-                        <div class="p-1.5 md:p-4 border-b bg-slate-50/50">
-                            <input type="text" onkeyup="filterCompareDropdown(${index}, this.value)" class="w-full p-1.5 md:p-3 bg-white rounded-md md:rounded-xl outline-none text-[9px] md:text-sm font-medium border border-slate-200 focus:border-red-300 transition-colors shadow-inner leading-normal" placeholder="ค้นหาชื่อ..." aria-label="ค้นหาโปเกมอนเปรียบเทียบ">
-                        </div>
-                        <div class="max-h-40 md:max-h-60 overflow-y-auto custom-scrollbar" id="dropdown-list-${index}">
-                            ${renderCompareListHTML(index, '')}
+                <div class="flex items-center gap-1 md:gap-4 mb-1.5 md:mb-4 w-full min-w-0">
+                    <span class="text-[7px] md:text-xs font-bold text-slate-500 uppercase tracking-tight w-7 sm:w-8 md:w-16 shrink-0 text-right truncate leading-normal">${statName}</span>
+                    <span class="text-[8px] md:text-sm font-black w-4 md:w-8 shrink-0 text-right ${isWinner ? 'text-emerald-500' : 'text-slate-700'}">${s.base_stat}</span>
+                    <div class="flex-1 bg-slate-100/60 rounded-full h-1 md:h-2.5 overflow-hidden shadow-inner ml-1 md:ml-0 min-w-0">
+                        <div class="h-full rounded-full transition-all duration-300 relative ${isWinner ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.4)]' : 'bg-slate-300'}" 
+                             style="width: ${percentage}%;">
+                             <div class="absolute inset-0 bg-white/20" aria-hidden="true"></div>
                         </div>
                     </div>
                 </div>
             `;
-        }
+        }).join('');
 
-        function renderCompareListHTML(index, query) {
-            let list = allPokemon;
-            if(query) {
-                query = query.toLowerCase();
-                list = list.filter(p => p.name.toLowerCase().includes(query) || p.name_th.includes(query) || p.id.toString() === query);
-            }
-            return list.slice(0, 50).map(p => `
-                <div onclick="selectCompare(${index}, ${p.id})" class="p-1.5 md:p-4 hover:bg-red-50/50 cursor-pointer flex items-center gap-1.5 md:gap-4 border-b border-slate-50 last:border-0 transition-colors">
-                    <img src="${getImageUrl(p.id, 'thumb')}" class="w-5 h-5 md:w-10 md:h-10 object-contain drop-shadow-sm img-3d-grid" loading="lazy" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'thumb')" />
-                    <div class="flex-1 text-[9px] md:text-sm font-bold text-slate-700 truncate leading-normal py-1">${p.name_th}</div>
-                </div>
-            `).join('');
-        }
-
-        function toggleCompareDropdown(index) {
-            const menu = document.getElementById(`dropdown-menu-${index}`);
-            const icon = document.getElementById(`dropdown-icon-${index}`);
-            const isHidden = menu.classList.contains('hidden');
-            
-            // Close all first
-            document.querySelectorAll('.compare-dropdown > div:nth-child(2)').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.compare-dropdown i').forEach(el => el.classList.remove('rotate-90'));
-
-            if (isHidden) {
-                menu.classList.remove('hidden');
-                icon.classList.add('rotate-90');
-            }
-        }
-
-        function filterCompareDropdown(index, query) {
-            document.getElementById(`dropdown-list-${index}`).innerHTML = renderCompareListHTML(index, query);
-        }
-
-        function selectCompare(index, id) {
-            compareIds[index] = id;
-            document.getElementById(`dropdown-menu-${index}`).classList.add('hidden');
-            document.getElementById(`dropdown-icon-${index}`).classList.remove('rotate-90');
-            fetchCompareData();
-        }
-
-        async function fetchCompareData() {
-            try {
-                const results = await Promise.all(
-                    compareIds.map(async id => {
-                        let data = pokemonCache.get(id);
-                        if (!data) {
-                            const r = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-                            data = await r.json();
-                            pokemonCache.set(id, data);
-                        }
-                        return data;
-                    })
-                );
-                compareData = results.map(data => {
-                    if(!data) return null;
-                    data.name_th = getThaiName(data.name);
-                    return data;
-                });
-                renderCompareView();
-            } catch(e) {
-                console.error("Error fetching compare data", e);
-            }
-        }
-
-        function renderCompareView() {
-            const renderCard = (index) => {
-                const data = compareData[index];
-                if (!data) return `<div class="p-10 md:p-32 flex justify-center w-full items-center"><i class="ph ph-spinner animate-spin text-slate-400 text-2xl md:text-4xl" aria-hidden="true"></i></div>`;
+        // บังคับ Layout ให้สมดุล 100% ทั้งบนมือถือและคอมพิวเตอร์
+        return `
+            <div class="backdrop-blur-xl rounded-2xl md:rounded-[3rem] p-2 sm:p-3 md:p-10 border relative h-full flex flex-col transition-colors overflow-hidden w-full min-w-0"
+                 style="border-color: ${themeColor}40; background: linear-gradient(145deg, ${themeColor}10 0%, rgba(255,255,255,0.85) 100%); box-shadow: 0 10px 30px -10px ${themeColor}20">
+                <div class="absolute -top-10 -left-10 w-24 h-24 md:w-64 md:h-64 rounded-full blur-xl md:blur-3xl opacity-20 pointer-events-none" style="background-color: ${themeColor}"></div>
                 
-                const otherData = compareData[index === 0 ? 1 : 0];
-                const themeColor = TYPE_COLORS[data.types[0].type.name] || '#777';
-
-                const totalStats = data.stats.reduce((sum, s) => sum + s.base_stat, 0);
-                const otherTotal = otherData ? otherData.stats.reduce((sum, s) => sum + s.base_stat, 0) : 0;
-                const isTotalWinner = totalStats > otherTotal;
-
-                let statsHtml = data.stats.map((s, idx) => {
-                    const otherVal = otherData?.stats[idx]?.base_stat || 0;
-                    const isWinner = s.base_stat > otherVal;
-                    const statName = STAT_NAMES_TH[s.stat.name] || s.stat.name;
-                    const percentage = Math.min((s.base_stat / 255) * 100, 100);
-                    return `
-                        <div class="flex items-center gap-1 md:gap-4 mb-1.5 md:mb-4 w-full min-w-0">
-                            <span class="text-[7px] md:text-xs font-bold text-slate-500 uppercase tracking-tight w-7 sm:w-8 md:w-16 shrink-0 text-right truncate leading-normal">${statName}</span>
-                            <span class="text-[8px] md:text-sm font-black w-4 md:w-8 shrink-0 text-right ${isWinner ? 'text-emerald-500' : 'text-slate-700'}">${s.base_stat}</span>
-                            <div class="flex-1 bg-slate-100/60 rounded-full h-1 md:h-2.5 overflow-hidden shadow-inner ml-1 md:ml-0 min-w-0">
-                                <div class="h-full rounded-full transition-all duration-300 relative ${isWinner ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.4)]' : 'bg-slate-300'}" 
-                                     style="width: ${percentage}%;">
-                                     <div class="absolute inset-0 bg-white/20" aria-hidden="true"></div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-
-                // บังคับ Layout ให้สมดุล 100% ทั้งบนมือถือและคอมพิวเตอร์
-                return `
-                    <div class="backdrop-blur-xl rounded-2xl md:rounded-[3rem] p-2 sm:p-3 md:p-10 border relative h-full flex flex-col transition-colors overflow-hidden w-full min-w-0"
-                         style="border-color: ${themeColor}40; background: linear-gradient(145deg, ${themeColor}10 0%, rgba(255,255,255,0.85) 100%); box-shadow: 0 10px 30px -10px ${themeColor}20">
-                        <div class="absolute -top-10 -left-10 w-24 h-24 md:w-64 md:h-64 rounded-full blur-xl md:blur-3xl opacity-20 pointer-events-none" style="background-color: ${themeColor}"></div>
-                        
-                        ${buildDropdownHTML(index, data.id)}
-                        
-                        <div class="flex flex-col items-center mb-2 md:mb-8 min-w-0">
-                            <div class="w-16 h-16 sm:w-20 sm:h-20 md:w-56 md:h-56 mb-2 md:mb-8 bg-white rounded-xl md:rounded-[3.5rem] flex items-center justify-center p-2 md:p-12 relative shadow-inner border border-slate-50 overflow-hidden shrink-0">
-                                <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-white"></div>
-                                <img src="${getImageUrl(data.id, 'full')}" class="w-full h-full object-contain relative z-10 animate-float img-3d-detail" alt="${data.name_th}" onerror="handleImgErr(this, ${data.id}, 'full')" />
-                            </div>
-                            <div class="text-[8px] md:text-2xl font-black italic tracking-widest mb-0.5 md:mb-2 opacity-90 drop-shadow-sm" style="color: ${themeColor}">
-                                #${String(data.id).padStart(3, '0')}
-                            </div>
-                            <h2 class="text-xs sm:text-sm md:text-4xl font-bold md:font-black text-slate-800 tracking-tight mb-1 md:mb-4 text-center leading-normal truncate block w-full px-1 py-1 sm:py-2">${data.name_th}</h2>
-                            <div class="flex justify-center gap-0.5 md:gap-2 mt-0.5 md:mt-0 h-6 md:h-8 overflow-hidden items-center shrink-0 w-full flex-wrap md:flex-nowrap">
-                                ${data.types.map(t => {
-                                    const textColor = TYPE_TEXT_COLORS[t.type.name] || 'text-white';
-                                    return `
-                                    <span class="${textColor} text-[6px] md:text-[11px] font-bold px-1.5 py-0.5 md:px-3 md:py-1 rounded-full uppercase tracking-widest shadow-sm md:shadow-lg inline-flex items-center gap-0.5 md:gap-1 max-w-[90%] truncate" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
-                                        <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[6px] md:text-[12px] shrink-0" aria-hidden="true"></i>
-                                        <span class="truncate leading-normal pb-0.5">${TYPE_NAMES_TH[t.type.name] || t.type.name}</span>
-                                    </span>
-                                    `
-                                }).join('')}
-                            </div>
-                        </div>
-                        
-                        <div class="flex-1 pt-2 md:pt-6 border-t border-white/50 flex flex-col min-w-0">
-                            <div class="flex flex-col justify-center flex-1 w-full min-w-0">${statsHtml}</div>
-                            <div class="mt-auto pt-2 md:pt-4 border-t border-white/50 flex justify-between items-center px-1 md:px-2 w-full min-w-0">
-                                <span class="text-[7px] md:text-sm font-black text-slate-500 uppercase tracking-widest shrink-0 leading-normal">Total</span>
-                                <span class="text-[10px] md:text-2xl font-black shrink-0 ${isTotalWinner ? 'text-emerald-500' : 'text-slate-700'}">${totalStats}</span>
-                            </div>
-                        </div>
+                ${buildDropdownHTML(index, data.id)}
+                
+                <div class="flex flex-col items-center mb-2 md:mb-8 min-w-0">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 md:w-56 md:h-56 mb-2 md:mb-8 bg-white rounded-xl md:rounded-[3.5rem] flex items-center justify-center p-2 md:p-12 relative shadow-inner border border-slate-50 overflow-hidden shrink-0">
+                        <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-white"></div>
+                        <img src="${getImageUrl(data.id, 'full')}" class="w-full h-full object-contain relative z-10 animate-float img-3d-detail" alt="${data.name_th}" onerror="handleImgErr(this, ${data.id}, 'full')" />
                     </div>
-                `;
-            };
+                    <div class="text-[8px] md:text-2xl font-black italic tracking-widest mb-0.5 md:mb-2 opacity-90 drop-shadow-sm" style="color: ${themeColor}">
+                        #${String(data.id).padStart(3, '0')}
+                    </div>
+                    <h2 class="text-xs sm:text-sm md:text-4xl font-bold md:font-black text-slate-800 tracking-tight mb-1 md:mb-4 text-center leading-normal truncate block w-full px-1 py-1 sm:py-2">${data.name_th}</h2>
+                    <div class="flex justify-center gap-0.5 md:gap-2 mt-0.5 md:mt-0 h-6 md:h-8 overflow-hidden items-center shrink-0 w-full flex-wrap md:flex-nowrap">
+                        ${data.types.map(t => {
+                            const textColor = TYPE_TEXT_COLORS[t.type.name] || 'text-white';
+                            return `
+                            <span class="${textColor} text-[6px] md:text-[11px] font-bold px-1.5 py-0.5 md:px-3 md:py-1 rounded-full uppercase tracking-widest shadow-sm md:shadow-lg inline-flex items-center gap-0.5 md:gap-1 max-w-[90%] truncate" style="background-color: ${TYPE_COLORS[t.type.name] || '#777'}">
+                                <i class="${TYPE_ICONS[t.type.name] || 'ph-fill ph-circle'} text-[6px] md:text-[12px] shrink-0" aria-hidden="true"></i>
+                                <span class="truncate leading-normal pb-0.5">${TYPE_NAMES_TH[t.type.name] || t.type.name}</span>
+                            </span>
+                            `
+                        }).join('')}
+                    </div>
+                </div>
+                
+                <div class="flex-1 pt-2 md:pt-6 border-t border-white/50 flex flex-col min-w-0">
+                    <div class="flex flex-col justify-center flex-1 w-full min-w-0">${statsHtml}</div>
+                    <div class="mt-auto pt-2 md:pt-4 border-t border-white/50 flex justify-between items-center px-1 md:px-2 w-full min-w-0">
+                        <span class="text-[7px] md:text-sm font-black text-slate-500 uppercase tracking-widest shrink-0 leading-normal">Total</span>
+                        <span class="text-[10px] md:text-2xl font-black shrink-0 ${isTotalWinner ? 'text-emerald-500' : 'text-slate-700'}">${totalStats}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    };
 
-            document.getElementById('compare-card-0').innerHTML = renderCard(0);
-            document.getElementById('compare-card-1').innerHTML = renderCard(1);
-        }
+    document.getElementById('compare-card-0').innerHTML = renderCard(0);
+    document.getElementById('compare-card-1').innerHTML = renderCard(1);
+}
 
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', (e) => {
-            if(!e.target.closest('.compare-dropdown')) {
-                document.querySelectorAll('.compare-dropdown > div:nth-child(2)').forEach(el => el.classList.add('hidden'));
-                document.querySelectorAll('.compare-dropdown i').forEach(el => el.classList.remove('rotate-90'));
-            }
-        });
+// Close dropdowns when clicking outside
+document.addEventListener('click', (e) => {
+    if(!e.target.closest('.compare-dropdown')) {
+        document.querySelectorAll('.compare-dropdown > div:nth-child(2)').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('.compare-dropdown i').forEach(el => el.classList.remove('rotate-90'));
+    }
+});
 
-        // ⚡ LCP FIX: สั่งเริ่มระบบทันทีที่ DOM จัดโครงสร้างเสร็จ ไม่ต้องรอโหลดทรัพยากรตัวอื่น
-        document.addEventListener('DOMContentLoaded', initApp);
-
+// Initialize App
+window.onload = initApp;
     </script>
 </body>
 </html>
