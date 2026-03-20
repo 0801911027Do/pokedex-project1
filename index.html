@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokédex Global - สมุดภาพโปเกมอน</title>
     
+    <!-- 🌟 แก้ไข Error 404 ของ Favicon ด้วยการใส่ไอคอนมอนสเตอร์บอล -->
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png">
+
     <!-- 🟢 SEO & Social Media Meta Tags -->
     <meta name="description" content="สมุดภาพโปเกมอน (Pokédex) รวบรวมข้อมูลสเตตัส ธาตุ จุดอ่อน และสายวิวัฒนาการ พร้อมระบบวิเคราะห์โดย ดร.โอคิโดะ">
     <meta name="keywords" content="โปเกมอน, สมุดภาพโปเกมอน, Pokedex, Pokemon, ข้อมูลโปเกมอน">
@@ -20,10 +23,11 @@
     <link rel="dns-prefetch" href="https://pokeapi.co">
     <link rel="dns-prefetch" href="https://generativelanguage.googleapis.com">
 
-    <!-- ⚡ PRELOAD -->
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png&w=600&dpr=2&output=png&q=100&maxage=31536000" fetchpriority="high">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/2.png&w=600&dpr=2&output=png&q=100&maxage=31536000" fetchpriority="high">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/3.png&w=600&dpr=2&output=png&q=100&maxage=31536000">
+    <!-- ⚡ PRELOAD (Optimized LCP: URLs match exactly with JS generated images) -->
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png&w=400&dpr=2&output=webp&q=90" fetchpriority="high">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/2.png&w=400&dpr=2&output=webp&q=90" fetchpriority="high">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/3.png&w=400&dpr=2&output=webp&q=90" fetchpriority="high">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/4.png&w=400&dpr=2&output=webp&q=90" fetchpriority="high">
 
     <!-- ⚡ PERFORMANCE -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,7 +39,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Prompt:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com" fetchpriority="high"></script>
+    <script>
+        // ซ่อนคำเตือนการใช้งาน Tailwind CDN ในหน้า Console เพื่อความสะอาดตา
+        const originalWarn = console.warn;
+        console.warn = function(...args) {
+            if (typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com should not be used in production')) return;
+            originalWarn.apply(console, args);
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -64,8 +76,8 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .custom-scrollbar::-webkit-scrollbar { height: 8px; width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #64748b; }
         
         @keyframes float { 
             0%, 100% { transform: translateY(0); } 
@@ -168,16 +180,16 @@
 
     <!-- Background Elements -->
     <div class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
-        <div class="bg-blob bg-red-400 -top-20 -left-20 md:-top-40 md:-left-40"></div>
-        <div class="bg-blob bg-blue-300 top-1/2 -right-20 md:-right-40" style="animation-delay: -10s;"></div>
-        <div class="bg-blob bg-yellow-200 -bottom-20 left-1/4 md:-bottom-40" style="animation-delay: -20s;"></div>
-        <div class="absolute inset-0 opacity-[0.03] bg-[length:30px_30px] md:bg-[length:40px_40px]" style="background-image: radial-gradient(#000 1px, transparent 0);"></div>
+        <div class="bg-blob bg-red-400 -top-20 -left-20 md:-top-40 md:-left-40" aria-hidden="true"></div>
+        <div class="bg-blob bg-blue-300 top-1/2 -right-20 md:-right-40" style="animation-delay: -10s;" aria-hidden="true"></div>
+        <div class="bg-blob bg-yellow-200 -bottom-20 left-1/4 md:-bottom-40" style="animation-delay: -20s;" aria-hidden="true"></div>
+        <div class="absolute inset-0 opacity-[0.03] bg-[length:30px_30px] md:bg-[length:40px_40px]" style="background-image: radial-gradient(#000 1px, transparent 0);" aria-hidden="true"></div>
     </div>
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-[100] bg-white/70 backdrop-blur-xl border-b border-white/50 py-3 px-3 sm:px-4 md:py-5 md:px-10 transition-colors duration-500">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-1.5 sm:gap-2 md:gap-4 cursor-pointer group" onclick="switchView('home')">
+            <button aria-label="กลับสู่หน้าหลัก" class="flex items-center gap-1.5 sm:gap-2 md:gap-4 cursor-pointer group focus:outline-none" onclick="switchView('home')">
                 <div class="relative w-7 h-7 sm:w-8 sm:h-8 md:w-12 md:h-12" aria-hidden="true">
                     <div class="absolute inset-0 bg-slate-800 rounded-full shadow-lg transition-transform duration-200 group-hover:rotate-180 border-[2px] md:border-[3px] border-white">
                         <div class="absolute top-1/2 left-0 w-full h-0.5 bg-white/30"></div>
@@ -185,18 +197,18 @@
                     </div>
                 </div>
                 <span class="font-black text-[13px] sm:text-lg md:text-2xl tracking-tight text-slate-800 drop-shadow-sm leading-normal pb-1 pt-1">สมุดภาพ<span class="text-red-500 ml-0.5 md:ml-1 hidden min-[380px]:inline">โปเกมอน</span></span>
-            </div>
+            </button>
             <div class="flex gap-2.5 sm:gap-4 md:gap-8 font-bold text-[10px] md:text-sm items-center">
-                <button onclick="switchView('home')" id="nav-home" class="text-red-500 transition-colors relative group py-2">
+                <button type="button" aria-label="ไปที่หน้าแกลเลอรี" onclick="switchView('home')" id="nav-home" class="text-red-500 transition-colors relative group py-2 focus:outline-none focus:ring-2 focus:ring-red-400 rounded-lg px-2">
                     แกลเลอรี
                     <div class="absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-150 w-full" id="nav-line-home"></div>
                 </button>
-                <button onclick="switchView('favorites')" id="nav-favorites" class="text-slate-500 hover:text-slate-800 transition-colors relative group py-2 flex items-center gap-0.5 sm:gap-1">
+                <button type="button" aria-label="ไปที่หน้ารายการโปรด" onclick="switchView('favorites')" id="nav-favorites" class="text-slate-600 hover:text-slate-800 transition-colors relative group py-2 flex items-center gap-0.5 sm:gap-1 focus:outline-none focus:ring-2 focus:ring-slate-400 rounded-lg px-2">
                     <span class="hidden sm:inline">รายการ</span>โปรด
-                    <span id="fav-badge" class="bg-red-500 text-white text-[8px] md:text-[10px] px-1.5 py-0.5 rounded-full hidden shadow-sm leading-none">0</span>
+                    <span id="fav-badge" class="bg-red-500 text-white text-[8px] md:text-[10px] px-1.5 py-0.5 rounded-full hidden shadow-sm leading-none" aria-hidden="true">0</span>
                     <div class="absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-150 w-0 group-hover:w-full" id="nav-line-favorites"></div>
                 </button>
-                <button onclick="switchView('compare')" id="nav-compare" class="text-slate-500 hover:text-slate-800 transition-colors relative group py-2">
+                <button type="button" aria-label="ไปที่หน้าเปรียบเทียบโปเกมอน" onclick="switchView('compare')" id="nav-compare" class="text-slate-600 hover:text-slate-800 transition-colors relative group py-2 focus:outline-none focus:ring-2 focus:ring-slate-400 rounded-lg px-2">
                     เปรียบเทียบ
                     <div class="absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-150 w-0 group-hover:w-full" id="nav-line-compare"></div>
                 </button>
@@ -226,7 +238,7 @@
                             </h1>
                             <p class="text-slate-600 font-bold text-[10px] sm:text-xs md:text-base tracking-wide mt-2 md:mt-4 leading-relaxed">รวบรวมข้อมูลโปเกมอนและร่างเมก้าทั้งหมดกว่า 1,025+ รูปแบบ</p>
                         </div>
-                        <button onclick="switchView('compare')" class="bg-slate-800 text-white px-6 py-3 md:px-10 md:py-5 rounded-[2rem] font-black text-[10px] sm:text-xs md:text-sm hover:bg-red-500 transition-colors shadow-2xl hover:-translate-y-1 md:hover:-translate-y-2 active:scale-95 mx-auto md:mx-0 flex items-center gap-2 md:gap-3 group leading-normal">
+                        <button type="button" onclick="switchView('compare')" aria-label="เข้าสู่โหมดวิเคราะห์การต่อสู้" class="bg-slate-800 text-white px-6 py-3 md:px-10 md:py-5 rounded-[2rem] font-black text-[10px] sm:text-xs md:text-sm hover:bg-red-500 transition-colors shadow-2xl hover:-translate-y-1 md:hover:-translate-y-2 active:scale-95 mx-auto md:mx-0 flex items-center gap-2 md:gap-3 group leading-normal focus:outline-none focus:ring-4 focus:ring-red-500/30">
                             <i class="ph ph-scales text-base md:text-lg transition-transform group-hover:rotate-12" aria-hidden="true"></i>
                             วิเคราะห์การต่อสู้
                         </button>
@@ -234,14 +246,14 @@
 
                     <div class="relative mb-6 md:mb-14 max-w-4xl mx-auto md:mx-0">
                         <label for="searchInput" class="sr-only">ค้นหาโปเกมอน</label>
-                        <i class="ph ph-magnifying-glass absolute left-5 md:left-6 top-1/2 -translate-y-1/2 text-slate-500 text-xl md:text-2xl pointer-events-none" aria-hidden="true"></i>
-                        <input type="text" id="searchInput" placeholder="ค้นหาด้วยชื่อภาษาไทย, อังกฤษ หรือหมายเลข ID..." class="w-full pl-12 pr-4 py-4 md:pl-14 md:pr-10 md:py-6 bg-white/80 backdrop-blur-md border border-white focus:border-red-300 focus:bg-white rounded-[2rem] md:rounded-[2.5rem] outline-none transition-all text-sm sm:text-base md:text-xl font-medium text-slate-800 shadow-lg placeholder:text-slate-500 leading-normal" onkeyup="handleSearch()">
+                        <i class="ph ph-magnifying-glass absolute left-5 md:left-6 top-1/2 -translate-y-1/2 text-slate-600 text-xl md:text-2xl pointer-events-none" aria-hidden="true"></i>
+                        <input type="text" id="searchInput" aria-label="ค้นหาโปเกมอนด้วยชื่อหรือหมายเลข" placeholder="ค้นหาด้วยชื่อภาษาไทย, อังกฤษ หรือหมายเลข ID..." class="w-full pl-12 pr-4 py-4 md:pl-14 md:pr-10 md:py-6 bg-white/80 backdrop-blur-md border border-white focus:border-red-300 focus:bg-white rounded-[2rem] md:rounded-[2.5rem] outline-none transition-all text-sm sm:text-base md:text-xl font-medium text-slate-800 shadow-lg placeholder:text-slate-600 leading-normal" onkeyup="handleSearch()">
                     </div>
 
                     <nav aria-label="กรองตามภูมิภาค" id="region-filters" class="flex gap-2 md:gap-3 overflow-x-auto pb-3 md:pb-4 no-scrollbar mask-fade scroll-smooth min-h-[44px]"></nav>
                     
-                    <div class="mt-4 md:mt-8 text-[10px] md:text-sm font-bold text-slate-500 flex items-center justify-center md:justify-start gap-3 md:gap-4 leading-normal">
-                        <div class="w-6 md:w-12 h-0.5 bg-slate-300"></div>
+                    <div class="mt-4 md:mt-8 text-[10px] md:text-sm font-bold text-slate-600 flex items-center justify-center md:justify-start gap-3 md:gap-4 leading-normal">
+                        <div class="w-6 md:w-12 h-0.5 bg-slate-300" aria-hidden="true"></div>
                         พบโปเกมอนทั้งหมด <span id="total-count" class="text-slate-900 inline-block min-w-[40px] text-center">0</span> รูปแบบ
                     </div>
                 </div>
@@ -253,13 +265,13 @@
                     <!-- Cards injected by JS -->
                 </div>
                 
-                <div id="scroll-sentinel" class="w-full h-10 pointer-events-none mt-10"></div>
+                <div id="scroll-sentinel" class="w-full h-10 pointer-events-none mt-10" aria-hidden="true"></div>
 
                 <div id="empty-state" class="hidden text-center py-12 md:py-20 bg-slate-50/50 rounded-[2rem] md:rounded-[3rem] border border-dashed border-slate-300 mt-6 md:mt-10">
-                    <p class="text-slate-600 font-bold text-sm md:text-lg leading-normal">ไม่พบข้อมูลโปเกมอนที่คุณค้นหา</p>
+                    <p class="text-slate-700 font-bold text-sm md:text-lg leading-normal">ไม่พบข้อมูลโปเกมอนที่คุณค้นหา</p>
                 </div>
                 <div id="load-more-container" class="mt-10 md:mt-24 flex justify-center hidden">
-                    <button onclick="loadMore()" class="flex items-center gap-2 md:gap-4 bg-white/80 backdrop-blur-md border border-white px-8 py-3 md:px-16 md:py-6 rounded-full font-black text-[10px] md:text-sm text-slate-600 hover:text-red-500 hover:border-red-200 hover:shadow-2xl transition-all group shadow-xl leading-normal">
+                    <button type="button" aria-label="โหลดข้อมูลโปเกมอนเพิ่มเติม" onclick="loadMore()" class="flex items-center gap-2 md:gap-4 bg-white/80 backdrop-blur-md border border-white px-8 py-3 md:px-16 md:py-6 rounded-full font-black text-[10px] md:text-sm text-slate-700 hover:text-red-500 hover:border-red-200 hover:shadow-2xl transition-all group shadow-xl leading-normal focus:outline-none focus:ring-4 focus:ring-red-500/20">
                         <i class="ph ph-plus text-base md:text-lg transition-transform duration-200 group-hover:rotate-180" aria-hidden="true"></i>
                         กำลังโหลด...
                     </button>
@@ -271,16 +283,16 @@
         <div id="view-favorites" class="hidden fade-in pb-16 md:pb-32 max-w-7xl mx-auto px-4 md:px-6 pt-6 md:pt-10">
             <div class="text-center mb-10 md:mb-16">
                 <h1 class="text-3xl md:text-5xl font-black text-slate-800 tracking-tighter mb-4">โปเกมอน <span class="text-red-500 drop-shadow-sm">ตัวโปรด</span></h1>
-                <div class="w-16 md:w-24 h-1.5 bg-red-500 mx-auto rounded-full shadow-lg"></div>
+                <div class="w-16 md:w-24 h-1.5 bg-red-500 mx-auto rounded-full shadow-lg" aria-hidden="true"></div>
             </div>
 
             <div id="favorites-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-10 min-h-[50vh] preserve-3d">
                 <!-- Fav Cards injected by JS -->
             </div>
             <div id="fav-empty-state" class="hidden text-center py-12 md:py-20 bg-slate-50/50 rounded-[2rem] md:rounded-[3rem] border border-dashed border-slate-300 mt-6 md:mt-10">
-                <i class="ph ph-heart-break text-4xl md:text-6xl text-slate-300 mb-4"></i>
-                <p class="text-slate-500 font-bold text-sm md:text-lg leading-normal">คุณยังไม่มีโปเกมอนในรายการโปรด</p>
-                <button onclick="switchView('home')" class="mt-6 bg-slate-800 text-white px-6 py-2.5 rounded-full font-bold text-xs md:text-sm hover:bg-red-500 transition-colors shadow-lg">กลับไปค้นหาโปเกมอน</button>
+                <i class="ph ph-heart-break text-4xl md:text-6xl text-slate-500 mb-4" aria-hidden="true"></i>
+                <p class="text-slate-600 font-bold text-sm md:text-lg leading-normal">คุณยังไม่มีโปเกมอนในรายการโปรด</p>
+                <button type="button" aria-label="กลับไปหน้าหลักเพื่อค้นหาโปเกมอน" onclick="switchView('home')" class="mt-6 bg-slate-800 text-white px-6 py-2.5 rounded-full font-bold text-xs md:text-sm hover:bg-red-500 transition-colors shadow-lg focus:outline-none focus:ring-4 focus:ring-slate-400">กลับไปค้นหาโปเกมอน</button>
             </div>
         </div>
 
@@ -292,7 +304,7 @@
         <!-- View: Compare -->
         <div id="view-compare" class="hidden fade-in pb-16 md:pb-32 max-w-7xl mx-auto px-3 md:px-6">
             <nav class="max-w-6xl mx-auto py-4 md:py-10 mb-2 md:mb-6">
-                <button onclick="switchView('home')" class="flex items-center gap-2 md:gap-3 text-slate-600 hover:text-slate-800 font-bold text-[10px] md:text-sm transition-transform group bg-white/50 px-4 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-white w-fit leading-normal">
+                <button type="button" aria-label="ย้อนกลับไปที่หน้าหลัก" onclick="switchView('home')" class="flex items-center gap-2 md:gap-3 text-slate-700 hover:text-slate-900 font-bold text-[10px] md:text-sm transition-transform group bg-white/50 px-4 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-white w-fit leading-normal focus:outline-none focus:ring-2 focus:ring-slate-300">
                     <i class="ph ph-arrow-left text-base md:text-lg transition-transform group-hover:-translate-x-2" aria-hidden="true"></i> กลับไปหน้าสมุดภาพ
                 </button>
             </nav>
@@ -309,8 +321,8 @@
 
             <!-- 🌟 AI Battle Analyzer Section -->
             <div class="mt-12 md:mt-20 text-center max-w-4xl mx-auto">
-                <button id="ai-battle-btn" onclick="analyzeBattle()" class="btn-oak mx-auto flex items-center gap-2 px-8 py-4 md:px-12 md:py-5 rounded-full font-black text-sm md:text-lg shadow-xl hover:-translate-y-1 transition-all">
-                    <i class="ph-fill ph-microscope text-xl"></i> ดร.โอคิโดะ วิเคราะห์ข้อมูล
+                <button type="button" id="ai-battle-btn" aria-label="กดเพื่อใช้ AI ดร.โอคิโดะ วิเคราะห์การต่อสู้" onclick="analyzeBattle()" class="btn-oak mx-auto flex items-center gap-2 px-8 py-4 md:px-12 md:py-5 rounded-full font-black text-sm md:text-lg shadow-xl hover:-translate-y-1 transition-all focus:outline-none focus:ring-4 focus:ring-emerald-500/40">
+                    <i class="ph-fill ph-microscope text-xl" aria-hidden="true"></i> ดร.โอคิโดะ วิเคราะห์ข้อมูล
                 </button>
                 <div id="ai-battle-result" class="text-left mt-6"></div>
             </div>
@@ -337,12 +349,37 @@
         // 🌟 Gemini API Config (Execution environment provides the key)
         const apiKey = ""; 
         
-        let currentAudio = null; // เก็บ instance เสียงไว้เพื่อหยุดเล่นได้
+        let currentAudio = null;
+        let currentUtterance = null; 
 
-        // 🌟 รูปภาพ Professor Oak (3D Style จาก Pokémon Let's Go - อัปเดตลิงก์ใหม่ให้เสถียร 100%)
+        // 🌟 โหลดและเลือกระบบเสียงพรีเมียมของระบบปฏิบัติการล่วงหน้า
+        let premiumThaiVoice = null;
+        function loadPremiumVoices() {
+            const voices = window.speechSynthesis.getVoices();
+            premiumThaiVoice = voices.find(v => v.lang === 'th-TH' && v.name.toLowerCase().includes('google')) ||
+                               voices.find(v => v.lang === 'th-TH' && (v.name.toLowerCase().includes('siri') || v.name.toLowerCase().includes('narisa'))) ||
+                               voices.find(v => v.lang === 'th-TH');
+        }
+        if (window.speechSynthesis) {
+            window.speechSynthesis.onvoiceschanged = loadPremiumVoices;
+            loadPremiumVoices(); 
+        }
+
+        // 🌟 รูปภาพ Professor Oak (3D Style จาก Pokémon Let's Go)
         const PROFESSOR_OAK_IMAGE = "https://images.wikidexcdn.net/mwuploads/wikidex/thumb/f/fa/latest/20180713182855/Profesor_Oak_LGPE.png/250px-Profesor_Oak_LGPE.png";
 
-        // 🌟 ฟังก์ชันระบบเสียง Web Speech API (Fallback หากไม่มี API Key)
+        // 🌟 ฟังก์ชันทำความสะอาดข้อความระดับเทพ ให้ลื่นไหล สมูต ไม่มีสะดุด
+        function sanitizeTextForVoice(text) {
+            if (!text) return "";
+            return text
+                .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '') // ลบ Emojis
+                .replace(/[*_#"`~+\-]/g, '') // ลบสัญลักษณ์ตกแต่ง
+                .replace(/\n|\r/g, ' ') // เปลี่ยนการขึ้นบรรทัดใหม่เป็นช่องว่างปกติ
+                .replace(/\s+/g, ' ') // รวบช่องว่าง
+                .trim();
+        }
+
+        // 🌟 ฟังก์ชันระบบเสียง Web Speech API (Fallback) ปรับให้สมูต
         function playWebTTS(text, btnId) {
             if (!('speechSynthesis' in window)) {
                 alert("เบราว์เซอร์ของคุณไม่รองรับระบบเสียงอ่านครับ");
@@ -353,29 +390,83 @@
             
             if (window.speechSynthesis.speaking) {
                 window.speechSynthesis.cancel();
-                if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ`;
+                if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะ`;
                 return;
             }
 
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'th-TH';
-            utterance.rate = 0.9; // เสียงช้าลงนิดนึงให้ดูภูมิฐาน
-            utterance.pitch = 0.8; // โทนเสียงต่ำลง
+            setTimeout(() => {
+                const cleanText = sanitizeTextForVoice(text);
+                const utterance = new SpeechSynthesisUtterance(cleanText);
+                
+                if (premiumThaiVoice) utterance.voice = premiumThaiVoice;
+                currentUtterance = utterance; 
+                
+                utterance.lang = 'th-TH';
+                utterance.rate = 1.1; 
+                utterance.pitch = 0.9; 
+                
+                utterance.onstart = () => {
+                    if (btn) btn.innerHTML = `<span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span> กำลังพูด... (คลิกหยุด)`;
+                };
+                
+                utterance.onend = () => {
+                    if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะอีกครั้ง`;
+                    currentUtterance = null;
+                };
+                
+                utterance.onerror = (e) => {
+                    if (e.error !== 'interrupted') console.error("SpeechSynthesis error", e);
+                    if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะ`;
+                    currentUtterance = null;
+                };
+                
+                window.speechSynthesis.speak(currentUtterance);
+            }, 50);
+        }
+
+        // 🌟 ฟังก์ชันเสียงสมาร์ทโรตอม (สมูต ไว เสียงล้ำสมัยแบบหุ่นยนต์ AI)
+        function playRotomVoice(text, btnId) {
+            if (!('speechSynthesis' in window)) {
+                alert("เบราว์เซอร์ของคุณไม่รองรับระบบเสียงอ่านครับ");
+                return;
+            }
             
-            utterance.onstart = () => {
-                if (btn) btn.innerHTML = `<span class="voice-wave"></span><span class="voice-wave"></span><span class="voice-wave"></span> กำลังพูด... (คลิกหยุด)`;
-            };
+            const btn = document.getElementById(btnId);
             
-            utterance.onend = () => {
-                if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะอีกครั้ง`;
-            };
-            
-            utterance.onerror = (e) => {
-                console.error("SpeechSynthesis error", e);
-                if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ`;
-            };
-            
-            window.speechSynthesis.speak(utterance);
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-sm md:text-lg" aria-hidden="true"></i> สมาร์ทโรตอม`;
+                return;
+            }
+
+            setTimeout(() => {
+                const cleanText = sanitizeTextForVoice(text);
+                const utterance = new SpeechSynthesisUtterance(cleanText);
+                
+                if (premiumThaiVoice) utterance.voice = premiumThaiVoice;
+                currentUtterance = utterance; 
+                
+                utterance.lang = 'th-TH';
+                utterance.rate = 1.35; 
+                utterance.pitch = 1.5; 
+                
+                utterance.onstart = () => {
+                    if (btn) btn.innerHTML = `<span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span> กำลังอธิบาย...`;
+                };
+                
+                utterance.onend = () => {
+                    if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-sm md:text-lg" aria-hidden="true"></i> สมาร์ทโรตอม`;
+                    currentUtterance = null;
+                };
+                
+                utterance.onerror = (e) => {
+                    if (e.error !== 'interrupted') console.error("SpeechSynthesis error", e);
+                    if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-sm md:text-lg" aria-hidden="true"></i> สมาร์ทโรตอม`;
+                    currentUtterance = null;
+                };
+                
+                window.speechSynthesis.speak(currentUtterance);
+            }, 50);
         }
 
         // 🌟 ฟังก์ชันช่วยแปลง PCM16 เป็น WAV สำหรับเล่นเสียง TTS
@@ -410,19 +501,16 @@
             return new Blob([buffer], { type: 'audio/wav' });
         }
 
-        // 🌟 ฟังก์ชันดึงเสียงพูด ดร.โอคิโดะ (TTS) พร้อมกรองอักขระที่ทำให้สะดุด
+        // 🌟 ฟังก์ชันดึงเสียงพูด ดร.โอคิโดะผ่าน Gemini TTS (ไหลลื่น ระดับนักพากย์มืออาชีพ)
         async function fetchDrOakVoice(textToSpeak, btnId) {
             if (!textToSpeak || !apiKey) return null;
             
             const btn = document.getElementById(btnId);
-            if (btn) btn.innerHTML = `<span class="voice-wave"></span><span class="voice-wave"></span><span class="voice-wave"></span><span class="voice-wave"></span> ด็อกเตอร์กำลังเตรียมเสียง...`;
+            if (btn) btn.innerHTML = `<span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span> ด็อกเตอร์กำลังเตรียมเสียง...`;
 
             try {
-                // 🛠️ ลบ Emoji และสัญลักษณ์พิเศษออก เพื่อให้เสียงอ่านออกเสียงลื่นไหล ไม่สะดุด
-                const cleanText = textToSpeak.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '').replace(/[*_#"`~]/g, '').trim();
-                
-                // 🛠️ เติมคำนำหน้าเพื่อบรีฟน้ำเสียงให้ AI พากย์เสียงเป็น "อาจารย์ชราที่ใจดีและกระตือรือร้น" (โทน ดร.โอคิโดะ)
-                const voicePrompt = "Speak enthusiastically, warmly, and wisely like an old professor: " + cleanText;
+                const cleanText = sanitizeTextForVoice(textToSpeak);
+                const voicePrompt = "Read this Thai text extremely fluently, smoothly, and warmly like an expert anime narrator. Ensure perfect continuous flow and natural fast intonation without unnatural pauses: " + cleanText;
                 
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
                 const payload = {
@@ -430,7 +518,7 @@
                     generationConfig: {
                         responseModalities: ["AUDIO"],
                         speechConfig: {
-                            voiceConfig: { prebuiltVoiceConfig: { voiceName: "Iapetus" } } // เสียงผู้ชายทุ้ม อบอุ่น มีอายุ
+                            voiceConfig: { prebuiltVoiceConfig: { voiceName: "Iapetus" } } 
                         }
                     }
                 };
@@ -447,21 +535,19 @@
                 const base64Pcm = data.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
                 if (!base64Pcm) throw new Error("No audio data returned");
 
-                // Decode Base64
                 const binaryStr = window.atob(base64Pcm);
                 const bytes = new Uint8Array(binaryStr.length);
                 for (let i = 0; i < binaryStr.length; i++) {
                     bytes[i] = binaryStr.charCodeAt(i);
                 }
 
-                // แปลงเป็น WAV
                 const wavBlob = createWavBlob(bytes.buffer, 24000);
                 const audioUrl = URL.createObjectURL(wavBlob);
                 return audioUrl;
 
             } catch (error) {
                 console.error("TTS Error:", error);
-                if (btn) btn.innerHTML = `<i class="ph-fill ph-warning-circle"></i> ระบบเสียงขัดข้อง`;
+                if (btn) btn.innerHTML = `<i class="ph-fill ph-warning-circle" aria-hidden="true"></i> ระบบเสียงขัดข้อง`;
                 return null;
             }
         }
@@ -477,10 +563,10 @@
             const btn = document.getElementById(btnId);
             
             currentAudio.onplay = () => {
-                if (btn) btn.innerHTML = `<span class="voice-wave"></span><span class="voice-wave"></span><span class="voice-wave"></span> กำลังพูด... (คลิกเพื่อหยุด)`;
+                if (btn) btn.innerHTML = `<span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span> กำลังพูด... (คลิกเพื่อหยุด)`;
             };
             currentAudio.onended = () => {
-                if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะอีกครั้ง`;
+                if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะอีกครั้ง`;
             };
             currentAudio.play().catch(e => console.log(e));
         }
@@ -489,18 +575,18 @@
             if (currentAudio && !currentAudio.paused) {
                 currentAudio.pause();
                 const btn = document.getElementById(btnId);
-                if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ`;
+                if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะ`;
             } else {
                 playOakAudio(audioUrl, btnId);
             }
         }
 
-        // 🌟 ดึงข้อมูล API (วิเคราะห์ Text) แบบไวขึ้น
+        // ปรับแก้ Prompt ให้ AI ผลิตข้อความแบบนักพากย์มืออาชีพ
         async function callGeminiAPI(prompt, retries = 3, delay = 1000) {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
-                systemInstruction: { parts: [{ text: "คุณคือ 'ดร.โอคิโดะ' (Professor Oak) โปเกมอนด็อกเตอร์ผู้เชี่ยวชาญ ตอบคำถามสั้นๆ กระชับ เป็นภาษาไทยด้วยน้ำเสียงแบบอาจารย์ที่รอบรู้ ใจดี มักจะอุทานว่า 'โอ้!' หรือ 'อืม...' \nกฎเหล็ก:\n1. ห้ามใช้เครื่องหมาย # หรือ ### สร้างหัวข้อเด็ดขาด (ให้ใช้ตัวหนาแทน)\n2. ให้วิเคราะห์ตรงประเด็นเพื่อความรวดเร็ว\n3. สำคัญมาก: ให้เพิ่มแท็ก <voice>คำพูดสรุปสั้นๆ ฟันธง ไม่เกิน 2 ประโยค</voice> ไว้ที่บรรทัดสุดท้ายของคำตอบเสมอ เพื่อนำไปสังเคราะห์เสียงพากย์ (ห้ามมีอีโมจิ หรือสัญลักษณ์พิเศษในแท็ก voice เด็ดขาด เพื่อให้เสียงพูดลื่นไหล)" }] }
+                systemInstruction: { parts: [{ text: "คุณคือ 'ดร.โอคิโดะ' (Professor Oak) โปเกมอนด็อกเตอร์ผู้เชี่ยวชาญ ตอบคำถามสั้นๆ กระชับ เป็นภาษาไทยด้วยน้ำเสียงแบบอาจารย์ที่รอบรู้ ใจดี มักจะอุทานว่า 'โอ้!' หรือ 'อืม...' \nกฎเหล็ก:\n1. ห้ามใช้เครื่องหมาย # หรือ ### สร้างหัวข้อเด็ดขาด (ให้ใช้ตัวหนาแทน)\n2. ให้วิเคราะห์ตรงประเด็นเพื่อความรวดเร็ว\n3. สำคัญมาก: ให้เพิ่มแท็ก <voice>คำพูดสรุปสั้นๆ ฟันธง ไม่เกิน 2 ประโยค</voice> ไว้ที่บรรทัดสุดท้ายของคำตอบเสมอ เพื่อนำไปสังเคราะห์เสียงพากย์ (เนื้อหาในแท็ก voice ต้องเขียนด้วยภาษาพูดที่ลื่นไหล เป็นธรรมชาติที่สุด เรียบเรียงประโยคให้ต่อเนื่องกัน ห้ามใช้คำย่อหรือสัญลักษณ์พิเศษ เพื่อให้ระบบเสียงอ่านออกเสียงได้สมูตระดับนักพากย์มืออาชีพ)" }] }
             };
 
             for (let i = 0; i < retries; i++) {
@@ -514,21 +600,20 @@
                     const data = await response.json();
                     return data.candidates[0].content.parts[0].text;
                 } catch (error) {
-                    if (i === retries - 1) throw error; // โยน error ออกไปเพื่อให้ Fallback ทำงาน
+                    if (i === retries - 1) throw error; 
                     await new Promise(res => setTimeout(res, delay));
                     delay *= 2;
                 }
             }
         }
 
-        // --- Core Functions & Data ---
         const getLoaderHTML = () => `
             <div class="flex flex-col items-center justify-center py-20 md:py-32 animate-pulse relative z-10 w-full">
                 <div class="w-16 h-16 md:w-20 md:h-20 border-[6px] md:border-[10px] border-slate-200 border-t-red-500 rounded-full animate-spin mb-6 md:mb-8 relative shadow-xl">
                     <div class="absolute top-1/2 left-0 w-full h-1 md:h-1.5 bg-slate-200 -translate-y-1/2"></div>
                     <div class="absolute top-1/2 left-1/2 w-4 h-4 md:w-5 md:h-5 bg-white border-[4px] md:border-[5px] border-slate-200 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
                 </div>
-                <p class="font-bold text-slate-500 tracking-widest uppercase text-[10px] md:text-sm leading-normal">กำลังประมวลผลข้อมูล...</p>
+                <p class="font-bold text-slate-600 tracking-widest uppercase text-[10px] md:text-sm leading-normal">กำลังประมวลผลข้อมูล...</p>
             </div>
         `;
 
@@ -571,13 +656,15 @@
             25: "มักจะสะสมไฟฟ้าไว้ที่ถุงลมบริเวณแก้มทั้งสองข้าง เมื่อรู้สึกถึงอันตรายจะปล่อยกระแสไฟฟ้าแรงสูงออกมา"
         };
 
-        const ITEMS_PER_PAGE = 100;
+        // 🌟 เทคนิคที่ 1: ลดจำนวนการเรนเดอร์ภาพต่อหน้าจาก 100 เหลือ 20
+        // ป้องกันอาการกระตุก (Jank) บนมือถือเมื่อวาดภาพ 3D จำนวนมากพร้อมกัน
+        const ITEMS_PER_PAGE = 20;
+        
         const translationCache = new Map();
         const defaultSuffixes = ['-normal', '-altered', '-land', '-ordinary', '-aria', '-incarnate', '-average', '-standard', '-red-striped', '-baile', '-midday', '-solo', '-red-meteor', '-disguised', '-amped', '-ice', '-male', '-full-belly', '-single-strike', '-plant', '-shield'];
         const formKeywords = ['-mega', '-primal', '-gmax', '-alola', '-galar', '-hisui', '-paldea', '-therian', '-origin', '-ash', '-eternamax'];
         const formRegex = /-(mega(-[xy])?|primal|gmax|alola|galar|hisui|paldea|therian|origin|ash|eternamax).*/;
 
-        // --- 🌟 Favorites & Audio Logic ---
         let favorites = JSON.parse(localStorage.getItem('pokedex_favorites')) || [];
 
         function updateFavoriteBadge() {
@@ -625,7 +712,6 @@
             audio.play().catch(e => console.log('Audio play failed:', e));
         }
 
-        // 🌟 Parallax Helper Functions
         function handleParallaxMove(e, container, targetElement, maxRotate, baseZ, scale) {
             if (!targetElement) return;
             if (container.dataset.ticking === 'true') return;
@@ -677,31 +763,97 @@
             cardElement.addEventListener('touchcancel', leaveHandler);
         }
 
-        // 🌟 Fallback Analysis (If API Fails/Offline)
         function calculateFallbackBattle(p1, p2) {
+            const TYPE_CHART = {
+                normal: { rock: 0.5, ghost: 0, steel: 0.5 },
+                fire: { fire: 0.5, water: 0.5, grass: 2, ice: 2, bug: 2, rock: 0.5, dragon: 0.5, steel: 2 },
+                water: { fire: 2, water: 0.5, grass: 0.5, ground: 2, rock: 2, dragon: 0.5 },
+                electric: { water: 2, electric: 0.5, grass: 0.5, ground: 0, flying: 2, dragon: 0.5 },
+                grass: { fire: 0.5, water: 2, grass: 0.5, poison: 0.5, ground: 2, flying: 0.5, bug: 0.5, rock: 2, dragon: 0.5, steel: 0.5 },
+                ice: { fire: 0.5, water: 0.5, grass: 2, ice: 0.5, ground: 2, flying: 2, dragon: 2, steel: 0.5 },
+                fighting: { normal: 2, ice: 2, poison: 0.5, flying: 0.5, psychic: 0.5, bug: 0.5, rock: 2, ghost: 0, dark: 2, steel: 2, fairy: 0.5 },
+                poison: { grass: 2, poison: 0.5, ground: 0.5, rock: 0.5, ghost: 0.5, steel: 0, fairy: 2 },
+                ground: { fire: 2, electric: 2, grass: 0.5, poison: 2, flying: 0, bug: 0.5, rock: 2, steel: 2 },
+                flying: { grass: 2, electric: 0.5, fighting: 2, bug: 2, rock: 0.5, steel: 0.5 },
+                psychic: { fighting: 2, poison: 2, psychic: 0.5, dark: 0, steel: 0.5 },
+                bug: { fire: 0.5, grass: 2, fighting: 0.5, poison: 0.5, flying: 0.5, psychic: 2, ghost: 0.5, dark: 2, steel: 0.5, fairy: 0.5 },
+                rock: { fire: 2, ice: 2, fighting: 0.5, ground: 0.5, flying: 2, bug: 2, steel: 0.5 },
+                ghost: { normal: 0, psychic: 2, ghost: 2, dark: 0.5 },
+                dragon: { dragon: 2, steel: 0.5, fairy: 0 },
+                dark: { fighting: 0.5, psychic: 2, ghost: 2, dark: 0.5, fairy: 0.5 },
+                steel: { fire: 0.5, water: 0.5, electric: 0.5, ice: 2, rock: 2, steel: 0.5 },
+                fairy: { fire: 0.5, fighting: 2, poison: 0.5, dragon: 2, dark: 2, steel: 0.5 }
+            };
+
+            function getEffectiveness(atkTypes, defTypes) {
+                let maxMultiplier = 0;
+                for (const aTypeObj of atkTypes) {
+                    const aType = aTypeObj.type.name;
+                    let currentMultiplier = 1;
+                    for (const dTypeObj of defTypes) {
+                        const dType = dTypeObj.type.name;
+                        if (TYPE_CHART[aType] && TYPE_CHART[aType][dType] !== undefined) {
+                            currentMultiplier *= TYPE_CHART[aType][dType];
+                        }
+                    }
+                    if (currentMultiplier > maxMultiplier) maxMultiplier = currentMultiplier;
+                }
+                return maxMultiplier;
+            }
+
+            const p1Advantage = getEffectiveness(p1.types, p2.types);
+            const p2Advantage = getEffectiveness(p2.types, p1.types);
+
             const sumP1 = p1.stats.reduce((acc, s) => acc + s.base_stat, 0);
             const sumP2 = p2.stats.reduce((acc, s) => acc + s.base_stat, 0);
-            const winner = sumP1 > sumP2 ? p1.name_th : (sumP2 > sumP1 ? p2.name_th : "ทั้งคู่สูสีกันมาก");
 
-            // หาค่าสเตตัสที่เด่นที่สุดของแต่ละตัวเพื่อให้ด็อกเตอร์วิเคราะห์ได้ลึกขึ้น
+            let score1 = sumP1;
+            if (p1Advantage > 1) score1 += 120 * p1Advantage;
+            else if (p1Advantage < 1) score1 -= 50;
+
+            let score2 = sumP2;
+            if (p2Advantage > 1) score2 += 120 * p2Advantage;
+            else if (p2Advantage < 1) score2 -= 50;
+
+            let winnerName, typeAnalysisText, voiceReason;
+
+            if (score1 > score2) {
+                winnerName = p1.name_th;
+            } else if (score2 > score1) {
+                winnerName = p2.name_th;
+            } else {
+                winnerName = "สูสีกันมาก";
+            }
+
+            if (p1Advantage > p2Advantage && p1Advantage > 1) {
+                typeAnalysisText = `จุดเปลี่ยนสำคัญคือ **${p1.name_th}** มีธาตุที่ได้เปรียบ สามารถโจมตีใส่ ${p2.name_th} ได้รุนแรงถึง **${p1Advantage} เท่า!**`;
+            } else if (p2Advantage > p1Advantage && p2Advantage > 1) {
+                typeAnalysisText = `จุดเปลี่ยนสำคัญคือ **${p2.name_th}** มีธาตุที่ได้เปรียบ สามารถโจมตีใส่ ${p1.name_th} ได้รุนแรงถึง **${p2Advantage} เท่า!**`;
+            } else if (p1Advantage === p2Advantage && p1Advantage > 1) {
+                typeAnalysisText = `ทั้งคู่ต่างก็มีธาตุที่โจมตีใส่กันและกันได้รุนแรง ถือเป็นการต่อสู้ที่ต้องวัดกันที่สเตตัสและความเร็วจริงๆ!`;
+            } else {
+                typeAnalysisText = `การต่อสู้ครั้งนี้ไม่มีฝ่ายไหนได้เปรียบเรื่องธาตุอย่างชัดเจน จึงต้องวัดกันที่ค่าสถิติล้วนๆ!`;
+            }
+
             const getHighestStat = (pokemon) => pokemon.stats.reduce((max, stat) => max.base_stat > stat.base_stat ? max : stat);
             const p1Best = getHighestStat(p1);
             const p2Best = getHighestStat(p2);
             
-            const statNamesTH = { 'hp': 'ความทนทาน (HP)', 'attack': 'พลังโจมตีทางกายภาพ', 'defense': 'พลังป้องกัน', 'special-attack': 'พลังโจมตีพิเศษ', 'special-defense': 'พลังป้องกันพิเศษ', 'speed': 'ความเร็วในการเคลื่อนที่' };
+            const statNamesTH = { 'hp': 'ความทนทาน (HP)', 'attack': 'พลังโจมตีทางกายภาพ', 'defense': 'พลังป้องกัน', 'special-attack': 'พลังโจมตีพิเศษ', 'special-defense': 'พลังป้องกันพิเศษ', 'speed': 'ความเร็ว' };
             
             return `
-อืม... ถึงระบบเมนเฟรมของศูนย์วิจัยจะออฟไลน์อยู่ แต่ในฐานะศาสตราจารย์ ด็อกเตอร์จะวิเคราะห์โครงสร้างทางสรีรวิทยาให้ฟังเอง!
+อืม... ถึงระบบเมนเฟรมของศูนย์วิจัยจะออฟไลน์อยู่ แต่ในฐานะศาสตราจารย์ ด็อกเตอร์จะวิเคราะห์จากการแพ้ทางธาตุและสถิติให้ฟังเอง!
 
 จากการเปรียบเทียบสถิติเชิงลึก...
-**${p1.name_th}** มีจุดเด่นทางสายพันธุ์อยู่ที่ **${statNamesTH[p1Best.stat.name] || p1Best.stat.name}** (Base: ${p1Best.base_stat}) และมีค่าพลังศักยภาพรวมที่ ${sumP1}
-ส่วน **${p2.name_th}** โดดเด่นในด้าน **${statNamesTH[p2Best.stat.name] || p2Best.stat.name}** (Base: ${p2Best.base_stat}) โดยมีค่าพลังศักยภาพรวม ${sumP2}
+**${p1.name_th}** โดดเด่นด้าน **${statNamesTH[p1Best.stat.name] || p1Best.stat.name}** (Base: ${p1Best.base_stat} | Total: ${sumP1})
+**${p2.name_th}** โดดเด่นด้าน **${statNamesTH[p2Best.stat.name] || p2Best.stat.name}** (Base: ${p2Best.base_stat} | Total: ${sumP2})
 
-เมื่อนำตัวเลขทางสถิติมาประมวลผล หากต้องประชันหน้ากันจริงๆ โปเกมอนที่มีศักยภาพโดยรวมเหนือกว่าและมีโอกาสกุมความได้เปรียบคือ... **${winner}**! 
+ด้านความได้เปรียบทางธาตุ...
+${typeAnalysisText}
 
-แต่จงจำไว้นะเจ้าหนู! การต่อสู้จริงยังขึ้นอยู่กับกลยุทธ์และการแพ้ทางธาตุด้วย!
+เมื่อประมวลผลตัวเลขและเรื่องธาตุร่วมกันแล้ว โปเกมอนที่มีโอกาสกุมชัยชนะในแมตช์นี้คือ... **${winnerName}**! 
 
-<voice>อืม จากการประเมินสถิติพื้นฐานแล้ว ${winner} ดูจะมีศักยภาพรวมที่เหนือกว่า และมีโอกาสคว้าชัยชนะไปได้นะ</voice>
+<voice>ยอดเยี่ยมไปเลยสเตตัสและธาตุของ${winnerName}ได้เปรียบแบบสุดๆโอกาสคว้าชัยชนะในแมตช์นี้ช่างน่าตื่นเต้นจริงๆ</voice>
             `;
         }
         
@@ -711,11 +863,10 @@
 
 ด็อกเตอร์เชื่อมั่นเลยว่า หากได้รับการฝึกฝนและดูแลเอาใจใส่จากเทรนเนอร์ที่ดี มันจะสามารถดึงศักยภาพระดับสูงที่ซ่อนอยู่ออกมาได้อย่างมหาศาลเลยล่ะ!
 
-<voice>อืม แฟ้มงานวิจัยกำลังถูกรวบรวมอยู่น่ะ แต่สำหรับ ${name} แล้ว ถือเป็นโปเกมอนที่มีศักยภาพน่าทึ่งมากทีเดียวล่ะ!</voice>
+<voice>มหัศจรรย์มากข้อมูลของ${name}น่าทึ่งสุดๆถ้านำไปฝึกฝนอย่างดีจะต้องแข็งแกร่งขึ้นอย่างไร้ขีดจำกัดแน่นอน</voice>
              `;
         }
 
-        // 🌟 AI Handlers (Professor Oak Persona)
         async function analyzeBattle() {
             if (!compareData[0] || !compareData[1]) {
                 alert("กรุณาเลือกโปเกมอนทั้ง 2 ฝั่งก่อนครับ");
@@ -724,7 +875,7 @@
             const btn = document.getElementById('ai-battle-btn');
             const resultDiv = document.getElementById('ai-battle-result');
             
-            btn.innerHTML = `<i class="ph ph-spinner animate-spin text-lg md:text-xl"></i> กำลังวิเคราะห์ข้อมูล...`;
+            btn.innerHTML = `<i class="ph ph-spinner animate-spin text-lg md:text-xl" aria-hidden="true"></i> กำลังวิเคราะห์ข้อมูล...`;
             btn.disabled = true;
             resultDiv.innerHTML = '';
             
@@ -733,31 +884,26 @@
 
             try {
                 const prompt = `ดร.โอคิโดะ ช่วยวิเคราะห์การต่อสู้ระหว่าง ${p1.name_th} กับ ${p2.name_th} ให้หน่อยครับ!
-ข้อมูลสเตตัส (สั้นๆ):
-${p1.name_th}: HP ${p1.stats[0].base_stat}, Atk ${p1.stats[1].base_stat}, Def ${p1.stats[2].base_stat}, Sp.Atk ${p1.stats[3].base_stat}, Sp.Def ${p1.stats[4].base_stat}, Spd ${p1.stats[5].base_stat} (Total: ${p1.stats.reduce((a,b)=>a+b.base_stat,0)})
-${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${p2.stats[2].base_stat}, Sp.Atk ${p2.stats[3].base_stat}, Sp.Def ${p2.stats[4].base_stat}, Spd ${p2.stats[5].base_stat} (Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)})
+ข้อมูลสเตตัส:
+${p1.name_th}: Total: ${p1.stats.reduce((a,b)=>a+b.base_stat,0)}
+${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
 ธาตุ: ${p1.name_th}=${p1.types.map(t=>t.type.name).join(', ')} VS ${p2.name_th}=${p2.types.map(t=>t.type.name).join(', ')}
-
-สิ่งที่ต้องทำ:
-1. ไม่ต้องสร้างตารางสเตตัส (เพราะมีแสดงในหน้าเว็บแล้ว) ให้วิเคราะห์ความได้เปรียบเสียเปรียบแบบตรงไปตรงมา
-2. ฟันธงผู้ชนะให้ชัดเจน
-3. อย่าลืมแท็ก <voice>คำฟันธงสั้นๆ 1-2 ประโยค</voice> ไว้บรรทัดสุดท้าย (สำคัญมาก เพื่อนำไปพากย์เสียง ห้ามใส่อีโมจิหรือสัญลักษณ์ในแท็กนี้เด็ดขาด และใช้ภาษาพูดที่เป็นธรรมชาติเหมือนศาสตราจารย์พูด)`;
+วิเคราะห์ตรงไปตรงมา ฟันธงผู้ชนะชัดเจน มีแท็ก <voice>คำฟันธงสั้นๆ 1-2 ประโยค</voice> ท้ายสุด (ห้ามมีอีโมจิหรือสัญลักษณ์พิเศษใดๆ ใน voice เพื่อให้เสียงไหลลื่น)`;
                 
                 let response = "";
                 if (!apiKey) {
-                    response = calculateFallbackBattle(p1, p2); // กรณีไม่มี API Key ให้ใช้ Fallback ทันที
+                    response = calculateFallbackBattle(p1, p2);
                 } else {
                     response = await callGeminiAPI(prompt);
                 }
 
-                // สกัดแยกส่วนเสียงพากย์ออกจากข้อความหลัก
                 let voiceText = "";
                 const voiceMatch = response.match(/<voice>(.*?)<\/voice>/i);
                 if (voiceMatch) {
                     voiceText = voiceMatch[1];
-                    response = response.replace(/<voice>.*?<\/voice>/ig, ''); // ลบแท็กออกจากข้อความที่จะแสดงผล
+                    response = response.replace(/<voice>.*?<\/voice>/ig, ''); 
                 } else {
-                    voiceText = response.replace(/[*#|]/g, '').substring(0, 150); // ถ้า AI ไม่ใส่แท็กมา ให้ดึงข้อความแรกๆ ไปพากย์
+                    voiceText = response.replace(/[*#|]/g, '').substring(0, 150); 
                 }
 
                 const htmlResponse = marked.parse(response);
@@ -770,40 +916,34 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
                                 <img src="${PROFESSOR_OAK_IMAGE}" class="w-24 h-24 md:w-36 md:h-36 object-contain animate-float drop-shadow-[0_15px_15px_rgba(0,0,0,0.25)] shrink-0" style="animation-duration: 4s; filter: brightness(1.05);" alt="Professor Oak" />
                                 <h3 class="font-black text-lg md:text-2xl text-slate-800 pb-1 md:pb-3">บทวิเคราะห์จาก ดร.โอคิโดะ</h3>
                             </div>
-                            <!-- Audio Button Container -->
-                            <button id="${btnVoiceId}" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all shadow-md focus:outline-none shrink-0 active:scale-95 sm:mb-2">
-                                <i class="ph ph-spinner animate-spin text-lg"></i> กำลังเตรียมเสียง...
+                            <button id="${btnVoiceId}" aria-label="ฟังเสียงวิเคราะห์จาก ดร.โอคิโดะ" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all shadow-md focus:outline-none shrink-0 active:scale-95 sm:mb-2">
+                                <i class="ph ph-spinner animate-spin text-lg" aria-hidden="true"></i> กำลังเตรียมเสียง...
                             </button>
                         </div>
                         ${htmlResponse}
                     </div>`;
 
-                // เรียกระบบเสียง
                 if (voiceText) {
                     const btnVoice = document.getElementById(btnVoiceId);
-                    if (apiKey) {
-                        const audioUrl = await fetchDrOakVoice(voiceText, btnVoiceId);
-                        if (audioUrl) {
-                            btnVoice.onclick = () => toggleOakAudio(audioUrl, btnVoiceId);
-                            playOakAudio(audioUrl, btnVoiceId); // เล่นอัตโนมัติเมื่อเสียงพร้อม
+                    btnVoice.onclick = () => {
+                        if (apiKey) {
+                            fetchDrOakVoice(voiceText, btnVoiceId).then(audioUrl => {
+                                if (audioUrl) {
+                                    playOakAudio(audioUrl, btnVoiceId);
+                                } else {
+                                    playWebTTS(voiceText, btnVoiceId);
+                                }
+                            });
                         } else {
-                            // Fallback TTS ถ้า API พัง
-                            btnVoice.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ`;
-                            btnVoice.onclick = () => playWebTTS(voiceText, btnVoiceId);
+                            playWebTTS(voiceText, btnVoiceId);
                         }
-                    } else {
-                        // ใช้ Web Speech API แทนเมื่อไม่มี API Key
-                        btnVoice.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ`;
-                        btnVoice.onclick = () => playWebTTS(voiceText, btnVoiceId);
-                        playWebTTS(voiceText, btnVoiceId); // ออโต้เพลย์
-                    }
+                    };
                 } else {
                     document.getElementById(btnVoiceId).style.display = 'none';
                 }
 
             } catch (e) {
                 console.error(e);
-                // Fallback แบบสมบูรณ์เมื่อ Network Error
                 const fallbackResponse = calculateFallbackBattle(p1, p2);
                 let voiceText = "";
                 const voiceMatch = fallbackResponse.match(/<voice>(.*?)<\/voice>/i);
@@ -819,8 +959,8 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
                                 <img src="${PROFESSOR_OAK_IMAGE}" class="w-24 h-24 md:w-36 md:h-36 object-contain animate-float drop-shadow-[0_15px_15px_rgba(0,0,0,0.25)] shrink-0" style="animation-duration: 4s; filter: brightness(1.05);" alt="Professor Oak" />
                                 <h3 class="font-black text-lg md:text-2xl text-slate-800 pb-1 md:pb-3">บทวิเคราะห์จาก ดร.โอคิโดะ</h3>
                             </div>
-                            <button id="${btnVoiceId}" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all shadow-md focus:outline-none shrink-0 active:scale-95 sm:mb-2">
-                                <i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ
+                            <button id="${btnVoiceId}" aria-label="ฟังเสียงวิเคราะห์จาก ดร.โอคิโดะ" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all shadow-md focus:outline-none shrink-0 active:scale-95 sm:mb-2">
+                                <i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะ
                             </button>
                         </div>
                         ${fallbackHtml}
@@ -834,7 +974,7 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
                 }
             }
             
-            btn.innerHTML = `<i class="ph-fill ph-microscope text-xl"></i> ดร.โอคิโดะ วิเคราะห์ข้อมูล`;
+            btn.innerHTML = `<i class="ph-fill ph-microscope text-xl" aria-hidden="true"></i> ดร.โอคิโดะ วิเคราะห์ข้อมูล`;
             btn.disabled = false;
         }
 
@@ -842,12 +982,11 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
             const btn = document.getElementById(`ai-lore-btn-${id}`);
             const resultDiv = document.getElementById(`ai-lore-result-${id}`);
             
-            btn.innerHTML = `<i class="ph ph-spinner animate-spin text-sm"></i> กำลังดึงข้อมูล...`;
+            btn.innerHTML = `<i class="ph ph-spinner animate-spin text-sm" aria-hidden="true"></i> กำลังดึงข้อมูล...`;
             btn.disabled = true;
             
             try {
-                const prompt = `ช่วยเล่าเกร็ดความรู้ นิสัย หรือข้อมูลงานวิจัยที่น่าสนใจเกี่ยวกับ ${name} ให้ฟังหน่อยครับ ดร. ขอสั้นๆ ประมาณ 1 ย่อหน้า (ห้ามใช้เครื่องหมาย ###) 
-และอย่าลืมแท็ก <voice>คำพูดสั้นๆ 1-2 ประโยค</voice> ไว้บรรทัดสุดท้าย (ห้ามใส่อีโมจิในแท็กนี้ และเขียนให้เป็นภาษาพูดที่ไหลลื่นเหมือนด็อกเตอร์ในการ์ตูน)`;
+                const prompt = `ช่วยเล่าเกร็ดความรู้ นิสัย หรือข้อมูลงานวิจัยที่น่าสนใจเกี่ยวกับ ${name} ให้ฟังหน่อยครับ ดร. ขอสั้นๆ 1 ย่อหน้า ห้ามใช้เครื่องหมาย ### และแท็ก <voice>คำพูด 1-2 ประโยค</voice> ไว้ท้ายสุด (เนื้อหาในแท็ก voice ต้องเขียนให้เป็นภาษาพูดที่ไหลลื่น เป็นมืออาชีพ ห้ามมีสัญลักษณ์พิเศษหรือขึ้นบรรทัดใหม่)`;
                 
                 let response = "";
                 if (!apiKey) {
@@ -856,7 +995,6 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
                     response = await callGeminiAPI(prompt);
                 }
 
-                // สกัดแยกส่วนเสียงพากย์
                 let voiceText = "";
                 const voiceMatch = response.match(/<voice>(.*?)<\/voice>/i);
                 if (voiceMatch) {
@@ -876,30 +1014,29 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
                                 <img src="${PROFESSOR_OAK_IMAGE}" class="w-20 h-20 md:w-28 md:h-28 object-contain drop-shadow-lg shrink-0 animate-float" style="animation-duration: 3.5s; filter: brightness(1.05);" alt="Professor Oak" />
                                 <span class="font-black text-emerald-800 text-sm md:text-lg pb-1 md:pb-2">บันทึกของดร.โอคิโดะ:</span>
                             </div>
-                            <button id="${voiceBtnId}" class="hidden flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-full text-[10px] md:text-xs font-bold transition-all shadow-sm focus:outline-none active:scale-95 w-full sm:w-auto justify-center sm:mb-1">
-                                <i class="ph ph-spinner animate-spin text-sm md:text-base"></i> รอเสียงพากย์...
+                            <button id="${voiceBtnId}" aria-label="ฟังเสียงเกร็ดความรู้จาก ดร.โอคิโดะ" class="hidden flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-full text-[10px] md:text-xs font-bold transition-all shadow-sm focus:outline-none active:scale-95 w-full sm:w-auto justify-center sm:mb-1">
+                                <i class="ph ph-spinner animate-spin text-sm md:text-base" aria-hidden="true"></i> รอเสียงพากย์...
                             </button>
                         </div>
                         ${htmlResponse}
                     </div>`;
                 btn.style.display = 'none'; 
 
-                // เรียกระบบเสียง
                 if (voiceText) {
                     const btnVoice = document.getElementById(voiceBtnId);
+                    btnVoice.classList.remove('hidden');
                     if (apiKey) {
                         const audioUrl = await fetchDrOakVoice(voiceText, voiceBtnId);
                         if (audioUrl) {
                             btnVoice.onclick = () => toggleOakAudio(audioUrl, voiceBtnId);
                             playOakAudio(audioUrl, voiceBtnId);
                         } else {
-                            btnVoice.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ`;
+                            btnVoice.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะ`;
                             btnVoice.onclick = () => playWebTTS(voiceText, voiceBtnId);
                         }
                     } else {
-                        btnVoice.innerHTML = `<i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ`;
+                        btnVoice.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะ`;
                         btnVoice.onclick = () => playWebTTS(voiceText, voiceBtnId);
-                        // playWebTTS(voiceText, voiceBtnId); // ไม่ต้อง autoplay ทุกครั้งเผื่อผู้ใช้รำคาญ
                     }
                 } else {
                     document.getElementById(voiceBtnId).style.display = 'none';
@@ -922,8 +1059,8 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
                                 <img src="${PROFESSOR_OAK_IMAGE}" class="w-20 h-20 md:w-28 md:h-28 object-contain drop-shadow-lg shrink-0 animate-float" style="animation-duration: 3.5s; filter: brightness(1.05);" alt="Professor Oak" />
                                 <span class="font-black text-emerald-800 text-sm md:text-lg pb-1 md:pb-2">บันทึกของดร.โอคิโดะ:</span>
                             </div>
-                            <button id="${voiceBtnId}" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-full text-[10px] md:text-xs font-bold transition-all shadow-sm focus:outline-none active:scale-95 w-full sm:w-auto justify-center sm:mb-1">
-                                <i class="ph-fill ph-play-circle text-lg"></i> ฟังเสียงดร.โอคิโดะ
+                            <button id="${voiceBtnId}" aria-label="ฟังเสียงเกร็ดความรู้จาก ดร.โอคิโดะ" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-full text-[10px] md:text-xs font-bold transition-all shadow-sm focus:outline-none active:scale-95 w-full sm:w-auto justify-center sm:mb-1">
+                                <i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะ
                             </button>
                         </div>
                         ${fallbackHtml}
@@ -938,9 +1075,6 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
                 }
             }
         }
-
-        // ---------------------------------
-        // ... (Data processing & Render Logic remain unchanged below) ...
 
         let allPokemon = [];
         let filteredList = [];
@@ -1108,7 +1242,10 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
 
         function switchView(viewName) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            if (currentAudio) { currentAudio.pause(); } // หยุดเสียงเมื่อเปลี่ยนหน้า
+            if (currentAudio) { currentAudio.pause(); } 
+            if ('speechSynthesis' in window && window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+            }
             
             ['home', 'detail', 'compare', 'favorites'].forEach(v => {
                 const el = document.getElementById(`view-${v}`);
@@ -1118,7 +1255,7 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
                 const navLine = document.getElementById(`nav-line-${v}`);
                 if (navBtn && navLine) {
                     navBtn.classList.remove('text-red-500');
-                    navBtn.classList.add('text-slate-500');
+                    navBtn.classList.add('text-slate-600');
                     navLine.classList.replace('w-full', 'w-0');
                 }
             });
@@ -1131,7 +1268,7 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
                 const activeLine = document.getElementById(`nav-line-${viewName}`);
                 if (activeBtn && activeLine) {
                     activeBtn.classList.add('text-red-500');
-                    activeBtn.classList.remove('text-slate-500');
+                    activeBtn.classList.remove('text-slate-600');
                     activeLine.classList.replace('w-0', 'w-full');
                 }
             }
@@ -1144,7 +1281,7 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
         function renderRegionFilters() {
             const container = document.getElementById('region-filters');
             container.innerHTML = REGIONS.map((reg, index) => `
-                <button onclick="selectRegion(${index})" class="px-4 md:px-6 py-1.5 md:py-2.5 rounded-full whitespace-nowrap font-bold text-[10px] md:text-sm transition-transform active:scale-95 border ${selectedRegionIndex === index ? 'bg-slate-800 text-white shadow-md border-slate-800 -translate-y-0.5' : 'bg-white/80 backdrop-blur-sm text-slate-500 hover:text-slate-800 border-slate-200/60 hover:border-slate-300 hover:bg-white'}">
+                <button aria-label="กรองภูมิภาค ${reg.name}" onclick="selectRegion(${index})" class="px-4 md:px-6 py-1.5 md:py-2.5 rounded-full whitespace-nowrap font-bold text-[10px] md:text-sm transition-transform active:scale-95 border ${selectedRegionIndex === index ? 'bg-slate-800 text-white shadow-md border-slate-800 -translate-y-0.5' : 'bg-white/80 backdrop-blur-sm text-slate-600 hover:text-slate-800 border-slate-200/60 hover:border-slate-300 hover:bg-white'} focus:outline-none">
                     ${reg.name}
                 </button>
             `).join('');
@@ -1183,7 +1320,13 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
             }
             
             filteredList = list;
-            document.getElementById('total-count').innerText = filteredList.length;
+            
+            // 🌟 แก้ไขปัญหาแสดง 20 รูปแบบในตอนเริ่มต้น ให้ค้างไว้ที่ 1025 จนกว่าข้อมูลจริงจะโหลดเสร็จ
+            if (allPokemon.length === INITIAL_POKEMON.length && !searchQuery && selectedRegionIndex === 0) {
+                document.getElementById('total-count').innerText = "1025";
+            } else {
+                document.getElementById('total-count').innerText = filteredList.length;
+            }
             
             if (typeof cardObserver !== 'undefined') {
                 cardObserver.disconnect();
@@ -1219,25 +1362,26 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
                 const heartClass = isFav ? 'ph-fill text-red-500' : 'ph text-slate-400';
 
                 div.innerHTML = `
-                    <div id="card-${p.id}" data-id="${p.id}" class="card-bg-wrap card-background h-full group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-7 shadow-sm hover:shadow-xl cursor-pointer border flex flex-col items-center relative overflow-hidden backdrop-blur-md bg-white/40 border-white/60 transition-all duration-200">
+                    <div id="card-${p.id}" data-id="${p.id}" role="button" tabindex="0" aria-label="ดูรายละเอียด ${p.name_th}" onkeydown="if(event.key==='Enter'||event.key===' ') openDetail(${p.id})" class="card-bg-wrap card-background h-full group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-6 shadow-sm hover:shadow-xl cursor-pointer border flex flex-col relative overflow-hidden backdrop-blur-md bg-white/60 border-white/80 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-slate-300">
                         
-                        <button onclick="toggleFavorite(${p.id}, event)" class="absolute top-4 left-4 md:top-6 md:left-6 z-20 hover:scale-125 transition-transform focus:outline-none drop-shadow-md group/btn">
-                            <i class="${heartClass} ph-heart fav-icon-${p.id} text-2xl md:text-3xl transition-colors group-hover/btn:text-red-400"></i>
+                        <button type="button" onclick="toggleFavorite(${p.id}, event); event.stopPropagation();" aria-label="เพิ่ม/ลด ${p.name_th} ในรายการโปรด" title="เพิ่ม/ลบ รายการโปรด" class="absolute top-4 left-4 md:top-5 md:left-5 z-20 hover:scale-125 transition-transform focus:outline-none drop-shadow-md group/btn">
+                            <i class="${heartClass} ph-heart fav-icon-${p.id} text-2xl md:text-3xl transition-colors group-hover/btn:text-red-500" aria-hidden="true"></i>
                         </button>
 
-                        <div class="absolute top-3 right-4 md:top-4 md:right-5 font-black text-lg md:text-3xl italic select-none transition-opacity duration-150 opacity-70 group-hover:opacity-100 text-slate-700">
+                        <div class="absolute top-4 right-4 md:top-5 md:right-5 font-black text-lg md:text-3xl italic select-none transition-colors duration-200 text-slate-500 group-hover:text-slate-800">
                             #${String(p.id).padStart(3, '0')}
                         </div>
-                        <div class="relative w-full aspect-square max-w-[100px] md:max-w-[140px] my-4 md:my-6 flex items-center justify-center preserve-3d mx-auto" style="transform: translateZ(40px);">
-                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-white/80 rounded-full group-hover:scale-105 transition-transform duration-200 shadow-inner border border-white"></div>
-                            <img src="${getImageUrl(p.id, 'grid')}" class="relative z-10 w-full h-full object-contain img-3d-grid transition-transform duration-200" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="async" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
+                        
+                        <div class="flex-1 flex items-center justify-center w-full relative preserve-3d mt-8 mb-4 md:mt-10 md:mb-6" style="transform: translateZ(40px);">
+                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110px] h-[110px] md:w-[150px] md:h-[150px] bg-white/80 rounded-full group-hover:scale-105 transition-transform duration-200 shadow-inner border border-white"></div>
+                            <img src="${getImageUrl(p.id, 'grid')}" class="relative z-10 w-[90px] h-[90px] md:w-[130px] md:h-[130px] object-contain img-3d-grid transition-transform duration-200" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="async" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
                         </div>
-                        <div class="text-center w-full relative z-10 flex flex-col items-center mt-auto" style="transform: translateZ(10px);">
-                            <h2 class="text-[11px] sm:text-xs md:text-lg font-bold md:font-black text-slate-800 tracking-tight drop-shadow-sm group-hover:text-slate-900 mb-2 md:mb-3 truncate w-full px-1 leading-normal pt-1 pb-2">
+                        
+                        <div class="text-center w-full relative z-10 flex flex-col items-center pb-2" style="transform: translateZ(10px);">
+                            <h2 class="text-sm md:text-xl font-bold md:font-black text-slate-800 tracking-tight drop-shadow-sm group-hover:text-slate-900 mb-1.5 md:mb-2 truncate w-full px-1 leading-normal">
                                 ${p.name_th}
                             </h2>
-                            <div id="types-${p.id}" class="flex justify-center gap-1 md:gap-1.5 h-6 md:h-8 items-center w-full types-container">
-                            </div>
+                            <div id="types-${p.id}" class="flex justify-center gap-1 md:gap-1.5 h-6 md:h-8 items-center w-full types-container"></div>
                         </div>
                     </div>
                 `;
@@ -1265,21 +1409,23 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
 
                 return `
                 <div id="fav-wrapper-${p.id}" class="preserve-3d relative">
-                    <div id="fav-card-${p.id}" data-id="${p.id}" onclick="openDetail(${p.id})" class="card-bg-wrap card-background h-full group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-7 shadow-sm hover:shadow-2xl cursor-pointer border flex flex-col items-center relative overflow-hidden backdrop-blur-md bg-white/40 border-white/60 transition-all duration-200">
+                    <div id="fav-card-${p.id}" data-id="${p.id}" role="button" tabindex="0" aria-label="ดูรายละเอียด ${p.name_th}" onkeydown="if(event.key==='Enter'||event.key===' ') openDetail(${p.id})" onclick="openDetail(${p.id})" class="card-bg-wrap card-background h-full group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-6 shadow-sm hover:shadow-2xl cursor-pointer border flex flex-col relative overflow-hidden backdrop-blur-md bg-white/60 border-white/80 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-slate-300">
                         
-                        <button onclick="toggleFavorite(${p.id}, event)" class="absolute top-4 left-4 md:top-6 md:left-6 z-20 hover:scale-125 transition-transform focus:outline-none drop-shadow-md group/btn">
-                            <i class="${heartClass} ph-heart fav-icon-${p.id} text-2xl md:text-3xl transition-colors group-hover/btn:text-red-400"></i>
+                        <button type="button" onclick="toggleFavorite(${p.id}, event); event.stopPropagation();" aria-label="ยกเลิก ${p.name_th} จากรายการโปรด" title="เพิ่ม/ลบ รายการโปรด" class="absolute top-4 left-4 md:top-5 md:left-5 z-20 hover:scale-125 transition-transform focus:outline-none drop-shadow-md group/btn">
+                            <i class="${heartClass} ph-heart fav-icon-${p.id} text-2xl md:text-3xl transition-colors group-hover/btn:text-red-500" aria-hidden="true"></i>
                         </button>
 
-                        <div class="absolute top-3 right-4 md:top-4 md:right-5 font-black text-lg md:text-3xl italic select-none transition-opacity duration-150 opacity-70 group-hover:opacity-100 text-slate-700">
+                        <div class="absolute top-4 right-4 md:top-5 md:right-5 font-black text-lg md:text-3xl italic select-none transition-colors duration-200 text-slate-500 group-hover:text-slate-800">
                             #${String(p.id).padStart(3, '0')}
                         </div>
-                        <div class="relative w-full aspect-square max-w-[100px] md:max-w-[140px] my-4 md:my-6 flex items-center justify-center preserve-3d mx-auto" style="transform: translateZ(40px);">
-                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-white/80 rounded-full group-hover:scale-105 transition-transform duration-200 shadow-inner border border-white"></div>
-                            <img src="${getImageUrl(p.id, 'grid')}" class="relative z-10 w-full h-full object-contain img-3d-grid transition-transform duration-200" loading="lazy" decoding="async" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
+                        
+                        <div class="flex-1 flex items-center justify-center w-full relative preserve-3d mt-8 mb-4 md:mt-10 md:mb-6" style="transform: translateZ(40px);">
+                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110px] h-[110px] md:w-[150px] md:h-[150px] bg-white/80 rounded-full group-hover:scale-105 transition-transform duration-200 shadow-inner border border-white"></div>
+                            <img src="${getImageUrl(p.id, 'grid')}" class="relative z-10 w-[90px] h-[90px] md:w-[130px] md:h-[130px] object-contain img-3d-grid transition-transform duration-200" loading="lazy" decoding="async" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
                         </div>
-                        <div class="text-center w-full relative z-10 flex flex-col items-center mt-auto" style="transform: translateZ(10px);">
-                            <h2 class="text-[11px] sm:text-xs md:text-lg font-bold md:font-black text-slate-800 tracking-tight drop-shadow-sm group-hover:text-slate-900 mb-2 md:mb-3 truncate w-full px-1 leading-normal pt-1 pb-2">
+                        
+                        <div class="text-center w-full relative z-10 flex flex-col items-center pb-2" style="transform: translateZ(10px);">
+                            <h2 class="text-sm md:text-xl font-bold md:font-black text-slate-800 tracking-tight drop-shadow-sm group-hover:text-slate-900 mb-1.5 md:mb-2 truncate w-full px-1 leading-normal">
                                 ${p.name_th}
                             </h2>
                             <div class="flex justify-center gap-1 md:gap-1.5 h-6 md:h-8 items-center w-full types-container"></div>
@@ -1437,7 +1583,7 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
 
             } catch (error) {
                 console.error(error);
-                viewDetail.innerHTML = `<div class="text-center py-20"><p class="text-red-500 font-bold">เกิดข้อผิดพลาดในการโหลดข้อมูล</p><button onclick="switchView('home')" class="mt-4 px-6 py-2 bg-slate-200 rounded-full font-bold text-sm md:text-base">กลับ</button></div>`;
+                viewDetail.innerHTML = `<div class="text-center py-20"><p class="text-red-500 font-bold">เกิดข้อผิดพลาดในการโหลดข้อมูล</p><button aria-label="กลับสู่หน้าหลัก" onclick="switchView('home')" class="mt-4 px-6 py-2 bg-slate-200 rounded-full font-bold text-sm md:text-base focus:outline-none">กลับ</button></div>`;
             }
         }
 
@@ -1449,14 +1595,14 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
             let html = `
                 <div class="flex items-center gap-2 md:gap-4 shrink-0 preserve-3d">
                     <div id="evo-wrapper-${id}" class="preserve-3d relative">
-                        <div id="evo-card-${id}" onclick="openDetail(${id})" class="card-bg-wrap flex flex-col items-center justify-center cursor-pointer group bg-white/60 backdrop-blur-md p-3 md:p-6 rounded-[1rem] md:rounded-[2rem] hover:bg-white hover:shadow-xl transition-all border-2 border-white/50">
+                        <button type="button" id="evo-card-${id}" aria-label="ดูข้อมูลของ ${nameTh}" onclick="openDetail(${id})" class="card-bg-wrap flex flex-col items-center justify-center cursor-pointer group bg-white/60 backdrop-blur-md p-3 md:p-6 rounded-[1rem] md:rounded-[2rem] hover:bg-white hover:shadow-xl transition-all border-2 border-white/50 focus:outline-none focus:ring-4 focus:ring-slate-200">
                             <div class="relative w-10 h-10 md:w-20 md:h-20 mb-2 md:mb-4 flex items-center justify-center preserve-3d" style="transform: translateZ(30px);">
                                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 md:w-24 md:h-24 bg-slate-100/60 rounded-full scale-100 group-hover:scale-110 transition-transform"></div>
                                 <img src="${getImageUrl(id, 'grid')}" class="w-full h-full object-contain relative z-10 group-hover:scale-110 transition-transform img-3d-grid" alt="${nameTh}" onerror="handleImgErr(this, ${id}, 'grid')" />
                             </div>
                             <span class="font-bold md:font-black text-slate-800 text-[9px] md:text-sm text-center leading-normal line-clamp-2 w-full px-1 pt-1 pb-2" style="transform: translateZ(10px);">${nameTh}</span>
-                            <span class="text-[7px] md:text-[10px] font-bold text-slate-500 mt-1 uppercase tracking-widest">#${String(id).padStart(3, '0')}</span>
-                        </div>
+                            <span class="text-[7px] md:text-[10px] font-bold text-slate-600 mt-1 uppercase tracking-widest">#${String(id).padStart(3, '0')}</span>
+                        </button>
                     </div>
             `;
             
@@ -1504,9 +1650,13 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
             const isFav = favorites.includes(pokemonDetail.id);
             const heartClass = isFav ? 'ph-fill text-red-500' : 'ph text-slate-400';
 
+            const typesText = pokemonDetail.types.map(t => TYPE_NAMES_TH[t.type.name] || t.type.name).join('และ');
+            const safeTranslatedEntry = translatedEntry.replace(/['"\n\r]/g, ' '); 
+            const rotomText = `${pokemonDetail.name_th} เป็นโปเกมอน ประเภท${typesText} ${safeTranslatedEntry}`;
+
             let html = `
                 <nav class="max-w-6xl mx-auto p-4 md:p-10 flex justify-between items-center mb-2 md:mb-0">
-                    <button onclick="switchView('home')" class="flex items-center gap-1.5 md:gap-3 text-slate-500 hover:text-slate-800 font-bold text-[10px] md:text-sm transition-colors group bg-white/50 px-4 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-white">
+                    <button type="button" aria-label="กลับไปหน้ารายการ" onclick="switchView('home')" class="flex items-center gap-1.5 md:gap-3 text-slate-600 hover:text-slate-800 font-bold text-[10px] md:text-sm transition-colors group bg-white/50 px-4 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-white focus:outline-none focus:ring-2 focus:ring-slate-300">
                         <i class="ph ph-arrow-left text-sm md:text-lg transition-transform group-hover:-translate-x-2" aria-hidden="true"></i> กลับไปหน้ารายการ
                     </button>
                 </nav>
@@ -1525,7 +1675,7 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
                                 #${pokemonDetail.id}
                             </div>
                             
-                            <div class="relative z-20 w-48 h-48 sm:w-[250px] sm:h-[250px] md:w-[450px] md:h-[450px] mx-auto preserve-3d flex items-center justify-center" style="transform: translateZ(60px);" id="detail-img-wrapper">
+                            <div class="relative z-20 w-48 h-48 sm:w-[250px] sm:h-[250px] md:w-[400px] md:h-[400px] mx-auto preserve-3d flex items-center justify-center drop-shadow-2xl" style="transform: translateZ(60px);" id="detail-img-wrapper">
                                 <img id="detail-img" src="${getImageUrl(pokemonDetail.id, 'full')}" class="max-w-full max-h-full object-contain img-3d-detail animate-float" alt="${pokemonDetail.name_th}" onerror="handleImgErr(this, ${pokemonDetail.id}, 'full')" />
                             </div>
                         </div>
@@ -1538,16 +1688,16 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
                                     #${String(pokemonDetail.id).padStart(3, '0')}
                                 </div>
                                 <div class="flex items-center gap-4">
-                                    ${cryUrl ? `<button onclick="playCry('${cryUrl}')" class="hover:scale-110 text-blue-500 transition-transform focus:outline-none drop-shadow-md" title="ฟังเสียงร้อง"><i class="ph-fill ph-speaker-high text-3xl md:text-4xl"></i></button>` : ''}
+                                    ${cryUrl ? `<button type="button" aria-label="ฟังเสียงร้องของ ${pokemonDetail.name_th}" onclick="playCry('${cryUrl}')" class="hover:scale-110 text-blue-500 transition-transform focus:outline-none drop-shadow-md" title="ฟังเสียงร้อง"><i class="ph-fill ph-speaker-high text-3xl md:text-4xl" aria-hidden="true"></i></button>` : ''}
                                     
-                                    <button onclick="toggleFavorite(${pokemonDetail.id})" class="hover:scale-125 transition-transform focus:outline-none drop-shadow-md group/btn" title="เพิ่ม/ลบ รายการโปรด">
-                                        <i class="${heartClass} ph-heart fav-icon-${pokemonDetail.id} text-3xl md:text-4xl transition-colors group-hover/btn:text-red-400"></i>
+                                    <button type="button" aria-label="${isFav ? 'ยกเลิก' : 'เพิ่ม'}รายการโปรด" onclick="toggleFavorite(${pokemonDetail.id})" class="hover:scale-125 transition-transform focus:outline-none drop-shadow-md group/btn" title="เพิ่ม/ลบ รายการโปรด">
+                                        <i class="${heartClass} ph-heart fav-icon-${pokemonDetail.id} text-3xl md:text-4xl transition-colors group-hover/btn:text-red-400" aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </div>
                             
                             <h2 class="text-3xl sm:text-5xl md:text-7xl font-black text-slate-800 tracking-tighter mb-1.5 md:mb-4 leading-normal drop-shadow-sm w-full py-2">${pokemonDetail.name_th}</h2>
-                            <p class="text-xs sm:text-sm md:text-xl text-slate-500 font-bold italic mb-3 md:mb-6 uppercase tracking-widest leading-normal">${formatName(pokemonDetail.name)}</p>
+                            <p class="text-xs sm:text-sm md:text-xl text-slate-600 font-bold italic mb-3 md:mb-6 uppercase tracking-widest leading-normal">${formatName(pokemonDetail.name)}</p>
                             <div class="flex flex-wrap gap-1.5 md:gap-3">
                                 ${pokemonDetail.types.map(t => {
                                     const textColor = TYPE_TEXT_COLORS[t.type.name] || 'text-white';
@@ -1563,15 +1713,22 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
 
                         <div class="bg-white/80 backdrop-blur-md p-4 md:p-8 rounded-xl md:rounded-3xl border border-white shadow-lg relative overflow-hidden">
                             <div class="absolute top-2 left-3 md:left-4 text-4xl md:text-6xl opacity-10 font-serif text-slate-800" aria-hidden="true">"</div>
-                            <h3 class="text-xs md:text-lg font-black text-slate-700 mb-2 md:mb-4 flex items-center gap-2 md:gap-3 relative z-10">
-                                <i class="ph ph-info text-blue-500 text-base md:text-xl" aria-hidden="true"></i> ลักษณะและพฤติกรรม
-                            </h3>
+                            
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 md:mb-4 relative z-10 gap-3">
+                                <h3 class="text-xs md:text-lg font-black text-slate-700 flex items-center gap-2 md:gap-3">
+                                    <i class="ph ph-info text-blue-500 text-base md:text-xl" aria-hidden="true"></i> ลักษณะและพฤติกรรม
+                                </h3>
+                                <button type="button" id="rotom-btn-${pokemonDetail.id}" aria-label="ฟังเสียงสมาร์ทโรตอมอ่านข้อมูล" onclick="playRotomVoice('${rotomText}', 'rotom-btn-${pokemonDetail.id}')" class="flex items-center gap-1.5 bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full text-[10px] md:text-xs font-bold transition-all shadow-sm focus:outline-none active:scale-95 w-fit focus:ring-4 focus:ring-red-400">
+                                    <i class="ph-fill ph-play-circle text-sm md:text-lg" aria-hidden="true"></i> สมาร์ทโรตอม
+                                </button>
+                            </div>
+                            
                             <p id="pokedex-entry-text" data-pid="${pokemonDetail.id}" class="text-slate-700 font-medium leading-relaxed text-[11px] sm:text-sm md:text-lg relative z-10 whitespace-pre-line pt-1 pb-1">${translatedEntry}</p>
                             
                             <!-- 🌟 AI Lore Analyzer Section -->
                             <div class="mt-5 pt-5 border-t border-slate-200/60 relative z-10">
-                                <button id="ai-lore-btn-${pokemonDetail.id}" onclick="generateAILore(${pokemonDetail.id}, '${pokemonDetail.name_th}')" class="flex items-center gap-2 text-[10px] md:text-sm font-bold text-emerald-600 bg-emerald-100 hover:bg-emerald-200 px-4 py-2 rounded-full transition-colors focus:outline-none">
-                                    <i class="ph-fill ph-microscope text-base"></i> ดร.โอคิโดะ เล่าเกร็ดความรู้
+                                <button type="button" aria-label="กดเพื่อฟังเกร็ดความรู้จาก ดร.โอคิโดะ" id="ai-lore-btn-${pokemonDetail.id}" onclick="generateAILore(${pokemonDetail.id}, '${pokemonDetail.name_th}')" class="flex items-center gap-2 text-[10px] md:text-sm font-bold text-emerald-600 bg-emerald-100 hover:bg-emerald-200 px-4 py-2 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                                    <i class="ph-fill ph-microscope text-base" aria-hidden="true"></i> ดร.โอคิโดะ เล่าเกร็ดความรู้
                                 </button>
                                 <div id="ai-lore-result-${pokemonDetail.id}"></div>
                             </div>
@@ -1579,19 +1736,19 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
 
                         <div class="grid grid-cols-2 gap-2 md:gap-6">
                             <div class="bg-white/60 backdrop-blur-md p-2 md:p-6 rounded-[1rem] md:rounded-[2rem] border border-white shadow-md flex flex-col justify-center items-center text-center">
-                                <p class="text-[8px] md:text-xs font-bold text-slate-500 uppercase tracking-widest mb-1 md:mb-2">ส่วนสูง (Height)</p>
-                                <p class="font-black text-base md:text-2xl text-slate-800">${pokemonDetail.height / 10} <span class="text-[9px] md:text-sm text-slate-500">m</span></p>
+                                <p class="text-[8px] md:text-xs font-bold text-slate-600 uppercase tracking-widest mb-1 md:mb-2">ส่วนสูง (Height)</p>
+                                <p class="font-black text-base md:text-2xl text-slate-800">${pokemonDetail.height / 10} <span class="text-[9px] md:text-sm text-slate-600">m</span></p>
                             </div>
                             <div class="bg-white/60 backdrop-blur-md p-2 md:p-6 rounded-[1rem] md:rounded-[2rem] border border-white shadow-md flex flex-col justify-center items-center text-center">
-                                <p class="text-[8px] md:text-xs font-bold text-slate-500 uppercase tracking-widest mb-1 md:mb-2">น้ำหนัก (Weight)</p>
-                                <p class="font-black text-base md:text-2xl text-slate-800">${pokemonDetail.weight / 10} <span class="text-[9px] md:text-sm text-slate-500">kg</span></p>
+                                <p class="text-[8px] md:text-xs font-bold text-slate-600 uppercase tracking-widest mb-1 md:mb-2">น้ำหนัก (Weight)</p>
+                                <p class="font-black text-base md:text-2xl text-slate-800">${pokemonDetail.weight / 10} <span class="text-[9px] md:text-sm text-slate-600">kg</span></p>
                             </div>
                             <div class="bg-white/60 backdrop-blur-md p-2 md:p-6 rounded-[1rem] md:rounded-[2rem] border border-white shadow-md flex flex-col justify-center items-center text-center">
-                                <p class="text-[8px] md:text-xs font-bold text-slate-500 uppercase tracking-widest mb-1 md:mb-2">สายพันธุ์ (Category)</p>
+                                <p class="text-[8px] md:text-xs font-bold text-slate-600 uppercase tracking-widest mb-1 md:mb-2">สายพันธุ์ (Category)</p>
                                 <p class="font-black text-[11px] md:text-xl text-slate-800 leading-normal pb-1">${category}</p>
                             </div>
                             <div class="bg-white/60 backdrop-blur-md p-2 md:p-6 rounded-[1rem] md:rounded-[2rem] border border-white shadow-md flex flex-col justify-center items-center text-center">
-                                <p class="text-[8px] md:text-xs font-bold text-slate-500 uppercase tracking-widest mb-1 md:mb-2">ถิ่นที่อยู่ (Habitat)</p>
+                                <p class="text-[8px] md:text-xs font-bold text-slate-600 uppercase tracking-widest mb-1 md:mb-2">ถิ่นที่อยู่ (Habitat)</p>
                                 <p class="font-black text-[11px] md:text-xl text-slate-800 leading-normal pb-1">${habitat}</p>
                             </div>
                         </div>
@@ -1603,7 +1760,7 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
                                     ค่าพลังพื้นฐาน (Stats)
                                 </h3>
                                 <div class="text-right">
-                                    <p class="text-[7px] md:text-xs font-bold text-slate-500 uppercase tracking-widest mb-0.5 md:mb-1">Total</p>
+                                    <p class="text-[7px] md:text-xs font-bold text-slate-600 uppercase tracking-widest mb-0.5 md:mb-1">Total</p>
                                     <p class="text-base md:text-3xl font-black leading-none" style="color: ${themeColor}">${totalStats}</p>
                                 </div>
                             </div>
@@ -1614,7 +1771,7 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
                                     const statName = STAT_NAMES_TH[s.stat.name] || s.stat.name;
                                     return `
                                         <div class="flex items-center gap-1.5 md:gap-4 mb-1 md:mb-4 w-full">
-                                            <span class="text-[8px] md:text-xs font-bold text-slate-500 uppercase tracking-wider w-10 md:w-20 text-right shrink-0 leading-normal">${statName}</span>
+                                            <span class="text-[8px] md:text-xs font-bold text-slate-600 uppercase tracking-wider w-10 md:w-20 text-right shrink-0 leading-normal">${statName}</span>
                                             <span class="text-[9px] md:text-sm font-black text-slate-700 w-5 md:w-8 text-right shrink-0">${s.base_stat}</span>
                                             <div class="flex-1 bg-slate-100/60 rounded-full h-1 md:h-2.5 overflow-hidden shadow-inner min-w-0">
                                                 <div class="h-full rounded-full transition-all duration-300 ease-out relative" 
@@ -1629,7 +1786,7 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
 
                             <div class="mt-4 md:mt-10 pt-4 md:pt-10 border-t border-slate-200/50 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-10">
                                 <div>
-                                    <h3 class="text-[9px] md:text-sm font-black text-slate-500 mb-2 md:mb-5 uppercase tracking-widest flex items-center gap-1.5 md:gap-2"><i class="ph ph-star text-yellow-500 text-sm md:text-xl" aria-hidden="true"></i> ความสามารถ</h3>
+                                    <h3 class="text-[9px] md:text-sm font-black text-slate-600 mb-2 md:mb-5 uppercase tracking-widest flex items-center gap-1.5 md:gap-2"><i class="ph ph-star text-yellow-500 text-sm md:text-xl" aria-hidden="true"></i> ความสามารถ</h3>
                                     <div class="flex flex-wrap gap-1.5 md:gap-3">
                                         ${pokemonDetail.abilities.map(a => `
                                             <span class="px-2 py-1 md:px-5 md:py-2 bg-white/90 rounded-md md:rounded-xl text-[8px] md:text-xs font-black text-slate-600 border border-white shadow-sm hover:text-blue-500 transition-colors cursor-default uppercase tracking-wider leading-normal">
@@ -1639,7 +1796,7 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
                                     </div>
                                 </div>
                                 <div>
-                                    <h3 class="text-[9px] md:text-sm font-black text-slate-500 mb-2 md:mb-5 uppercase tracking-widest flex items-center gap-1.5 md:gap-2"><i class="ph ph-sword text-red-500 text-sm md:text-xl" aria-hidden="true"></i> แพ้ทาง (Weakness)</h3>
+                                    <h3 class="text-[9px] md:text-sm font-black text-slate-600 mb-2 md:mb-5 uppercase tracking-widest flex items-center gap-1.5 md:gap-2"><i class="ph ph-sword text-red-500 text-sm md:text-xl" aria-hidden="true"></i> แพ้ทาง (Weakness)</h3>
                                     <div class="flex flex-wrap gap-1.5 md:gap-3">
                                         ${weaknesses.length > 0 ? weaknesses.map(w => {
                                             const textColor = TYPE_TEXT_COLORS[w.type] || 'text-white';
@@ -1649,7 +1806,7 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
                                                 <i class="${TYPE_ICONS[w.type] || 'ph-fill ph-circle'} text-[8px] md:text-[14px]" aria-hidden="true"></i>
                                                 <span class="leading-normal pb-0.5">${TYPE_NAMES_TH[w.type] || w.type}</span> <span class="${bgColor} px-1.5 py-0.5 rounded-md text-[7px] md:text-[10px] shadow-sm">${w.multiplier}x</span>
                                             </span>
-                                        `}).join('') : '<span class="text-[9px] md:text-xs text-slate-500 font-medium leading-normal">ไม่มีจุดอ่อน</span>'}
+                                        `}).join('') : '<span class="text-[9px] md:text-xs text-slate-600 font-medium leading-normal">ไม่มีจุดอ่อน</span>'}
                                     </div>
                                 </div>
                             </div>
@@ -1666,14 +1823,14 @@ ${p2.name_th}: HP ${p2.stats[0].base_stat}, Atk ${p2.stats[1].base_stat}, Def ${
                                         const isCurrent = formId == pokemonDetail.id;
                                         return `
                                             <div id="form-wrapper-${formId}" class="preserve-3d relative">
-                                                <div onclick="${!isCurrent ? `openDetail(${formId})` : ''}" class="card-bg-wrap flex flex-col items-center p-2 md:p-6 rounded-xl md:rounded-[2rem] transition-transform w-20 md:w-36 shadow-sm ${isCurrent ? 'cursor-default bg-white border-red-400 shadow-xl scale-105 border-2' : 'cursor-pointer bg-white/70 border-white hover:bg-white hover:shadow-xl hover:-translate-y-1 md:hover:-translate-y-2 border-2'}">
+                                                <button type="button" aria-label="ดูข้อมูลของฟอร์ม ${getThaiName(v.pokemon.name)}" onclick="${!isCurrent ? `openDetail(${formId})` : ''}" class="card-bg-wrap flex flex-col items-center p-2 md:p-6 rounded-xl md:rounded-[2rem] transition-transform w-20 md:w-36 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300 ${isCurrent ? 'cursor-default bg-white border-red-400 shadow-xl scale-105 border-2' : 'cursor-pointer bg-white/70 border-white hover:bg-white hover:shadow-xl hover:-translate-y-1 md:hover:-translate-y-2 border-2'}">
                                                     <div class="relative w-10 h-10 md:w-20 md:h-20 mb-1.5 md:mb-4 preserve-3d" style="transform: translateZ(30px);">
                                                         <img src="${getImageUrl(formId, 'grid')}" class="w-full h-full object-contain img-3d-grid transition-transform duration-200" alt="${getThaiName(v.pokemon.name)}" onerror="handleImgErr(this, ${formId}, 'grid')" />
                                                     </div>
                                                     <span class="font-bold text-slate-800 text-[8px] md:text-xs text-center leading-normal line-clamp-2 w-full px-1 pb-1" style="transform: translateZ(10px);">
                                                         ${getThaiName(v.pokemon.name)}
                                                     </span>
-                                                </div>
+                                                </button>
                                             </div>
                                         `;
                                     }).join('')}
@@ -1730,13 +1887,15 @@ function buildDropdownHTML(index, currentId) {
     const selected = allPokemon.find(p => p.id === currentId);
     return `
         <div class="relative w-full mb-1.5 md:mb-6 compare-dropdown" id="dropdown-${index}">
-            <button onclick="toggleCompareDropdown(${index})" class="w-full bg-white/80 backdrop-blur-md p-1.5 sm:p-2 md:p-5 rounded-md sm:rounded-lg md:rounded-2xl flex justify-between items-center border border-white hover:border-red-400 transition-colors font-bold text-slate-700 shadow-sm md:shadow-md group text-[8px] sm:text-[10px] md:text-base min-w-0">
+            <button type="button" aria-label="เลือกโปเกมอนสำหรับการเปรียบเทียบ" aria-haspopup="listbox" onclick="toggleCompareDropdown(${index})" class="w-full bg-white/80 backdrop-blur-md p-1.5 sm:p-2 md:p-5 rounded-md sm:rounded-lg md:rounded-2xl flex justify-between items-center border border-white hover:border-red-400 transition-colors font-bold text-slate-700 shadow-sm md:shadow-md group text-[8px] sm:text-[10px] md:text-base min-w-0 focus:outline-none focus:ring-2 focus:ring-red-400">
                 <span class="truncate pr-1 flex-1 text-left leading-normal py-0.5 md:py-1" id="dropdown-text-${index}">${selected ? selected.name_th : 'เลือก...'}</span>
                 <i class="ph ph-caret-right text-slate-400 group-hover:text-red-400 transition-transform text-[10px] md:text-base shrink-0" id="dropdown-icon-${index}" aria-hidden="true"></i>
             </button>
-            <div id="dropdown-menu-${index}" class="hidden absolute z-50 mt-1 md:mt-2 w-full bg-white/95 backdrop-blur-xl rounded-lg md:rounded-2xl shadow-2xl border border-white overflow-hidden">
-                <div class="p-1.5 md:p-4 border-b bg-slate-50/50">
-                    <input type="text" onkeyup="filterCompareDropdown(${index}, this.value)" class="w-full p-1.5 md:p-3 bg-white rounded-md md:rounded-xl outline-none text-[8px] md:text-sm font-medium border border-slate-200 focus:border-red-300 transition-colors shadow-inner leading-normal" placeholder="ค้นหาชื่อ..." aria-label="ค้นหาโปเกมอนเปรียบเทียบ">
+            <div id="dropdown-menu-${index}" role="listbox" class="hidden absolute z-50 mt-1 md:mt-2 w-full bg-white/95 backdrop-blur-xl rounded-lg md:rounded-2xl shadow-2xl border border-white overflow-hidden">
+                <div class="p-1.5 md:p-4 border-b bg-slate-50/50 relative">
+                    <label for="compare-search-${index}" class="sr-only">ค้นหาโปเกมอนเปรียบเทียบ</label>
+                    <i class="ph ph-magnifying-glass absolute left-3 md:left-7 top-1/2 -translate-y-1/2 text-slate-400 text-xs md:text-lg pointer-events-none" aria-hidden="true"></i>
+                    <input type="search" id="compare-search-${index}" onkeyup="filterCompareDropdown(${index}, this.value)" autocomplete="off" spellcheck="false" class="w-full pl-6 pr-2 py-1.5 md:pl-12 md:pr-4 md:py-3 bg-white rounded-md md:rounded-xl outline-none text-[8px] md:text-sm font-medium border border-slate-200 focus:border-red-400 focus:ring-2 focus:ring-red-100 transition-all shadow-inner leading-normal placeholder:text-slate-400" placeholder="ค้นหาชื่อโปเกมอน..." aria-label="ค้นหาโปเกมอนเปรียบเทียบ">
                 </div>
                 <div class="max-h-40 md:max-h-60 overflow-y-auto custom-scrollbar" id="dropdown-list-${index}">
                     ${renderCompareListHTML(index, '')}
@@ -1753,10 +1912,10 @@ function renderCompareListHTML(index, query) {
         list = list.filter(p => p.name.toLowerCase().includes(query) || p.name_th.includes(query) || p.id.toString() === query);
     }
     return list.slice(0, 50).map(p => `
-        <div onclick="selectCompare(${index}, ${p.id})" class="p-1.5 md:p-4 hover:bg-red-50/50 cursor-pointer flex items-center gap-1.5 md:gap-4 border-b border-slate-50 last:border-0 transition-colors">
+        <button type="button" role="option" aria-selected="false" onclick="selectCompare(${index}, ${p.id})" class="w-full text-left p-1.5 md:p-4 hover:bg-red-50/50 cursor-pointer flex items-center gap-1.5 md:gap-4 border-b border-slate-50 last:border-0 transition-colors focus:outline-none focus:bg-red-50">
             <img src="${getImageUrl(p.id, 'thumb')}" class="w-5 h-5 md:w-10 md:h-10 object-contain drop-shadow-sm img-3d-grid" loading="lazy" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'thumb')" />
             <div class="flex-1 text-[9px] md:text-sm font-bold text-slate-700 truncate leading-normal py-1">${p.name_th}</div>
-        </div>
+        </button>
     `).join('');
 }
 
@@ -1831,7 +1990,7 @@ function renderCompareView() {
             const percentage = Math.min((s.base_stat / 255) * 100, 100);
             return `
                 <div class="flex items-center gap-0.5 md:gap-4 mb-1 md:mb-4 w-full min-w-0">
-                    <span class="text-[6px] sm:text-[7px] md:text-xs font-bold text-slate-500 uppercase tracking-tight w-6 sm:w-8 md:w-16 shrink-0 text-right truncate leading-normal transition-colors duration-500">${statName}</span>
+                    <span class="text-[6px] sm:text-[7px] md:text-xs font-bold text-slate-600 uppercase tracking-tight w-6 sm:w-8 md:w-16 shrink-0 text-right truncate leading-normal transition-colors duration-500">${statName}</span>
                     <span class="text-[8px] md:text-sm font-black w-4 md:w-8 shrink-0 text-right transition-colors duration-500 ${isWinner ? 'text-emerald-500' : 'text-slate-700'}">${s.base_stat}</span>
                     <div class="flex-1 bg-slate-100/60 rounded-full h-1 md:h-2.5 overflow-hidden shadow-inner ml-0.5 md:ml-0 min-w-0 transition-colors duration-500">
                         <div class="h-full rounded-full transition-all duration-300 relative ${isWinner ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.4)]' : 'bg-slate-300'}" 
@@ -1854,7 +2013,7 @@ function renderCompareView() {
                 <div style="transform: translateZ(5px);" class="relative z-50">${buildDropdownHTML(index, data.id)}</div>
                 
                 <div class="flex flex-col items-center mb-1 md:mb-8 min-w-0 preserve-3d relative z-10" style="transform: translateZ(15px);">
-                    <div class="w-12 h-12 sm:w-16 sm:h-16 md:w-56 md:h-56 mb-1.5 md:mb-8 bg-white rounded-lg md:rounded-[3.5rem] flex items-center justify-center p-1.5 md:p-12 relative shadow-inner border border-slate-50 overflow-hidden shrink-0 transition-colors duration-500 preserve-3d">
+                    <div class="w-14 h-14 sm:w-20 sm:h-20 md:w-48 md:h-48 mb-2 md:mb-6 bg-white rounded-xl md:rounded-[2.5rem] flex items-center justify-center p-2 md:p-6 relative shadow-inner border border-slate-50 overflow-hidden shrink-0 transition-colors duration-500 preserve-3d">
                         <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-white transition-colors duration-500"></div>
                         <img src="${getImageUrl(data.id, 'full')}" class="w-full h-full object-contain relative z-10 animate-float img-3d-detail" alt="${data.name_th}" onerror="handleImgErr(this, ${data.id}, 'full')" />
                     </div>
@@ -1863,7 +2022,7 @@ function renderCompareView() {
                     </div>
                     <h2 class="text-[9px] sm:text-[11px] md:text-4xl font-bold md:font-black text-slate-800 tracking-tight mb-0.5 md:mb-4 text-center leading-tight truncate block w-full px-0.5 py-0.5 md:py-2 flex items-center justify-center gap-0.5 md:gap-3 transition-colors duration-500">
                         ${data.name_th}
-                        ${cryUrl ? `<button onclick="playCry('${cryUrl}')" class="p-0.5 md:p-2 bg-blue-100 text-blue-500 rounded-full hover:bg-blue-500 hover:text-white transition-colors shadow-sm focus:outline-none"><i class="ph-fill ph-speaker-high text-[7px] md:text-base"></i></button>` : ''}
+                        ${cryUrl ? `<button aria-label="ฟังเสียงร้องของ ${data.name_th}" onclick="playCry('${cryUrl}')" class="p-0.5 md:p-2 bg-blue-100 text-blue-500 rounded-full hover:bg-blue-500 hover:text-white transition-colors shadow-sm focus:outline-none"><i class="ph-fill ph-speaker-high text-[7px] md:text-base" aria-hidden="true"></i></button>` : ''}
                     </h2>
                     <div class="flex justify-center gap-0.5 md:gap-2 mt-0.5 md:mt-0 h-4 md:h-8 overflow-hidden items-center shrink-0 w-full flex-wrap md:flex-nowrap">
                         ${data.types.map(t => {
@@ -1881,7 +2040,7 @@ function renderCompareView() {
                 <div class="flex-1 pt-1 md:pt-6 border-t border-white/50 flex flex-col min-w-0 transition-colors duration-500 relative z-10" style="transform: translateZ(5px);">
                     <div class="flex flex-col justify-center flex-1 w-full min-w-0">${statsHtml}</div>
                     <div class="mt-auto pt-1 md:pt-4 border-t border-white/50 flex justify-between items-center px-0.5 md:px-2 w-full min-w-0 transition-colors duration-500">
-                        <span class="text-[6px] md:text-sm font-black text-slate-500 uppercase tracking-widest shrink-0 leading-normal transition-colors duration-500">Total</span>
+                        <span class="text-[6px] md:text-sm font-black text-slate-600 uppercase tracking-widest shrink-0 leading-normal transition-colors duration-500">Total</span>
                         <span class="text-[8px] md:text-2xl font-black shrink-0 transition-colors duration-500 ${isTotalWinner ? 'text-emerald-500' : 'text-slate-700'}">${totalStats}</span>
                     </div>
                 </div>
@@ -1892,17 +2051,15 @@ function renderCompareView() {
     document.getElementById('compare-card-0').innerHTML = renderCard(0);
     document.getElementById('compare-card-1').innerHTML = renderCard(1);
     
-    // Attach 3D Event for Compare Cards
     setTimeout(() => {
         [0, 1].forEach(i => {
             const card = document.getElementById(`compare-inner-${i}`);
             if (card) attachGridParallax(card);
         });
         
-        // Reset AI text when cards change so user knows they need to click analyze again
         const resultDiv = document.getElementById('ai-battle-result');
         if (resultDiv.innerHTML !== '') {
-            resultDiv.innerHTML = `<div class="text-slate-400 text-sm mt-4 text-center italic">ข้อมูลมีการเปลี่ยนแปลง กรุณากดวิเคราะห์อีกครั้ง</div>`;
+            resultDiv.innerHTML = `<div class="text-slate-500 font-bold text-sm md:text-base mt-6 text-center italic fade-in">ข้อมูลโปเกมอนมีการเปลี่ยนแปลง กรุณากดปุ่ม "ดร.โอคิโดะ วิเคราะห์ข้อมูล" อีกครั้งครับ</div>`;
         }
     }, 50);
 }
@@ -1915,7 +2072,7 @@ document.addEventListener('click', (e) => {
 });
 
 // Initialize App
-window.onload = initApp;
+document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
