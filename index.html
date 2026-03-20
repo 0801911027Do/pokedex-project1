@@ -63,7 +63,7 @@
     <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
     
     <!-- Marked.js -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
 
     <style>
         body {
@@ -91,6 +91,7 @@
         
         img { image-rendering: high-quality; }
         
+        /* 🌟 Optimize rendering of animating layers */
         .img-3d-grid {
             filter: drop-shadow(0 15px 25px rgba(0,0,0,0.3)) brightness(1.05) contrast(1.05);
             transform: translateZ(40px);
@@ -133,26 +134,12 @@
             .ai-result-box table { display: block; overflow-x: auto; white-space: nowrap; }
         }
 
-        .bg-blob {
-            position: fixed;
-            width: 600px;
-            height: 600px;
-            border-radius: 50%;
-            filter: blur(100px);
-            z-index: 0;
-            opacity: 0.15;
-            animation: drift 30s infinite alternate-reverse linear;
-            pointer-events: none;
-            will-change: transform;
-            transform: translateZ(0);
-        }
-        @media (min-width: 768px) {
-            .bg-blob { width: 800px; height: 800px; filter: blur(120px); }
-        }
+        /* 🌟 Optimized Animation removing blur filter for pure 100/100 performance */
         @keyframes drift {
             from { transform: translate(-10%, -10%) rotate(0deg); }
             to { transform: translate(20%, 30%) rotate(360deg); }
         }
+        .animate-drift { animation: drift 30s infinite alternate-reverse linear; }
 
         .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -176,13 +163,13 @@
         }
     </style>
 </head>
-<body class="text-slate-800 selection:bg-primary/30 overflow-x-hidden relative min-h-screen flex flex-col">
+<body class="text-slate-800 selection:bg-primary/30 overflow-x-hidden relative min-h-screen flex flex-col font-sans">
 
-    <!-- Background Elements -->
+    <!-- Background Elements (Replaced heavy blur with fast radial-gradients) -->
     <div class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
-        <div class="bg-blob bg-red-400 -top-20 -left-20 md:-top-40 md:-left-40" aria-hidden="true"></div>
-        <div class="bg-blob bg-blue-300 top-1/2 -right-20 md:-right-40" style="animation-delay: -10s;" aria-hidden="true"></div>
-        <div class="bg-blob bg-yellow-200 -bottom-20 left-1/4 md:-bottom-40" style="animation-delay: -20s;" aria-hidden="true"></div>
+        <div class="absolute -top-20 -left-20 md:-top-40 md:-left-40 w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full opacity-30 animate-drift" style="background: radial-gradient(circle, rgba(248,113,113,0.4) 0%, transparent 70%);"></div>
+        <div class="absolute top-1/2 -right-20 md:-right-40 w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full opacity-30 animate-drift" style="background: radial-gradient(circle, rgba(147,197,253,0.4) 0%, transparent 70%); animation-delay: -10s;"></div>
+        <div class="absolute -bottom-20 left-1/4 md:-bottom-40 w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full opacity-30 animate-drift" style="background: radial-gradient(circle, rgba(253,230,138,0.4) 0%, transparent 70%); animation-delay: -20s;"></div>
         <div class="absolute inset-0 opacity-[0.03] bg-[length:30px_30px] md:bg-[length:40px_40px]" style="background-image: radial-gradient(#000 1px, transparent 0);" aria-hidden="true"></div>
     </div>
 
@@ -247,7 +234,7 @@
                     <div class="relative mb-6 md:mb-14 max-w-4xl mx-auto md:mx-0">
                         <label for="searchInput" class="sr-only">ค้นหาโปเกมอน</label>
                         <i class="ph ph-magnifying-glass absolute left-5 md:left-6 top-1/2 -translate-y-1/2 text-slate-600 text-xl md:text-2xl pointer-events-none" aria-hidden="true"></i>
-                        <input type="text" id="searchInput" aria-label="ค้นหาโปเกมอนด้วยชื่อหรือหมายเลข" placeholder="ค้นหาด้วยชื่อภาษาไทย, อังกฤษ หรือหมายเลข ID..." class="w-full pl-12 pr-4 py-4 md:pl-14 md:pr-10 md:py-6 bg-white/80 backdrop-blur-md border border-white focus:border-red-300 focus:bg-white rounded-[2rem] md:rounded-[2.5rem] outline-none transition-all text-sm sm:text-base md:text-xl font-medium text-slate-800 shadow-lg placeholder:text-slate-600 leading-normal" onkeyup="handleSearch()">
+                        <input type="search" id="searchInput" aria-label="ค้นหาโปเกมอนด้วยชื่อหรือหมายเลข" placeholder="ค้นหาด้วยชื่อภาษาไทย, อังกฤษ หรือหมายเลข ID..." class="w-full pl-12 pr-4 py-4 md:pl-14 md:pr-10 md:py-6 bg-white/80 backdrop-blur-md border border-white focus:border-red-300 focus:bg-white rounded-[2rem] md:rounded-[2.5rem] outline-none transition-all text-sm sm:text-base md:text-xl font-medium text-slate-800 shadow-lg placeholder:text-slate-600 leading-normal" onkeyup="handleSearch()">
                     </div>
 
                     <nav aria-label="กรองตามภูมิภาค" id="region-filters" class="flex gap-2 md:gap-3 overflow-x-auto pb-3 md:pb-4 no-scrollbar mask-fade scroll-smooth min-h-[44px]"></nav>
@@ -270,10 +257,10 @@
                 <div id="empty-state" class="hidden text-center py-12 md:py-20 bg-slate-50/50 rounded-[2rem] md:rounded-[3rem] border border-dashed border-slate-300 mt-6 md:mt-10">
                     <p class="text-slate-700 font-bold text-sm md:text-lg leading-normal">ไม่พบข้อมูลโปเกมอนที่คุณค้นหา</p>
                 </div>
-                <div id="load-more-container" class="mt-10 md:mt-24 flex justify-center hidden">
-                    <button type="button" aria-label="โหลดข้อมูลโปเกมอนเพิ่มเติม" onclick="loadMore()" class="flex items-center gap-2 md:gap-4 bg-white/80 backdrop-blur-md border border-white px-8 py-3 md:px-16 md:py-6 rounded-full font-black text-[10px] md:text-sm text-slate-700 hover:text-red-500 hover:border-red-200 hover:shadow-2xl transition-all group shadow-xl leading-normal focus:outline-none focus:ring-4 focus:ring-red-500/20">
-                        <i class="ph ph-plus text-base md:text-lg transition-transform duration-200 group-hover:rotate-180" aria-hidden="true"></i>
-                        กำลังโหลด...
+                <div id="load-more-container" class="mt-10 md:mt-16 flex justify-center hidden fade-in">
+                    <button type="button" aria-label="โหลดข้อมูลโปเกมอนเพิ่มเติม" onclick="loadMore()" class="flex items-center gap-2 md:gap-4 bg-white/80 backdrop-blur-md border border-white px-8 py-3 md:px-16 md:py-6 rounded-full font-black text-[11px] md:text-sm text-slate-700 hover:text-red-500 hover:border-red-200 hover:shadow-2xl transition-all group shadow-xl leading-normal focus:outline-none focus:ring-4 focus:ring-red-500/20 active:scale-95">
+                        <i class="ph-fill ph-plus-circle text-lg md:text-2xl transition-transform duration-300 group-hover:rotate-90" aria-hidden="true"></i>
+                        โหลดโปเกมอนเพิ่มเติม
                     </button>
                 </div>
             </div>
@@ -365,10 +352,9 @@
             loadPremiumVoices(); 
         }
 
-        // 🌟 รูปภาพ Professor Oak (3D Style จาก Pokémon Let's Go)
         const PROFESSOR_OAK_IMAGE = "https://images.wikidexcdn.net/mwuploads/wikidex/thumb/f/fa/latest/20180713182855/Profesor_Oak_LGPE.png/250px-Profesor_Oak_LGPE.png";
 
-        // 🌟 ฟังก์ชันทำความสะอาดข้อความระดับเทพ ให้ลื่นไหล สมูต ไม่มีสะดุด
+        // 🌟 ฟังก์ชันทำความสะอาดข้อความระดับเทพ ให้ลื่นไหล สมูต ไม่มีสะดุด ป้องกันการหมุนทะลุกรอบ
         function sanitizeTextForVoice(text) {
             if (!text) return "";
             return text
@@ -378,6 +364,12 @@
                 .replace(/\s+/g, ' ') // รวบช่องว่าง
                 .trim();
         }
+
+        // 🌟 🌟 🌟 ปรับปรุงการจัดรูปแบบชื่อภาษาอังกฤษ: ตัดขีดออก 100% และทำตัวพิมพ์ใหญ่ทุกคำ
+        const formatName = (name) => {
+            if (!name) return '';
+            return name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        };
 
         // 🌟 ฟังก์ชันระบบเสียง Web Speech API (Fallback) ปรับให้สมูต
         function playWebTTS(text, btnId) {
@@ -424,7 +416,7 @@
             }, 50);
         }
 
-        // 🌟 ฟังก์ชันเสียงสมาร์ทโรตอม (สมูต ไว เสียงล้ำสมัยแบบหุ่นยนต์ AI)
+        // 🌟 ฟังก์ชันเสียงสมาร์ทโรตอม
         function playRotomVoice(text, btnId) {
             if (!('speechSynthesis' in window)) {
                 alert("เบราว์เซอร์ของคุณไม่รองรับระบบเสียงอ่านครับ");
@@ -469,7 +461,6 @@
             }, 50);
         }
 
-        // 🌟 ฟังก์ชันช่วยแปลง PCM16 เป็น WAV สำหรับเล่นเสียง TTS
         function createWavBlob(pcmBuffer, sampleRate = 24000) {
             const numChannels = 1;
             const bitsPerSample = 16;
@@ -501,7 +492,6 @@
             return new Blob([buffer], { type: 'audio/wav' });
         }
 
-        // 🌟 ฟังก์ชันดึงเสียงพูด ดร.โอคิโดะผ่าน Gemini TTS (ไหลลื่น ระดับนักพากย์มืออาชีพ)
         async function fetchDrOakVoice(textToSpeak, btnId) {
             if (!textToSpeak || !apiKey) return null;
             
@@ -581,7 +571,6 @@
             }
         }
 
-        // ปรับแก้ Prompt ให้ AI ผลิตข้อความแบบนักพากย์มืออาชีพ
         async function callGeminiAPI(prompt, retries = 3, delay = 1000) {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             const payload = {
@@ -646,8 +635,12 @@
         const STAT_NAMES_TH = { 'hp': 'HP', 'attack': 'พลังโจมตี', 'defense': 'พลังป้องกัน', 'special-attack': 'พลังโจมตีพิเศษ', 'special-defense': 'พลังป้องกันพิเศษ', 'speed': 'ความเร็ว' };
         const HABITAT_TH = { 'cave': 'ถ้ำ', 'forest': 'ป่าไม้', 'grassland': 'ทุ่งหญ้า', 'mountain': 'ภูเขา', 'rare': 'พื้นที่ลึกลับ', 'rough-terrain': 'พื้นที่ขรุขระ', 'sea': 'ทะเล', 'urban': 'เขตเมือง', 'waters-edge': 'ริมน้ำ' };
 
+        // 🌟 ฐานข้อมูลรายชื่อภาษาไทยเบื้องต้น เพื่อให้โหลดเร็วที่สุด
         const THAI_NAMES_BASE = {
-            "bulbasaur":"ฟุชิกิดาเนะ","ivysaur":"ฟุชิกิโซ","venusaur":"ฟุชิกิบานะ","charmander":"ฮิโตคาเงะ","charmeleon":"ลิซาร์โดะ","charizard":"ลิซาร์ดอน","squirtle":"เซนิกาเมะ","wartortle":"คาเมล","blastoise":"คาเม็กซ์","caterpie":"คาเตอร์ปี","metapod":"ทรานเซล","butterfree":"บัตเตอร์ฟรี","weedle":"บีเดิล","kakuna":"โคคูน","beedrill":"สเปียร์","pidgey":"ป๊ปโปะ","pidgeotto":"พีเจียน","pidgeot":"พีจ็อต","rattata":"โครัตตา","raticate":"รัตตา","spearow":"โอนิซึซึเมะ","fearow":"โอนิดริล","ekans":"อาร์โบ","arbok":"อาร์บ็อก","pikachu":"พิคาชู","raichu":"ไรชู","sandshrew":"แซนด์","sandslash":"แซนด์แพน","nidoran-f":"นิโดรัน♀","nidorina":"นิโดรินา","nidoqueen":"นิโดควีน","nidoran-m":"นิโดรัน♂","nidorino":"นิโดริโน","nidoking":"นิโดคิง","clefairy":"ปิปปี","clefable":"พิคซี","vulpix":"โรคอน","ninetales":"คิวคอน","jigglypuff":"พูริน","wigglytuff":"พุคุริน","zubat":"ซูแบท","golbat":"โกลแบท","oddish":"นาโซโนะคุสะ","gloom":"คุไซฮานะ","vileplume":"รัฟเฟลเซีย","paras":"พารัส","parasect":"พาราเซ็กต์","venonat":"คงปัง","venomoth":"โมรุฟอน","diglett":"ดิกด้า","dugtrio":"ดักทริโอ","meowth":"เนียซ","persian":"เปอร์เซียน","psyduck":"โคดัก","golduck":"โกลดัก","mankey":"แมนคีย์","primeape":"โอโคริซารุ","growlithe":"การ์ดี","arcanine":"วินดี","poliwag":"เนียวโรโมะ","poliwhirl":"เนียวโรโซ","poliwrath":"เนียวโรบอน","abra":"เคซี","kadabra":"ยุนเกอร์เรอร์","alakazam":"ฟูดิน","machop":"วันริกี","machoke":"โกริกี","machamp":"ไคริกี","bellsprout":"มาดาสึโบมิ","weepinbell":"อุซึดง","victreebel":"อุซึบอท","tentacool":"เมโนคุราเกะ","tentacruel":"โดคุคุราเกะ","geodude":"อิชิซึบุเตะ","graveler":"โกโลน","golem":"โกโลเนีย","ponyta":"โพนีตา","rapidash":"แกงลอป","slowpoke":"ยาดง","slowbro":"ยาโดรัน","magnemite":"คอยล์","magneton":"เรคอยล์","farfetchd":"คาโมเนกิ","doduo":"โดโด","dodrio":"โดโดริโอ","seel":"พาวาว","dewgong":"จูกอน","grimer":"เบโตเบตา","muk":"เบโตเบตอน","shellder":"เชลเดอร์","cloyster":"พาร์เชน","gastly":"โกส","haunter":"โกสต์","gengar":"เกงกา","onix":"อิวาร์ค","drowzee":"สลีป","hypno":"สลีปเปอร์","krabby":"แคร็บ","kingler":"คิงเกลอร์","voltorb":"บิริริดามา","electrode":"มารุมายน์","exeggcute":"ทามาทามะ","exeggutor":"นัซซี","cubone":"คาระคาระ","marowak":"กะระการะ","hitmonlee":"ซาวามูลาร์","hitmonchan":"เอบิวาลาร์","lickitung":"เบโรริงกา","koffing":"โดกัส","weezing":"มาตาโดกัส","rhyhorn":"ไซฮอร์น","rhydon":"ไซดอน","chansey":"ลัคกี้","tangela":"มอนจารา","kangaskhan":"การูรา","horsea":"ทัททู","seadra":"ซีดรา","goldeen":"โทซาคินโตะ","seaking":"อซึมาโอ","staryu":"ฮิโตเดมัน","starmie":"สตาร์มี","mr-mime":"บาร์เรียด","scyther":"สไตรค์","jynx":"รูจูลา","electabuzz":"เอเลบู","magmar":"บูเบอร์","pinsir":"ไคลอส","tauros":"เคนทารอส","magikarp":"คอยคิง","gyarados":"เกียราดอส","lapras":"ลาพลาส","ditto":"เมตามอน","eevee":"อีวุย","vaporeon":"ชาวเวอร์ส","jolteon":"ธันเดอร์ส","flareon":"บูสเตอร์","porygon":"โพรีกอน","omanyte":"ออมไนต์","omastar":"ออมสตาร์","kabuto":"คาบูโตะ","kabutops":"คาบูทอปส์","aerodactyl":"พเทอรา","snorlax":"คาบิกอน","articuno":"ฟรีเซอร์","zapdos":"ธันเดอร์","moltres":"ไฟเยอร์","dratini":"มินิริว","dragonair":"ฮาคุริว","dragonite":"ไคริว","mewtwo":"มิวทู","mew":"มิว"
+            "bulbasaur":"ฟุชิกิดาเนะ","ivysaur":"ฟุชิกิโซ","venusaur":"ฟุชิกิบานะ","charmander":"ฮิโตคาเงะ","charmeleon":"ลิซาร์โดะ","charizard":"ลิซาร์ดอน","squirtle":"เซนิกาเมะ","wartortle":"คาเมล","blastoise":"คาเม็กซ์","caterpie":"คาเตอร์ปี","metapod":"ทรานเซล","butterfree":"บัตเตอร์ฟรี","weedle":"บีเดิล","kakuna":"โคคูน","beedrill":"สเปียร์","pidgey":"ป๊ปโปะ","pidgeotto":"พีเจียน","pidgeot":"พีจ็อต","rattata":"โครัตตา","raticate":"รัตตา","spearow":"โอนิซึซึเมะ","fearow":"โอนิดริล","ekans":"อาร์โบ","arbok":"อาร์บ็อก","pikachu":"พิคาชู","raichu":"ไรชู","sandshrew":"แซนด์","sandslash":"แซนด์แพน","nidoran-f":"นิโดรัน♀","nidorina":"นิโดรินา","nidoqueen":"นิโดควีน","nidoran-m":"นิโดรัน♂","nidorino":"นิโดริโน","nidoking":"นิโดคิง","clefairy":"ปิปปี","clefable":"พิคซี","vulpix":"โรคอน","ninetales":"คิวคอน","jigglypuff":"พูริน","wigglytuff":"พุคุริน","zubat":"ซูแบท","golbat":"โกลแบท","oddish":"นาโซโนะคุสะ","gloom":"คุไซฮานะ","vileplume":"รัฟเฟลเซีย","paras":"พารัส","parasect":"พาราเซ็กต์","venonat":"คงปัง","venomoth":"โมรุฟอน","diglett":"ดิกด้า","dugtrio":"ดักทริโอ","meowth":"เนียซ","persian":"เปอร์เซียน","psyduck":"โคดัก","golduck":"โกลดัก","mankey":"แมนคีย์","primeape":"โอโคริซารุ","growlithe":"การ์ดี","arcanine":"วินดี","poliwag":"เนียวโรโมะ","poliwhirl":"เนียวโรโซ","poliwrath":"เนียวโรบอน","abra":"เคซี","kadabra":"ยุนเกอร์เรอร์","alakazam":"ฟูดิน","machop":"วันริกี","machoke":"โกริกี","machamp":"ไคริกี","bellsprout":"มาดาสึโบมิ","weepinbell":"อุซึดง","victreebel":"อุซึบอท","tentacool":"เมโนคุราเกะ","tentacruel":"โดคุคุราเกะ","geodude":"อิชิซึบุเตะ","graveler":"โกโลน","golem":"โกโลเนีย","ponyta":"โพนีตา","rapidash":"แกงลอป","slowpoke":"ยาดง","slowbro":"ยาโดรัน","magnemite":"คอยล์","magneton":"เรคอยล์","farfetchd":"คาโมเนกิ","doduo":"โดโด","dodrio":"โดโดริโอ","seel":"พาวาว","dewgong":"จูกอน","grimer":"เบโตเบตา","muk":"เบโตเบตอน","shellder":"เชลเดอร์","cloyster":"พาร์เชน","gastly":"โกส","haunter":"โกสต์","gengar":"เกงกา","onix":"อิวาร์ค","drowzee":"สลีป","hypno":"สลีปเปอร์","krabby":"แคร็บ","kingler":"คิงเกลอร์","voltorb":"บิริริดามา","electrode":"มารุมายน์","exeggcute":"ทามาทามะ","exeggutor":"นัซซี","cubone":"คาระคาระ","marowak":"กะระการะ","hitmonlee":"ซาวามูลาร์","hitmonchan":"เอบิวาลาร์","lickitung":"เบโรริงกา","koffing":"โดกัส","weezing":"มาตาโดกัส","rhyhorn":"ไซฮอร์น","rhydon":"ไซดอน","chansey":"ลัคกี้","tangela":"มอนจารา","kangaskhan":"การูรา","horsea":"ทัททู","seadra":"ซีดรา","goldeen":"โทซาคินโตะ","seaking":"อซึมาโอ","staryu":"ฮิโตเดมัน","starmie":"สตาร์มี","mr-mime":"บาร์เรียด","scyther":"สไตรค์","jynx":"รูจูลา","electabuzz":"เอเลบู","magmar":"บูเบอร์","pinsir":"ไคลอส","tauros":"เคนทารอส","magikarp":"คอยคิง","gyarados":"เกียราดอส","lapras":"ลาพลาส","ditto":"เมตามอน","eevee":"อีวุย","vaporeon":"ชาวเวอร์ส","jolteon":"ธันเดอร์ส","flareon":"บูสเตอร์","porygon":"โพรีกอน","omanyte":"ออมไนต์","omastar":"ออมสตาร์","kabuto":"คาบูโตะ","kabutops":"คาบูทอปส์","aerodactyl":"พเทอรา","snorlax":"คาบิกอน","articuno":"ฟรีเซอร์","zapdos":"ธันเดอร์","moltres":"ไฟเยอร์","dratini":"มินิริว","dragonair":"ฮาคุริว","dragonite":"ไคริว","mewtwo":"มิวทู","mew":"มิว",
+            "chikorita":"ชิโคริตา","bayleef":"เบย์ลีฟ","meganium":"เมกาเนียม","cyndaquil":"ฮิโนอาราชิ","quilava":"แม็กมาราชิ","typhlosion":"บาคุฟูน","totodile":"วานิโนโกะ","croconaw":"อัลลิเกตส์","feraligatr":"โอไดล์","sentret":"โอทาจิ","furret":"โอโอทาจิ","hoothoot":"โฮโฮ","noctowl":"ยอร์นอค","ledyba":"เรดิบา","ledian":"เรเดียน","spinarak":"อิโตมารุ","ariados":"อาริอาโดส","crobat":"โครแบท","chinchou":"ชอนจี","lanturn":"ลันเทิร์น","pichu":"พิชู","cleffa":"ปี","igglybuff":"พูพูริน","togepi":"โทเกปี","togetic":"โทเกจิก","natu":"เนที","xatu":"เนทิโอ","mareep":"เมรีป","flaaffy":"โมโคโค","ampharos":"เด็นริว","bellossom":"คิเรฮานะ","marill":"มาริล","azumarill":"มาริลลิ","sudowoodo":"อุซกกี","politoed":"เนียวโรโทโนะ","hoppip":"ฮาเน็กโกะ","skiploom":"โปโปคโกะ","jumpluff":"วาตักโกะ","aipom":"เอย์พัม","sunkern":"ฮิมานัทส์","sunflora":"คิมาวาริ","yanma":"ยันมา","wooper":"อูปา","quagsire":"นูโอ","espeon":"เอฟี","umbreon":"แบล็กกี","murkrow":"ยามิคาราสึ","slowking":"ยาโดคิง","misdreavus":"มูมา","unown":"อันโนน","wobbuffet":"โซนันส์","girafarig":"คิรินริก","pineco":"คุนุกิดามะ","forretress":"ฟอเรทอส","dunsparce":"โนก็อตจิ","gligar":"ยันยันมา","steelix":"ฮากาเนล","snubbull":"บูล","granbull":"แกรนบูล","qwilfish":"ฮารีเซน","scizor":"ฮัสซัม","shuckle":"สึโบสึโบะ","heracross":"เฮราครอส","sneasel":"นิวลา","teddiursa":"ฮิเมกุมะ","ursaring":"ริงกุมะ","slugma":"แม็กมัก","magcargo":"แม็กคาร์โก","swinub":"อูริมู","piloswine":"อิโนมู","corsola":"ซันนีโก","remoraid":"เทปโปโอ","octillery":"ออกคิว","delibird":"เดลิเบิร์ด","mantine":"แมนไทน์","skarmory":"แอร์มุโด","houndour":"เดลวิล","houndoom":"เฮลการ์","kingdra":"คิงดรา","phanpy":"โกมาโซ","donphan":"ดอนแฟน","porygon2":"โพรีกอน2","stantler":"โอโดชิชิ","smeargle":"โดเบิล","tyrogue":"บัลกี","hitmontop":"คาโปเอเรอร์","smoochum":"มุจูล","elekid":"เอเลคิด","magby":"บูบี","miltank":"มิลแทงก์","blissey":"แฮปปีนา","raikou":"ไรโค","entei":"เอ็นเต","suicune":"ซุยคุน","larvitar":"โยกิราส","pupitar":"ซานากิราส","tyranitar":"บันกิราส","lugia":"ลูเกีย","ho-oh":"โฮโอ","celebi":"เซเลบี",
+            "treecko":"คิโมริ","grovyle":"จุปทรู","sceptile":"จูไคน์","torchic":"อาชาโม","combusken":"วาคาชาโม","blaziken":"บาชาโม","mudkip":"มิซึโกโร","marshtomp":"นูมาโคร","swampert":"ลากราจ","ralts":"ราลทซ์","kirlia":"เคอร์เรีย","gardevoir":"เซอไนท์","bagon":"ทาสึเบ","shelgon":"โคโมรู","salamence":"โบมันเดอร์","beldum":"ดันบัล","metang":"เมแทงก์","metagross":"เมทากรอส","regirock":"เรจิร็อก","regice":"เรจิไอซ์","registeel":"เรจิสตีล","latias":"ลาทิอาส","latios":"ลาทิโอส","kyogre":"ไคโอกา","groudon":"กราดอน","rayquaza":"เรควอซา","jirachi":"จิราจิ","deoxys":"ดีอ็อกซิส",
+            "turtwig":"นาเอเทิล","grotle":"ฮายาชิกาเมะ","torterra":"โดไดโทส","chimchar":"ฮิโกซารุ","monferno":"โมคาซารุ","infernape":"โกคาซารุ","piplup":"โพจจามะ","prinplup":"พ็อตไจชิ","empoleon":"เอ็มเพลท์","dialga":"ดีอัลกา","palkia":"พัลเกีย","heatran":"ฮีทรัน","regigigas":"เรจิกิกัส","giratina":"กิราตินา","cresselia":"เครเซเลีย","phione":"ฟิโอเน","manaphy":"มานาฟี","darkrai":"ดาร์กไร","shaymin":"เชมิน","arceus":"อาร์เซอุส","victini":"วิคทินี"
         };
 
         const POKEDEX_ENTRIES_TH = {
@@ -656,11 +649,11 @@
             25: "มักจะสะสมไฟฟ้าไว้ที่ถุงลมบริเวณแก้มทั้งสองข้าง เมื่อรู้สึกถึงอันตรายจะปล่อยกระแสไฟฟ้าแรงสูงออกมา"
         };
 
-        // 🌟 เทคนิคที่ 1: ลดจำนวนการเรนเดอร์ภาพต่อหน้าจาก 100 เหลือ 20
-        // ป้องกันอาการกระตุก (Jank) บนมือถือเมื่อวาดภาพ 3D จำนวนมากพร้อมกัน
         const ITEMS_PER_PAGE = 20;
         
         const translationCache = new Map();
+        const speciesCache = new Map(); 
+
         const defaultSuffixes = ['-normal', '-altered', '-land', '-ordinary', '-aria', '-incarnate', '-average', '-standard', '-red-striped', '-baile', '-midday', '-solo', '-red-meteor', '-disguised', '-amped', '-ice', '-male', '-full-belly', '-single-strike', '-plant', '-shield'];
         const formKeywords = ['-mega', '-primal', '-gmax', '-alola', '-galar', '-hisui', '-paldea', '-therian', '-origin', '-ash', '-eternamax'];
         const formRegex = /-(mega(-[xy])?|primal|gmax|alola|galar|hisui|paldea|therian|origin|ash|eternamax).*/;
@@ -712,13 +705,13 @@
             audio.play().catch(e => console.log('Audio play failed:', e));
         }
 
-        function handleParallaxMove(e, container, targetElement, maxRotate, baseZ, scale) {
-            if (!targetElement) return;
+        // 🌟 1. ย้าย getBoundingClientRect() ออกจาก function loop ที่วาด 60 เฟรมต่อวินาที
+        function handleParallaxMove(e, container, targetElement, rect, maxRotate, baseZ, scale) {
+            if (!targetElement || !rect) return;
             if (container.dataset.ticking === 'true') return;
             container.dataset.ticking = 'true';
             
             requestAnimationFrame(() => {
-                const rect = container.getBoundingClientRect();
                 let clientX = e.clientX;
                 let clientY = e.clientY;
                 
@@ -727,8 +720,11 @@
                     clientY = e.touches[0].clientY;
                 }
 
-                const x = clientX - rect.left;
-                const y = clientY - rect.top;
+                const clampedX = Math.max(rect.left, Math.min(clientX, rect.right));
+                const clampedY = Math.max(rect.top, Math.min(clientY, rect.bottom));
+
+                const x = clampedX - rect.left;
+                const y = clampedY - rect.top;
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
 
@@ -744,20 +740,32 @@
 
         function handleParallaxLeave(targetElement, baseZ, scale) {
             if (!targetElement) return;
-            targetElement.style.transition = 'transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            targetElement.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             targetElement.style.transform = `translateZ(${baseZ}px) scale(${scale}) rotateX(0deg) rotateY(0deg)`;
         }
 
         function attachGridParallax(cardElement) {
-            const img = cardElement.querySelector('.img-3d-grid');
+            const img = cardElement.querySelector('.img-3d-grid') || cardElement.querySelector('.img-3d-detail');
             if (!img) return;
 
-            const moveHandler = (e) => handleParallaxMove(e, cardElement, img, 20, 50, 1.15);
-            const leaveHandler = () => handleParallaxLeave(img, 40, 1);
+            let rect = null;
             
+            // 🌟 คำนวณ Layout แค่รอบเดียวตอนเริ่มสัมผัส ไม่คำนวณซ้ำตอนลาก (Performance Hack)
+            const enterHandler = () => { rect = cardElement.getBoundingClientRect(); };
+            const moveHandler = (e) => {
+                if (!rect) rect = cardElement.getBoundingClientRect();
+                handleParallaxMove(e, cardElement, img, rect, 20, 50, 1.15);
+            };
+            const leaveHandler = () => {
+                rect = null;
+                handleParallaxLeave(img, 40, 1);
+            };
+            
+            cardElement.addEventListener('mouseenter', enterHandler);
             cardElement.addEventListener('mousemove', moveHandler);
             cardElement.addEventListener('mouseleave', leaveHandler);
             
+            cardElement.addEventListener('touchstart', enterHandler, { passive: true });
             cardElement.addEventListener('touchmove', moveHandler, { passive: true });
             cardElement.addEventListener('touchend', leaveHandler);
             cardElement.addEventListener('touchcancel', leaveHandler);
@@ -815,20 +823,20 @@
             if (p2Advantage > 1) score2 += 120 * p2Advantage;
             else if (p2Advantage < 1) score2 -= 50;
 
-            let winnerName, typeAnalysisText, voiceReason;
+            let winnerName, typeAnalysisText;
 
             if (score1 > score2) {
-                winnerName = p1.name_th;
+                winnerName = formatName(p1.name_th);
             } else if (score2 > score1) {
-                winnerName = p2.name_th;
+                winnerName = formatName(p2.name_th);
             } else {
                 winnerName = "สูสีกันมาก";
             }
 
             if (p1Advantage > p2Advantage && p1Advantage > 1) {
-                typeAnalysisText = `จุดเปลี่ยนสำคัญคือ **${p1.name_th}** มีธาตุที่ได้เปรียบ สามารถโจมตีใส่ ${p2.name_th} ได้รุนแรงถึง **${p1Advantage} เท่า!**`;
+                typeAnalysisText = `จุดเปลี่ยนสำคัญคือ **${formatName(p1.name_th)}** มีธาตุที่ได้เปรียบ สามารถโจมตีใส่ ${formatName(p2.name_th)} ได้รุนแรงถึง **${p1Advantage} เท่า!**`;
             } else if (p2Advantage > p1Advantage && p2Advantage > 1) {
-                typeAnalysisText = `จุดเปลี่ยนสำคัญคือ **${p2.name_th}** มีธาตุที่ได้เปรียบ สามารถโจมตีใส่ ${p1.name_th} ได้รุนแรงถึง **${p2Advantage} เท่า!**`;
+                typeAnalysisText = `จุดเปลี่ยนสำคัญคือ **${formatName(p2.name_th)}** มีธาตุที่ได้เปรียบ สามารถโจมตีใส่ ${formatName(p1.name_th)} ได้รุนแรงถึง **${p2Advantage} เท่า!**`;
             } else if (p1Advantage === p2Advantage && p1Advantage > 1) {
                 typeAnalysisText = `ทั้งคู่ต่างก็มีธาตุที่โจมตีใส่กันและกันได้รุนแรง ถือเป็นการต่อสู้ที่ต้องวัดกันที่สเตตัสและความเร็วจริงๆ!`;
             } else {
@@ -845,8 +853,8 @@
 อืม... ถึงระบบเมนเฟรมของศูนย์วิจัยจะออฟไลน์อยู่ แต่ในฐานะศาสตราจารย์ ด็อกเตอร์จะวิเคราะห์จากการแพ้ทางธาตุและสถิติให้ฟังเอง!
 
 จากการเปรียบเทียบสถิติเชิงลึก...
-**${p1.name_th}** โดดเด่นด้าน **${statNamesTH[p1Best.stat.name] || p1Best.stat.name}** (Base: ${p1Best.base_stat} | Total: ${sumP1})
-**${p2.name_th}** โดดเด่นด้าน **${statNamesTH[p2Best.stat.name] || p2Best.stat.name}** (Base: ${p2Best.base_stat} | Total: ${sumP2})
+**${formatName(p1.name_th)}** โดดเด่นด้าน **${statNamesTH[p1Best.stat.name] || p1Best.stat.name}** (Base: ${p1Best.base_stat} | Total: ${sumP1})
+**${formatName(p2.name_th)}** โดดเด่นด้าน **${statNamesTH[p2Best.stat.name] || p2Best.stat.name}** (Base: ${p2Best.base_stat} | Total: ${sumP2})
 
 ด้านความได้เปรียบทางธาตุ...
 ${typeAnalysisText}
@@ -859,11 +867,11 @@ ${typeAnalysisText}
         
         function getFallbackLore(name) {
              return `
-อืม... แฟ้มบันทึกงานวิจัยเชิงลึกของโปเกมอนตัวนี้กำลังอยู่ในขั้นตอนรวบรวมและตรวจสอบความถูกต้องนะ แต่สำหรับ **${name}** แล้ว จากประสบการณ์ตรงของด็อกเตอร์ มันเป็นโปเกมอนที่มีลักษณะทางสายพันธุ์ที่น่าหลงใหลมากทีเดียว! 
+อืม... แฟ้มบันทึกงานวิจัยเชิงลึกของโปเกมอนตัวนี้กำลังอยู่ในขั้นตอนรวบรวมและตรวจสอบความถูกต้องนะ แต่สำหรับ **${formatName(name)}** แล้ว จากประสบการณ์ตรงของด็อกเตอร์ มันเป็นโปเกมอนที่มีลักษณะทางสายพันธุ์ที่น่าหลงใหลมากทีเดียว! 
 
 ด็อกเตอร์เชื่อมั่นเลยว่า หากได้รับการฝึกฝนและดูแลเอาใจใส่จากเทรนเนอร์ที่ดี มันจะสามารถดึงศักยภาพระดับสูงที่ซ่อนอยู่ออกมาได้อย่างมหาศาลเลยล่ะ!
 
-<voice>มหัศจรรย์มากข้อมูลของ${name}น่าทึ่งสุดๆถ้านำไปฝึกฝนอย่างดีจะต้องแข็งแกร่งขึ้นอย่างไร้ขีดจำกัดแน่นอน</voice>
+<voice>มหัศจรรย์มากข้อมูลของ${formatName(name)}น่าทึ่งสุดๆถ้านำไปฝึกฝนอย่างดีจะต้องแข็งแกร่งขึ้นอย่างไร้ขีดจำกัดแน่นอน</voice>
              `;
         }
 
@@ -883,11 +891,11 @@ ${typeAnalysisText}
             const p2 = compareData[1];
 
             try {
-                const prompt = `ดร.โอคิโดะ ช่วยวิเคราะห์การต่อสู้ระหว่าง ${p1.name_th} กับ ${p2.name_th} ให้หน่อยครับ!
+                const prompt = `ดร.โอคิโดะ ช่วยวิเคราะห์การต่อสู้ระหว่าง ${formatName(p1.name_th)} กับ ${formatName(p2.name_th)} ให้หน่อยครับ!
 ข้อมูลสเตตัส:
-${p1.name_th}: Total: ${p1.stats.reduce((a,b)=>a+b.base_stat,0)}
-${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
-ธาตุ: ${p1.name_th}=${p1.types.map(t=>t.type.name).join(', ')} VS ${p2.name_th}=${p2.types.map(t=>t.type.name).join(', ')}
+${formatName(p1.name_th)}: Total: ${p1.stats.reduce((a,b)=>a+b.base_stat,0)}
+${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
+ธาตุ: ${formatName(p1.name_th)}=${p1.types.map(t=>TYPE_NAMES_TH[t.type.name]||t.type.name).join(', ')} VS ${formatName(p2.name_th)}=${p2.types.map(t=>TYPE_NAMES_TH[t.type.name]||t.type.name).join(', ')}
 วิเคราะห์ตรงไปตรงมา ฟันธงผู้ชนะชัดเจน มีแท็ก <voice>คำฟันธงสั้นๆ 1-2 ประโยค</voice> ท้ายสุด (ห้ามมีอีโมจิหรือสัญลักษณ์พิเศษใดๆ ใน voice เพื่อให้เสียงไหลลื่น)`;
                 
                 let response = "";
@@ -986,7 +994,7 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
             btn.disabled = true;
             
             try {
-                const prompt = `ช่วยเล่าเกร็ดความรู้ นิสัย หรือข้อมูลงานวิจัยที่น่าสนใจเกี่ยวกับ ${name} ให้ฟังหน่อยครับ ดร. ขอสั้นๆ 1 ย่อหน้า ห้ามใช้เครื่องหมาย ### และแท็ก <voice>คำพูด 1-2 ประโยค</voice> ไว้ท้ายสุด (เนื้อหาในแท็ก voice ต้องเขียนให้เป็นภาษาพูดที่ไหลลื่น เป็นมืออาชีพ ห้ามมีสัญลักษณ์พิเศษหรือขึ้นบรรทัดใหม่)`;
+                const prompt = `ช่วยเล่าเกร็ดความรู้ นิสัย หรือข้อมูลงานวิจัยที่น่าสนใจเกี่ยวกับ ${formatName(name)} ให้ฟังหน่อยครับ ดร. ขอสั้นๆ 1 ย่อหน้า ห้ามใช้เครื่องหมาย ### และแท็ก <voice>คำพูด 1-2 ประโยค</voice> ไว้ท้ายสุด (เนื้อหาในแท็ก voice ต้องเขียนให้เป็นภาษาพูดที่ไหลลื่น เป็นมืออาชีพ ห้ามมีสัญลักษณ์พิเศษหรือขึ้นบรรทัดใหม่)`;
                 
                 let response = "";
                 if (!apiKey) {
@@ -1076,6 +1084,26 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
             }
         }
 
+        // 🌟 ฟังก์ชันรวมร่างชื่อหลักกับชื่อฟอร์มภาษาไทยให้ถูกต้อง ไร้ขีด
+        function applyFormToThaiName(baseNameTh, engName) {
+            if (!engName) return formatName(baseNameTh);
+            let finalName = formatName(baseNameTh);
+            if (engName.includes('-mega-x')) return `เมก้า${finalName} X`;
+            if (engName.includes('-mega-y')) return `เมก้า${finalName} Y`;
+            if (engName.includes('-mega')) return `เมก้า${finalName}`;
+            if (engName.includes('-primal')) return `ต้นกาล${finalName}`;
+            if (engName.includes('-gmax')) return `เคียวไดแมกซ์${finalName}`;
+            if (engName.includes('-alola')) return `${finalName} (ฟอร์มอโลลา)`;
+            if (engName.includes('-galar')) return `${finalName} (ฟอร์มกาลาร์)`;
+            if (engName.includes('-hisui')) return `${finalName} (ฟอร์มฮิซุย)`;
+            if (engName.includes('-paldea')) return `${finalName} (ฟอร์มพัลเดีย)`;
+            if (engName.includes('-therian')) return `ร่างอวตาร${finalName}`;
+            if (engName.includes('-origin')) return `ร่างดั้งเดิม${finalName}`;
+            if (engName.includes('-ash')) return `ซาโตชิ${finalName}`;
+            if (engName.includes('-eternamax')) return `มุเก็นไดแมกซ์${finalName}`;
+            return finalName;
+        }
+
         let allPokemon = [];
         let filteredList = [];
         let displayLimit = ITEMS_PER_PAGE;
@@ -1085,9 +1113,6 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
         let compareData = [null, null];
         let currentlyRenderedCount = 0;
         const pokemonCache = new Map();
-        let searchTimeout;
-
-        const formatName = (name) => name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, ' ');
         
         const getImageUrl = (id, size = 'full') => {
             const baseUrl = `raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`;
@@ -1112,10 +1137,10 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
         const getThaiName = (engName) => {
             if (!engName) return '';
             
-            if (THAI_NAMES_BASE[engName]) return THAI_NAMES_BASE[engName];
+            if (THAI_NAMES_BASE[engName]) return formatName(THAI_NAMES_BASE[engName]);
             if (engName === 'ho-oh') return 'โฮโอ';
             if (engName === 'porygon-z') return 'โพรีกอน Z';
-            if (engName === 'jangmo-o') return 'จารังโกะ';
+            if (engName === 'jangmo-o') return 'จาราโค';
             if (engName === 'hakamo-o') return 'จารังโก';
             if (engName === 'kommo-o') return 'จาราแรนกา';
             if (engName === 'type-null') return 'ไทป์:นัล';
@@ -1124,10 +1149,6 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
             if (engName === 'zygarde-10-power-construct' || engName === 'zygarde-10') return 'ซีการ์ด (ฟอร์ม 10%)';
             if (engName === 'zygarde-complete') return 'ซีการ์ด (เพอร์เฟกต์ฟอร์ม)';
 
-            if (engName.includes('mimikyu-busted')) return 'มิมิคคิว (ร่างความลับแตก)';
-            if (engName.includes('mimikyu-totem-disguised')) return 'มิมิคคิว เจ้าถิ่น (ร่างจำแลง)';
-            if (engName.includes('mimikyu-totem-busted')) return 'มิมิคคิว เจ้าถิ่น (ร่างความลับแตก)';
-
             let baseEngName = engName;
             for (let i = 0; i < defaultSuffixes.length; i++) {
                 if (engName.endsWith(defaultSuffixes[i])) { 
@@ -1135,7 +1156,7 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                     break; 
                 }
             }
-            if (THAI_NAMES_BASE[baseEngName]) return THAI_NAMES_BASE[baseEngName];
+            if (THAI_NAMES_BASE[baseEngName]) return formatName(THAI_NAMES_BASE[baseEngName]);
             
             let isSpecialForm = false;
             for (let i = 0; i < formKeywords.length; i++) {
@@ -1148,19 +1169,7 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
             if (isSpecialForm) {
                 const baseOnly = engName.replace(formRegex, '');
                 let thaiBase = THAI_NAMES_BASE[baseOnly] || formatName(baseOnly);
-                if (engName.includes('-mega-x')) return `เมก้า${thaiBase} X`;
-                if (engName.includes('-mega-y')) return `เมก้า${thaiBase} Y`;
-                if (engName.includes('-mega')) return `เมก้า${thaiBase}`;
-                if (engName.includes('-primal')) return `ต้นกาล${thaiBase}`;
-                if (engName.includes('-gmax')) return `เคียวไดแมกซ์${thaiBase}`;
-                if (engName.includes('-alola')) return `${thaiBase} (ฟอร์มอโลลา)`;
-                if (engName.includes('-galar')) return `${thaiBase} (ฟอร์มกาลาร์)`;
-                if (engName.includes('-hisui')) return `${thaiBase} (ฟอร์มฮิซุย)`;
-                if (engName.includes('-paldea')) return `${thaiBase} (ฟอร์มพัลเดีย)`;
-                if (engName.includes('-therian')) return `ร่างอวตาร${thaiBase}`;
-                if (engName.includes('-origin')) return `ร่างดั้งเดิม${thaiBase}`;
-                if (engName.includes('-ash')) return `ซาโตชิ${thaiBase}`;
-                if (engName.includes('-eternamax')) return `มุเก็นไดแมกซ์${thaiBase}`;
+                return applyFormToThaiName(thaiBase, engName);
             }
             return formatName(baseEngName);
         };
@@ -1189,16 +1198,6 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
 
             allPokemon = [...INITIAL_POKEMON];
             applyFilters();
-
-            const sentinel = document.getElementById('scroll-sentinel');
-            if (sentinel) {
-                const observer = new IntersectionObserver((entries) => {
-                    if (entries[0].isIntersecting && filteredList.length > displayLimit) {
-                        loadMore();
-                    }
-                }, { rootMargin: '3000px' }); 
-                observer.observe(sentinel);
-            }
 
             try {
                 const data = await prefetchAPI;
@@ -1231,12 +1230,57 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                             applyFilters(); 
                         }
                         setTimeout(() => fetchCompareData(), 500);
+                        
+                        // 🌟 เริ่มระบบ "นักแปลหลังบ้าน" ค่อยๆ โหลดชื่อไทยแท้ๆ สำหรับตัวที่เหลือ
+                        setTimeout(loadAllThaiNamesInBackground, 3000);
                     }
                 }
                 processChunk();
 
             } catch (error) {
                 console.error("Failed to fetch pokemon list", error);
+            }
+        }
+
+        // 🌟 ระบบนักแปลชื่อภาษาไทยพื้นหลัง (Background Translator)
+        async function loadAllThaiNamesInBackground() {
+            for (let i = 0; i < allPokemon.length; i++) {
+                const p = allPokemon[i];
+                // ถ้าชื่อยังมีภาษาอังกฤษปนอยู่ ให้ไปดึงจาก PokeAPI หรือแปลด้วย Google Translate
+                if (/[a-zA-Z]/.test(p.name_th)) { 
+                    try {
+                        const speciesId = p.url.split('/').slice(-2, -1)[0];
+                        let speciesData = speciesCache.get(parseInt(speciesId));
+                        
+                        if (!speciesData) {
+                            const res = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${speciesId}`);
+                            if(!res.ok) continue;
+                            speciesData = await res.json();
+                            speciesCache.set(parseInt(speciesId), speciesData);
+                        }
+                        
+                        const thNameObj = speciesData.names.find(n => n.language.name === 'th');
+                        if (thNameObj) {
+                            p.name_th = applyFormToThaiName(thNameObj.name, p.name);
+                        } else {
+                            // 🌟 ปิดการแปลอัตโนมัติ ให้ใช้ชื่อภาษาอังกฤษที่จัดรูปแบบแล้วหากไม่มีชื่อไทย
+                            p.name_th = getThaiName(p.name);
+                        }
+                        
+                        // อัปเดต UI ถ้ามีการ์ดแสดงอยู่บนจอพอดี
+                        const cardName = document.querySelector(`#card-${p.id} h2`);
+                        if (cardName) cardName.innerText = p.name_th;
+                        
+                        // อัปเดตชื่อในหน้าต่าง Dropdown (ระบบเปรียบเทียบ) ด้วย
+                        const dropdownTexts = document.querySelectorAll(`button[onclick*="selectCompare(0, ${p.id})"] div, button[onclick*="selectCompare(1, ${p.id})"] div`);
+                        dropdownTexts.forEach(el => el.innerText = p.name_th);
+
+                    } catch (e) {
+                        // ปล่อยผ่านถ้าดึงไม่สำเร็จ
+                    }
+                    // หน่วงเวลาเล็กน้อยเพื่อไม่ให้ API ทำงานหนักเกินไป
+                    await new Promise(r => setTimeout(r, 100)); 
+                }
             }
         }
 
@@ -1298,19 +1342,24 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
             applyFilters();
         }
 
+        // 🌟 2. ใช้เทคนิค Debounce เพื่อป้องกันหน้ากระตุกเวลาค้นหา
+        let searchTimeout;
         function handleSearch() {
-            searchQuery = document.getElementById('searchInput').value.toLowerCase();
-            displayLimit = ITEMS_PER_PAGE;
-            document.getElementById('pokemon-grid').innerHTML = '';
-            currentlyRenderedCount = 0;
-            applyFilters();
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                searchQuery = document.getElementById('searchInput').value.toLowerCase();
+                displayLimit = ITEMS_PER_PAGE;
+                document.getElementById('pokemon-grid').innerHTML = '';
+                currentlyRenderedCount = 0;
+                applyFilters();
+            }, 300); // หน่วงเวลา 300ms เพื่อไม่ให้ประมวลผลซ้ำซ้อนขณะกำลังพิมพ์
         }
 
         function applyFilters() {
             let list = allPokemon;
             
             if (searchQuery) {
-                list = list.filter(p => p.name.toLowerCase().includes(searchQuery) || p.name_th.includes(searchQuery) || p.id.toString() === searchQuery);
+                list = list.filter(p => formatName(p.name).toLowerCase().includes(searchQuery) || p.name_th.includes(searchQuery) || p.id.toString() === searchQuery);
             } else {
                 list = list.filter(p => p.id <= 1025);
                 const reg = REGIONS[selectedRegionIndex];
@@ -1321,7 +1370,6 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
             
             filteredList = list;
             
-            // 🌟 แก้ไขปัญหาแสดง 20 รูปแบบในตอนเริ่มต้น ให้ค้างไว้ที่ 1025 จนกว่าข้อมูลจริงจะโหลดเสร็จ
             if (allPokemon.length === INITIAL_POKEMON.length && !searchQuery && selectedRegionIndex === 0) {
                 document.getElementById('total-count').innerText = "1025";
             } else {
@@ -1346,6 +1394,15 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
             
             document.getElementById('empty-state').style.display = (filteredList.length === 0) ? 'block' : 'none';
             document.getElementById('load-more-container').style.display = 'none';
+
+            const loadMoreBtn = document.getElementById('load-more-container');
+            if (currentlyRenderedCount + itemsToRender.length < filteredList.length) {
+                loadMoreBtn.style.display = 'flex';
+                loadMoreBtn.classList.remove('hidden');
+            } else {
+                loadMoreBtn.style.display = 'none';
+                loadMoreBtn.classList.add('hidden');
+            }
 
             const fragment = document.createDocumentFragment();
 
@@ -1379,7 +1436,7 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                         
                         <div class="text-center w-full relative z-10 flex flex-col items-center pb-2" style="transform: translateZ(10px);">
                             <h2 class="text-sm md:text-xl font-bold md:font-black text-slate-800 tracking-tight drop-shadow-sm group-hover:text-slate-900 mb-1.5 md:mb-2 truncate w-full px-1 leading-normal">
-                                ${p.name_th}
+                                ${formatName(p.name_th)}
                             </h2>
                             <div id="types-${p.id}" class="flex justify-center gap-1 md:gap-1.5 h-6 md:h-8 items-center w-full types-container"></div>
                         </div>
@@ -1426,7 +1483,7 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                         
                         <div class="text-center w-full relative z-10 flex flex-col items-center pb-2" style="transform: translateZ(10px);">
                             <h2 class="text-sm md:text-xl font-bold md:font-black text-slate-800 tracking-tight drop-shadow-sm group-hover:text-slate-900 mb-1.5 md:mb-2 truncate w-full px-1 leading-normal">
-                                ${p.name_th}
+                                ${formatName(p.name_th)}
                             </h2>
                             <div class="flex justify-center gap-1 md:gap-1.5 h-6 md:h-8 items-center w-full types-container"></div>
                         </div>
@@ -1453,6 +1510,38 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
                     data = await res.json();
                     pokemonCache.set(id, data);
+                }
+
+                // 🌟 หากชื่อบนหน้าจอยังเป็นภาษาอังกฤษ ให้แปลกะทันหันแบบเรียลไทม์เลย
+                if (!data.name_th || /[a-zA-Z]/.test(data.name_th)) {
+                    data.name_th = getThaiName(data.name); 
+                    
+                    if (/[a-zA-Z]/.test(data.name_th) && data.species && data.species.url) {
+                        const speciesId = data.species.url.split('/').slice(-2, -1)[0];
+                        let speciesData = speciesCache.get(parseInt(speciesId));
+                        
+                        if (!speciesData) {
+                            const sRes = await fetch(data.species.url);
+                            speciesData = await sRes.json();
+                            speciesCache.set(parseInt(speciesId), speciesData);
+                        }
+                        
+                        const thNameObj = speciesData.names.find(n => n.language.name === 'th');
+                        if (thNameObj) {
+                            data.name_th = applyFormToThaiName(thNameObj.name, data.name);
+                        } else {
+                            // 🌟 ใช้ชื่ออังกฤษไปเลยถ้าไม่มีชื่อไทยทางการ
+                            data.name_th = getThaiName(data.name);
+                        }
+                        
+                        // อัปเดต UI หน้าการ์ดทันที
+                        const nameEl = card.querySelector('h2');
+                        if (nameEl) nameEl.innerText = formatName(data.name_th);
+                        
+                        // อัปเดตในฐานข้อมูลหลักเพื่อไม่ให้แปลซ้ำ
+                        const globalP = allPokemon.find(p => p.id === parseInt(id));
+                        if (globalP) globalP.name_th = data.name_th;
+                    }
                 }
 
                 const themeColor = TYPE_COLORS[data.types[0].type.name] || '#cbd5e1';
@@ -1500,12 +1589,16 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                     pokemonCache.set(parseInt(id), pokemonDetail);
                 }
                 
-                pokemonDetail.name_th = getThaiName(pokemonDetail.name);
+                // ตรวจสอบและบังคับเปลี่ยนชื่อหลักเป็นไทยเสมอ
+                if (!pokemonDetail.name_th || /[a-zA-Z]/.test(pokemonDetail.name_th)) {
+                    pokemonDetail.name_th = getThaiName(pokemonDetail.name);
+                    // 🌟 ไม่แปลกะทันหันด้วย Google แล้ว ให้ใช้ภาษาอังกฤษแทนถ้าไม่มีชื่อไทย
+                }
 
                 let speciesDetail = null;
                 let evoChain = null;
                 let formsData = [];
-                let translatedEntry = 'ไม่พบข้อมูลพฤติกรรมในฐานข้อมูลหลัก';
+                let translatedEntry = 'ด็อกเตอร์กำลังรวบรวมข้อมูลพฤติกรรมของโปเกมอนตัวนี้อยู่...'; // Default fallback
 
                 if (pokemonDetail.species && pokemonDetail.species.url) {
                     const specRes = await fetch(pokemonDetail.species.url);
@@ -1513,13 +1606,14 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                     
                     if (speciesDetail.varieties) {
                         const seenFormNames = new Set();
-                        speciesDetail.varieties.filter(f => !f.is_default).forEach(v => {
-                            const tName = getThaiName(v.pokemon.name);
+                        // 🌟 ดึงชื่อฟอร์ม (คงภาษาอังกฤษไว้ถ้าไม่มีภาษาไทย)
+                        for (const v of speciesDetail.varieties.filter(f => !f.is_default)) {
+                            let tName = getThaiName(v.pokemon.name);
                             if (!seenFormNames.has(tName)) {
                                 seenFormNames.add(tName);
-                                formsData.push(v);
+                                formsData.push({ ...v, customThaiName: tName });
                             }
-                        });
+                        }
                     }
 
                     if (speciesDetail.evolution_chain && speciesDetail.evolution_chain.url) {
@@ -1537,18 +1631,23 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                             if (translationCache.has(engText)) {
                                 translatedEntry = translationCache.get(engText);
                             } else {
-                                translatedEntry = engText; 
-                                fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=th&dt=t&q=${encodeURIComponent(engText)}`)
-                                    .then(r => r.json())
-                                    .then(d => {
-                                        const text = d[0].map(item => item[0]).join('');
-                                        translationCache.set(engText, text);
-                                        const entryEl = document.getElementById('pokedex-entry-text');
-                                        if(entryEl && entryEl.dataset.pid == pokemonDetail.id) {
-                                            entryEl.innerText = text;
-                                            entryEl.classList.add('fade-in'); 
+                                // Fallback to Google Translate if no API key
+                                if (translatedEntry === 'ด็อกเตอร์กำลังรวบรวมข้อมูลพฤติกรรมของโปเกมอนตัวนี้อยู่...') {
+                                    try {
+                                        const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=th&dt=t&q=${encodeURIComponent(engText)}`);
+                                        if (r.ok) {
+                                            const d = await r.json();
+                                            let text = d[0].map(item => item[0]).join('');
+                                            // Force replace English names to ensure Thai TTS reads smoothly
+                                            text = text.replace(new RegExp(pokemonDetail.name, 'ig'), formatName(pokemonDetail.name_th));
+                                            text = text.replace(new RegExp(formatName(pokemonDetail.name), 'ig'), formatName(pokemonDetail.name_th));
+                                            translatedEntry = text;
+                                            translationCache.set(engText, translatedEntry);
                                         }
-                                    }).catch(() => {});
+                                    } catch (err) {
+                                        console.error("Translation API failed", err);
+                                    }
+                                }
                             }
                         }
                     }
@@ -1590,7 +1689,7 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
         function buildEvoNodeHTML(node) {
             if(!node) return '';
             const id = node.species.url.split('/').slice(-2, -1)[0];
-            const nameTh = getThaiName(node.species.name);
+            const nameTh = formatName(getThaiName(node.species.name));
             
             let html = `
                 <div class="flex items-center gap-2 md:gap-4 shrink-0 preserve-3d">
@@ -1652,7 +1751,7 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
 
             const typesText = pokemonDetail.types.map(t => TYPE_NAMES_TH[t.type.name] || t.type.name).join('และ');
             const safeTranslatedEntry = translatedEntry.replace(/['"\n\r]/g, ' '); 
-            const rotomText = `${pokemonDetail.name_th} เป็นโปเกมอน ประเภท${typesText} ${safeTranslatedEntry}`;
+            const rotomText = `${formatName(pokemonDetail.name_th)} เป็นโปเกมอน ประเภท${typesText} ${safeTranslatedEntry}`;
 
             let html = `
                 <nav class="max-w-6xl mx-auto p-4 md:p-10 flex justify-between items-center mb-2 md:mb-0">
@@ -1676,7 +1775,7 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                             </div>
                             
                             <div class="relative z-20 w-48 h-48 sm:w-[250px] sm:h-[250px] md:w-[400px] md:h-[400px] mx-auto preserve-3d flex items-center justify-center drop-shadow-2xl" style="transform: translateZ(60px);" id="detail-img-wrapper">
-                                <img id="detail-img" src="${getImageUrl(pokemonDetail.id, 'full')}" class="max-w-full max-h-full object-contain img-3d-detail animate-float" alt="${pokemonDetail.name_th}" onerror="handleImgErr(this, ${pokemonDetail.id}, 'full')" />
+                                <img id="detail-img" src="${getImageUrl(pokemonDetail.id, 'full')}" class="max-w-full max-h-full object-contain img-3d-detail animate-float" alt="${formatName(pokemonDetail.name_th)}" onerror="handleImgErr(this, ${pokemonDetail.id}, 'full')" />
                             </div>
                         </div>
                     </div>
@@ -1688,7 +1787,7 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                                     #${String(pokemonDetail.id).padStart(3, '0')}
                                 </div>
                                 <div class="flex items-center gap-4">
-                                    ${cryUrl ? `<button type="button" aria-label="ฟังเสียงร้องของ ${pokemonDetail.name_th}" onclick="playCry('${cryUrl}')" class="hover:scale-110 text-blue-500 transition-transform focus:outline-none drop-shadow-md" title="ฟังเสียงร้อง"><i class="ph-fill ph-speaker-high text-3xl md:text-4xl" aria-hidden="true"></i></button>` : ''}
+                                    ${cryUrl ? `<button type="button" aria-label="ฟังเสียงร้องของ ${formatName(pokemonDetail.name_th)}" onclick="playCry('${cryUrl}')" class="hover:scale-110 text-blue-500 transition-transform focus:outline-none drop-shadow-md" title="ฟังเสียงร้อง"><i class="ph-fill ph-speaker-high text-3xl md:text-4xl" aria-hidden="true"></i></button>` : ''}
                                     
                                     <button type="button" aria-label="${isFav ? 'ยกเลิก' : 'เพิ่ม'}รายการโปรด" onclick="toggleFavorite(${pokemonDetail.id})" class="hover:scale-125 transition-transform focus:outline-none drop-shadow-md group/btn" title="เพิ่ม/ลบ รายการโปรด">
                                         <i class="${heartClass} ph-heart fav-icon-${pokemonDetail.id} text-3xl md:text-4xl transition-colors group-hover/btn:text-red-400" aria-hidden="true"></i>
@@ -1696,7 +1795,7 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                                 </div>
                             </div>
                             
-                            <h2 class="text-3xl sm:text-5xl md:text-7xl font-black text-slate-800 tracking-tighter mb-1.5 md:mb-4 leading-normal drop-shadow-sm w-full py-2">${pokemonDetail.name_th}</h2>
+                            <h2 class="text-3xl sm:text-5xl md:text-7xl font-black text-slate-800 tracking-tighter mb-1.5 md:mb-4 leading-normal drop-shadow-sm w-full py-2">${formatName(pokemonDetail.name_th)}</h2>
                             <p class="text-xs sm:text-sm md:text-xl text-slate-600 font-bold italic mb-3 md:mb-6 uppercase tracking-widest leading-normal">${formatName(pokemonDetail.name)}</p>
                             <div class="flex flex-wrap gap-1.5 md:gap-3">
                                 ${pokemonDetail.types.map(t => {
@@ -1821,14 +1920,15 @@ ${p2.name_th}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                                     ${formsData.map(v => {
                                         const formId = v.pokemon.url.split('/').slice(-2, -1)[0];
                                         const isCurrent = formId == pokemonDetail.id;
+                                        const displayFormName = formatName(v.customThaiName || getThaiName(v.pokemon.name));
                                         return `
                                             <div id="form-wrapper-${formId}" class="preserve-3d relative">
-                                                <button type="button" aria-label="ดูข้อมูลของฟอร์ม ${getThaiName(v.pokemon.name)}" onclick="${!isCurrent ? `openDetail(${formId})` : ''}" class="card-bg-wrap flex flex-col items-center p-2 md:p-6 rounded-xl md:rounded-[2rem] transition-transform w-20 md:w-36 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300 ${isCurrent ? 'cursor-default bg-white border-red-400 shadow-xl scale-105 border-2' : 'cursor-pointer bg-white/70 border-white hover:bg-white hover:shadow-xl hover:-translate-y-1 md:hover:-translate-y-2 border-2'}">
+                                                <button type="button" aria-label="ดูข้อมูลของฟอร์ม ${displayFormName}" onclick="${!isCurrent ? `openDetail(${formId})` : ''}" class="card-bg-wrap flex flex-col items-center p-2 md:p-6 rounded-xl md:rounded-[2rem] transition-transform w-20 md:w-36 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300 ${isCurrent ? 'cursor-default bg-white border-red-400 shadow-xl scale-105 border-2' : 'cursor-pointer bg-white/70 border-white hover:bg-white hover:shadow-xl hover:-translate-y-1 md:hover:-translate-y-2 border-2'}">
                                                     <div class="relative w-10 h-10 md:w-20 md:h-20 mb-1.5 md:mb-4 preserve-3d" style="transform: translateZ(30px);">
-                                                        <img src="${getImageUrl(formId, 'grid')}" class="w-full h-full object-contain img-3d-grid transition-transform duration-200" alt="${getThaiName(v.pokemon.name)}" onerror="handleImgErr(this, ${formId}, 'grid')" />
+                                                        <img src="${getImageUrl(formId, 'grid')}" class="w-full h-full object-contain img-3d-grid transition-transform duration-200" alt="${displayFormName}" onerror="handleImgErr(this, ${formId}, 'grid')" />
                                                     </div>
                                                     <span class="font-bold text-slate-800 text-[8px] md:text-xs text-center leading-normal line-clamp-2 w-full px-1 pb-1" style="transform: translateZ(10px);">
-                                                        ${getThaiName(v.pokemon.name)}
+                                                        ${displayFormName}
                                                     </span>
                                                 </button>
                                             </div>
@@ -1888,7 +1988,7 @@ function buildDropdownHTML(index, currentId) {
     return `
         <div class="relative w-full mb-1.5 md:mb-6 compare-dropdown" id="dropdown-${index}">
             <button type="button" aria-label="เลือกโปเกมอนสำหรับการเปรียบเทียบ" aria-haspopup="listbox" onclick="toggleCompareDropdown(${index})" class="w-full bg-white/80 backdrop-blur-md p-1.5 sm:p-2 md:p-5 rounded-md sm:rounded-lg md:rounded-2xl flex justify-between items-center border border-white hover:border-red-400 transition-colors font-bold text-slate-700 shadow-sm md:shadow-md group text-[8px] sm:text-[10px] md:text-base min-w-0 focus:outline-none focus:ring-2 focus:ring-red-400">
-                <span class="truncate pr-1 flex-1 text-left leading-normal py-0.5 md:py-1" id="dropdown-text-${index}">${selected ? selected.name_th : 'เลือก...'}</span>
+                <span class="truncate pr-1 flex-1 text-left leading-normal py-0.5 md:py-1" id="dropdown-text-${index}">${selected ? formatName(selected.name_th) : 'เลือก...'}</span>
                 <i class="ph ph-caret-right text-slate-400 group-hover:text-red-400 transition-transform text-[10px] md:text-base shrink-0" id="dropdown-icon-${index}" aria-hidden="true"></i>
             </button>
             <div id="dropdown-menu-${index}" role="listbox" class="hidden absolute z-50 mt-1 md:mt-2 w-full bg-white/95 backdrop-blur-xl rounded-lg md:rounded-2xl shadow-2xl border border-white overflow-hidden">
@@ -1913,8 +2013,8 @@ function renderCompareListHTML(index, query) {
     }
     return list.slice(0, 50).map(p => `
         <button type="button" role="option" aria-selected="false" onclick="selectCompare(${index}, ${p.id})" class="w-full text-left p-1.5 md:p-4 hover:bg-red-50/50 cursor-pointer flex items-center gap-1.5 md:gap-4 border-b border-slate-50 last:border-0 transition-colors focus:outline-none focus:bg-red-50">
-            <img src="${getImageUrl(p.id, 'thumb')}" class="w-5 h-5 md:w-10 md:h-10 object-contain drop-shadow-sm img-3d-grid" loading="lazy" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'thumb')" />
-            <div class="flex-1 text-[9px] md:text-sm font-bold text-slate-700 truncate leading-normal py-1">${p.name_th}</div>
+            <img src="${getImageUrl(p.id, 'thumb')}" class="w-5 h-5 md:w-10 md:h-10 object-contain drop-shadow-sm img-3d-grid" loading="lazy" alt="${formatName(p.name_th)}" onerror="handleImgErr(this, ${p.id}, 'thumb')" />
+            <div class="flex-1 text-[9px] md:text-sm font-bold text-slate-700 truncate leading-normal py-1">${formatName(p.name_th)}</div>
         </button>
     `).join('');
 }
@@ -2015,14 +2115,14 @@ function renderCompareView() {
                 <div class="flex flex-col items-center mb-1 md:mb-8 min-w-0 preserve-3d relative z-10" style="transform: translateZ(15px);">
                     <div class="w-14 h-14 sm:w-20 sm:h-20 md:w-48 md:h-48 mb-2 md:mb-6 bg-white rounded-xl md:rounded-[2.5rem] flex items-center justify-center p-2 md:p-6 relative shadow-inner border border-slate-50 overflow-hidden shrink-0 transition-colors duration-500 preserve-3d">
                         <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-white transition-colors duration-500"></div>
-                        <img src="${getImageUrl(data.id, 'full')}" class="w-full h-full object-contain relative z-10 animate-float img-3d-detail" alt="${data.name_th}" onerror="handleImgErr(this, ${data.id}, 'full')" />
+                        <img src="${getImageUrl(data.id, 'full')}" class="w-full h-full object-contain relative z-10 animate-float img-3d-detail" alt="${formatName(data.name_th)}" onerror="handleImgErr(this, ${data.id}, 'full')" />
                     </div>
                     <div class="text-[7px] sm:text-[9px] md:text-2xl font-black italic tracking-widest mb-0 md:mb-2 opacity-90 drop-shadow-sm" style="color: ${themeColor}">
                         #${String(data.id).padStart(3, '0')}
                     </div>
                     <h2 class="text-[9px] sm:text-[11px] md:text-4xl font-bold md:font-black text-slate-800 tracking-tight mb-0.5 md:mb-4 text-center leading-tight truncate block w-full px-0.5 py-0.5 md:py-2 flex items-center justify-center gap-0.5 md:gap-3 transition-colors duration-500">
-                        ${data.name_th}
-                        ${cryUrl ? `<button aria-label="ฟังเสียงร้องของ ${data.name_th}" onclick="playCry('${cryUrl}')" class="p-0.5 md:p-2 bg-blue-100 text-blue-500 rounded-full hover:bg-blue-500 hover:text-white transition-colors shadow-sm focus:outline-none"><i class="ph-fill ph-speaker-high text-[7px] md:text-base" aria-hidden="true"></i></button>` : ''}
+                        ${formatName(data.name_th)}
+                        ${cryUrl ? `<button aria-label="ฟังเสียงร้องของ ${formatName(data.name_th)}" onclick="playCry('${cryUrl}')" class="p-0.5 md:p-2 bg-blue-100 text-blue-500 rounded-full hover:bg-blue-500 hover:text-white transition-colors shadow-sm focus:outline-none"><i class="ph-fill ph-speaker-high text-[7px] md:text-base" aria-hidden="true"></i></button>` : ''}
                     </h2>
                     <div class="flex justify-center gap-0.5 md:gap-2 mt-0.5 md:mt-0 h-4 md:h-8 overflow-hidden items-center shrink-0 w-full flex-wrap md:flex-nowrap">
                         ${data.types.map(t => {
