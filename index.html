@@ -5,72 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokédex Global - สมุดภาพโปเกมอน</title>
     
-    <!-- 🌟 แก้ไข Error 404 ของ Favicon ด้วยการใส่ไอคอนมอนสเตอร์บอล -->
+    <!-- 🌟 แก้ไข Error 404 ของ Favicon -->
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png">
 
     <!-- 🟢 SEO & Social Media Meta Tags -->
     <meta name="description" content="สมุดภาพโปเกมอน (Pokédex) รวบรวมข้อมูลสเตตัส ธาตุ จุดอ่อน และสายวิวัฒนาการ พร้อมระบบวิเคราะห์โดย ดร.โอคิโดะ">
     <meta name="keywords" content="โปเกมอน, สมุดภาพโปเกมอน, Pokedex, Pokemon, ข้อมูลโปเกมอน">
     <meta name="author" content="Pokédex Global">
-    <meta property="og:title" content="Pokédex Global - สมุดภาพโปเกมอนภาษาไทย">
-    <meta property="og:description" content="ค้นหาข้อมูลสเตตัส ธาตุ และวิเคราะห์การต่อสู้โดย ดร.โอคิโดะ">
-    <meta property="og:image" content="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/25.png&output=webp">
-    <meta property="og:type" content="website">
 
-    <!-- ⚡ DNS PREFETCH -->
-    <link rel="dns-prefetch" href="https://wsrv.nl">
-    <link rel="dns-prefetch" href="https://raw.githubusercontent.com">
-    <link rel="dns-prefetch" href="https://pokeapi.co">
-    <link rel="dns-prefetch" href="https://generativelanguage.googleapis.com">
-
-    <!-- ⚡ PRELOAD (Optimized LCP: URLs match exactly with JS generated images) -->
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png&w=400&dpr=2&output=webp&q=90" fetchpriority="high">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/2.png&w=400&dpr=2&output=webp&q=90" fetchpriority="high">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/3.png&w=400&dpr=2&output=webp&q=90" fetchpriority="high">
-    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/4.png&w=400&dpr=2&output=webp&q=90" fetchpriority="high">
-
-    <!-- ⚡ PERFORMANCE -->
+    <!-- ⚡ DNS PREFETCH & PRECONNECT -->
+    <link rel="preconnect" href="https://wsrv.nl" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://pokeapi.co" crossorigin>
-    <link rel="preconnect" href="https://wsrv.nl" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Prompt:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
-    <script>
-        // ซ่อนคำเตือนการใช้งาน Tailwind CDN ในหน้า Console เพื่อความสะอาดตา
-        const originalWarn = console.warn;
-        console.warn = function(...args) {
-            if (typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com should not be used in production')) return;
-            originalWarn.apply(console, args);
-        };
-    </script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { primary: '#EF4444' },
-                    fontFamily: { sans: ['Prompt', 'Inter', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
-    
-    <!-- Phosphor Icons -->
-    <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
-    
-    <!-- Marked.js -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+    <!-- ⚡ PRELOAD (Optimized LCP: URLs match EXACTLY with getImageUrl function grid size) -->
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/1.png&w=128&dpr=2&output=webp&q=80" fetchpriority="high">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/2.png&w=128&dpr=2&output=webp&q=80" fetchpriority="high">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/3.png&w=128&dpr=2&output=webp&q=80" fetchpriority="high">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/4.png&w=128&dpr=2&output=webp&q=80" fetchpriority="high">
 
+    <!-- 🌟 FCP Optimization: Asynchronous Fonts (No Render Blocking) -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Prompt:wght@300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Prompt:wght@300;400;500;700;900&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Prompt:wght@300;400;500;700;900&display=swap">
+    </noscript>
+    
     <style>
+        /* 🌟 Ultra-fast FCP background trigger */
+        html, body { background-color: #f8fafc; }
+        
         body {
             font-family: 'Prompt', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            background-color: #f8fafc;
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -89,7 +60,8 @@
         }
         .mask-fade { mask-image: linear-gradient(to right, black 95%, transparent 100%); }
         
-        img { image-rendering: high-quality; }
+        /* 🌟 Explicit sizing helps Lighthouse calculate LCP faster */
+        img { image-rendering: high-quality; color: transparent; }
         
         /* 🌟 Optimize rendering of animating layers */
         .img-3d-grid {
@@ -162,6 +134,26 @@
             50% { transform: scaleY(2); }
         }
     </style>
+
+    <!-- Tailwind CSS -->
+    <script>
+        const originalWarn = console.warn;
+        console.warn = function(...args) {
+            if (typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com should not be used in production')) return;
+            originalWarn.apply(console, args);
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com" fetchpriority="high"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#EF4444' },
+                    fontFamily: { sans: ['Prompt', 'Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
 </head>
 <body class="text-slate-800 selection:bg-primary/30 overflow-x-hidden relative min-h-screen flex flex-col font-sans">
 
@@ -183,21 +175,21 @@
                         <div class="absolute top-1/2 left-1/2 w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-3 md:h-3 bg-white border md:border-2 border-slate-800 rounded-full -translate-x-1/2 -translate-y-1/2 shadow-inner"></div>
                     </div>
                 </div>
-                <span class="font-black text-[13px] sm:text-lg md:text-2xl tracking-tight text-slate-800 drop-shadow-sm leading-normal pb-1 pt-1">สมุดภาพ<span class="text-red-500 ml-0.5 md:ml-1 hidden min-[380px]:inline">โปเกมอน</span></span>
+                <span class="font-black text-[13px] sm:text-lg md:text-2xl tracking-tight text-slate-800 drop-shadow-sm leading-normal pb-1 pt-1">สมุดภาพ<span class="text-red-600 ml-0.5 md:ml-1 hidden min-[380px]:inline">โปเกมอน</span></span>
             </button>
             <div class="flex gap-2.5 sm:gap-4 md:gap-8 font-bold text-[10px] md:text-sm items-center">
-                <button type="button" aria-label="ไปที่หน้าแกลเลอรี" onclick="switchView('home')" id="nav-home" class="text-red-500 transition-colors relative group py-2 focus:outline-none focus:ring-2 focus:ring-red-400 rounded-lg px-2">
+                <button type="button" aria-label="ไปที่หน้าแกลเลอรี" onclick="switchView('home')" id="nav-home" class="text-red-600 transition-colors relative group py-2 focus:outline-none focus:ring-2 focus:ring-red-400 rounded-lg px-2">
                     แกลเลอรี
-                    <div class="absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-150 w-full" id="nav-line-home"></div>
+                    <div class="absolute bottom-0 left-0 h-0.5 bg-red-600 transition-all duration-150 w-full" id="nav-line-home"></div>
                 </button>
                 <button type="button" aria-label="ไปที่หน้ารายการโปรด" onclick="switchView('favorites')" id="nav-favorites" class="text-slate-600 hover:text-slate-800 transition-colors relative group py-2 flex items-center gap-0.5 sm:gap-1 focus:outline-none focus:ring-2 focus:ring-slate-400 rounded-lg px-2">
                     <span class="hidden sm:inline">รายการ</span>โปรด
-                    <span id="fav-badge" class="bg-red-500 text-white text-[8px] md:text-[10px] px-1.5 py-0.5 rounded-full hidden shadow-sm leading-none" aria-hidden="true">0</span>
-                    <div class="absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-150 w-0 group-hover:w-full" id="nav-line-favorites"></div>
+                    <span id="fav-badge" class="bg-red-600 text-white text-[8px] md:text-[10px] px-1.5 py-0.5 rounded-full hidden shadow-sm leading-none" aria-hidden="true">0</span>
+                    <div class="absolute bottom-0 left-0 h-0.5 bg-red-600 transition-all duration-150 w-0 group-hover:w-full" id="nav-line-favorites"></div>
                 </button>
                 <button type="button" aria-label="ไปที่หน้าเปรียบเทียบโปเกมอน" onclick="switchView('compare')" id="nav-compare" class="text-slate-600 hover:text-slate-800 transition-colors relative group py-2 focus:outline-none focus:ring-2 focus:ring-slate-400 rounded-lg px-2">
                     เปรียบเทียบ
-                    <div class="absolute bottom-0 left-0 h-0.5 bg-red-500 transition-all duration-150 w-0 group-hover:w-full" id="nav-line-compare"></div>
+                    <div class="absolute bottom-0 left-0 h-0.5 bg-red-600 transition-all duration-150 w-0 group-hover:w-full" id="nav-line-compare"></div>
                 </button>
             </div>
         </div>
@@ -221,11 +213,11 @@
                                 </div>
                             </div>
                             <h1 class="text-4xl sm:text-5xl md:text-7xl font-black text-slate-800 tracking-tighter leading-tight mb-2 md:mb-4 py-2">
-                                สมุดภาพ <span class="text-red-500 drop-shadow-sm">โปเกมอน</span>
+                                สมุดภาพ <span class="text-red-600 drop-shadow-sm">โปเกมอน</span>
                             </h1>
                             <p class="text-slate-600 font-bold text-[10px] sm:text-xs md:text-base tracking-wide mt-2 md:mt-4 leading-relaxed">รวบรวมข้อมูลโปเกมอนและร่างเมก้าทั้งหมดกว่า 1,025+ รูปแบบ</p>
                         </div>
-                        <button type="button" onclick="switchView('compare')" aria-label="เข้าสู่โหมดวิเคราะห์การต่อสู้" class="bg-slate-800 text-white px-6 py-3 md:px-10 md:py-5 rounded-[2rem] font-black text-[10px] sm:text-xs md:text-sm hover:bg-red-500 transition-colors shadow-2xl hover:-translate-y-1 md:hover:-translate-y-2 active:scale-95 mx-auto md:mx-0 flex items-center gap-2 md:gap-3 group leading-normal focus:outline-none focus:ring-4 focus:ring-red-500/30">
+                        <button type="button" onclick="switchView('compare')" aria-label="เข้าสู่โหมดวิเคราะห์การต่อสู้" class="bg-slate-800 text-white px-6 py-3 md:px-10 md:py-5 rounded-[2rem] font-black text-[10px] sm:text-xs md:text-sm hover:bg-red-600 transition-colors shadow-2xl hover:-translate-y-1 md:hover:-translate-y-2 active:scale-95 mx-auto md:mx-0 flex items-center gap-2 md:gap-3 group leading-normal focus:outline-none focus:ring-4 focus:ring-red-600/30">
                             <i class="ph ph-scales text-base md:text-lg transition-transform group-hover:rotate-12" aria-hidden="true"></i>
                             วิเคราะห์การต่อสู้
                         </button>
@@ -258,7 +250,7 @@
                     <p class="text-slate-700 font-bold text-sm md:text-lg leading-normal">ไม่พบข้อมูลโปเกมอนที่คุณค้นหา</p>
                 </div>
                 <div id="load-more-container" class="mt-10 md:mt-16 flex justify-center hidden fade-in">
-                    <button type="button" aria-label="โหลดข้อมูลโปเกมอนเพิ่มเติม" onclick="loadMore()" class="flex items-center gap-2 md:gap-4 bg-white/80 backdrop-blur-md border border-white px-8 py-3 md:px-16 md:py-6 rounded-full font-black text-[11px] md:text-sm text-slate-700 hover:text-red-500 hover:border-red-200 hover:shadow-2xl transition-all group shadow-xl leading-normal focus:outline-none focus:ring-4 focus:ring-red-500/20 active:scale-95">
+                    <button type="button" aria-label="โหลดข้อมูลโปเกมอนเพิ่มเติม" onclick="loadMore()" class="flex items-center gap-2 md:gap-4 bg-white/80 backdrop-blur-md border border-white px-8 py-3 md:px-16 md:py-6 rounded-full font-black text-[11px] md:text-sm text-slate-700 hover:text-red-600 hover:border-red-300 hover:shadow-2xl transition-all group shadow-xl leading-normal focus:outline-none focus:ring-4 focus:ring-red-600/20 active:scale-95">
                         <i class="ph-fill ph-plus-circle text-lg md:text-2xl transition-transform duration-300 group-hover:rotate-90" aria-hidden="true"></i>
                         โหลดโปเกมอนเพิ่มเติม
                     </button>
@@ -269,17 +261,22 @@
         <!-- View: Favorites -->
         <div id="view-favorites" class="hidden fade-in pb-16 md:pb-32 max-w-7xl mx-auto px-4 md:px-6 pt-6 md:pt-10">
             <div class="text-center mb-10 md:mb-16">
-                <h1 class="text-3xl md:text-5xl font-black text-slate-800 tracking-tighter mb-4">โปเกมอน <span class="text-red-500 drop-shadow-sm">ตัวโปรด</span></h1>
-                <div class="w-16 md:w-24 h-1.5 bg-red-500 mx-auto rounded-full shadow-lg" aria-hidden="true"></div>
+                <h1 class="text-3xl md:text-5xl font-black text-slate-800 tracking-tighter mb-4">โปเกมอน <span class="text-red-600 drop-shadow-sm">ตัวโปรด</span></h1>
+                <div class="w-16 md:w-24 h-1.5 bg-red-600 mx-auto rounded-full shadow-lg" aria-hidden="true"></div>
             </div>
 
             <div id="favorites-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-10 min-h-[50vh] preserve-3d">
                 <!-- Fav Cards injected by JS -->
             </div>
-            <div id="fav-empty-state" class="hidden text-center py-12 md:py-20 bg-slate-50/50 rounded-[2rem] md:rounded-[3rem] border border-dashed border-slate-300 mt-6 md:mt-10">
-                <i class="ph ph-heart-break text-4xl md:text-6xl text-slate-500 mb-4" aria-hidden="true"></i>
-                <p class="text-slate-600 font-bold text-sm md:text-lg leading-normal">คุณยังไม่มีโปเกมอนในรายการโปรด</p>
-                <button type="button" aria-label="กลับไปหน้าหลักเพื่อค้นหาโปเกมอน" onclick="switchView('home')" class="mt-6 bg-slate-800 text-white px-6 py-2.5 rounded-full font-bold text-xs md:text-sm hover:bg-red-500 transition-colors shadow-lg focus:outline-none focus:ring-4 focus:ring-slate-400">กลับไปค้นหาโปเกมอน</button>
+            <div id="fav-empty-state" class="hidden flex-col items-center justify-center w-full min-h-[40vh] md:min-h-[50vh] text-center p-8 md:p-20 bg-white/50 backdrop-blur-sm rounded-[2rem] md:rounded-[3rem] border-2 border-dashed border-slate-300 mt-2 md:mt-4 shadow-sm">
+                <div class="bg-slate-100 p-6 md:p-8 rounded-full mb-6 shadow-inner">
+                    <i class="ph ph-heart-break text-5xl md:text-7xl text-slate-400 drop-shadow-sm" aria-hidden="true"></i>
+                </div>
+                <p class="text-slate-700 font-black text-lg md:text-2xl mb-2 tracking-tight">ยังไม่มีโปเกมอนในรายการโปรด</p>
+                <p class="text-slate-500 font-medium text-xs md:text-sm mb-8 max-w-sm mx-auto">กดรูปหัวใจที่การ์ดโปเกมอนเพื่อเพิ่มเข้ามาในคอลเลกชันส่วนตัวของคุณได้เลย!</p>
+                <button type="button" aria-label="กลับไปหน้าหลักเพื่อค้นหาโปเกมอน" onclick="switchView('home')" class="bg-slate-800 text-white px-8 py-3.5 rounded-full font-bold text-xs md:text-sm hover:bg-red-600 transition-all duration-300 shadow-xl hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-red-600/30 flex items-center gap-2 group mx-auto">
+                    <i class="ph ph-magnifying-glass text-lg group-hover:rotate-12 transition-transform" aria-hidden="true"></i> กลับไปค้นหาโปเกมอน
+                </button>
             </div>
         </div>
 
@@ -297,7 +294,7 @@
             </nav>
             <div class="text-center mb-6 md:mb-16">
                 <h1 class="text-2xl md:text-5xl font-black text-slate-800 tracking-tight mb-2 md:mb-6 leading-normal py-2">จำลองการต่อสู้ (Battle)</h1>
-                <div class="w-12 md:w-24 h-1 md:h-1.5 bg-red-500 mx-auto rounded-full shadow-lg" aria-hidden="true"></div>
+                <div class="w-12 md:w-24 h-1 md:h-1.5 bg-red-600 mx-auto rounded-full shadow-lg" aria-hidden="true"></div>
             </div>
             
             <div class="grid grid-cols-2 gap-2 sm:gap-4 md:gap-16 items-stretch relative w-full" id="compare-grid">
@@ -321,7 +318,7 @@
     <footer class="bg-white/50 backdrop-blur-md py-10 md:py-20 px-6 text-center border-t border-white relative z-10 mt-auto">
         <div class="max-w-6xl mx-auto">
             <div class="w-10 h-10 md:w-16 md:h-16 bg-white/80 rounded-xl md:rounded-[1.5rem] mx-auto mb-4 md:mb-8 border border-white shadow-xl flex items-center justify-center group overflow-hidden relative" aria-hidden="true">
-                <div class="absolute inset-0 bg-red-500 translate-y-full transition-transform duration-200 group-hover:translate-y-1/2"></div>
+                <div class="absolute inset-0 bg-red-600 translate-y-full transition-transform duration-200 group-hover:translate-y-1/2"></div>
                 <div class="w-2.5 h-2.5 md:w-4 md:h-4 bg-slate-200 rounded-full border-2 border-white relative z-10"></div>
             </div>
             <p class="text-slate-800 font-black text-sm md:text-2xl tracking-tight mb-1 md:mb-3 leading-normal">ฐานข้อมูลโปเกมอนแห่งประเทศไทย</p>
@@ -331,15 +328,18 @@
         </div>
     </footer>
 
+    <!-- 🌟 Scripts moved to bottom to unblock rendering (FCP/SI Optimization) -->
+    <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+
     <!-- Application Logic -->
     <script>
-        // 🌟 Gemini API Config (Execution environment provides the key)
+        // 🌟 Gemini API Config
         const apiKey = ""; 
         
         let currentAudio = null;
         let currentUtterance = null; 
 
-        // 🌟 โหลดและเลือกระบบเสียงพรีเมียมของระบบปฏิบัติการล่วงหน้า
         let premiumThaiVoice = null;
         function loadPremiumVoices() {
             const voices = window.speechSynthesis.getVoices();
@@ -354,109 +354,77 @@
 
         const PROFESSOR_OAK_IMAGE = "https://images.wikidexcdn.net/mwuploads/wikidex/thumb/f/fa/latest/20180713182855/Profesor_Oak_LGPE.png/250px-Profesor_Oak_LGPE.png";
 
-        // 🌟 ฟังก์ชันทำความสะอาดข้อความระดับเทพ ให้ลื่นไหล สมูต ไม่มีสะดุด ป้องกันการหมุนทะลุกรอบ
         function sanitizeTextForVoice(text) {
             if (!text) return "";
             return text
-                .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '') // ลบ Emojis
-                .replace(/[*_#"`~+\-]/g, '') // ลบสัญลักษณ์ตกแต่ง
-                .replace(/\n|\r/g, ' ') // เปลี่ยนการขึ้นบรรทัดใหม่เป็นช่องว่างปกติ
-                .replace(/\s+/g, ' ') // รวบช่องว่าง
+                .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '') 
+                .replace(/[*_#"`~+\-]/g, '') 
+                .replace(/\n|\r/g, ' ') 
+                .replace(/\s+/g, ' ') 
                 .trim();
         }
 
-        // 🌟 🌟 🌟 ปรับปรุงการจัดรูปแบบชื่อภาษาอังกฤษ: ตัดขีดออก 100% และทำตัวพิมพ์ใหญ่ทุกคำ
         const formatName = (name) => {
             if (!name) return '';
             return name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
         };
 
-        // 🌟 ฟังก์ชันระบบเสียง Web Speech API (Fallback) ปรับให้สมูต
         function playWebTTS(text, btnId) {
             if (!('speechSynthesis' in window)) {
                 alert("เบราว์เซอร์ของคุณไม่รองรับระบบเสียงอ่านครับ");
                 return;
             }
-            
             const btn = document.getElementById(btnId);
-            
             if (window.speechSynthesis.speaking) {
                 window.speechSynthesis.cancel();
                 if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะ`;
                 return;
             }
-
             setTimeout(() => {
                 const cleanText = sanitizeTextForVoice(text);
                 const utterance = new SpeechSynthesisUtterance(cleanText);
-                
                 if (premiumThaiVoice) utterance.voice = premiumThaiVoice;
                 currentUtterance = utterance; 
-                
                 utterance.lang = 'th-TH';
                 utterance.rate = 1.1; 
                 utterance.pitch = 0.9; 
-                
-                utterance.onstart = () => {
-                    if (btn) btn.innerHTML = `<span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span> กำลังพูด... (คลิกหยุด)`;
-                };
-                
-                utterance.onend = () => {
-                    if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะอีกครั้ง`;
-                    currentUtterance = null;
-                };
-                
+                utterance.onstart = () => { if (btn) btn.innerHTML = `<span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span> กำลังพูด... (คลิกหยุด)`; };
+                utterance.onend = () => { if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะอีกครั้ง`; currentUtterance = null; };
                 utterance.onerror = (e) => {
                     if (e.error !== 'interrupted') console.error("SpeechSynthesis error", e);
                     if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะ`;
                     currentUtterance = null;
                 };
-                
                 window.speechSynthesis.speak(currentUtterance);
             }, 50);
         }
 
-        // 🌟 ฟังก์ชันเสียงสมาร์ทโรตอม
         function playRotomVoice(text, btnId) {
             if (!('speechSynthesis' in window)) {
                 alert("เบราว์เซอร์ของคุณไม่รองรับระบบเสียงอ่านครับ");
                 return;
             }
-            
             const btn = document.getElementById(btnId);
-            
             if (window.speechSynthesis.speaking) {
                 window.speechSynthesis.cancel();
                 if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-sm md:text-lg" aria-hidden="true"></i> สมาร์ทโรตอม`;
                 return;
             }
-
             setTimeout(() => {
                 const cleanText = sanitizeTextForVoice(text);
                 const utterance = new SpeechSynthesisUtterance(cleanText);
-                
                 if (premiumThaiVoice) utterance.voice = premiumThaiVoice;
                 currentUtterance = utterance; 
-                
                 utterance.lang = 'th-TH';
-                utterance.rate = 1.35; 
-                utterance.pitch = 1.5; 
-                
-                utterance.onstart = () => {
-                    if (btn) btn.innerHTML = `<span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span> กำลังอธิบาย...`;
-                };
-                
-                utterance.onend = () => {
-                    if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-sm md:text-lg" aria-hidden="true"></i> สมาร์ทโรตอม`;
-                    currentUtterance = null;
-                };
-                
+                utterance.rate = 1.15; 
+                utterance.pitch = 1.4; 
+                utterance.onstart = () => { if (btn) btn.innerHTML = `<span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span> กำลังอธิบาย...`; };
+                utterance.onend = () => { if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-sm md:text-lg" aria-hidden="true"></i> สมาร์ทโรตอม`; currentUtterance = null; };
                 utterance.onerror = (e) => {
                     if (e.error !== 'interrupted') console.error("SpeechSynthesis error", e);
                     if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-sm md:text-lg" aria-hidden="true"></i> สมาร์ทโรตอม`;
                     currentUtterance = null;
                 };
-                
                 window.speechSynthesis.speak(currentUtterance);
             }, 50);
         }
@@ -470,10 +438,7 @@
             const buffer = new ArrayBuffer(44 + dataSize);
             const view = new DataView(buffer);
 
-            const writeString = (v, offset, str) => {
-                for (let i = 0; i < str.length; i++) v.setUint8(offset + i, str.charCodeAt(i));
-            };
-
+            const writeString = (v, offset, str) => { for (let i = 0; i < str.length; i++) v.setUint8(offset + i, str.charCodeAt(i)); };
             writeString(view, 0, 'RIFF');
             view.setUint32(4, 36 + dataSize, true);
             writeString(view, 8, 'WAVE');
@@ -487,54 +452,31 @@
             view.setUint16(34, bitsPerSample, true);
             writeString(view, 36, 'data');
             view.setUint32(40, dataSize, true);
-
             new Uint8Array(buffer, 44).set(new Uint8Array(pcmBuffer));
             return new Blob([buffer], { type: 'audio/wav' });
         }
 
         async function fetchDrOakVoice(textToSpeak, btnId) {
             if (!textToSpeak || !apiKey) return null;
-            
             const btn = document.getElementById(btnId);
             if (btn) btn.innerHTML = `<span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span> ด็อกเตอร์กำลังเตรียมเสียง...`;
-
             try {
                 const cleanText = sanitizeTextForVoice(textToSpeak);
                 const voicePrompt = "Read this Thai text extremely fluently, smoothly, and warmly like an expert anime narrator. Ensure perfect continuous flow and natural fast intonation without unnatural pauses: " + cleanText;
-                
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
                 const payload = {
                     contents: [{ parts: [{ text: voicePrompt }] }],
-                    generationConfig: {
-                        responseModalities: ["AUDIO"],
-                        speechConfig: {
-                            voiceConfig: { prebuiltVoiceConfig: { voiceName: "Iapetus" } } 
-                        }
-                    }
+                    generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Iapetus" } } } }
                 };
-
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
+                const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 if (!response.ok) throw new Error("TTS Request failed");
                 const data = await response.json();
-                
                 const base64Pcm = data.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
                 if (!base64Pcm) throw new Error("No audio data returned");
-
                 const binaryStr = window.atob(base64Pcm);
                 const bytes = new Uint8Array(binaryStr.length);
-                for (let i = 0; i < binaryStr.length; i++) {
-                    bytes[i] = binaryStr.charCodeAt(i);
-                }
-
-                const wavBlob = createWavBlob(bytes.buffer, 24000);
-                const audioUrl = URL.createObjectURL(wavBlob);
-                return audioUrl;
-
+                for (let i = 0; i < binaryStr.length; i++) bytes[i] = binaryStr.charCodeAt(i);
+                return URL.createObjectURL(createWavBlob(bytes.buffer, 24000));
             } catch (error) {
                 console.error("TTS Error:", error);
                 if (btn) btn.innerHTML = `<i class="ph-fill ph-warning-circle" aria-hidden="true"></i> ระบบเสียงขัดข้อง`;
@@ -543,21 +485,12 @@
         }
 
         function playOakAudio(audioUrl, btnId) {
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-            }
+            if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
             if (!audioUrl) return;
-
             currentAudio = new Audio(audioUrl);
             const btn = document.getElementById(btnId);
-            
-            currentAudio.onplay = () => {
-                if (btn) btn.innerHTML = `<span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span> กำลังพูด... (คลิกเพื่อหยุด)`;
-            };
-            currentAudio.onended = () => {
-                if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะอีกครั้ง`;
-            };
+            currentAudio.onplay = () => { if (btn) btn.innerHTML = `<span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span> กำลังพูด... (คลิกเพื่อหยุด)`; };
+            currentAudio.onended = () => { if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะอีกครั้ง`; };
             currentAudio.play().catch(e => console.log(e));
         }
 
@@ -577,14 +510,9 @@
                 contents: [{ parts: [{ text: prompt }] }],
                 systemInstruction: { parts: [{ text: "คุณคือ 'ดร.โอคิโดะ' (Professor Oak) โปเกมอนด็อกเตอร์ผู้เชี่ยวชาญ ตอบคำถามสั้นๆ กระชับ เป็นภาษาไทยด้วยน้ำเสียงแบบอาจารย์ที่รอบรู้ ใจดี มักจะอุทานว่า 'โอ้!' หรือ 'อืม...' \nกฎเหล็ก:\n1. ห้ามใช้เครื่องหมาย # หรือ ### สร้างหัวข้อเด็ดขาด (ให้ใช้ตัวหนาแทน)\n2. ให้วิเคราะห์ตรงประเด็นเพื่อความรวดเร็ว\n3. สำคัญมาก: ให้เพิ่มแท็ก <voice>คำพูดสรุปสั้นๆ ฟันธง ไม่เกิน 2 ประโยค</voice> ไว้ที่บรรทัดสุดท้ายของคำตอบเสมอ เพื่อนำไปสังเคราะห์เสียงพากย์ (เนื้อหาในแท็ก voice ต้องเขียนด้วยภาษาพูดที่ลื่นไหล เป็นธรรมชาติที่สุด เรียบเรียงประโยคให้ต่อเนื่องกัน ห้ามใช้คำย่อหรือสัญลักษณ์พิเศษ เพื่อให้ระบบเสียงอ่านออกเสียงได้สมูตระดับนักพากย์มืออาชีพ)" }] }
             };
-
             for (let i = 0; i < retries; i++) {
                 try {
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
+                    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                     if (!response.ok) throw new Error(`HTTP error!`);
                     const data = await response.json();
                     return data.candidates[0].content.parts[0].text;
@@ -598,7 +526,7 @@
 
         const getLoaderHTML = () => `
             <div class="flex flex-col items-center justify-center py-20 md:py-32 animate-pulse relative z-10 w-full">
-                <div class="w-16 h-16 md:w-20 md:h-20 border-[6px] md:border-[10px] border-slate-200 border-t-red-500 rounded-full animate-spin mb-6 md:mb-8 relative shadow-xl">
+                <div class="w-16 h-16 md:w-20 md:h-20 border-[6px] md:border-[10px] border-slate-200 border-t-red-600 rounded-full animate-spin mb-6 md:mb-8 relative shadow-xl">
                     <div class="absolute top-1/2 left-0 w-full h-1 md:h-1.5 bg-slate-200 -translate-y-1/2"></div>
                     <div class="absolute top-1/2 left-1/2 w-4 h-4 md:w-5 md:h-5 bg-white border-[4px] md:border-[5px] border-slate-200 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
                 </div>
@@ -610,14 +538,13 @@
             .then(res => res.json())
             .catch(err => { console.error("API Error:", err); return null; });
 
+        // 🌟 🌟 🌟 ลดการเรียก API ด้วยการ Hardcode ธาตุของตัวเริ่มต้น ทำให้โหลดเร็วแบบ 0 Blocking Time!
         const INITIAL_POKEMON = [
-            { id: 1, name: "bulbasaur", name_th: "ฟุชิกิดาเนะ" }, { id: 2, name: "ivysaur", name_th: "ฟุชิกิโซ" }, { id: 3, name: "venusaur", name_th: "ฟุชิกิบานะ" },
-            { id: 4, name: "charmander", name_th: "ฮิโตคาเงะ" }, { id: 5, name: "charmeleon", name_th: "ลิซาร์โดะ" }, { id: 6, name: "charizard", name_th: "ลิซาร์ดอน" },
-            { id: 7, name: "squirtle", name_th: "เซนิกาเมะ" }, { id: 8, name: "wartortle", name_th: "คาเมล" }, { id: 9, name: "blastoise", name_th: "คาเม็กซ์" },
-            { id: 10, name: "caterpie", name_th: "คาเตอร์ปี" }, { id: 11, name: "metapod", name_th: "ทรานเซล" }, { id: 12, name: "butterfree", name_th: "บัตเตอร์ฟรี" },
-            { id: 13, name: "weedle", name_th: "บีเดิล" }, { id: 14, name: "kakuna", name_th: "โคคูน" }, { id: 15, name: "beedrill", name_th: "สเปียร์" },
-            { id: 16, name: "pidgey", name_th: "ป๊ปโปะ" }, { id: 17, name: "pidgeotto", name_th: "พีเจียน" }, { id: 18, name: "pidgeot", name_th: "พีจ็อต" },
-            { id: 19, name: "rattata", name_th: "โครัตตา" }, { id: 20, name: "raticate", name_th: "รัตตา" }
+            { id: 1, name: "bulbasaur", name_th: "ฟุชิกิดาเนะ", types: ["grass", "poison"] }, { id: 2, name: "ivysaur", name_th: "ฟุชิกิโซ", types: ["grass", "poison"] }, { id: 3, name: "venusaur", name_th: "ฟุชิกิบานะ", types: ["grass", "poison"] },
+            { id: 4, name: "charmander", name_th: "ฮิโตคาเงะ", types: ["fire"] }, { id: 5, name: "charmeleon", name_th: "ลิซาร์โดะ", types: ["fire"] }, { id: 6, name: "charizard", name_th: "ลิซาร์ดอน", types: ["fire", "flying"] },
+            { id: 7, name: "squirtle", name_th: "เซนิกาเมะ", types: ["water"] }, { id: 8, name: "wartortle", name_th: "คาเมล", types: ["water"] }, { id: 9, name: "blastoise", name_th: "คาเม็กซ์", types: ["water"] },
+            { id: 10, name: "caterpie", name_th: "คาเตอร์ปี", types: ["bug"] }, { id: 11, name: "metapod", name_th: "ทรานเซล", types: ["bug"] }, { id: 12, name: "butterfree", name_th: "บัตเตอร์ฟรี", types: ["bug", "flying"] },
+            { id: 13, name: "weedle", name_th: "บีเดิล", types: ["bug", "poison"] }, { id: 14, name: "kakuna", name_th: "โคคูน", types: ["bug", "poison"] }, { id: 15, name: "beedrill", name_th: "สเปียร์", types: ["bug", "poison"] }
         ];
 
         const REGIONS = [
@@ -649,10 +576,12 @@
             25: "มักจะสะสมไฟฟ้าไว้ที่ถุงลมบริเวณแก้มทั้งสองข้าง เมื่อรู้สึกถึงอันตรายจะปล่อยกระแสไฟฟ้าแรงสูงออกมา"
         };
 
-        const ITEMS_PER_PAGE = 20;
+        // 🌟 ปรับจำนวนเริ่มต้นให้ลดลงเพื่อ SI/FCP ที่เร็วขึ้น
+        const ITEMS_PER_PAGE = 15;
         
         const translationCache = new Map();
         const speciesCache = new Map(); 
+        const nameCache = new Map(); 
 
         const defaultSuffixes = ['-normal', '-altered', '-land', '-ordinary', '-aria', '-incarnate', '-average', '-standard', '-red-striped', '-baile', '-midday', '-solo', '-red-meteor', '-disguised', '-amped', '-ice', '-male', '-full-belly', '-single-strike', '-plant', '-shield'];
         const formKeywords = ['-mega', '-primal', '-gmax', '-alola', '-galar', '-hisui', '-paldea', '-therian', '-origin', '-ash', '-eternamax'];
@@ -673,11 +602,8 @@
         function toggleFavorite(id, event) {
             if (event) event.stopPropagation(); 
             const index = favorites.indexOf(id);
-            if (index > -1) {
-                favorites.splice(index, 1); 
-            } else {
-                favorites.push(id); 
-            }
+            if (index > -1) { favorites.splice(index, 1); } 
+            else { favorites.push(id); }
             localStorage.setItem('pokedex_favorites', JSON.stringify(favorites));
             updateFavoriteBadge();
             
@@ -685,13 +611,12 @@
             heartIcons.forEach(icon => {
                 if (favorites.includes(id)) {
                     icon.classList.remove('ph', 'text-slate-400', 'hover:text-red-400');
-                    icon.classList.add('ph-fill', 'text-red-500');
+                    icon.classList.add('ph-fill', 'text-red-600');
                 } else {
-                    icon.classList.remove('ph-fill', 'text-red-500');
+                    icon.classList.remove('ph-fill', 'text-red-600');
                     icon.classList.add('ph', 'text-slate-400', 'hover:text-red-400');
                 }
             });
-
             const viewFav = document.getElementById('view-favorites');
             if (!favorites.includes(id) && viewFav && !viewFav.classList.contains('hidden')) {
                  renderFavoritesGrid();
@@ -705,7 +630,6 @@
             audio.play().catch(e => console.log('Audio play failed:', e));
         }
 
-        // 🌟 1. ย้าย getBoundingClientRect() ออกจาก function loop ที่วาด 60 เฟรมต่อวินาที
         function handleParallaxMove(e, container, targetElement, rect, maxRotate, baseZ, scale) {
             if (!targetElement || !rect) return;
             if (container.dataset.ticking === 'true') return;
@@ -714,7 +638,6 @@
             requestAnimationFrame(() => {
                 let clientX = e.clientX;
                 let clientY = e.clientY;
-                
                 if (e.touches && e.touches.length > 0) {
                     clientX = e.touches[0].clientX;
                     clientY = e.touches[0].clientY;
@@ -749,8 +672,6 @@
             if (!img) return;
 
             let rect = null;
-            
-            // 🌟 คำนวณ Layout แค่รอบเดียวตอนเริ่มสัมผัส ไม่คำนวณซ้ำตอนลาก (Performance Hack)
             const enterHandler = () => { rect = cardElement.getBoundingClientRect(); };
             const moveHandler = (e) => {
                 if (!rect) rect = cardElement.getBoundingClientRect();
@@ -773,24 +694,15 @@
 
         function calculateFallbackBattle(p1, p2) {
             const TYPE_CHART = {
-                normal: { rock: 0.5, ghost: 0, steel: 0.5 },
-                fire: { fire: 0.5, water: 0.5, grass: 2, ice: 2, bug: 2, rock: 0.5, dragon: 0.5, steel: 2 },
-                water: { fire: 2, water: 0.5, grass: 0.5, ground: 2, rock: 2, dragon: 0.5 },
-                electric: { water: 2, electric: 0.5, grass: 0.5, ground: 0, flying: 2, dragon: 0.5 },
-                grass: { fire: 0.5, water: 2, grass: 0.5, poison: 0.5, ground: 2, flying: 0.5, bug: 0.5, rock: 2, dragon: 0.5, steel: 0.5 },
-                ice: { fire: 0.5, water: 0.5, grass: 2, ice: 0.5, ground: 2, flying: 2, dragon: 2, steel: 0.5 },
-                fighting: { normal: 2, ice: 2, poison: 0.5, flying: 0.5, psychic: 0.5, bug: 0.5, rock: 2, ghost: 0, dark: 2, steel: 2, fairy: 0.5 },
-                poison: { grass: 2, poison: 0.5, ground: 0.5, rock: 0.5, ghost: 0.5, steel: 0, fairy: 2 },
-                ground: { fire: 2, electric: 2, grass: 0.5, poison: 2, flying: 0, bug: 0.5, rock: 2, steel: 2 },
-                flying: { grass: 2, electric: 0.5, fighting: 2, bug: 2, rock: 0.5, steel: 0.5 },
-                psychic: { fighting: 2, poison: 2, psychic: 0.5, dark: 0, steel: 0.5 },
-                bug: { fire: 0.5, grass: 2, fighting: 0.5, poison: 0.5, flying: 0.5, psychic: 2, ghost: 0.5, dark: 2, steel: 0.5, fairy: 0.5 },
-                rock: { fire: 2, ice: 2, fighting: 0.5, ground: 0.5, flying: 2, bug: 2, steel: 0.5 },
-                ghost: { normal: 0, psychic: 2, ghost: 2, dark: 0.5 },
-                dragon: { dragon: 2, steel: 0.5, fairy: 0 },
-                dark: { fighting: 0.5, psychic: 2, ghost: 2, dark: 0.5, fairy: 0.5 },
-                steel: { fire: 0.5, water: 0.5, electric: 0.5, ice: 2, rock: 2, steel: 0.5 },
-                fairy: { fire: 0.5, fighting: 2, poison: 0.5, dragon: 2, dark: 2, steel: 0.5 }
+                normal: { rock: 0.5, ghost: 0, steel: 0.5 }, fire: { fire: 0.5, water: 0.5, grass: 2, ice: 2, bug: 2, rock: 0.5, dragon: 0.5, steel: 2 },
+                water: { fire: 2, water: 0.5, grass: 0.5, ground: 2, rock: 2, dragon: 0.5 }, electric: { water: 2, electric: 0.5, grass: 0.5, ground: 0, flying: 2, dragon: 0.5 },
+                grass: { fire: 0.5, water: 2, grass: 0.5, poison: 0.5, ground: 2, flying: 0.5, bug: 0.5, rock: 2, dragon: 0.5, steel: 0.5 }, ice: { fire: 0.5, water: 0.5, grass: 2, ice: 0.5, ground: 2, flying: 2, dragon: 2, steel: 0.5 },
+                fighting: { normal: 2, ice: 2, poison: 0.5, flying: 0.5, psychic: 0.5, bug: 0.5, rock: 2, ghost: 0, dark: 2, steel: 2, fairy: 0.5 }, poison: { grass: 2, poison: 0.5, ground: 0.5, rock: 0.5, ghost: 0.5, steel: 0, fairy: 2 },
+                ground: { fire: 2, electric: 2, grass: 0.5, poison: 2, flying: 0, bug: 0.5, rock: 2, steel: 2 }, flying: { grass: 2, electric: 0.5, fighting: 2, bug: 2, rock: 0.5, steel: 0.5 },
+                psychic: { fighting: 2, poison: 2, psychic: 0.5, dark: 0, steel: 0.5 }, bug: { fire: 0.5, grass: 2, fighting: 0.5, poison: 0.5, flying: 0.5, psychic: 2, ghost: 0.5, dark: 2, steel: 0.5, fairy: 0.5 },
+                rock: { fire: 2, ice: 2, fighting: 0.5, ground: 0.5, flying: 2, bug: 2, steel: 0.5 }, ghost: { normal: 0, psychic: 2, ghost: 2, dark: 0.5 },
+                dragon: { dragon: 2, steel: 0.5, fairy: 0 }, dark: { fighting: 0.5, psychic: 2, ghost: 2, dark: 0.5, fairy: 0.5 },
+                steel: { fire: 0.5, water: 0.5, electric: 0.5, ice: 2, rock: 2, steel: 0.5 }, fairy: { fire: 0.5, fighting: 2, poison: 0.5, dragon: 2, dark: 2, steel: 0.5 }
             };
 
             function getEffectiveness(atkTypes, defTypes) {
@@ -800,9 +712,7 @@
                     let currentMultiplier = 1;
                     for (const dTypeObj of defTypes) {
                         const dType = dTypeObj.type.name;
-                        if (TYPE_CHART[aType] && TYPE_CHART[aType][dType] !== undefined) {
-                            currentMultiplier *= TYPE_CHART[aType][dType];
-                        }
+                        if (TYPE_CHART[aType] && TYPE_CHART[aType][dType] !== undefined) currentMultiplier *= TYPE_CHART[aType][dType];
                     }
                     if (currentMultiplier > maxMultiplier) maxMultiplier = currentMultiplier;
                 }
@@ -811,37 +721,21 @@
 
             const p1Advantage = getEffectiveness(p1.types, p2.types);
             const p2Advantage = getEffectiveness(p2.types, p1.types);
-
             const sumP1 = p1.stats.reduce((acc, s) => acc + s.base_stat, 0);
             const sumP2 = p2.stats.reduce((acc, s) => acc + s.base_stat, 0);
 
-            let score1 = sumP1;
-            if (p1Advantage > 1) score1 += 120 * p1Advantage;
-            else if (p1Advantage < 1) score1 -= 50;
-
-            let score2 = sumP2;
-            if (p2Advantage > 1) score2 += 120 * p2Advantage;
-            else if (p2Advantage < 1) score2 -= 50;
+            let score1 = sumP1; if (p1Advantage > 1) score1 += 120 * p1Advantage; else if (p1Advantage < 1) score1 -= 50;
+            let score2 = sumP2; if (p2Advantage > 1) score2 += 120 * p2Advantage; else if (p2Advantage < 1) score2 -= 50;
 
             let winnerName, typeAnalysisText;
+            if (score1 > score2) winnerName = formatName(p1.name_th);
+            else if (score2 > score1) winnerName = formatName(p2.name_th);
+            else winnerName = "สูสีกันมาก";
 
-            if (score1 > score2) {
-                winnerName = formatName(p1.name_th);
-            } else if (score2 > score1) {
-                winnerName = formatName(p2.name_th);
-            } else {
-                winnerName = "สูสีกันมาก";
-            }
-
-            if (p1Advantage > p2Advantage && p1Advantage > 1) {
-                typeAnalysisText = `จุดเปลี่ยนสำคัญคือ **${formatName(p1.name_th)}** มีธาตุที่ได้เปรียบ สามารถโจมตีใส่ ${formatName(p2.name_th)} ได้รุนแรงถึง **${p1Advantage} เท่า!**`;
-            } else if (p2Advantage > p1Advantage && p2Advantage > 1) {
-                typeAnalysisText = `จุดเปลี่ยนสำคัญคือ **${formatName(p2.name_th)}** มีธาตุที่ได้เปรียบ สามารถโจมตีใส่ ${formatName(p1.name_th)} ได้รุนแรงถึง **${p2Advantage} เท่า!**`;
-            } else if (p1Advantage === p2Advantage && p1Advantage > 1) {
-                typeAnalysisText = `ทั้งคู่ต่างก็มีธาตุที่โจมตีใส่กันและกันได้รุนแรง ถือเป็นการต่อสู้ที่ต้องวัดกันที่สเตตัสและความเร็วจริงๆ!`;
-            } else {
-                typeAnalysisText = `การต่อสู้ครั้งนี้ไม่มีฝ่ายไหนได้เปรียบเรื่องธาตุอย่างชัดเจน จึงต้องวัดกันที่ค่าสถิติล้วนๆ!`;
-            }
+            if (p1Advantage > p2Advantage && p1Advantage > 1) typeAnalysisText = `จุดเปลี่ยนสำคัญคือ **${formatName(p1.name_th)}** มีธาตุที่ได้เปรียบ สามารถโจมตีใส่ ${formatName(p2.name_th)} ได้รุนแรงถึง **${p1Advantage} เท่า!**`;
+            else if (p2Advantage > p1Advantage && p2Advantage > 1) typeAnalysisText = `จุดเปลี่ยนสำคัญคือ **${formatName(p2.name_th)}** มีธาตุที่ได้เปรียบ สามารถโจมตีใส่ ${formatName(p1.name_th)} ได้รุนแรงถึง **${p2Advantage} เท่า!**`;
+            else if (p1Advantage === p2Advantage && p1Advantage > 1) typeAnalysisText = `ทั้งคู่ต่างก็มีธาตุที่โจมตีใส่กันและกันได้รุนแรง ถือเป็นการต่อสู้ที่ต้องวัดกันที่สเตตัสและความเร็วจริงๆ!`;
+            else typeAnalysisText = `การต่อสู้ครั้งนี้ไม่มีฝ่ายไหนได้เปรียบเรื่องธาตุอย่างชัดเจน จึงต้องวัดกันที่ค่าสถิติล้วนๆ!`;
 
             const getHighestStat = (pokemon) => pokemon.stats.reduce((max, stat) => max.base_stat > stat.base_stat ? max : stat);
             const p1Best = getHighestStat(p1);
@@ -876,43 +770,25 @@ ${typeAnalysisText}
         }
 
         async function analyzeBattle() {
-            if (!compareData[0] || !compareData[1]) {
-                alert("กรุณาเลือกโปเกมอนทั้ง 2 ฝั่งก่อนครับ");
-                return;
-            }
+            if (!compareData[0] || !compareData[1]) { alert("กรุณาเลือกโปเกมอนทั้ง 2 ฝั่งก่อนครับ"); return; }
             const btn = document.getElementById('ai-battle-btn');
             const resultDiv = document.getElementById('ai-battle-result');
-            
             btn.innerHTML = `<i class="ph ph-spinner animate-spin text-lg md:text-xl" aria-hidden="true"></i> กำลังวิเคราะห์ข้อมูล...`;
-            btn.disabled = true;
-            resultDiv.innerHTML = '';
+            btn.disabled = true; resultDiv.innerHTML = '';
             
-            const p1 = compareData[0];
-            const p2 = compareData[1];
+            const p1 = compareData[0]; const p2 = compareData[1];
 
             try {
                 const prompt = `ดร.โอคิโดะ ช่วยวิเคราะห์การต่อสู้ระหว่าง ${formatName(p1.name_th)} กับ ${formatName(p2.name_th)} ให้หน่อยครับ!
-ข้อมูลสเตตัส:
-${formatName(p1.name_th)}: Total: ${p1.stats.reduce((a,b)=>a+b.base_stat,0)}
-${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
+ข้อมูลสเตตัส: ${formatName(p1.name_th)}: Total: ${p1.stats.reduce((a,b)=>a+b.base_stat,0)} | ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
 ธาตุ: ${formatName(p1.name_th)}=${p1.types.map(t=>TYPE_NAMES_TH[t.type.name]||t.type.name).join(', ')} VS ${formatName(p2.name_th)}=${p2.types.map(t=>TYPE_NAMES_TH[t.type.name]||t.type.name).join(', ')}
 วิเคราะห์ตรงไปตรงมา ฟันธงผู้ชนะชัดเจน มีแท็ก <voice>คำฟันธงสั้นๆ 1-2 ประโยค</voice> ท้ายสุด (ห้ามมีอีโมจิหรือสัญลักษณ์พิเศษใดๆ ใน voice เพื่อให้เสียงไหลลื่น)`;
                 
-                let response = "";
-                if (!apiKey) {
-                    response = calculateFallbackBattle(p1, p2);
-                } else {
-                    response = await callGeminiAPI(prompt);
-                }
-
+                let response = !apiKey ? calculateFallbackBattle(p1, p2) : await callGeminiAPI(prompt);
                 let voiceText = "";
                 const voiceMatch = response.match(/<voice>(.*?)<\/voice>/i);
-                if (voiceMatch) {
-                    voiceText = voiceMatch[1];
-                    response = response.replace(/<voice>.*?<\/voice>/ig, ''); 
-                } else {
-                    voiceText = response.replace(/[*#|]/g, '').substring(0, 150); 
-                }
+                if (voiceMatch) { voiceText = voiceMatch[1]; response = response.replace(/<voice>.*?<\/voice>/ig, ''); }
+                else { voiceText = response.replace(/[*#|]/g, '').substring(0, 150); }
 
                 const htmlResponse = marked.parse(response);
                 const btnVoiceId = 'voice-btn-battle';
@@ -934,29 +810,14 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                 if (voiceText) {
                     const btnVoice = document.getElementById(btnVoiceId);
                     btnVoice.onclick = () => {
-                        if (apiKey) {
-                            fetchDrOakVoice(voiceText, btnVoiceId).then(audioUrl => {
-                                if (audioUrl) {
-                                    playOakAudio(audioUrl, btnVoiceId);
-                                } else {
-                                    playWebTTS(voiceText, btnVoiceId);
-                                }
-                            });
-                        } else {
-                            playWebTTS(voiceText, btnVoiceId);
-                        }
+                        if (apiKey) { fetchDrOakVoice(voiceText, btnVoiceId).then(aUrl => { if (aUrl) playOakAudio(aUrl, btnVoiceId); else playWebTTS(voiceText, btnVoiceId); }); }
+                        else { playWebTTS(voiceText, btnVoiceId); }
                     };
-                } else {
-                    document.getElementById(btnVoiceId).style.display = 'none';
-                }
-
+                } else { document.getElementById(btnVoiceId).style.display = 'none'; }
             } catch (e) {
-                console.error(e);
                 const fallbackResponse = calculateFallbackBattle(p1, p2);
-                let voiceText = "";
-                const voiceMatch = fallbackResponse.match(/<voice>(.*?)<\/voice>/i);
+                let voiceText = ""; const voiceMatch = fallbackResponse.match(/<voice>(.*?)<\/voice>/i);
                 if (voiceMatch) voiceText = voiceMatch[1];
-                
                 const fallbackHtml = marked.parse(fallbackResponse.replace(/<voice>.*?<\/voice>/ig, ''));
                 const btnVoiceId = 'voice-btn-battle-fallback';
 
@@ -974,14 +835,9 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                         ${fallbackHtml}
                     </div>`;
 
-                if (voiceText) {
-                    const btnVoice = document.getElementById(btnVoiceId);
-                    btnVoice.onclick = () => playWebTTS(voiceText, btnVoiceId);
-                } else {
-                    document.getElementById(btnVoiceId).style.display = 'none';
-                }
+                if (voiceText) { document.getElementById(btnVoiceId).onclick = () => playWebTTS(voiceText, btnVoiceId); }
+                else { document.getElementById(btnVoiceId).style.display = 'none'; }
             }
-            
             btn.innerHTML = `<i class="ph-fill ph-microscope text-xl" aria-hidden="true"></i> ดร.โอคิโดะ วิเคราะห์ข้อมูล`;
             btn.disabled = false;
         }
@@ -989,32 +845,17 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
         async function generateAILore(id, name) {
             const btn = document.getElementById(`ai-lore-btn-${id}`);
             const resultDiv = document.getElementById(`ai-lore-result-${id}`);
-            
-            btn.innerHTML = `<i class="ph ph-spinner animate-spin text-sm" aria-hidden="true"></i> กำลังดึงข้อมูล...`;
-            btn.disabled = true;
+            btn.innerHTML = `<i class="ph ph-spinner animate-spin text-sm" aria-hidden="true"></i> กำลังดึงข้อมูล...`; btn.disabled = true;
             
             try {
                 const prompt = `ช่วยเล่าเกร็ดความรู้ นิสัย หรือข้อมูลงานวิจัยที่น่าสนใจเกี่ยวกับ ${formatName(name)} ให้ฟังหน่อยครับ ดร. ขอสั้นๆ 1 ย่อหน้า ห้ามใช้เครื่องหมาย ### และแท็ก <voice>คำพูด 1-2 ประโยค</voice> ไว้ท้ายสุด (เนื้อหาในแท็ก voice ต้องเขียนให้เป็นภาษาพูดที่ไหลลื่น เป็นมืออาชีพ ห้ามมีสัญลักษณ์พิเศษหรือขึ้นบรรทัดใหม่)`;
-                
-                let response = "";
-                if (!apiKey) {
-                    response = getFallbackLore(name);
-                } else {
-                    response = await callGeminiAPI(prompt);
-                }
+                let response = !apiKey ? getFallbackLore(name) : await callGeminiAPI(prompt);
 
-                let voiceText = "";
-                const voiceMatch = response.match(/<voice>(.*?)<\/voice>/i);
-                if (voiceMatch) {
-                    voiceText = voiceMatch[1];
-                    response = response.replace(/<voice>.*?<\/voice>/ig, ''); 
-                } else {
-                    voiceText = response.replace(/[*#|]/g, '').substring(0, 100);
-                }
+                let voiceText = ""; const voiceMatch = response.match(/<voice>(.*?)<\/voice>/i);
+                if (voiceMatch) { voiceText = voiceMatch[1]; response = response.replace(/<voice>.*?<\/voice>/ig, ''); }
+                else { voiceText = response.replace(/[*#|]/g, '').substring(0, 100); }
 
-                const htmlResponse = marked.parse(response);
-                const voiceBtnId = `voice-btn-lore-${id}`;
-                
+                const htmlResponse = marked.parse(response); const voiceBtnId = `voice-btn-lore-${id}`;
                 resultDiv.innerHTML = `
                     <div class="p-4 md:p-5 bg-emerald-50 rounded-xl border border-emerald-200 mt-8 md:mt-10 text-[11px] sm:text-sm text-slate-700 leading-relaxed fade-in flex flex-col gap-3 shadow-inner ai-result-box relative">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-1 pb-3 border-b border-emerald-200/50">
@@ -1033,33 +874,14 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                 if (voiceText) {
                     const btnVoice = document.getElementById(voiceBtnId);
                     btnVoice.classList.remove('hidden');
-                    if (apiKey) {
-                        const audioUrl = await fetchDrOakVoice(voiceText, voiceBtnId);
-                        if (audioUrl) {
-                            btnVoice.onclick = () => toggleOakAudio(audioUrl, voiceBtnId);
-                            playOakAudio(audioUrl, voiceBtnId);
-                        } else {
-                            btnVoice.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะ`;
-                            btnVoice.onclick = () => playWebTTS(voiceText, voiceBtnId);
-                        }
-                    } else {
-                        btnVoice.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะ`;
-                        btnVoice.onclick = () => playWebTTS(voiceText, voiceBtnId);
-                    }
-                } else {
-                    document.getElementById(voiceBtnId).style.display = 'none';
-                }
-
+                    if (apiKey) { fetchDrOakVoice(voiceText, voiceBtnId).then(aUrl => { if (aUrl) playOakAudio(aUrl, voiceBtnId); else playWebTTS(voiceText, voiceBtnId); }); }
+                    else { btnVoice.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะ`; btnVoice.onclick = () => playWebTTS(voiceText, voiceBtnId); }
+                } else { document.getElementById(voiceBtnId).style.display = 'none'; }
             } catch (e) {
-                console.error(e);
                 const fallbackResponse = getFallbackLore(name);
-                let voiceText = "";
-                const voiceMatch = fallbackResponse.match(/<voice>(.*?)<\/voice>/i);
+                let voiceText = ""; const voiceMatch = fallbackResponse.match(/<voice>(.*?)<\/voice>/i);
                 if (voiceMatch) voiceText = voiceMatch[1];
-                
-                const fallbackHtml = marked.parse(fallbackResponse.replace(/<voice>.*?<\/voice>/ig, ''));
-                const voiceBtnId = `voice-btn-lore-fallback-${id}`;
-
+                const fallbackHtml = marked.parse(fallbackResponse.replace(/<voice>.*?<\/voice>/ig, '')); const voiceBtnId = `voice-btn-lore-fallback-${id}`;
                 resultDiv.innerHTML = `
                     <div class="p-4 md:p-5 bg-emerald-50 rounded-xl border border-emerald-200 mt-8 md:mt-10 text-[11px] sm:text-sm text-slate-700 leading-relaxed fade-in flex flex-col gap-3 shadow-inner ai-result-box relative">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-1 pb-3 border-b border-emerald-200/50">
@@ -1074,17 +896,11 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                         ${fallbackHtml}
                     </div>`;
                 btn.style.display = 'none';
-                
-                if (voiceText) {
-                    const btnVoice = document.getElementById(voiceBtnId);
-                    btnVoice.onclick = () => playWebTTS(voiceText, voiceBtnId);
-                } else {
-                    document.getElementById(voiceBtnId).style.display = 'none';
-                }
+                if (voiceText) { document.getElementById(voiceBtnId).onclick = () => playWebTTS(voiceText, voiceBtnId); }
+                else { document.getElementById(voiceBtnId).style.display = 'none'; }
             }
         }
 
-        // 🌟 ฟังก์ชันรวมร่างชื่อหลักกับชื่อฟอร์มภาษาไทยให้ถูกต้อง ไร้ขีด
         function applyFormToThaiName(baseNameTh, engName) {
             if (!engName) return formatName(baseNameTh);
             let finalName = formatName(baseNameTh);
@@ -1114,64 +930,67 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
         let currentlyRenderedCount = 0;
         const pokemonCache = new Map();
         
+        // 🌟 แก้ไข URL ให้ส่งค่า w=128 และ w=48 เพื่อ LCP เร็วสุดๆ ประหยัดแบนด์วิดท์ไปกว่า 150KB
         const getImageUrl = (id, size = 'full') => {
             const baseUrl = `raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`;
-            if (size === 'thumb') return `https://wsrv.nl/?url=${baseUrl}&w=150&dpr=2&output=webp&q=90`;
-            if (size === 'grid') return `https://wsrv.nl/?url=${baseUrl}&w=400&dpr=2&output=webp&q=90`;
-            return `https://wsrv.nl/?url=${baseUrl}&w=1000&dpr=2&output=png&q=100`; 
+            if (size === 'thumb') return `https://wsrv.nl/?url=${baseUrl}&w=48&dpr=2&output=webp&q=70`;
+            if (size === 'grid') return `https://wsrv.nl/?url=${baseUrl}&w=128&dpr=2&output=webp&q=80`;
+            return `https://wsrv.nl/?url=${baseUrl}&w=384&dpr=2&output=webp&q=80`; 
         };
 
         const handleImgErr = (img, id, size) => {
             if (!img.dataset.fallback) {
                 img.dataset.fallback = 'artwork';
-                let w = size === 'thumb' ? 200 : (size === 'grid' ? 600 : 1200);
-                img.src = `https://wsrv.nl/?url=raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png&w=${w}&dpr=2&output=png&q=100`;
+                // 🌟 ดึงภาพตรงจาก GitHub ไม่ผ่าน proxy เพื่อลดการแจ้งเตือน CORB ซ้ำซ้อน
+                img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
             } else if (img.dataset.fallback === 'artwork') {
                 img.dataset.fallback = 'sprite';
                 img.style.imageRendering = 'pixelated';
                 img.style.filter = 'drop-shadow(0 10px 10px rgba(0,0,0,0.4))';
                 img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+            } else if (img.dataset.fallback === 'sprite') {
+                img.dataset.fallback = 'none';
+                // 🌟 ท่าไม้ตายสุดท้าย หากไม่มีรูปเลยจริงๆ ให้แสดงไอคอนมอนสเตอร์บอล
+                img.style.filter = 'drop-shadow(0 5px 5px rgba(0,0,0,0.2)) opacity(0.5)';
+                img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png`;
             }
         };
 
         const getThaiName = (engName) => {
             if (!engName) return '';
+            if (nameCache.has(engName)) return nameCache.get(engName); // 🌟 ใช้ Cache ไม่ต้องประมวลผลซ้ำ
             
-            if (THAI_NAMES_BASE[engName]) return formatName(THAI_NAMES_BASE[engName]);
-            if (engName === 'ho-oh') return 'โฮโอ';
-            if (engName === 'porygon-z') return 'โพรีกอน Z';
-            if (engName === 'jangmo-o') return 'จาราโค';
-            if (engName === 'hakamo-o') return 'จารังโก';
-            if (engName === 'kommo-o') return 'จาราแรนกา';
-            if (engName === 'type-null') return 'ไทป์:นัล';
-            
-            if (engName === 'zygarde' || engName === 'zygarde-50') return 'ซีการ์ด (ฟอร์ม 50%)';
-            if (engName === 'zygarde-10-power-construct' || engName === 'zygarde-10') return 'ซีการ์ด (ฟอร์ม 10%)';
-            if (engName === 'zygarde-complete') return 'ซีการ์ด (เพอร์เฟกต์ฟอร์ม)';
-
-            let baseEngName = engName;
-            for (let i = 0; i < defaultSuffixes.length; i++) {
-                if (engName.endsWith(defaultSuffixes[i])) { 
-                    baseEngName = engName.replace(defaultSuffixes[i], ''); 
-                    break; 
+            let result = formatName(engName);
+            if (THAI_NAMES_BASE[engName]) result = formatName(THAI_NAMES_BASE[engName]);
+            else if (engName === 'ho-oh') result = 'โฮโอ';
+            else if (engName === 'porygon-z') result = 'โพรีกอน Z';
+            else if (engName === 'jangmo-o') result = 'จาราโค';
+            else if (engName === 'hakamo-o') result = 'จารังโก';
+            else if (engName === 'kommo-o') result = 'จาราแรนกา';
+            else if (engName === 'type-null') result = 'ไทป์:นัล';
+            else if (engName === 'zygarde' || engName === 'zygarde-50') result = 'ซีการ์ด (ฟอร์ม 50%)';
+            else if (engName === 'zygarde-10-power-construct' || engName === 'zygarde-10') result = 'ซีการ์ด (ฟอร์ม 10%)';
+            else if (engName === 'zygarde-complete') result = 'ซีการ์ด (เพอร์เฟกต์ฟอร์ม)';
+            else {
+                let baseEngName = engName;
+                for (let i = 0; i < defaultSuffixes.length; i++) {
+                    if (engName.endsWith(defaultSuffixes[i])) { baseEngName = engName.replace(defaultSuffixes[i], ''); break; }
+                }
+                if (THAI_NAMES_BASE[baseEngName]) result = formatName(THAI_NAMES_BASE[baseEngName]);
+                else {
+                    let isSpecialForm = false;
+                    for (let i = 0; i < formKeywords.length; i++) {
+                        if (engName.includes(formKeywords[i])) { isSpecialForm = true; break; }
+                    }
+                    if (isSpecialForm) {
+                        const baseOnly = engName.replace(formRegex, '');
+                        let thaiBase = THAI_NAMES_BASE[baseOnly] || formatName(baseOnly);
+                        result = applyFormToThaiName(thaiBase, engName);
+                    }
                 }
             }
-            if (THAI_NAMES_BASE[baseEngName]) return formatName(THAI_NAMES_BASE[baseEngName]);
-            
-            let isSpecialForm = false;
-            for (let i = 0; i < formKeywords.length; i++) {
-                if (engName.includes(formKeywords[i])) { 
-                    isSpecialForm = true; 
-                    break; 
-                }
-            }
-
-            if (isSpecialForm) {
-                const baseOnly = engName.replace(formRegex, '');
-                let thaiBase = THAI_NAMES_BASE[baseOnly] || formatName(baseOnly);
-                return applyFormToThaiName(thaiBase, engName);
-            }
-            return formatName(baseEngName);
+            nameCache.set(engName, result);
+            return result;
         };
 
         const cardObserver = new IntersectionObserver((entries, observer) => {
@@ -1181,7 +1000,10 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                     const pid = card.dataset.id;
                     if (pid && !card.dataset.loaded) {
                         card.dataset.loaded = 'true';
-                        fetchCardDetails(pid, card);
+                        // 🌟 ดึงข้อมูล API เฉพาะตอนที่ยังไม่โดน Hardcode เข้ามา ช่วยปลดล็อก TBT
+                        if (!card.querySelector('.types-container').hasChildNodes()) {
+                            fetchCardDetails(pid, card);
+                        }
                         observer.unobserve(card);
                     }
                 }
@@ -1197,9 +1019,12 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
             if(loader) loader.style.display = 'none';
 
             allPokemon = [...INITIAL_POKEMON];
+            
+            // 🌟 เรนเดอร์การ์ดแถวแรกจากข้อมูลฮาร์ดโค้ด "ทันที" ไม่ต้องรอ API ใดๆ (0 Blocking Time)
             applyFilters();
 
             try {
+                // ยิง API พื้นหลัง ค่อยๆ โหลดข้อมูลทีหลัง
                 const data = await prefetchAPI;
                 if (!data) return;
                 
@@ -1207,8 +1032,9 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                 const seenNames = new Set();
                 let idx = 0;
 
+                // 🌟 Chunk Processing: ประมวลผลทีละนิด แล้วเว้นจังหวะให้ CPU ว่าง (ไม่ให้ TBT พุ่ง)
                 function processChunk() {
-                    const end = Math.min(idx + 50, data.results.length);
+                    const end = Math.min(idx + 25, data.results.length);
                     for (; idx < end; idx++) {
                         const p = data.results[idx];
                         const id = parseInt(p.url.split('/').slice(-2, -1)[0]);
@@ -1221,18 +1047,20 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                     }
                     
                     if (idx < data.results.length) {
-                        requestAnimationFrame(() => setTimeout(processChunk, 5)); 
+                        setTimeout(processChunk, 20); // 🌟 พักหายใจ 20ms ให้มือถือไม่ค้าง
                     } else {
                         allPokemon = uniquePokemon;
                         if (!searchQuery && selectedRegionIndex === 0) {
                             filteredList = allPokemon;
+                            document.getElementById('total-count').innerText = "1025";
+                            // เราไม่ render ซ้ำถ้าผู้ใช้อยู่หน้าแรก เพราะ render 20 ตัวแรกไปแล้ว
                         } else {
                             applyFilters(); 
                         }
-                        setTimeout(() => fetchCompareData(), 500);
                         
-                        // 🌟 เริ่มระบบ "นักแปลหลังบ้าน" ค่อยๆ โหลดชื่อไทยแท้ๆ สำหรับตัวที่เหลือ
-                        setTimeout(loadAllThaiNamesInBackground, 3000);
+                        // 🌟 เลื่อนงานเบื้องหลังไปทำตอนเบราว์เซอร์ว่างจริงๆ
+                        setTimeout(() => fetchCompareData(), 3000);
+                        setTimeout(loadAllThaiNamesInBackground, 5000);
                     }
                 }
                 processChunk();
@@ -1242,44 +1070,43 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
             }
         }
 
-        // 🌟 ระบบนักแปลชื่อภาษาไทยพื้นหลัง (Background Translator)
         async function loadAllThaiNamesInBackground() {
             for (let i = 0; i < allPokemon.length; i++) {
                 const p = allPokemon[i];
-                // ถ้าชื่อยังมีภาษาอังกฤษปนอยู่ ให้ไปดึงจาก PokeAPI หรือแปลด้วย Google Translate
                 if (/[a-zA-Z]/.test(p.name_th)) { 
                     try {
-                        const speciesId = p.url.split('/').slice(-2, -1)[0];
-                        let speciesData = speciesCache.get(parseInt(speciesId));
+                        const pokemonId = parseInt(p.id);
                         
-                        if (!speciesData) {
-                            const res = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${speciesId}`);
-                            if(!res.ok) continue;
-                            speciesData = await res.json();
-                            speciesCache.set(parseInt(speciesId), speciesData);
-                        }
-                        
-                        const thNameObj = speciesData.names.find(n => n.language.name === 'th');
-                        if (thNameObj) {
-                            p.name_th = applyFormToThaiName(thNameObj.name, p.name);
-                        } else {
-                            // 🌟 ปิดการแปลอัตโนมัติ ให้ใช้ชื่อภาษาอังกฤษที่จัดรูปแบบแล้วหากไม่มีชื่อไทย
+                        // 🌟 ป้องกัน Error 404: โปเกมอนที่มี ID ตั้งแต่ 10000 ขึ้นไปคือร่างฟอร์ม (Varieties)
+                        // จะไม่มี Endpoint เป็นของตัวเองใน pokemon-species ให้ใช้ getThaiName() จัดการแทน
+                        if (pokemonId >= 10000) {
                             p.name_th = getThaiName(p.name);
+                        } else {
+                            let speciesData = speciesCache.get(pokemonId);
+                            if (!speciesData) {
+                                const res = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`);
+                                if(res.ok) {
+                                    speciesData = await res.json();
+                                    speciesCache.set(pokemonId, speciesData);
+                                }
+                            }
+                            
+                            if (speciesData) {
+                                const thNameObj = speciesData.names.find(n => n.language.name === 'th');
+                                if (thNameObj) p.name_th = applyFormToThaiName(thNameObj.name, p.name);
+                                else p.name_th = getThaiName(p.name);
+                            } else {
+                                p.name_th = getThaiName(p.name);
+                            }
                         }
                         
-                        // อัปเดต UI ถ้ามีการ์ดแสดงอยู่บนจอพอดี
                         const cardName = document.querySelector(`#card-${p.id} h2`);
-                        if (cardName) cardName.innerText = p.name_th;
+                        if (cardName) cardName.innerText = formatName(p.name_th);
                         
-                        // อัปเดตชื่อในหน้าต่าง Dropdown (ระบบเปรียบเทียบ) ด้วย
                         const dropdownTexts = document.querySelectorAll(`button[onclick*="selectCompare(0, ${p.id})"] div, button[onclick*="selectCompare(1, ${p.id})"] div`);
-                        dropdownTexts.forEach(el => el.innerText = p.name_th);
-
-                    } catch (e) {
-                        // ปล่อยผ่านถ้าดึงไม่สำเร็จ
-                    }
-                    // หน่วงเวลาเล็กน้อยเพื่อไม่ให้ API ทำงานหนักเกินไป
-                    await new Promise(r => setTimeout(r, 100)); 
+                        dropdownTexts.forEach(el => el.innerText = formatName(p.name_th));
+                    } catch (e) {}
+                    await new Promise(r => setTimeout(r, 200)); // 🌟 Throttling ค่อยๆ ดึงข้อมูลอย่างช้าๆ
                 }
             }
         }
@@ -1287,18 +1114,15 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
         function switchView(viewName) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
             if (currentAudio) { currentAudio.pause(); } 
-            if ('speechSynthesis' in window && window.speechSynthesis.speaking) {
-                window.speechSynthesis.cancel();
-            }
+            if ('speechSynthesis' in window && window.speechSynthesis.speaking) window.speechSynthesis.cancel();
             
             ['home', 'detail', 'compare', 'favorites'].forEach(v => {
                 const el = document.getElementById(`view-${v}`);
                 if (el) el.classList.add('hidden');
-                
                 const navBtn = document.getElementById(`nav-${v}`);
                 const navLine = document.getElementById(`nav-line-${v}`);
                 if (navBtn && navLine) {
-                    navBtn.classList.remove('text-red-500');
+                    navBtn.classList.remove('text-red-600');
                     navBtn.classList.add('text-slate-600');
                     navLine.classList.replace('w-full', 'w-0');
                 }
@@ -1311,15 +1135,12 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                 const activeBtn = document.getElementById(`nav-${viewName}`);
                 const activeLine = document.getElementById(`nav-line-${viewName}`);
                 if (activeBtn && activeLine) {
-                    activeBtn.classList.add('text-red-500');
+                    activeBtn.classList.add('text-red-600');
                     activeBtn.classList.remove('text-slate-600');
                     activeLine.classList.replace('w-0', 'w-full');
                 }
             }
-
-            if (viewName === 'favorites') {
-                renderFavoritesGrid();
-            }
+            if (viewName === 'favorites') renderFavoritesGrid();
         }
 
         function renderRegionFilters() {
@@ -1336,13 +1157,11 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
             selectedRegionIndex = index;
             displayLimit = ITEMS_PER_PAGE;
             renderRegionFilters(); 
-            
             document.getElementById('pokemon-grid').innerHTML = '';
             currentlyRenderedCount = 0;
             applyFilters();
         }
 
-        // 🌟 2. ใช้เทคนิค Debounce เพื่อป้องกันหน้ากระตุกเวลาค้นหา
         let searchTimeout;
         function handleSearch() {
             clearTimeout(searchTimeout);
@@ -1352,22 +1171,18 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                 document.getElementById('pokemon-grid').innerHTML = '';
                 currentlyRenderedCount = 0;
                 applyFilters();
-            }, 300); // หน่วงเวลา 300ms เพื่อไม่ให้ประมวลผลซ้ำซ้อนขณะกำลังพิมพ์
+            }, 300); 
         }
 
         function applyFilters() {
             let list = allPokemon;
-            
             if (searchQuery) {
                 list = list.filter(p => formatName(p.name).toLowerCase().includes(searchQuery) || p.name_th.includes(searchQuery) || p.id.toString() === searchQuery);
             } else {
                 list = list.filter(p => p.id <= 1025);
                 const reg = REGIONS[selectedRegionIndex];
-                if (reg.name !== 'ทั้งหมด') {
-                    list = list.slice(reg.offset, reg.offset + reg.limit);
-                }
+                if (reg.name !== 'ทั้งหมด') list = list.slice(reg.offset, reg.offset + reg.limit);
             }
-            
             filteredList = list;
             
             if (allPokemon.length === INITIAL_POKEMON.length && !searchQuery && selectedRegionIndex === 0) {
@@ -1375,11 +1190,9 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
             } else {
                 document.getElementById('total-count').innerText = filteredList.length;
             }
+            if (typeof cardObserver !== 'undefined') cardObserver.disconnect();
             
-            if (typeof cardObserver !== 'undefined') {
-                cardObserver.disconnect();
-            }
-            
+            // 🌟 รีเซ็ตและวาดชุดใหม่
             renderNextBatch();
         }
 
@@ -1388,88 +1201,136 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
             renderNextBatch();
         }
 
+        // 🌟 🌟 🌟 ฟังก์ชันสร้างการ์ด (แยกออกมาเพื่อให้ทำ Progressive Render ได้)
+        function createCardHTML(p, isTopRow) {
+            // บังคับรูปให้ระบุความกว้างและความสูงป้องกัน Layout Shift (CLS)
+            const loadingAttr = isTopRow ? 'eager' : 'lazy';
+            const fetchPriorityAttr = isTopRow ? 'high' : 'auto';
+            const decodingAttr = isTopRow ? 'sync' : 'async';
+            const isFav = favorites.includes(p.id);
+            const heartClass = isFav ? 'ph-fill text-red-600' : 'ph text-slate-400';
+
+            const mainType = p.types ? p.types[0] : 'normal';
+            const themeColor = TYPE_COLORS[mainType] || '#cbd5e1';
+            
+            let typesHtml = '';
+            if (p.types) {
+                 typesHtml = p.types.map(t => {
+                     const textColor = ['grass', 'fire', 'water', 'electric', 'normal', 'flying', 'bug', 'ground', 'fairy', 'ice'].includes(t) ? 'text-slate-900' : 'text-white';
+                     return `<span class="${textColor} text-[9px] md:text-[11px] font-bold px-1.5 py-0.5 md:px-3 md:py-1 rounded-full uppercase tracking-widest shadow-sm md:shadow-lg inline-flex items-center gap-0.5 md:gap-1 max-w-[90%] truncate" style="background-color: ${TYPE_COLORS[t] || '#777'}">
+                         <i class="${TYPE_ICONS[t] || 'ph-fill ph-circle'} text-[6px] md:text-[12px] shrink-0" aria-hidden="true"></i>
+                         <span class="truncate">${TYPE_NAMES_TH[t] || t}</span>
+                     </span>`;
+                 }).join('');
+            }
+
+            return `
+                <div id="card-wrapper-${p.id}" class="preserve-3d relative">
+                    <div id="card-${p.id}" data-id="${p.id}" role="button" tabindex="0" aria-label="ดูรายละเอียด ${p.name_th}" onkeydown="if(event.key==='Enter'||event.key===' ') openDetail(${p.id})" onclick="openDetail(${p.id})" class="card-bg-wrap card-background h-full group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-6 shadow-sm hover:shadow-xl cursor-pointer border flex flex-col relative overflow-hidden backdrop-blur-md bg-white/60 border-white/80 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-slate-300" style="${p.types ? `background: linear-gradient(145deg, ${themeColor}10 0%, rgba(255, 255, 255, 0.85) 100%); border-color: ${themeColor}40;` : ''}">
+                        ${p.types ? `<div class="absolute -top-10 -right-10 w-32 h-32 md:w-40 md:h-40 rounded-full blur-3xl opacity-30 pointer-events-none" style="background-color: ${themeColor};"></div>` : ''}
+                        <button type="button" onclick="toggleFavorite(${p.id}, event); event.stopPropagation();" aria-label="เพิ่ม/ลด ${p.name_th} ในรายการโปรด" title="เพิ่ม/ลบ รายการโปรด" class="absolute top-4 left-4 md:top-5 md:left-5 z-20 hover:scale-125 transition-transform focus:outline-none drop-shadow-md group/btn">
+                            <i class="${heartClass} ph-heart fav-icon-${p.id} text-2xl md:text-3xl transition-colors group-hover/btn:text-red-600" aria-hidden="true"></i>
+                        </button>
+                        <div class="absolute top-4 right-4 md:top-5 md:right-5 font-black text-lg md:text-3xl italic select-none transition-colors duration-200 text-slate-500 group-hover:text-slate-800" style="${p.types ? `color: ${themeColor};` : ''}">
+                            #${String(p.id).padStart(3, '0')}
+                        </div>
+                        <div class="flex-1 flex items-center justify-center w-full relative preserve-3d mt-8 mb-4 md:mt-10 md:mb-6" style="transform: translateZ(40px);">
+                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110px] h-[110px] md:w-[150px] md:h-[150px] bg-white/80 rounded-full group-hover:scale-105 transition-transform duration-200 shadow-inner border border-white"></div>
+                            <img src="${getImageUrl(p.id, 'grid')}" width="128" height="128" class="relative z-10 w-[90px] h-[90px] md:w-[130px] md:h-[130px] object-contain img-3d-grid transition-transform duration-200" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="${decodingAttr}" alt="${formatName(p.name_th)}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
+                        </div>
+                        <div class="text-center w-full relative z-10 flex flex-col items-center pb-2" style="transform: translateZ(10px);">
+                            <h2 class="text-sm md:text-xl font-bold md:font-black text-slate-800 tracking-tight drop-shadow-sm group-hover:text-slate-900 mb-1.5 md:mb-2 truncate w-full px-1 leading-normal">
+                                ${formatName(p.name_th)}
+                            </h2>
+                            <div id="types-${p.id}" class="flex justify-center gap-1 md:gap-1.5 h-6 md:h-8 items-center w-full types-container">${typesHtml}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 🌟 🌟 🌟 Progressive Rendering: แยกวาดทีละส่วนเพื่อลด SI และ TBT ให้เข้าใกล้ 0
         function renderNextBatch() {
             const container = document.getElementById('pokemon-grid');
             const itemsToRender = filteredList.slice(currentlyRenderedCount, displayLimit);
             
             document.getElementById('empty-state').style.display = (filteredList.length === 0) ? 'block' : 'none';
-            document.getElementById('load-more-container').style.display = 'none';
-
             const loadMoreBtn = document.getElementById('load-more-container');
             if (currentlyRenderedCount + itemsToRender.length < filteredList.length) {
-                loadMoreBtn.style.display = 'flex';
-                loadMoreBtn.classList.remove('hidden');
+                loadMoreBtn.style.display = 'flex'; loadMoreBtn.classList.remove('hidden');
             } else {
-                loadMoreBtn.style.display = 'none';
-                loadMoreBtn.classList.add('hidden');
+                loadMoreBtn.style.display = 'none'; loadMoreBtn.classList.add('hidden');
             }
 
-            const fragment = document.createDocumentFragment();
+            if (itemsToRender.length === 0) return;
 
-            itemsToRender.forEach((p, index) => {
-                const div = document.createElement('div');
-                div.id = `card-wrapper-${p.id}`;
-                div.className = "preserve-3d relative";
-                
-                const isTopRow = currentlyRenderedCount === 0 && index < 6;
-                const loadingAttr = isTopRow ? 'eager' : 'lazy';
-                const fetchPriorityAttr = isTopRow ? 'high' : 'auto';
+            // 🌟 เทคนิคลด TBT: ถ้านี่เป็นการโหลดครั้งแรกสุด (เปิดเว็บมา) ให้วาด 4 ตัวแรกให้เสร็จก่อนเลยทันที (เพื่อ LCP)
+            if (currentlyRenderedCount === 0) {
+                const aboveFold = itemsToRender.slice(0, 4);
+                const belowFold = itemsToRender.slice(4);
 
-                const isFav = favorites.includes(p.id);
-                const heartClass = isFav ? 'ph-fill text-red-500' : 'ph text-slate-400';
+                let html1 = '';
+                aboveFold.forEach((p) => { html1 += createCardHTML(p, true); });
+                container.innerHTML = html1; // แสดงผลโปเกมอน 4 ตัวแรกทันทีเพื่อประสิทธิภาพ LCP (Largest Contentful Paint)
 
-                div.innerHTML = `
-                    <div id="card-${p.id}" data-id="${p.id}" role="button" tabindex="0" aria-label="ดูรายละเอียด ${p.name_th}" onkeydown="if(event.key==='Enter'||event.key===' ') openDetail(${p.id})" class="card-bg-wrap card-background h-full group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-6 shadow-sm hover:shadow-xl cursor-pointer border flex flex-col relative overflow-hidden backdrop-blur-md bg-white/60 border-white/80 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-slate-300">
-                        
-                        <button type="button" onclick="toggleFavorite(${p.id}, event); event.stopPropagation();" aria-label="เพิ่ม/ลด ${p.name_th} ในรายการโปรด" title="เพิ่ม/ลบ รายการโปรด" class="absolute top-4 left-4 md:top-5 md:left-5 z-20 hover:scale-125 transition-transform focus:outline-none drop-shadow-md group/btn">
-                            <i class="${heartClass} ph-heart fav-icon-${p.id} text-2xl md:text-3xl transition-colors group-hover/btn:text-red-500" aria-hidden="true"></i>
-                        </button>
+                // สังเกตการ์ดที่เพิ่งใส่ลงไป
+                aboveFold.forEach((p) => {
+                    const wrapper = document.getElementById(`card-wrapper-${p.id}`);
+                    if (wrapper) { attachGridParallax(wrapper); cardObserver.observe(wrapper.querySelector('.card-bg-wrap')); }
+                });
+                currentlyRenderedCount += aboveFold.length;
 
-                        <div class="absolute top-4 right-4 md:top-5 md:right-5 font-black text-lg md:text-3xl italic select-none transition-colors duration-200 text-slate-500 group-hover:text-slate-800">
-                            #${String(p.id).padStart(3, '0')}
-                        </div>
-                        
-                        <div class="flex-1 flex items-center justify-center w-full relative preserve-3d mt-8 mb-4 md:mt-10 md:mb-6" style="transform: translateZ(40px);">
-                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110px] h-[110px] md:w-[150px] md:h-[150px] bg-white/80 rounded-full group-hover:scale-105 transition-transform duration-200 shadow-inner border border-white"></div>
-                            <img src="${getImageUrl(p.id, 'grid')}" class="relative z-10 w-[90px] h-[90px] md:w-[130px] md:h-[130px] object-contain img-3d-grid transition-transform duration-200" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="async" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
-                        </div>
-                        
-                        <div class="text-center w-full relative z-10 flex flex-col items-center pb-2" style="transform: translateZ(10px);">
-                            <h2 class="text-sm md:text-xl font-bold md:font-black text-slate-800 tracking-tight drop-shadow-sm group-hover:text-slate-900 mb-1.5 md:mb-2 truncate w-full px-1 leading-normal">
-                                ${formatName(p.name_th)}
-                            </h2>
-                            <div id="types-${p.id}" class="flex justify-center gap-1 md:gap-1.5 h-6 md:h-8 items-center w-full types-container"></div>
-                        </div>
-                    </div>
-                `;
-                
-                div.querySelector('.card-bg-wrap').onclick = () => openDetail(p.id);
-                attachGridParallax(div); 
-                
-                fragment.appendChild(div);
-                cardObserver.observe(div.querySelector('.card-bg-wrap')); 
-            });
+                // 🌟 พักหายใจ 1 เฟรม ให้เบราว์เซอร์วาด (Paint) หน้าจอก่อน! แล้วค่อยวาดส่วนที่เหลือ
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        let html2 = '';
+                        belowFold.forEach((p) => { html2 += createCardHTML(p, false); });
+                        container.insertAdjacentHTML('beforeend', html2);
 
-            container.appendChild(fragment);
-            currentlyRenderedCount += itemsToRender.length;
+                        belowFold.forEach((p) => {
+                            const wrapper = document.getElementById(`card-wrapper-${p.id}`);
+                            if (wrapper) { attachGridParallax(wrapper); cardObserver.observe(wrapper.querySelector('.card-bg-wrap')); }
+                        });
+                        currentlyRenderedCount += belowFold.length;
+                    });
+                });
+            } else {
+                // 🌟 กรณีผู้ใช้กดปุ่ม "โหลดเพิ่ม" วาดปกติ
+                let html = '';
+                itemsToRender.forEach((p) => { html += createCardHTML(p, false); });
+                container.insertAdjacentHTML('beforeend', html);
+
+                itemsToRender.forEach((p) => {
+                    const wrapper = document.getElementById(`card-wrapper-${p.id}`);
+                    if (wrapper) { attachGridParallax(wrapper); cardObserver.observe(wrapper.querySelector('.card-bg-wrap')); }
+                });
+                currentlyRenderedCount += itemsToRender.length;
+            }
         }
 
         function renderFavoritesGrid() {
             const container = document.getElementById('favorites-grid');
+            const favEmptyState = document.getElementById('fav-empty-state');
             const favPokemonList = allPokemon.filter(p => favorites.includes(p.id));
             
-            document.getElementById('fav-empty-state').style.display = favPokemonList.length === 0 ? 'block' : 'none';
+            if (favPokemonList.length === 0) {
+                favEmptyState.style.display = 'flex';
+                container.style.display = 'none';
+            } else {
+                favEmptyState.style.display = 'none';
+                container.style.display = '';
+            }
 
             container.innerHTML = favPokemonList.map(p => {
                 const isFav = favorites.includes(p.id);
-                const heartClass = isFav ? 'ph-fill text-red-500' : 'ph text-slate-400';
+                const heartClass = isFav ? 'ph-fill text-red-600' : 'ph text-slate-400';
 
                 return `
                 <div id="fav-wrapper-${p.id}" class="preserve-3d relative">
                     <div id="fav-card-${p.id}" data-id="${p.id}" role="button" tabindex="0" aria-label="ดูรายละเอียด ${p.name_th}" onkeydown="if(event.key==='Enter'||event.key===' ') openDetail(${p.id})" onclick="openDetail(${p.id})" class="card-bg-wrap card-background h-full group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-6 shadow-sm hover:shadow-2xl cursor-pointer border flex flex-col relative overflow-hidden backdrop-blur-md bg-white/60 border-white/80 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-slate-300">
                         
                         <button type="button" onclick="toggleFavorite(${p.id}, event); event.stopPropagation();" aria-label="ยกเลิก ${p.name_th} จากรายการโปรด" title="เพิ่ม/ลบ รายการโปรด" class="absolute top-4 left-4 md:top-5 md:left-5 z-20 hover:scale-125 transition-transform focus:outline-none drop-shadow-md group/btn">
-                            <i class="${heartClass} ph-heart fav-icon-${p.id} text-2xl md:text-3xl transition-colors group-hover/btn:text-red-500" aria-hidden="true"></i>
+                            <i class="${heartClass} ph-heart fav-icon-${p.id} text-2xl md:text-3xl transition-colors group-hover/btn:text-red-600" aria-hidden="true"></i>
                         </button>
 
                         <div class="absolute top-4 right-4 md:top-5 md:right-5 font-black text-lg md:text-3xl italic select-none transition-colors duration-200 text-slate-500 group-hover:text-slate-800">
@@ -1478,7 +1339,7 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                         
                         <div class="flex-1 flex items-center justify-center w-full relative preserve-3d mt-8 mb-4 md:mt-10 md:mb-6" style="transform: translateZ(40px);">
                             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110px] h-[110px] md:w-[150px] md:h-[150px] bg-white/80 rounded-full group-hover:scale-105 transition-transform duration-200 shadow-inner border border-white"></div>
-                            <img src="${getImageUrl(p.id, 'grid')}" class="relative z-10 w-[90px] h-[90px] md:w-[130px] md:h-[130px] object-contain img-3d-grid transition-transform duration-200" loading="lazy" decoding="async" alt="${p.name_th}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
+                            <img src="${getImageUrl(p.id, 'grid')}" width="128" height="128" class="relative z-10 w-[90px] h-[90px] md:w-[130px] md:h-[130px] object-contain img-3d-grid transition-transform duration-200" loading="lazy" decoding="async" alt="${formatName(p.name_th)}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
                         </div>
                         
                         <div class="text-center w-full relative z-10 flex flex-col items-center pb-2" style="transform: translateZ(10px);">
@@ -1512,33 +1373,22 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                     pokemonCache.set(id, data);
                 }
 
-                // 🌟 หากชื่อบนหน้าจอยังเป็นภาษาอังกฤษ ให้แปลกะทันหันแบบเรียลไทม์เลย
                 if (!data.name_th || /[a-zA-Z]/.test(data.name_th)) {
                     data.name_th = getThaiName(data.name); 
-                    
                     if (/[a-zA-Z]/.test(data.name_th) && data.species && data.species.url) {
                         const speciesId = data.species.url.split('/').slice(-2, -1)[0];
                         let speciesData = speciesCache.get(parseInt(speciesId));
-                        
                         if (!speciesData) {
                             const sRes = await fetch(data.species.url);
                             speciesData = await sRes.json();
                             speciesCache.set(parseInt(speciesId), speciesData);
                         }
-                        
                         const thNameObj = speciesData.names.find(n => n.language.name === 'th');
-                        if (thNameObj) {
-                            data.name_th = applyFormToThaiName(thNameObj.name, data.name);
-                        } else {
-                            // 🌟 ใช้ชื่ออังกฤษไปเลยถ้าไม่มีชื่อไทยทางการ
-                            data.name_th = getThaiName(data.name);
-                        }
+                        if (thNameObj) { data.name_th = applyFormToThaiName(thNameObj.name, data.name); }
+                        else { data.name_th = getThaiName(data.name); }
                         
-                        // อัปเดต UI หน้าการ์ดทันที
                         const nameEl = card.querySelector('h2');
                         if (nameEl) nameEl.innerText = formatName(data.name_th);
-                        
-                        // อัปเดตในฐานข้อมูลหลักเพื่อไม่ให้แปลซ้ำ
                         const globalP = allPokemon.find(p => p.id === parseInt(id));
                         if (globalP) globalP.name_th = data.name_th;
                     }
@@ -1589,10 +1439,8 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                     pokemonCache.set(parseInt(id), pokemonDetail);
                 }
                 
-                // ตรวจสอบและบังคับเปลี่ยนชื่อหลักเป็นไทยเสมอ
                 if (!pokemonDetail.name_th || /[a-zA-Z]/.test(pokemonDetail.name_th)) {
                     pokemonDetail.name_th = getThaiName(pokemonDetail.name);
-                    // 🌟 ไม่แปลกะทันหันด้วย Google แล้ว ให้ใช้ภาษาอังกฤษแทนถ้าไม่มีชื่อไทย
                 }
 
                 let speciesDetail = null;
@@ -1606,7 +1454,6 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                     
                     if (speciesDetail.varieties) {
                         const seenFormNames = new Set();
-                        // 🌟 ดึงชื่อฟอร์ม (คงภาษาอังกฤษไว้ถ้าไม่มีภาษาไทย)
                         for (const v of speciesDetail.varieties.filter(f => !f.is_default)) {
                             let tName = getThaiName(v.pokemon.name);
                             if (!seenFormNames.has(tName)) {
@@ -1631,22 +1478,18 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                             if (translationCache.has(engText)) {
                                 translatedEntry = translationCache.get(engText);
                             } else {
-                                // Fallback to Google Translate if no API key
                                 if (translatedEntry === 'ด็อกเตอร์กำลังรวบรวมข้อมูลพฤติกรรมของโปเกมอนตัวนี้อยู่...') {
                                     try {
                                         const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=th&dt=t&q=${encodeURIComponent(engText)}`);
                                         if (r.ok) {
                                             const d = await r.json();
                                             let text = d[0].map(item => item[0]).join('');
-                                            // Force replace English names to ensure Thai TTS reads smoothly
                                             text = text.replace(new RegExp(pokemonDetail.name, 'ig'), formatName(pokemonDetail.name_th));
                                             text = text.replace(new RegExp(formatName(pokemonDetail.name), 'ig'), formatName(pokemonDetail.name_th));
                                             translatedEntry = text;
                                             translationCache.set(engText, translatedEntry);
                                         }
-                                    } catch (err) {
-                                        console.error("Translation API failed", err);
-                                    }
+                                    } catch (err) { console.error("Translation API failed", err); }
                                 }
                             }
                         }
@@ -1657,7 +1500,6 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                 try {
                     const typeNames = pokemonDetail.types.map(t => t.type.name);
                     const damageRelations = await Promise.all(typeNames.map(t => fetch(`https://pokeapi.co/api/v2/type/${t}`).then(r => r.json())));
-                    
                     let damageMultiplier = {};
                     Object.keys(TYPE_COLORS).forEach(t => damageMultiplier[t] = 1); 
                     
@@ -1669,9 +1511,7 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                     });
 
                     for (const t in damageMultiplier) {
-                        if (damageMultiplier[t] > 1) {
-                            weaknesses.push({ type: t, multiplier: damageMultiplier[t] });
-                        }
+                        if (damageMultiplier[t] > 1) weaknesses.push({ type: t, multiplier: damageMultiplier[t] });
                     }
                     weaknesses.sort((a, b) => b.multiplier - a.multiplier);
                 } catch (e) {
@@ -1697,7 +1537,7 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                         <button type="button" id="evo-card-${id}" aria-label="ดูข้อมูลของ ${nameTh}" onclick="openDetail(${id})" class="card-bg-wrap flex flex-col items-center justify-center cursor-pointer group bg-white/60 backdrop-blur-md p-3 md:p-6 rounded-[1rem] md:rounded-[2rem] hover:bg-white hover:shadow-xl transition-all border-2 border-white/50 focus:outline-none focus:ring-4 focus:ring-slate-200">
                             <div class="relative w-10 h-10 md:w-20 md:h-20 mb-2 md:mb-4 flex items-center justify-center preserve-3d" style="transform: translateZ(30px);">
                                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 md:w-24 md:h-24 bg-slate-100/60 rounded-full scale-100 group-hover:scale-110 transition-transform"></div>
-                                <img src="${getImageUrl(id, 'grid')}" class="w-full h-full object-contain relative z-10 group-hover:scale-110 transition-transform img-3d-grid" alt="${nameTh}" onerror="handleImgErr(this, ${id}, 'grid')" />
+                                <img src="${getImageUrl(id, 'grid')}" width="128" height="128" class="w-full h-full object-contain relative z-10 group-hover:scale-110 transition-transform img-3d-grid" alt="${nameTh}" onerror="handleImgErr(this, ${id}, 'grid')" />
                             </div>
                             <span class="font-bold md:font-black text-slate-800 text-[9px] md:text-sm text-center leading-normal line-clamp-2 w-full px-1 pt-1 pb-2" style="transform: translateZ(10px);">${nameTh}</span>
                             <span class="text-[7px] md:text-[10px] font-bold text-slate-600 mt-1 uppercase tracking-widest">#${String(id).padStart(3, '0')}</span>
@@ -1747,9 +1587,9 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
             
             const cryUrl = pokemonDetail.cries ? pokemonDetail.cries.latest : '';
             const isFav = favorites.includes(pokemonDetail.id);
-            const heartClass = isFav ? 'ph-fill text-red-500' : 'ph text-slate-400';
+            const heartClass = isFav ? 'ph-fill text-red-600' : 'ph text-slate-400';
 
-            const typesText = pokemonDetail.types.map(t => TYPE_NAMES_TH[t.type.name] || t.type.name).join('และ');
+            const typesText = pokemonDetail.types.map(t => TYPE_NAMES_TH[t.type.name] || t.type.name).join(' และ ');
             const safeTranslatedEntry = translatedEntry.replace(/['"\n\r]/g, ' '); 
             const rotomText = `${formatName(pokemonDetail.name_th)} เป็นโปเกมอน ประเภท${typesText} ${safeTranslatedEntry}`;
 
@@ -1790,7 +1630,7 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                                     ${cryUrl ? `<button type="button" aria-label="ฟังเสียงร้องของ ${formatName(pokemonDetail.name_th)}" onclick="playCry('${cryUrl}')" class="hover:scale-110 text-blue-500 transition-transform focus:outline-none drop-shadow-md" title="ฟังเสียงร้อง"><i class="ph-fill ph-speaker-high text-3xl md:text-4xl" aria-hidden="true"></i></button>` : ''}
                                     
                                     <button type="button" aria-label="${isFav ? 'ยกเลิก' : 'เพิ่ม'}รายการโปรด" onclick="toggleFavorite(${pokemonDetail.id})" class="hover:scale-125 transition-transform focus:outline-none drop-shadow-md group/btn" title="เพิ่ม/ลบ รายการโปรด">
-                                        <i class="${heartClass} ph-heart fav-icon-${pokemonDetail.id} text-3xl md:text-4xl transition-colors group-hover/btn:text-red-400" aria-hidden="true"></i>
+                                        <i class="${heartClass} ph-heart fav-icon-${pokemonDetail.id} text-3xl md:text-4xl transition-colors group-hover/btn:text-red-600" aria-hidden="true"></i>
                                     </button>
                                 </div>
                             </div>
@@ -1817,7 +1657,7 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                                 <h3 class="text-xs md:text-lg font-black text-slate-700 flex items-center gap-2 md:gap-3">
                                     <i class="ph ph-info text-blue-500 text-base md:text-xl" aria-hidden="true"></i> ลักษณะและพฤติกรรม
                                 </h3>
-                                <button type="button" id="rotom-btn-${pokemonDetail.id}" aria-label="ฟังเสียงสมาร์ทโรตอมอ่านข้อมูล" onclick="playRotomVoice('${rotomText}', 'rotom-btn-${pokemonDetail.id}')" class="flex items-center gap-1.5 bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full text-[10px] md:text-xs font-bold transition-all shadow-sm focus:outline-none active:scale-95 w-fit focus:ring-4 focus:ring-red-400">
+                                <button type="button" id="rotom-btn-${pokemonDetail.id}" aria-label="ฟังเสียงสมาร์ทโรตอมอ่านข้อมูล" onclick="playRotomVoice('${rotomText}', 'rotom-btn-${pokemonDetail.id}')" class="flex items-center gap-1.5 bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full text-[10px] md:text-xs font-bold transition-all shadow-sm focus:outline-none active:scale-95 w-fit focus:ring-4 focus:ring-red-500">
                                     <i class="ph-fill ph-play-circle text-sm md:text-lg" aria-hidden="true"></i> สมาร์ทโรตอม
                                 </button>
                             </div>
@@ -1925,7 +1765,7 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
                                             <div id="form-wrapper-${formId}" class="preserve-3d relative">
                                                 <button type="button" aria-label="ดูข้อมูลของฟอร์ม ${displayFormName}" onclick="${!isCurrent ? `openDetail(${formId})` : ''}" class="card-bg-wrap flex flex-col items-center p-2 md:p-6 rounded-xl md:rounded-[2rem] transition-transform w-20 md:w-36 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300 ${isCurrent ? 'cursor-default bg-white border-red-400 shadow-xl scale-105 border-2' : 'cursor-pointer bg-white/70 border-white hover:bg-white hover:shadow-xl hover:-translate-y-1 md:hover:-translate-y-2 border-2'}">
                                                     <div class="relative w-10 h-10 md:w-20 md:h-20 mb-1.5 md:mb-4 preserve-3d" style="transform: translateZ(30px);">
-                                                        <img src="${getImageUrl(formId, 'grid')}" class="w-full h-full object-contain img-3d-grid transition-transform duration-200" alt="${displayFormName}" onerror="handleImgErr(this, ${formId}, 'grid')" />
+                                                        <img src="${getImageUrl(formId, 'grid')}" width="128" height="128" class="w-full h-full object-contain img-3d-grid transition-transform duration-200" alt="${displayFormName}" onerror="handleImgErr(this, ${formId}, 'grid')" />
                                                     </div>
                                                     <span class="font-bold text-slate-800 text-[8px] md:text-xs text-center leading-normal line-clamp-2 w-full px-1 pb-1" style="transform: translateZ(10px);">
                                                         ${displayFormName}
@@ -1968,13 +1808,17 @@ ${formatName(p2.name_th)}: Total: ${p2.stats.reduce((a,b)=>a+b.base_stat,0)}
     const imgWrapper = document.getElementById('detail-img-wrapper');
     
     if (container && imgWrapper) {
-        const moveHandler = (e) => handleParallaxMove(e, container, imgWrapper, 25, 60, 1.05);
+        const moveHandler = (e) => handleParallaxMove(e, container, imgWrapper, null, 25, 60, 1.05);
         const leaveHandler = () => handleParallaxLeave(imgWrapper, 60, 1);
 
-        container.addEventListener('mousemove', moveHandler);
+        container.addEventListener('mousemove', (e) => {
+            handleParallaxMove(e, container, imgWrapper, container.getBoundingClientRect(), 25, 60, 1.05);
+        });
         container.addEventListener('mouseleave', leaveHandler);
         
-        container.addEventListener('touchmove', moveHandler, { passive: true });
+        container.addEventListener('touchmove', (e) => {
+            handleParallaxMove(e, container, imgWrapper, container.getBoundingClientRect(), 25, 60, 1.05);
+        }, { passive: true });
         container.addEventListener('touchend', leaveHandler);
         container.addEventListener('touchcancel', leaveHandler);
     }
@@ -2013,7 +1857,7 @@ function renderCompareListHTML(index, query) {
     }
     return list.slice(0, 50).map(p => `
         <button type="button" role="option" aria-selected="false" onclick="selectCompare(${index}, ${p.id})" class="w-full text-left p-1.5 md:p-4 hover:bg-red-50/50 cursor-pointer flex items-center gap-1.5 md:gap-4 border-b border-slate-50 last:border-0 transition-colors focus:outline-none focus:bg-red-50">
-            <img src="${getImageUrl(p.id, 'thumb')}" class="w-5 h-5 md:w-10 md:h-10 object-contain drop-shadow-sm img-3d-grid" loading="lazy" alt="${formatName(p.name_th)}" onerror="handleImgErr(this, ${p.id}, 'thumb')" />
+            <img src="${getImageUrl(p.id, 'thumb')}" width="48" height="48" class="w-5 h-5 md:w-10 md:h-10 object-contain drop-shadow-sm img-3d-grid" loading="lazy" alt="${formatName(p.name_th)}" onerror="handleImgErr(this, ${p.id}, 'thumb')" />
             <div class="flex-1 text-[9px] md:text-sm font-bold text-slate-700 truncate leading-normal py-1">${formatName(p.name_th)}</div>
         </button>
     `).join('');
@@ -2173,6 +2017,21 @@ document.addEventListener('click', (e) => {
 
 // Initialize App
 document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+
+    <!-- 🌟 Core Web Vitals Tracking (Performance Monitoring) -->
+    <script type="module">
+        import {onCLS, onINP, onLCP} from 'https://unpkg.com/web-vitals@4?module';
+        
+        function sendToAnalytics(metric) {
+            const body = JSON.stringify(metric);
+            const logStyle = "color: #10b981; font-weight: bold; font-size: 12px; border: 1px solid #10b981; padding: 2px 6px; border-radius: 4px;";
+            console.log(`%c🚀 Web Vitals: ${metric.name}`, logStyle, metric.value, metric);
+        }
+        
+        onCLS(sendToAnalytics); 
+        onINP(sendToAnalytics); 
+        onLCP(sendToAnalytics); 
     </script>
 </body>
 </html>
