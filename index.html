@@ -157,7 +157,7 @@
 </head>
 <body class="text-slate-800 selection:bg-primary/30 overflow-x-hidden relative min-h-screen flex flex-col font-sans">
 
-    <!-- Background Elements (Replaced heavy blur with fast radial-gradients) -->
+    <!-- Background Elements -->
     <div class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
         <div class="absolute -top-20 -left-20 md:-top-40 md:-left-40 w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full opacity-30 animate-drift" style="background: radial-gradient(circle, rgba(248,113,113,0.4) 0%, transparent 70%);"></div>
         <div class="absolute top-1/2 -right-20 md:-right-40 w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full opacity-30 animate-drift" style="background: radial-gradient(circle, rgba(147,197,253,0.4) 0%, transparent 70%); animation-delay: -10s;"></div>
@@ -226,7 +226,7 @@
                     <div class="relative mb-6 md:mb-14 max-w-4xl mx-auto md:mx-0">
                         <label for="searchInput" class="sr-only">ค้นหาโปเกมอน</label>
                         <i class="ph ph-magnifying-glass absolute left-5 md:left-6 top-1/2 -translate-y-1/2 text-slate-600 text-xl md:text-2xl pointer-events-none" aria-hidden="true"></i>
-                        <input type="search" id="searchInput" aria-label="ค้นหาโปเกมอนด้วยชื่อหรือหมายเลข" placeholder="ค้นหาด้วยชื่อภาษาไทย, อังกฤษ หรือหมายเลข ID..." class="w-full pl-12 pr-4 py-4 md:pl-14 md:pr-10 md:py-6 bg-white/80 backdrop-blur-md border border-white focus:border-red-300 focus:bg-white rounded-[2rem] md:rounded-[2.5rem] outline-none transition-all text-sm sm:text-base md:text-xl font-medium text-slate-800 shadow-lg placeholder:text-slate-600 leading-normal" onkeyup="handleSearch()">
+                        <input type="search" id="searchInput" aria-label="ค้นหาโปเกมอนด้วยชื่อหรือหมายเลข เช่น 025 หรือ #025" placeholder="ค้นหาด้วยชื่อภาษาไทย, อังกฤษ หรือหมายเลข ID (เช่น #001)..." class="w-full pl-12 pr-4 py-4 md:pl-14 md:pr-10 md:py-6 bg-white/80 backdrop-blur-md border border-white focus:border-red-300 focus:bg-white rounded-[2rem] md:rounded-[2.5rem] outline-none transition-all text-sm sm:text-base md:text-xl font-medium text-slate-800 shadow-lg placeholder:text-slate-600 leading-normal" onkeyup="handleSearch()">
                     </div>
 
                     <nav aria-label="กรองตามภูมิภาค" id="region-filters" class="flex gap-2 md:gap-3 overflow-x-auto pb-3 md:pb-4 no-scrollbar mask-fade scroll-smooth min-h-[44px]"></nav>
@@ -240,7 +240,7 @@
 
             <div class="max-w-7xl mx-auto py-6 md:py-12 px-4 md:px-6">
                 <div id="home-loader" class="hidden"></div>
-                <div id="pokemon-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-10 min-h-[80vh] preserve-3d">
+                <div id="pokemon-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-10 min-h-[50vh] content-start preserve-3d">
                     <!-- Cards injected by JS -->
                 </div>
                 
@@ -265,7 +265,7 @@
                 <div class="w-16 md:w-24 h-1.5 bg-red-600 mx-auto rounded-full shadow-lg" aria-hidden="true"></div>
             </div>
 
-            <div id="favorites-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-10 min-h-[50vh] preserve-3d">
+            <div id="favorites-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-10 min-h-[50vh] content-start preserve-3d">
                 <!-- Fav Cards injected by JS -->
             </div>
             <div id="fav-empty-state" class="hidden flex-col items-center justify-center w-full min-h-[40vh] md:min-h-[50vh] text-center p-8 md:p-20 bg-white/50 backdrop-blur-sm rounded-[2rem] md:rounded-[3rem] border-2 border-dashed border-slate-300 mt-2 md:mt-4 shadow-sm">
@@ -323,7 +323,7 @@
             </div>
             <p class="text-slate-800 font-black text-sm md:text-2xl tracking-tight mb-1 md:mb-3 leading-normal">ฐานข้อมูลโปเกมอนแห่งประเทศไทย</p>
             <p class="text-slate-600 text-[9px] md:text-sm font-bold max-w-sm mx-auto leading-loose opacity-90">
-                ระบบทำงานด้วย PokeAPI • ข้อมูลวิเคราะห์และเสียงพากย์สไตล์ ดร.โอคิโดะ
+                ระบบทำงานด้วย <a href="https://pokeapi.co" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-600 underline font-black transition-colors">PokeAPI</a> • ข้อมูลวิเคราะห์และเสียงพากย์สไตล์ ดร.โอคิโดะ
             </p>
         </div>
     </footer>
@@ -369,7 +369,7 @@
             return name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
         };
 
-        function playWebTTS(text, btnId) {
+        function playWebTTS(text, btnId, autoPlay = false) {
             if (!('speechSynthesis' in window)) {
                 alert("เบราว์เซอร์ของคุณไม่รองรับระบบเสียงอ่านครับ");
                 return;
@@ -377,17 +377,21 @@
             const btn = document.getElementById(btnId);
             if (window.speechSynthesis.speaking) {
                 window.speechSynthesis.cancel();
-                if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะ`;
-                return;
+                // 🌟 หากเป็นการกดปุ่มเพื่อหยุดเสียง (ไม่ใช่ระบบ Auto-play) ให้หยุดแล้วคืนค่าปุ่มเดิม
+                if (!autoPlay) {
+                    if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะ`;
+                    return;
+                }
             }
+            // 🌟 ลดความหน่วงเหลือ 10ms ให้ตอบสนองเร็วที่สุด
             setTimeout(() => {
                 const cleanText = sanitizeTextForVoice(text);
                 const utterance = new SpeechSynthesisUtterance(cleanText);
                 if (premiumThaiVoice) utterance.voice = premiumThaiVoice;
                 currentUtterance = utterance; 
                 utterance.lang = 'th-TH';
-                utterance.rate = 1.1; 
-                utterance.pitch = 0.9; 
+                utterance.rate = 1.0; 
+                utterance.pitch = 0.6; 
                 utterance.onstart = () => { if (btn) btn.innerHTML = `<span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span> กำลังพูด... (คลิกหยุด)`; };
                 utterance.onend = () => { if (btn) btn.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะอีกครั้ง`; currentUtterance = null; };
                 utterance.onerror = (e) => {
@@ -396,7 +400,7 @@
                     currentUtterance = null;
                 };
                 window.speechSynthesis.speak(currentUtterance);
-            }, 50);
+            }, 10);
         }
 
         function playRotomVoice(text, btnId) {
@@ -426,7 +430,7 @@
                     currentUtterance = null;
                 };
                 window.speechSynthesis.speak(currentUtterance);
-            }, 50);
+            }, 10);
         }
 
         function createWavBlob(pcmBuffer, sampleRate = 24000) {
@@ -462,7 +466,7 @@
             if (btn) btn.innerHTML = `<span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span><span class="voice-wave" aria-hidden="true"></span> ด็อกเตอร์กำลังเตรียมเสียง...`;
             try {
                 const cleanText = sanitizeTextForVoice(textToSpeak);
-                const voicePrompt = "Read this Thai text extremely fluently, smoothly, and warmly like an expert anime narrator. Ensure perfect continuous flow and natural fast intonation without unnatural pauses: " + cleanText;
+                const voicePrompt = "Speak this Thai text in the voice of an old, wise, and kind professor (like Dr. Oak from Pokémon). Use a warm, deep, and slightly raspy voice: " + cleanText;
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
                 const payload = {
                     contents: [{ parts: [{ text: voicePrompt }] }],
@@ -562,7 +566,6 @@
         const STAT_NAMES_TH = { 'hp': 'HP', 'attack': 'พลังโจมตี', 'defense': 'พลังป้องกัน', 'special-attack': 'พลังโจมตีพิเศษ', 'special-defense': 'พลังป้องกันพิเศษ', 'speed': 'ความเร็ว' };
         const HABITAT_TH = { 'cave': 'ถ้ำ', 'forest': 'ป่าไม้', 'grassland': 'ทุ่งหญ้า', 'mountain': 'ภูเขา', 'rare': 'พื้นที่ลึกลับ', 'rough-terrain': 'พื้นที่ขรุขระ', 'sea': 'ทะเล', 'urban': 'เขตเมือง', 'waters-edge': 'ริมน้ำ' };
 
-        // 🌟 ฐานข้อมูลรายชื่อภาษาไทยเบื้องต้น เพื่อให้โหลดเร็วที่สุด
         const THAI_NAMES_BASE = {
             "bulbasaur":"ฟุชิกิดาเนะ","ivysaur":"ฟุชิกิโซ","venusaur":"ฟุชิกิบานะ","charmander":"ฮิโตคาเงะ","charmeleon":"ลิซาร์โดะ","charizard":"ลิซาร์ดอน","squirtle":"เซนิกาเมะ","wartortle":"คาเมล","blastoise":"คาเม็กซ์","caterpie":"คาเตอร์ปี","metapod":"ทรานเซล","butterfree":"บัตเตอร์ฟรี","weedle":"บีเดิล","kakuna":"โคคูน","beedrill":"สเปียร์","pidgey":"ป๊ปโปะ","pidgeotto":"พีเจียน","pidgeot":"พีจ็อต","rattata":"โครัตตา","raticate":"รัตตา","spearow":"โอนิซึซึเมะ","fearow":"โอนิดริล","ekans":"อาร์โบ","arbok":"อาร์บ็อก","pikachu":"พิคาชู","raichu":"ไรชู","sandshrew":"แซนด์","sandslash":"แซนด์แพน","nidoran-f":"นิโดรัน♀","nidorina":"นิโดรินา","nidoqueen":"นิโดควีน","nidoran-m":"นิโดรัน♂","nidorino":"นิโดริโน","nidoking":"นิโดคิง","clefairy":"ปิปปี","clefable":"พิคซี","vulpix":"โรคอน","ninetales":"คิวคอน","jigglypuff":"พูริน","wigglytuff":"พุคุริน","zubat":"ซูแบท","golbat":"โกลแบท","oddish":"นาโซโนะคุสะ","gloom":"คุไซฮานะ","vileplume":"รัฟเฟลเซีย","paras":"พารัส","parasect":"พาราเซ็กต์","venonat":"คงปัง","venomoth":"โมรุฟอน","diglett":"ดิกด้า","dugtrio":"ดักทริโอ","meowth":"เนียซ","persian":"เปอร์เซียน","psyduck":"โคดัก","golduck":"โกลดัก","mankey":"แมนคีย์","primeape":"โอโคริซารุ","growlithe":"การ์ดี","arcanine":"วินดี","poliwag":"เนียวโรโมะ","poliwhirl":"เนียวโรโซ","poliwrath":"เนียวโรบอน","abra":"เคซี","kadabra":"ยุนเกอร์เรอร์","alakazam":"ฟูดิน","machop":"วันริกี","machoke":"โกริกี","machamp":"ไคริกี","bellsprout":"มาดาสึโบมิ","weepinbell":"อุซึดง","victreebel":"อุซึบอท","tentacool":"เมโนคุราเกะ","tentacruel":"โดคุคุราเกะ","geodude":"อิชิซึบุเตะ","graveler":"โกโลน","golem":"โกโลเนีย","ponyta":"โพนีตา","rapidash":"แกงลอป","slowpoke":"ยาดง","slowbro":"ยาโดรัน","magnemite":"คอยล์","magneton":"เรคอยล์","farfetchd":"คาโมเนกิ","doduo":"โดโด","dodrio":"โดโดริโอ","seel":"พาวาว","dewgong":"จูกอน","grimer":"เบโตเบตา","muk":"เบโตเบตอน","shellder":"เชลเดอร์","cloyster":"พาร์เชน","gastly":"โกส","haunter":"โกสต์","gengar":"เกงกา","onix":"อิวาร์ค","drowzee":"สลีป","hypno":"สลีปเปอร์","krabby":"แคร็บ","kingler":"คิงเกลอร์","voltorb":"บิริริดามา","electrode":"มารุมายน์","exeggcute":"ทามาทามะ","exeggutor":"นัซซี","cubone":"คาระคาระ","marowak":"กะระการะ","hitmonlee":"ซาวามูลาร์","hitmonchan":"เอบิวาลาร์","lickitung":"เบโรริงกา","koffing":"โดกัส","weezing":"มาตาโดกัส","rhyhorn":"ไซฮอร์น","rhydon":"ไซดอน","chansey":"ลัคกี้","tangela":"มอนจารา","kangaskhan":"การูรา","horsea":"ทัททู","seadra":"ซีดรา","goldeen":"โทซาคินโตะ","seaking":"อซึมาโอ","staryu":"ฮิโตเดมัน","starmie":"สตาร์มี","mr-mime":"บาร์เรียด","scyther":"สไตรค์","jynx":"รูจูลา","electabuzz":"เอเลบู","magmar":"บูเบอร์","pinsir":"ไคลอส","tauros":"เคนทารอส","magikarp":"คอยคิง","gyarados":"เกียราดอส","lapras":"ลาพลาส","ditto":"เมตามอน","eevee":"อีวุย","vaporeon":"ชาวเวอร์ส","jolteon":"ธันเดอร์ส","flareon":"บูสเตอร์","porygon":"โพรีกอน","omanyte":"ออมไนต์","omastar":"ออมสตาร์","kabuto":"คาบูโตะ","kabutops":"คาบูทอปส์","aerodactyl":"พเทอรา","snorlax":"คาบิกอน","articuno":"ฟรีเซอร์","zapdos":"ธันเดอร์","moltres":"ไฟเยอร์","dratini":"มินิริว","dragonair":"ฮาคุริว","dragonite":"ไคริว","mewtwo":"มิวทู","mew":"มิว",
             "chikorita":"ชิโคริตา","bayleef":"เบย์ลีฟ","meganium":"เมกาเนียม","cyndaquil":"ฮิโนอาราชิ","quilava":"แม็กมาราชิ","typhlosion":"บาคุฟูน","totodile":"วานิโนโกะ","croconaw":"อัลลิเกตส์","feraligatr":"โอไดล์","sentret":"โอทาจิ","furret":"โอโอทาจิ","hoothoot":"โฮโฮ","noctowl":"ยอร์นอค","ledyba":"เรดิบา","ledian":"เรเดียน","spinarak":"อิโตมารุ","ariados":"อาริอาโดส","crobat":"โครแบท","chinchou":"ชอนจี","lanturn":"ลันเทิร์น","pichu":"พิชู","cleffa":"ปี","igglybuff":"พูพูริน","togepi":"โทเกปี","togetic":"โทเกจิก","natu":"เนที","xatu":"เนทิโอ","mareep":"เมรีป","flaaffy":"โมโคโค","ampharos":"เด็นริว","bellossom":"คิเรฮานะ","marill":"มาริล","azumarill":"มาริลลิ","sudowoodo":"อุซกกี","politoed":"เนียวโรโทโนะ","hoppip":"ฮาเน็กโกะ","skiploom":"โปโปคโกะ","jumpluff":"วาตักโกะ","aipom":"เอย์พัม","sunkern":"ฮิมานัทส์","sunflora":"คิมาวาริ","yanma":"ยันมา","wooper":"อูปา","quagsire":"นูโอ","espeon":"เอฟี","umbreon":"แบล็กกี","murkrow":"ยามิคาราสึ","slowking":"ยาโดคิง","misdreavus":"มูมา","unown":"อันโนน","wobbuffet":"โซนันส์","girafarig":"คิรินริก","pineco":"คุนุกิดามะ","forretress":"ฟอเรทอส","dunsparce":"โนก็อตจิ","gligar":"ยันยันมา","steelix":"ฮากาเนล","snubbull":"บูล","granbull":"แกรนบูล","qwilfish":"ฮารีเซน","scizor":"ฮัสซัม","shuckle":"สึโบสึโบะ","heracross":"เฮราครอส","sneasel":"นิวลา","teddiursa":"ฮิเมกุมะ","ursaring":"ริงกุมะ","slugma":"แม็กมัก","magcargo":"แม็กคาร์โก","swinub":"อูริมู","piloswine":"อิโนมู","corsola":"ซันนีโก","remoraid":"เทปโปโอ","octillery":"ออกคิว","delibird":"เดลิเบิร์ด","mantine":"แมนไทน์","skarmory":"แอร์มุโด","houndour":"เดลวิล","houndoom":"เฮลการ์","kingdra":"คิงดรา","phanpy":"โกมาโซ","donphan":"ดอนแฟน","porygon2":"โพรีกอน2","stantler":"โอโดชิชิ","smeargle":"โดเบิล","tyrogue":"บัลกี","hitmontop":"คาโปเอเรอร์","smoochum":"มุจูล","elekid":"เอเลคิด","magby":"บูบี","miltank":"มิลแทงก์","blissey":"แฮปปีนา","raikou":"ไรโค","entei":"เอ็นเต","suicune":"ซุยคุน","larvitar":"โยกิราส","pupitar":"ซานากิราส","tyranitar":"บันกิราส","lugia":"ลูเกีย","ho-oh":"โฮโอ","celebi":"เซเลบี",
@@ -576,9 +579,7 @@
             25: "มักจะสะสมไฟฟ้าไว้ที่ถุงลมบริเวณแก้มทั้งสองข้าง เมื่อรู้สึกถึงอันตรายจะปล่อยกระแสไฟฟ้าแรงสูงออกมา"
         };
 
-        // 🌟 ปรับจำนวนเริ่มต้นให้ลดลงเพื่อ SI/FCP ที่เร็วขึ้น
         const ITEMS_PER_PAGE = 15;
-        
         const translationCache = new Map();
         const speciesCache = new Map(); 
         const nameCache = new Map(); 
@@ -692,6 +693,36 @@
             cardElement.addEventListener('touchcancel', leaveHandler);
         }
 
+        // 🌟 🌟 🌟 ระบบสีแบบผสม 2 ธาตุ (Dual-Type Theme System)
+        function getThemeStyles(typesArray) {
+            if (!typesArray || typesArray.length === 0) return { bgStyle: '', borderColor: '#cbd5e1', glowBg: '#cbd5e1', mainColor: '#cbd5e1', color2: null };
+            
+            const getTypeName = (t) => typeof t === 'string' ? t : t.type.name;
+            const t1 = getTypeName(typesArray[0]);
+            const c1 = TYPE_COLORS[t1] || '#cbd5e1';
+            
+            if (typesArray.length === 1) {
+                return {
+                    bgStyle: `linear-gradient(145deg, ${c1}15 0%, rgba(255, 255, 255, 0.9) 100%)`,
+                    borderColor: `${c1}40`,
+                    glowBg: c1,
+                    mainColor: c1,
+                    color2: null
+                };
+            } else {
+                const t2 = getTypeName(typesArray[1]);
+                const c2 = TYPE_COLORS[t2] || '#cbd5e1';
+                return {
+                    // ผสม 2 สีเป็น Gradient สวยงาม สำหรับโปเกมอนที่มีธาตุคู่
+                    bgStyle: `linear-gradient(135deg, ${c1}20 0%, rgba(255, 255, 255, 0.95) 50%, ${c2}20 100%)`,
+                    borderColor: `${c1}40`, 
+                    glowBg: `linear-gradient(135deg, ${c1}, ${c2})`,
+                    mainColor: c1,
+                    color2: c2
+                };
+            }
+        }
+
         function calculateFallbackBattle(p1, p2) {
             const TYPE_CHART = {
                 normal: { rock: 0.5, ghost: 0, steel: 0.5 }, fire: { fire: 0.5, water: 0.5, grass: 2, ice: 2, bug: 2, rock: 0.5, dragon: 0.5, steel: 2 },
@@ -760,12 +791,45 @@ ${typeAnalysisText}
         }
         
         function getFallbackLore(name) {
+            const formattedName = formatName(name);
+            // 🌟 สร้าง Hash อย่างง่ายจากความยาวและตัวอักษรของชื่อ เพื่อให้โปเกมอนแต่ละตัวได้คำแนะนำต่างกัน
+            const hash = formattedName.length + (formattedName.charCodeAt(0) || 0);
+            
+            // 🌟 คลังคำแนะนำการดูแล
+            const cares = [
+                "เทรนเนอร์ควรจัดสภาพแวดล้อมให้เหมาะสมกับธาตุของมัน และต้องหมั่นสังเกตอาการเหนื่อยล้าหลังจากการแบทเทิล อย่าลืมให้มันพักผ่อนและกินอาหารที่มีประโยชน์ล่ะ!",
+                "โปเกมอนสายพันธุ์นี้ค่อนข้างไวต่อความเครียด เทรนเนอร์ควรดูแลอารมณ์ของมันให้ดี และหมั่นทำความสะอาดร่างกายให้มันรู้สึกผ่อนคลายอยู่เสมอนะ!",
+                "ระวังเรื่องความเหนื่อยล้าสะสมจากการแบทเทิลที่หนักหน่วง! ควรพามันไปเดินเล่นพักผ่อน และให้ของโปรดเพื่อกระชับความสัมพันธ์ให้แน่นแฟ้นยิ่งขึ้น"
+            ];
+            
+            // 🌟 คลังเคล็ดลับการฝึกฝน
+            const trainings = [
+                "การจะดึงศักยภาพออกมาให้ถึงขีดสุด ต้องสร้างความผูกพันระหว่างกันให้มาก ค่อยๆ ฝึกฝนทักษะพื้นฐานให้แม่นยำ ก่อนจะไปใช้ท่าที่ใช้พลังงานสูงนะ!",
+                "ลองเน้นไปที่การฝึกฝนจังหวะหลบหลีกดูสิ! หากเทรนเนอร์สามารถผสานใจเข้ากับสัญชาตญาณของมันได้ จะกลายเป็นคู่หูที่แกร่งมากๆ เลยทีเดียว",
+                "อย่าพึ่งรีบฝึกท่าโจมตีที่รุนแรง ให้เริ่มจากการฝึกความอดทนและการป้องกันก่อน เมื่อร่างกายแข็งแกร่งแล้ว พลังโจมตีก็จะพุ่งทะยานมหาศาลเลยล่ะ!"
+            ];
+
+            // 🌟 คลังเสียงพากย์สรุป
+            const voiceTexts = [
+                `สำหรับ${formattedName}เทรนเนอร์ต้องใส่ใจเรื่องการพักผ่อนและค่อยๆฝึกฝนสร้างความผูกพันรับรองว่าจะแข็งแกร่งขึ้นแน่นอน`,
+                `หากดูแลสภาพจิตใจของ${formattedName}ให้ดีและเน้นฝึกจังหวะหลบหลีกมันจะกลายเป็นคู่หูที่ไร้เทียมทานเลยล่ะ`,
+                `ระวังเรื่องความเครียดของ${formattedName}ด้วยนะเริ่มฝึกจากความอดทนก่อนแล้วพลังที่แท้จริงจะตื่นขึ้นมาเอง`
+            ];
+
+            const cIndex = hash % 3;
+            const tIndex = (hash + 1) % 3;
+            const vIndex = (hash + 2) % 3;
+
              return `
-อืม... แฟ้มบันทึกงานวิจัยเชิงลึกของโปเกมอนตัวนี้กำลังอยู่ในขั้นตอนรวบรวมและตรวจสอบความถูกต้องนะ แต่สำหรับ **${formatName(name)}** แล้ว จากประสบการณ์ตรงของด็อกเตอร์ มันเป็นโปเกมอนที่มีลักษณะทางสายพันธุ์ที่น่าหลงใหลมากทีเดียว! 
+อืม... แฟ้มบันทึกงานวิจัยเชิงลึกของโปเกมอนตัวนี้ยังอยู่ในขั้นตอนรวบรวมและตรวจสอบนะ แต่สำหรับ **${formattedName}** จากประสบการณ์ของด็อกเตอร์ มีคำแนะนำให้เทรนเนอร์ดังนี้!
 
-ด็อกเตอร์เชื่อมั่นเลยว่า หากได้รับการฝึกฝนและดูแลเอาใจใส่จากเทรนเนอร์ที่ดี มันจะสามารถดึงศักยภาพระดับสูงที่ซ่อนอยู่ออกมาได้อย่างมหาศาลเลยล่ะ!
+**ข้อควรระวังและการดูแล:**
+${cares[cIndex]}
 
-<voice>มหัศจรรย์มากข้อมูลของ${formatName(name)}น่าทึ่งสุดๆถ้านำไปฝึกฝนอย่างดีจะต้องแข็งแกร่งขึ้นอย่างไร้ขีดจำกัดแน่นอน</voice>
+**เคล็ดลับการฝึกฝน:**
+${trainings[tIndex]}
+
+<voice>${voiceTexts[vIndex]}</voice>
              `;
         }
 
@@ -809,10 +873,23 @@ ${typeAnalysisText}
 
                 if (voiceText) {
                     const btnVoice = document.getElementById(btnVoiceId);
-                    btnVoice.onclick = () => {
-                        if (apiKey) { fetchDrOakVoice(voiceText, btnVoiceId).then(aUrl => { if (aUrl) playOakAudio(aUrl, btnVoiceId); else playWebTTS(voiceText, btnVoiceId); }); }
-                        else { playWebTTS(voiceText, btnVoiceId); }
+                    // 🌟 เริ่มเล่นเสียงทันทีแบบ Auto-play โดยที่ปุ่มจะยังโชว์ "กำลังเตรียมเสียง..." หมุนๆ ไว้
+                    const startAudio = async () => {
+                        if (apiKey) { 
+                            const aUrl = await fetchDrOakVoice(voiceText, btnVoiceId); 
+                            if (aUrl) {
+                                playOakAudio(aUrl, btnVoiceId); 
+                                btnVoice.onclick = () => toggleOakAudio(aUrl, btnVoiceId);
+                            } else {
+                                playWebTTS(voiceText, btnVoiceId, true);
+                                btnVoice.onclick = () => playWebTTS(voiceText, btnVoiceId);
+                            }
+                        } else { 
+                            playWebTTS(voiceText, btnVoiceId, true);
+                            btnVoice.onclick = () => playWebTTS(voiceText, btnVoiceId);
+                        }
                     };
+                    startAudio();
                 } else { document.getElementById(btnVoiceId).style.display = 'none'; }
             } catch (e) {
                 const fallbackResponse = calculateFallbackBattle(p1, p2);
@@ -829,13 +906,17 @@ ${typeAnalysisText}
                                 <h3 class="font-black text-lg md:text-2xl text-slate-800 pb-1 md:pb-3">บทวิเคราะห์จาก ดร.โอคิโดะ</h3>
                             </div>
                             <button id="${btnVoiceId}" aria-label="ฟังเสียงวิเคราะห์จาก ดร.โอคิโดะ" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all shadow-md focus:outline-none shrink-0 active:scale-95 sm:mb-2">
-                                <i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะ
+                                <i class="ph ph-spinner animate-spin text-lg" aria-hidden="true"></i> กำลังเตรียมเสียง...
                             </button>
                         </div>
                         ${fallbackHtml}
                     </div>`;
 
-                if (voiceText) { document.getElementById(btnVoiceId).onclick = () => playWebTTS(voiceText, btnVoiceId); }
+                if (voiceText) { 
+                    const btnVoice = document.getElementById(btnVoiceId);
+                    playWebTTS(voiceText, btnVoiceId, true); // Auto-play
+                    btnVoice.onclick = () => playWebTTS(voiceText, btnVoiceId); 
+                }
                 else { document.getElementById(btnVoiceId).style.display = 'none'; }
             }
             btn.innerHTML = `<i class="ph-fill ph-microscope text-xl" aria-hidden="true"></i> ดร.โอคิโดะ วิเคราะห์ข้อมูล`;
@@ -848,7 +929,7 @@ ${typeAnalysisText}
             btn.innerHTML = `<i class="ph ph-spinner animate-spin text-sm" aria-hidden="true"></i> กำลังดึงข้อมูล...`; btn.disabled = true;
             
             try {
-                const prompt = `ช่วยเล่าเกร็ดความรู้ นิสัย หรือข้อมูลงานวิจัยที่น่าสนใจเกี่ยวกับ ${formatName(name)} ให้ฟังหน่อยครับ ดร. ขอสั้นๆ 1 ย่อหน้า ห้ามใช้เครื่องหมาย ### และแท็ก <voice>คำพูด 1-2 ประโยค</voice> ไว้ท้ายสุด (เนื้อหาในแท็ก voice ต้องเขียนให้เป็นภาษาพูดที่ไหลลื่น เป็นมืออาชีพ ห้ามมีสัญลักษณ์พิเศษหรือขึ้นบรรทัดใหม่)`;
+                const prompt = `ในฐานะ ดร.โอคิโดะ ช่วยเล่าข้อมูลเชิงลึกเกี่ยวกับ ${formatName(name)} ให้เทรนเนอร์ฟังหน่อยครับ เน้นสาระสำคัญ ข้อควรระวังในการดูแล และเคล็ดลับการฝึกฝนให้เก่งกาจ ขอสั้นๆ 1 ย่อหน้า ห้ามใช้เครื่องหมาย ### และแท็ก <voice>คำพูดแนะนำสั้นๆ 1-2 ประโยค</voice> ไว้ท้ายสุด (เนื้อหาในแท็ก voice ต้องเขียนให้เป็นภาษาพูดที่ไหลลื่น เป็นมืออาชีพ น้ำเสียงชายแก่ใจดีและรอบรู้ ห้ามมีสัญลักษณ์พิเศษหรือขึ้นบรรทัดใหม่)`;
                 let response = !apiKey ? getFallbackLore(name) : await callGeminiAPI(prompt);
 
                 let voiceText = ""; const voiceMatch = response.match(/<voice>(.*?)<\/voice>/i);
@@ -864,7 +945,7 @@ ${typeAnalysisText}
                                 <span class="font-black text-emerald-800 text-sm md:text-lg pb-1 md:pb-2">บันทึกของดร.โอคิโดะ:</span>
                             </div>
                             <button id="${voiceBtnId}" aria-label="ฟังเสียงเกร็ดความรู้จาก ดร.โอคิโดะ" class="hidden flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-full text-[10px] md:text-xs font-bold transition-all shadow-sm focus:outline-none active:scale-95 w-full sm:w-auto justify-center sm:mb-1">
-                                <i class="ph ph-spinner animate-spin text-sm md:text-base" aria-hidden="true"></i> รอเสียงพากย์...
+                                <i class="ph ph-spinner animate-spin text-sm md:text-base" aria-hidden="true"></i> กำลังเตรียมเสียง...
                             </button>
                         </div>
                         ${htmlResponse}
@@ -874,8 +955,24 @@ ${typeAnalysisText}
                 if (voiceText) {
                     const btnVoice = document.getElementById(voiceBtnId);
                     btnVoice.classList.remove('hidden');
-                    if (apiKey) { fetchDrOakVoice(voiceText, voiceBtnId).then(aUrl => { if (aUrl) playOakAudio(aUrl, voiceBtnId); else playWebTTS(voiceText, voiceBtnId); }); }
-                    else { btnVoice.innerHTML = `<i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะ`; btnVoice.onclick = () => playWebTTS(voiceText, voiceBtnId); }
+                    
+                    // 🌟 ระบบเล่นเสียงอัตโนมัติ (Auto-play) ทันทีที่ข้อมูลพร้อม
+                    const startLoreAudio = async () => {
+                        if (apiKey) { 
+                            const aUrl = await fetchDrOakVoice(voiceText, voiceBtnId); 
+                            if (aUrl) {
+                                playOakAudio(aUrl, voiceBtnId);
+                                btnVoice.onclick = () => toggleOakAudio(aUrl, voiceBtnId);
+                            } else {
+                                playWebTTS(voiceText, voiceBtnId, true);
+                                btnVoice.onclick = () => playWebTTS(voiceText, voiceBtnId);
+                            }
+                        } else { 
+                            playWebTTS(voiceText, voiceBtnId, true);
+                            btnVoice.onclick = () => playWebTTS(voiceText, voiceBtnId); 
+                        }
+                    };
+                    startLoreAudio();
                 } else { document.getElementById(voiceBtnId).style.display = 'none'; }
             } catch (e) {
                 const fallbackResponse = getFallbackLore(name);
@@ -890,13 +987,17 @@ ${typeAnalysisText}
                                 <span class="font-black text-emerald-800 text-sm md:text-lg pb-1 md:pb-2">บันทึกของดร.โอคิโดะ:</span>
                             </div>
                             <button id="${voiceBtnId}" aria-label="ฟังเสียงเกร็ดความรู้จาก ดร.โอคิโดะ" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-full text-[10px] md:text-xs font-bold transition-all shadow-sm focus:outline-none active:scale-95 w-full sm:w-auto justify-center sm:mb-1">
-                                <i class="ph-fill ph-play-circle text-lg" aria-hidden="true"></i> ฟังเสียงดร.โอคิโดะ
+                                <i class="ph ph-spinner animate-spin text-sm md:text-base" aria-hidden="true"></i> กำลังเตรียมเสียง...
                             </button>
                         </div>
                         ${fallbackHtml}
                     </div>`;
                 btn.style.display = 'none';
-                if (voiceText) { document.getElementById(voiceBtnId).onclick = () => playWebTTS(voiceText, voiceBtnId); }
+                if (voiceText) { 
+                    const btnVoice = document.getElementById(voiceBtnId);
+                    playWebTTS(voiceText, voiceBtnId, true); // Auto-play
+                    btnVoice.onclick = () => playWebTTS(voiceText, voiceBtnId); 
+                }
                 else { document.getElementById(voiceBtnId).style.display = 'none'; }
             }
         }
@@ -930,8 +1031,11 @@ ${typeAnalysisText}
         let currentlyRenderedCount = 0;
         const pokemonCache = new Map();
         
-        // 🌟 แก้ไข URL ให้ส่งค่า w=128 และ w=48 เพื่อ LCP เร็วสุดๆ ประหยัดแบนด์วิดท์ไปกว่า 150KB
         const getImageUrl = (id, size = 'full') => {
+            if (id >= 10000) {
+                return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+            }
+            
             const baseUrl = `raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`;
             if (size === 'thumb') return `https://wsrv.nl/?url=${baseUrl}&w=48&dpr=2&output=webp&q=70`;
             if (size === 'grid') return `https://wsrv.nl/?url=${baseUrl}&w=128&dpr=2&output=webp&q=80`;
@@ -939,18 +1043,16 @@ ${typeAnalysisText}
         };
 
         const handleImgErr = (img, id, size) => {
-            if (!img.dataset.fallback) {
+            if (!img.dataset.fallback && id < 10000) {
                 img.dataset.fallback = 'artwork';
-                // 🌟 ดึงภาพตรงจาก GitHub ไม่ผ่าน proxy เพื่อลดการแจ้งเตือน CORB ซ้ำซ้อน
                 img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
-            } else if (img.dataset.fallback === 'artwork') {
+            } else if (img.dataset.fallback !== 'sprite' && img.dataset.fallback !== 'none') {
                 img.dataset.fallback = 'sprite';
                 img.style.imageRendering = 'pixelated';
                 img.style.filter = 'drop-shadow(0 10px 10px rgba(0,0,0,0.4))';
                 img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
             } else if (img.dataset.fallback === 'sprite') {
                 img.dataset.fallback = 'none';
-                // 🌟 ท่าไม้ตายสุดท้าย หากไม่มีรูปเลยจริงๆ ให้แสดงไอคอนมอนสเตอร์บอล
                 img.style.filter = 'drop-shadow(0 5px 5px rgba(0,0,0,0.2)) opacity(0.5)';
                 img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png`;
             }
@@ -958,7 +1060,7 @@ ${typeAnalysisText}
 
         const getThaiName = (engName) => {
             if (!engName) return '';
-            if (nameCache.has(engName)) return nameCache.get(engName); // 🌟 ใช้ Cache ไม่ต้องประมวลผลซ้ำ
+            if (nameCache.has(engName)) return nameCache.get(engName); 
             
             let result = formatName(engName);
             if (THAI_NAMES_BASE[engName]) result = formatName(THAI_NAMES_BASE[engName]);
@@ -1000,7 +1102,6 @@ ${typeAnalysisText}
                     const pid = card.dataset.id;
                     if (pid && !card.dataset.loaded) {
                         card.dataset.loaded = 'true';
-                        // 🌟 ดึงข้อมูล API เฉพาะตอนที่ยังไม่โดน Hardcode เข้ามา ช่วยปลดล็อก TBT
                         if (!card.querySelector('.types-container').hasChildNodes()) {
                             fetchCardDetails(pid, card);
                         }
@@ -1019,12 +1120,9 @@ ${typeAnalysisText}
             if(loader) loader.style.display = 'none';
 
             allPokemon = [...INITIAL_POKEMON];
-            
-            // 🌟 เรนเดอร์การ์ดแถวแรกจากข้อมูลฮาร์ดโค้ด "ทันที" ไม่ต้องรอ API ใดๆ (0 Blocking Time)
             applyFilters();
 
             try {
-                // ยิง API พื้นหลัง ค่อยๆ โหลดข้อมูลทีหลัง
                 const data = await prefetchAPI;
                 if (!data) return;
                 
@@ -1032,7 +1130,6 @@ ${typeAnalysisText}
                 const seenNames = new Set();
                 let idx = 0;
 
-                // 🌟 Chunk Processing: ประมวลผลทีละนิด แล้วเว้นจังหวะให้ CPU ว่าง (ไม่ให้ TBT พุ่ง)
                 function processChunk() {
                     const end = Math.min(idx + 25, data.results.length);
                     for (; idx < end; idx++) {
@@ -1047,18 +1144,15 @@ ${typeAnalysisText}
                     }
                     
                     if (idx < data.results.length) {
-                        setTimeout(processChunk, 20); // 🌟 พักหายใจ 20ms ให้มือถือไม่ค้าง
+                        setTimeout(processChunk, 20); 
                     } else {
                         allPokemon = uniquePokemon;
                         if (!searchQuery && selectedRegionIndex === 0) {
                             filteredList = allPokemon;
                             document.getElementById('total-count').innerText = "1025";
-                            // เราไม่ render ซ้ำถ้าผู้ใช้อยู่หน้าแรก เพราะ render 20 ตัวแรกไปแล้ว
                         } else {
                             applyFilters(); 
                         }
-                        
-                        // 🌟 เลื่อนงานเบื้องหลังไปทำตอนเบราว์เซอร์ว่างจริงๆ
                         setTimeout(() => fetchCompareData(), 3000);
                         setTimeout(loadAllThaiNamesInBackground, 5000);
                     }
@@ -1076,9 +1170,6 @@ ${typeAnalysisText}
                 if (/[a-zA-Z]/.test(p.name_th)) { 
                     try {
                         const pokemonId = parseInt(p.id);
-                        
-                        // 🌟 ป้องกัน Error 404: โปเกมอนที่มี ID ตั้งแต่ 10000 ขึ้นไปคือร่างฟอร์ม (Varieties)
-                        // จะไม่มี Endpoint เป็นของตัวเองใน pokemon-species ให้ใช้ getThaiName() จัดการแทน
                         if (pokemonId >= 10000) {
                             p.name_th = getThaiName(p.name);
                         } else {
@@ -1106,7 +1197,7 @@ ${typeAnalysisText}
                         const dropdownTexts = document.querySelectorAll(`button[onclick*="selectCompare(0, ${p.id})"] div, button[onclick*="selectCompare(1, ${p.id})"] div`);
                         dropdownTexts.forEach(el => el.innerText = formatName(p.name_th));
                     } catch (e) {}
-                    await new Promise(r => setTimeout(r, 200)); // 🌟 Throttling ค่อยๆ ดึงข้อมูลอย่างช้าๆ
+                    await new Promise(r => setTimeout(r, 200)); 
                 }
             }
         }
@@ -1153,9 +1244,12 @@ ${typeAnalysisText}
         }
 
         function selectRegion(index) {
-            if (selectedRegionIndex === index) return;
             selectedRegionIndex = index;
             displayLimit = ITEMS_PER_PAGE;
+            searchQuery = ''; 
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.value = ''; 
+
             renderRegionFilters(); 
             document.getElementById('pokemon-grid').innerHTML = '';
             currentlyRenderedCount = 0;
@@ -1166,7 +1260,7 @@ ${typeAnalysisText}
         function handleSearch() {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
-                searchQuery = document.getElementById('searchInput').value.toLowerCase();
+                searchQuery = document.getElementById('searchInput').value;
                 displayLimit = ITEMS_PER_PAGE;
                 document.getElementById('pokemon-grid').innerHTML = '';
                 currentlyRenderedCount = 0;
@@ -1177,7 +1271,17 @@ ${typeAnalysisText}
         function applyFilters() {
             let list = allPokemon;
             if (searchQuery) {
-                list = list.filter(p => formatName(p.name).toLowerCase().includes(searchQuery) || p.name_th.includes(searchQuery) || p.id.toString() === searchQuery);
+                const queryLower = searchQuery.toLowerCase().trim();
+                const queryNumber = parseInt(queryLower.replace(/[^0-9]/g, ''), 10); 
+                
+                list = list.filter(p => {
+                    const matchEn = formatName(p.name).toLowerCase().includes(queryLower);
+                    const matchTh = p.name_th.includes(queryLower);
+                    const matchIdExact = p.id.toString() === queryLower; 
+                    const matchIdParsed = !isNaN(queryNumber) && p.id === queryNumber; 
+                    
+                    return matchEn || matchTh || matchIdExact || matchIdParsed;
+                });
             } else {
                 list = list.filter(p => p.id <= 1025);
                 const reg = REGIONS[selectedRegionIndex];
@@ -1192,7 +1296,6 @@ ${typeAnalysisText}
             }
             if (typeof cardObserver !== 'undefined') cardObserver.disconnect();
             
-            // 🌟 รีเซ็ตและวาดชุดใหม่
             renderNextBatch();
         }
 
@@ -1201,42 +1304,71 @@ ${typeAnalysisText}
             renderNextBatch();
         }
 
-        // 🌟 🌟 🌟 ฟังก์ชันสร้างการ์ด (แยกออกมาเพื่อให้ทำ Progressive Render ได้)
+        // 🌟 ฟังก์ชันสร้าง Theme แบบ Dual-Type
+        function getThemeStyles(typesArray) {
+            if (!typesArray || typesArray.length === 0) return { bgStyle: '', borderColor: '#cbd5e1', glowBg: '#cbd5e1', mainColor: '#cbd5e1', color2: null };
+            
+            const getTypeName = (t) => typeof t === 'string' ? t : t.type.name;
+            const t1 = getTypeName(typesArray[0]);
+            const c1 = TYPE_COLORS[t1] || '#cbd5e1';
+            
+            if (typesArray.length === 1) {
+                return {
+                    bgStyle: `linear-gradient(145deg, ${c1}15 0%, rgba(255, 255, 255, 0.9) 100%)`,
+                    borderColor: `${c1}40`,
+                    glowBg: c1,
+                    mainColor: c1,
+                    color2: null
+                };
+            } else {
+                const t2 = getTypeName(typesArray[1]);
+                const c2 = TYPE_COLORS[t2] || '#cbd5e1';
+                return {
+                    bgStyle: `linear-gradient(135deg, ${c1}20 0%, rgba(255, 255, 255, 0.95) 50%, ${c2}20 100%)`,
+                    borderColor: `${c1}40`, 
+                    glowBg: `linear-gradient(135deg, ${c1}, ${c2})`,
+                    mainColor: c1,
+                    color2: c2
+                };
+            }
+        }
+
         function createCardHTML(p, isTopRow) {
-            // บังคับรูปให้ระบุความกว้างและความสูงป้องกัน Layout Shift (CLS)
             const loadingAttr = isTopRow ? 'eager' : 'lazy';
             const fetchPriorityAttr = isTopRow ? 'high' : 'auto';
             const decodingAttr = isTopRow ? 'sync' : 'async';
             const isFav = favorites.includes(p.id);
             const heartClass = isFav ? 'ph-fill text-red-600' : 'ph text-slate-400';
 
-            const mainType = p.types ? p.types[0] : 'normal';
-            const themeColor = TYPE_COLORS[mainType] || '#cbd5e1';
+            const theme = getThemeStyles(p.types);
             
             let typesHtml = '';
             if (p.types) {
                  typesHtml = p.types.map(t => {
-                     const textColor = ['grass', 'fire', 'water', 'electric', 'normal', 'flying', 'bug', 'ground', 'fairy', 'ice'].includes(t) ? 'text-slate-900' : 'text-white';
-                     return `<span class="${textColor} text-[9px] md:text-[11px] font-bold px-1.5 py-0.5 md:px-3 md:py-1 rounded-full uppercase tracking-widest shadow-sm md:shadow-lg inline-flex items-center gap-0.5 md:gap-1 max-w-[90%] truncate" style="background-color: ${TYPE_COLORS[t] || '#777'}">
-                         <i class="${TYPE_ICONS[t] || 'ph-fill ph-circle'} text-[6px] md:text-[12px] shrink-0" aria-hidden="true"></i>
-                         <span class="truncate">${TYPE_NAMES_TH[t] || t}</span>
+                     const tName = typeof t === 'string' ? t : t.type.name;
+                     const textColor = ['grass', 'fire', 'water', 'electric', 'normal', 'flying', 'bug', 'ground', 'fairy', 'ice'].includes(tName) ? 'text-slate-900' : 'text-white';
+                     return `<span class="${textColor} text-[9px] md:text-[11px] font-bold px-1.5 py-0.5 md:px-3 md:py-1 rounded-full uppercase tracking-widest shadow-sm md:shadow-lg inline-flex items-center gap-0.5 md:gap-1 max-w-[90%] truncate" style="background-color: ${TYPE_COLORS[tName] || '#777'}">
+                         <i class="${TYPE_ICONS[tName] || 'ph-fill ph-circle'} text-[6px] md:text-[12px] shrink-0" aria-hidden="true"></i>
+                         <span class="truncate">${TYPE_NAMES_TH[tName] || tName}</span>
                      </span>`;
                  }).join('');
             }
 
             return `
                 <div id="card-wrapper-${p.id}" class="preserve-3d relative">
-                    <div id="card-${p.id}" data-id="${p.id}" role="button" tabindex="0" aria-label="ดูรายละเอียด ${p.name_th}" onkeydown="if(event.key==='Enter'||event.key===' ') openDetail(${p.id})" onclick="openDetail(${p.id})" class="card-bg-wrap card-background h-full group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-6 shadow-sm hover:shadow-xl cursor-pointer border flex flex-col relative overflow-hidden backdrop-blur-md bg-white/60 border-white/80 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-slate-300" style="${p.types ? `background: linear-gradient(145deg, ${themeColor}10 0%, rgba(255, 255, 255, 0.85) 100%); border-color: ${themeColor}40;` : ''}">
-                        ${p.types ? `<div class="absolute -top-10 -right-10 w-32 h-32 md:w-40 md:h-40 rounded-full blur-3xl opacity-30 pointer-events-none" style="background-color: ${themeColor};"></div>` : ''}
+                    <div id="card-${p.id}" data-id="${p.id}" role="button" tabindex="0" aria-label="ดูรายละเอียด ${p.name_th}" onkeydown="if(event.key==='Enter'||event.key===' ') openDetail(${p.id})" onclick="openDetail(${p.id})" class="card-bg-wrap card-background h-full group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-6 shadow-sm hover:shadow-xl cursor-pointer border flex flex-col relative overflow-hidden backdrop-blur-md bg-white/60 border-white/80 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-slate-300" style="${theme.bgStyle ? `background: ${theme.bgStyle}; border-color: ${theme.borderColor};` : ''}">
+                        
+                        <div class="card-glow absolute -top-10 -right-10 w-32 h-32 md:w-40 md:h-40 rounded-full blur-3xl opacity-30 pointer-events-none" style="background: ${theme.glowBg};"></div>
+                        
                         <button type="button" onclick="toggleFavorite(${p.id}, event); event.stopPropagation();" aria-label="เพิ่ม/ลด ${p.name_th} ในรายการโปรด" title="เพิ่ม/ลบ รายการโปรด" class="absolute top-4 left-4 md:top-5 md:left-5 z-20 hover:scale-125 transition-transform focus:outline-none drop-shadow-md group/btn">
                             <i class="${heartClass} ph-heart fav-icon-${p.id} text-2xl md:text-3xl transition-colors group-hover/btn:text-red-600" aria-hidden="true"></i>
                         </button>
-                        <div class="absolute top-4 right-4 md:top-5 md:right-5 font-black text-lg md:text-3xl italic select-none transition-colors duration-200 text-slate-500 group-hover:text-slate-800" style="${p.types ? `color: ${themeColor};` : ''}">
+                        <div class="card-id-text absolute top-4 right-4 md:top-5 md:right-5 font-black text-lg md:text-3xl italic select-none transition-colors duration-200 text-slate-500 group-hover:text-slate-800" style="${theme.mainColor ? `color: ${theme.mainColor};` : ''}">
                             #${String(p.id).padStart(3, '0')}
                         </div>
                         <div class="flex-1 flex items-center justify-center w-full relative preserve-3d mt-8 mb-4 md:mt-10 md:mb-6" style="transform: translateZ(40px);">
                             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110px] h-[110px] md:w-[150px] md:h-[150px] bg-white/80 rounded-full group-hover:scale-105 transition-transform duration-200 shadow-inner border border-white"></div>
-                            <img src="${getImageUrl(p.id, 'grid')}" width="128" height="128" class="relative z-10 w-[90px] h-[90px] md:w-[130px] md:h-[130px] object-contain img-3d-grid transition-transform duration-200" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="${decodingAttr}" alt="${formatName(p.name_th)}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
+                            <img src="${getImageUrl(p.id, 'grid')}" width="128" height="128" class="relative z-10 w-[90px] h-[90px] md:w-[130px] md:h-[130px] object-contain img-3d-grid transition-transform duration-200 animate-float" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="${decodingAttr}" alt="${formatName(p.name_th)}" onerror="handleImgErr(this, ${p.id}, 'grid')" style="animation-delay: -${p.id % 5}s;" />
                         </div>
                         <div class="text-center w-full relative z-10 flex flex-col items-center pb-2" style="transform: translateZ(10px);">
                             <h2 class="text-sm md:text-xl font-bold md:font-black text-slate-800 tracking-tight drop-shadow-sm group-hover:text-slate-900 mb-1.5 md:mb-2 truncate w-full px-1 leading-normal">
@@ -1249,7 +1381,6 @@ ${typeAnalysisText}
             `;
         }
 
-        // 🌟 🌟 🌟 Progressive Rendering: แยกวาดทีละส่วนเพื่อลด SI และ TBT ให้เข้าใกล้ 0
         function renderNextBatch() {
             const container = document.getElementById('pokemon-grid');
             const itemsToRender = filteredList.slice(currentlyRenderedCount, displayLimit);
@@ -1264,23 +1395,20 @@ ${typeAnalysisText}
 
             if (itemsToRender.length === 0) return;
 
-            // 🌟 เทคนิคลด TBT: ถ้านี่เป็นการโหลดครั้งแรกสุด (เปิดเว็บมา) ให้วาด 4 ตัวแรกให้เสร็จก่อนเลยทันที (เพื่อ LCP)
             if (currentlyRenderedCount === 0) {
                 const aboveFold = itemsToRender.slice(0, 4);
                 const belowFold = itemsToRender.slice(4);
 
                 let html1 = '';
                 aboveFold.forEach((p) => { html1 += createCardHTML(p, true); });
-                container.innerHTML = html1; // แสดงผลโปเกมอน 4 ตัวแรกทันทีเพื่อประสิทธิภาพ LCP (Largest Contentful Paint)
+                container.innerHTML = html1; 
 
-                // สังเกตการ์ดที่เพิ่งใส่ลงไป
                 aboveFold.forEach((p) => {
                     const wrapper = document.getElementById(`card-wrapper-${p.id}`);
                     if (wrapper) { attachGridParallax(wrapper); cardObserver.observe(wrapper.querySelector('.card-bg-wrap')); }
                 });
                 currentlyRenderedCount += aboveFold.length;
 
-                // 🌟 พักหายใจ 1 เฟรม ให้เบราว์เซอร์วาด (Paint) หน้าจอก่อน! แล้วค่อยวาดส่วนที่เหลือ
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
                         let html2 = '';
@@ -1295,7 +1423,6 @@ ${typeAnalysisText}
                     });
                 });
             } else {
-                // 🌟 กรณีผู้ใช้กดปุ่ม "โหลดเพิ่ม" วาดปกติ
                 let html = '';
                 itemsToRender.forEach((p) => { html += createCardHTML(p, false); });
                 container.insertAdjacentHTML('beforeend', html);
@@ -1324,22 +1451,25 @@ ${typeAnalysisText}
             container.innerHTML = favPokemonList.map(p => {
                 const isFav = favorites.includes(p.id);
                 const heartClass = isFav ? 'ph-fill text-red-600' : 'ph text-slate-400';
+                const theme = getThemeStyles(p.types);
 
                 return `
                 <div id="fav-wrapper-${p.id}" class="preserve-3d relative">
-                    <div id="fav-card-${p.id}" data-id="${p.id}" role="button" tabindex="0" aria-label="ดูรายละเอียด ${p.name_th}" onkeydown="if(event.key==='Enter'||event.key===' ') openDetail(${p.id})" onclick="openDetail(${p.id})" class="card-bg-wrap card-background h-full group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-6 shadow-sm hover:shadow-2xl cursor-pointer border flex flex-col relative overflow-hidden backdrop-blur-md bg-white/60 border-white/80 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-slate-300">
+                    <div id="fav-card-${p.id}" data-id="${p.id}" role="button" tabindex="0" aria-label="ดูรายละเอียด ${p.name_th}" onkeydown="if(event.key==='Enter'||event.key===' ') openDetail(${p.id})" onclick="openDetail(${p.id})" class="card-bg-wrap card-background h-full group min-h-[250px] md:min-h-[300px] rounded-[1.5rem] md:rounded-[2.5rem] p-4 md:p-6 shadow-sm hover:shadow-2xl cursor-pointer border flex flex-col relative overflow-hidden backdrop-blur-md bg-white/60 border-white/80 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-slate-300" style="${theme.bgStyle ? `background: ${theme.bgStyle}; border-color: ${theme.borderColor};` : ''}">
+                        
+                        <div class="card-glow absolute -top-10 -right-10 w-32 h-32 md:w-40 md:h-40 rounded-full blur-3xl opacity-30 pointer-events-none" style="background: ${theme.glowBg};"></div>
                         
                         <button type="button" onclick="toggleFavorite(${p.id}, event); event.stopPropagation();" aria-label="ยกเลิก ${p.name_th} จากรายการโปรด" title="เพิ่ม/ลบ รายการโปรด" class="absolute top-4 left-4 md:top-5 md:left-5 z-20 hover:scale-125 transition-transform focus:outline-none drop-shadow-md group/btn">
                             <i class="${heartClass} ph-heart fav-icon-${p.id} text-2xl md:text-3xl transition-colors group-hover/btn:text-red-600" aria-hidden="true"></i>
                         </button>
 
-                        <div class="absolute top-4 right-4 md:top-5 md:right-5 font-black text-lg md:text-3xl italic select-none transition-colors duration-200 text-slate-500 group-hover:text-slate-800">
+                        <div class="card-id-text absolute top-4 right-4 md:top-5 md:right-5 font-black text-lg md:text-3xl italic select-none transition-colors duration-200 text-slate-500 group-hover:text-slate-800" style="${theme.mainColor ? `color: ${theme.mainColor};` : ''}">
                             #${String(p.id).padStart(3, '0')}
                         </div>
                         
                         <div class="flex-1 flex items-center justify-center w-full relative preserve-3d mt-8 mb-4 md:mt-10 md:mb-6" style="transform: translateZ(40px);">
                             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110px] h-[110px] md:w-[150px] md:h-[150px] bg-white/80 rounded-full group-hover:scale-105 transition-transform duration-200 shadow-inner border border-white"></div>
-                            <img src="${getImageUrl(p.id, 'grid')}" width="128" height="128" class="relative z-10 w-[90px] h-[90px] md:w-[130px] md:h-[130px] object-contain img-3d-grid transition-transform duration-200" loading="lazy" decoding="async" alt="${formatName(p.name_th)}" onerror="handleImgErr(this, ${p.id}, 'grid')" />
+                            <img src="${getImageUrl(p.id, 'grid')}" width="128" height="128" class="relative z-10 w-[90px] h-[90px] md:w-[130px] md:h-[130px] object-contain img-3d-grid transition-transform duration-200 animate-float" loading="lazy" decoding="async" alt="${formatName(p.name_th)}" onerror="handleImgErr(this, ${p.id}, 'grid')" style="animation-delay: -${p.id % 5}s;" />
                         </div>
                         
                         <div class="text-center w-full relative z-10 flex flex-col items-center pb-2" style="transform: translateZ(10px);">
@@ -1394,20 +1524,25 @@ ${typeAnalysisText}
                     }
                 }
 
-                const themeColor = TYPE_COLORS[data.types[0].type.name] || '#cbd5e1';
+                const theme = getThemeStyles(data.types);
                 const typesContainer = card.querySelector('.types-container');
                 
                 if(card && typesContainer) {
-                    card.style.background = `linear-gradient(145deg, ${themeColor}10 0%, rgba(255, 255, 255, 0.85) 100%)`;
-                    card.style.borderColor = `${themeColor}40`;
+                    card.style.background = theme.bgStyle;
+                    card.style.borderColor = theme.borderColor;
                     
-                    const glow = document.createElement('div');
-                    glow.className = "absolute -top-10 -right-10 w-32 h-32 md:w-40 md:h-40 rounded-full blur-3xl opacity-30 pointer-events-none";
-                    glow.style.backgroundColor = themeColor;
-                    card.prepend(glow);
+                    const glow = card.querySelector('.card-glow');
+                    if (glow) {
+                        glow.style.background = theme.glowBg;
+                    } else {
+                        const newGlow = document.createElement('div');
+                        newGlow.className = "card-glow absolute -top-10 -right-10 w-32 h-32 md:w-40 md:h-40 rounded-full blur-3xl opacity-30 pointer-events-none";
+                        newGlow.style.background = theme.glowBg;
+                        card.prepend(newGlow);
+                    }
                     
-                    const idEl = card.querySelector('.italic');
-                    if(idEl) idEl.style.color = themeColor;
+                    const idEl = card.querySelector('.card-id-text');
+                    if(idEl) idEl.style.color = theme.mainColor;
                     
                     requestAnimationFrame(() => {
                         typesContainer.innerHTML = data.types.map(t => {
@@ -1446,7 +1581,7 @@ ${typeAnalysisText}
                 let speciesDetail = null;
                 let evoChain = null;
                 let formsData = [];
-                let translatedEntry = 'ด็อกเตอร์กำลังรวบรวมข้อมูลพฤติกรรมของโปเกมอนตัวนี้อยู่...'; // Default fallback
+                let translatedEntry = 'ด็อกเตอร์กำลังรวบรวมข้อมูลพฤติกรรมของโปเกมอนตัวนี้อยู่...'; 
 
                 if (pokemonDetail.species && pokemonDetail.species.url) {
                     const specRes = await fetch(pokemonDetail.species.url);
@@ -1537,7 +1672,7 @@ ${typeAnalysisText}
                         <button type="button" id="evo-card-${id}" aria-label="ดูข้อมูลของ ${nameTh}" onclick="openDetail(${id})" class="card-bg-wrap flex flex-col items-center justify-center cursor-pointer group bg-white/60 backdrop-blur-md p-3 md:p-6 rounded-[1rem] md:rounded-[2rem] hover:bg-white hover:shadow-xl transition-all border-2 border-white/50 focus:outline-none focus:ring-4 focus:ring-slate-200">
                             <div class="relative w-10 h-10 md:w-20 md:h-20 mb-2 md:mb-4 flex items-center justify-center preserve-3d" style="transform: translateZ(30px);">
                                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 md:w-24 md:h-24 bg-slate-100/60 rounded-full scale-100 group-hover:scale-110 transition-transform"></div>
-                                <img src="${getImageUrl(id, 'grid')}" width="128" height="128" class="w-full h-full object-contain relative z-10 group-hover:scale-110 transition-transform img-3d-grid" alt="${nameTh}" onerror="handleImgErr(this, ${id}, 'grid')" />
+                                <img src="${getImageUrl(id, 'grid')}" width="128" height="128" class="w-full h-full object-contain relative z-10 group-hover:scale-110 transition-transform img-3d-grid animate-float" alt="${nameTh}" onerror="handleImgErr(this, ${id}, 'grid')" style="animation-delay: -${id % 5}s;" />
                             </div>
                             <span class="font-bold md:font-black text-slate-800 text-[9px] md:text-sm text-center leading-normal line-clamp-2 w-full px-1 pt-1 pb-2" style="transform: translateZ(10px);">${nameTh}</span>
                             <span class="text-[7px] md:text-[10px] font-bold text-slate-600 mt-1 uppercase tracking-widest">#${String(id).padStart(3, '0')}</span>
@@ -1567,8 +1702,7 @@ ${typeAnalysisText}
         }
 
         function renderDetailHTML(pokemonDetail, speciesDetail, formsData, evoChain, translatedEntry, weaknesses = []) {
-            const mainType = pokemonDetail.types[0].type.name;
-            const themeColor = TYPE_COLORS[mainType] || '#777';
+            const theme = getThemeStyles(pokemonDetail.types);
 
             let category = 'โปเกมอน';
             if (speciesDetail && speciesDetail.genera) {
@@ -1593,6 +1727,18 @@ ${typeAnalysisText}
             const safeTranslatedEntry = translatedEntry.replace(/['"\n\r]/g, ' '); 
             const rotomText = `${formatName(pokemonDetail.name_th)} เป็นโปเกมอน ประเภท${typesText} ${safeTranslatedEntry}`;
 
+            // สร้างไฟออร่า 2 สี (ถ้ามี 2 ธาตุ)
+            let detailGlows = `<div class="absolute inset-0 opacity-20 pointer-events-none mix-blend-multiply" style="background: radial-gradient(circle at top right, ${theme.mainColor}, transparent 70%);"></div>`;
+            if (theme.color2) {
+                detailGlows += `<div class="absolute inset-0 opacity-20 pointer-events-none mix-blend-multiply" style="background: radial-gradient(circle at bottom left, ${theme.color2}, transparent 70%);"></div>`;
+            }
+            
+            // วงกลมเบลอตรงกลาง
+            let centerBlobStyle = theme.color2 ? `background: linear-gradient(135deg, ${theme.mainColor}, ${theme.color2});` : `background-color: ${theme.mainColor};`;
+            
+            // แถบหลอดพลังแบบไล่สี 2 ธาตุ
+            let statBarBg = theme.color2 ? `linear-gradient(90deg, ${theme.mainColor}, ${theme.color2})` : `linear-gradient(90deg, ${theme.mainColor}80, ${theme.mainColor})`;
+
             let html = `
                 <nav class="max-w-6xl mx-auto p-4 md:p-10 flex justify-between items-center mb-2 md:mb-0">
                     <button type="button" aria-label="กลับไปหน้ารายการ" onclick="switchView('home')" class="flex items-center gap-1.5 md:gap-3 text-slate-600 hover:text-slate-800 font-bold text-[10px] md:text-sm transition-colors group bg-white/50 px-4 py-2 md:px-6 md:py-3 rounded-full shadow-sm border border-white focus:outline-none focus:ring-2 focus:ring-slate-300">
@@ -1604,13 +1750,13 @@ ${typeAnalysisText}
                     
                     <div class="relative group lg:sticky lg:top-32" id="detail-img-container" style="perspective: 1000px;">
                         <div id="detail-card-inner" class="backdrop-blur-xl rounded-[2rem] md:rounded-[4rem] p-6 md:p-20 shadow-2xl flex flex-col items-center border relative overflow-hidden w-full min-h-[350px] md:min-h-[500px] justify-center transition-all duration-200"
-                            style="border-color: ${themeColor}40; background: linear-gradient(145deg, ${themeColor}10 0%, rgba(255,255,255,0.85) 100%); box-shadow: 0 10px 30px -10px ${themeColor}40;">
+                            style="border-color: ${theme.borderColor}; background: ${theme.bgStyle}; box-shadow: 0 10px 30px -10px ${theme.mainColor}40;">
 
-                            <div class="absolute inset-0 opacity-20 pointer-events-none mix-blend-multiply" style="background: radial-gradient(circle at top right, ${themeColor}, transparent 70%);"></div>
+                            ${detailGlows}
                             
-                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 md:w-96 md:h-96 blur-2xl md:blur-3xl opacity-25 pointer-events-none rounded-full" style="background-color: ${themeColor};"></div>
+                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 md:w-96 md:h-96 blur-2xl md:blur-3xl opacity-25 pointer-events-none rounded-full" style="${centerBlobStyle}"></div>
                             
-                            <div class="absolute top-0 right-0 p-4 md:p-16 font-black text-[4rem] md:text-[12rem] italic leading-none select-none opacity-[0.12]" style="color: ${themeColor};" aria-hidden="true">
+                            <div class="absolute top-0 right-0 p-4 md:p-16 font-black text-[4rem] md:text-[12rem] italic leading-none select-none opacity-[0.12]" style="color: ${theme.mainColor};" aria-hidden="true">
                                 #${pokemonDetail.id}
                             </div>
                             
@@ -1623,7 +1769,7 @@ ${typeAnalysisText}
                     <div class="flex flex-col gap-4 md:gap-8 mt-2 md:mt-0 min-w-0">
                         <div>
                             <div class="flex items-center justify-between mb-2">
-                                <div class="text-xl md:text-4xl font-black italic tracking-widest opacity-90 drop-shadow-sm" style="color: ${themeColor}">
+                                <div class="text-xl md:text-4xl font-black italic tracking-widest opacity-90 drop-shadow-sm" style="color: ${theme.mainColor}">
                                     #${String(pokemonDetail.id).padStart(3, '0')}
                                 </div>
                                 <div class="flex items-center gap-4">
@@ -1700,7 +1846,7 @@ ${typeAnalysisText}
                                 </h3>
                                 <div class="text-right">
                                     <p class="text-[7px] md:text-xs font-bold text-slate-600 uppercase tracking-widest mb-0.5 md:mb-1">Total</p>
-                                    <p class="text-base md:text-3xl font-black leading-none" style="color: ${themeColor}">${totalStats}</p>
+                                    <p class="text-base md:text-3xl font-black leading-none" style="color: ${theme.mainColor}">${totalStats}</p>
                                 </div>
                             </div>
                             
@@ -1714,7 +1860,7 @@ ${typeAnalysisText}
                                             <span class="text-[9px] md:text-sm font-black text-slate-700 w-5 md:w-8 text-right shrink-0">${s.base_stat}</span>
                                             <div class="flex-1 bg-slate-100/60 rounded-full h-1 md:h-2.5 overflow-hidden shadow-inner min-w-0">
                                                 <div class="h-full rounded-full transition-all duration-300 ease-out relative" 
-                                                     style="width: ${percentage}%; background: linear-gradient(90deg, ${themeColor}80, ${themeColor}); box-shadow: 0 0 10px ${themeColor}60;">
+                                                     style="width: ${percentage}%; background: ${statBarBg}; box-shadow: 0 0 10px ${theme.mainColor}60;">
                                                     <div class="absolute inset-0 bg-white/20" aria-hidden="true"></div>
                                                 </div>
                                             </div>
@@ -1765,7 +1911,7 @@ ${typeAnalysisText}
                                             <div id="form-wrapper-${formId}" class="preserve-3d relative">
                                                 <button type="button" aria-label="ดูข้อมูลของฟอร์ม ${displayFormName}" onclick="${!isCurrent ? `openDetail(${formId})` : ''}" class="card-bg-wrap flex flex-col items-center p-2 md:p-6 rounded-xl md:rounded-[2rem] transition-transform w-20 md:w-36 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300 ${isCurrent ? 'cursor-default bg-white border-red-400 shadow-xl scale-105 border-2' : 'cursor-pointer bg-white/70 border-white hover:bg-white hover:shadow-xl hover:-translate-y-1 md:hover:-translate-y-2 border-2'}">
                                                     <div class="relative w-10 h-10 md:w-20 md:h-20 mb-1.5 md:mb-4 preserve-3d" style="transform: translateZ(30px);">
-                                                        <img src="${getImageUrl(formId, 'grid')}" width="128" height="128" class="w-full h-full object-contain img-3d-grid transition-transform duration-200" alt="${displayFormName}" onerror="handleImgErr(this, ${formId}, 'grid')" />
+                                                        <img src="${getImageUrl(formId, 'grid')}" width="128" height="128" class="w-full h-full object-contain img-3d-grid transition-transform duration-200 animate-float" alt="${displayFormName}" onerror="handleImgErr(this, ${formId}, 'grid')" style="animation-delay: -${formId % 5}s;" />
                                                     </div>
                                                     <span class="font-bold text-slate-800 text-[8px] md:text-xs text-center leading-normal line-clamp-2 w-full px-1 pb-1" style="transform: translateZ(10px);">
                                                         ${displayFormName}
@@ -1918,14 +2064,15 @@ function renderCompareView() {
         if (!data) return `<div class="p-10 md:p-32 flex justify-center w-full items-center"><i class="ph ph-spinner animate-spin text-slate-400 text-2xl md:text-4xl" aria-hidden="true"></i></div>`;
         
         const otherData = compareData[index === 0 ? 1 : 0];
-        const themeColor = TYPE_COLORS[data.types[0].type.name] || '#777';
+        const theme = getThemeStyles(data.types);
 
         const totalStats = data.stats.reduce((sum, s) => sum + s.base_stat, 0);
         const otherTotal = otherData ? otherData.stats.reduce((sum, s) => sum + s.base_stat, 0) : 0;
         const isTotalWinner = totalStats > otherTotal;
         const cryUrl = data.cries ? data.cries.latest : '';
         
-        const cardBgStyle = `background: linear-gradient(145deg, ${themeColor}10 0%, rgba(255,255,255,0.85) 100%); border-color: ${themeColor}40;`;
+        // แถบหลอดพลังแบบไล่สี
+        let statBarBg = theme.color2 ? `linear-gradient(90deg, ${theme.mainColor}, ${theme.color2})` : `linear-gradient(90deg, ${theme.mainColor}80, ${theme.mainColor})`;
 
         let statsHtml = data.stats.map((s, idx) => {
             const otherVal = otherData?.stats[idx]?.base_stat || 0;
@@ -1937,8 +2084,8 @@ function renderCompareView() {
                     <span class="text-[6px] sm:text-[7px] md:text-xs font-bold text-slate-600 uppercase tracking-tight w-6 sm:w-8 md:w-16 shrink-0 text-right truncate leading-normal transition-colors duration-500">${statName}</span>
                     <span class="text-[8px] md:text-sm font-black w-4 md:w-8 shrink-0 text-right transition-colors duration-500 ${isWinner ? 'text-emerald-500' : 'text-slate-700'}">${s.base_stat}</span>
                     <div class="flex-1 bg-slate-100/60 rounded-full h-1 md:h-2.5 overflow-hidden shadow-inner ml-0.5 md:ml-0 min-w-0 transition-colors duration-500">
-                        <div class="h-full rounded-full transition-all duration-300 relative ${isWinner ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.4)]' : 'bg-slate-300'}" 
-                             style="width: ${percentage}%;">
+                        <div class="h-full rounded-full transition-all duration-300 relative ${isWinner ? 'shadow-[0_0_10px_rgba(52,211,153,0.4)]' : ''}" 
+                             style="width: ${percentage}%; background: ${isWinner ? '#34d399' : statBarBg};">
                              <div class="absolute inset-0 bg-white/20" aria-hidden="true"></div>
                         </div>
                     </div>
@@ -1948,10 +2095,10 @@ function renderCompareView() {
 
         return `
             <div id="compare-inner-${index}" class="backdrop-blur-xl rounded-xl md:rounded-[3rem] p-1.5 sm:p-2 md:p-10 border relative h-full flex flex-col transition-all duration-500 w-full min-w-0 preserve-3d"
-                 style="${cardBgStyle} box-shadow: 0 10px 30px -10px ${themeColor}20">
+                 style="background: ${theme.bgStyle}; border-color: ${theme.borderColor}; box-shadow: 0 10px 30px -10px ${theme.mainColor}20">
                 
                 <div class="absolute inset-0 rounded-xl md:rounded-[3rem] overflow-hidden pointer-events-none">
-                    <div class="absolute -top-10 -left-10 w-24 h-24 md:w-64 md:h-64 rounded-full blur-xl md:blur-3xl opacity-20 pointer-events-none" style="background-color: ${themeColor}"></div>
+                    <div class="absolute -top-10 -left-10 w-24 h-24 md:w-64 md:h-64 rounded-full blur-xl md:blur-3xl opacity-20 pointer-events-none" style="background-color: ${theme.mainColor}"></div>
                 </div>
                 
                 <div style="transform: translateZ(5px);" class="relative z-50">${buildDropdownHTML(index, data.id)}</div>
@@ -1959,9 +2106,9 @@ function renderCompareView() {
                 <div class="flex flex-col items-center mb-1 md:mb-8 min-w-0 preserve-3d relative z-10" style="transform: translateZ(15px);">
                     <div class="w-14 h-14 sm:w-20 sm:h-20 md:w-48 md:h-48 mb-2 md:mb-6 bg-white rounded-xl md:rounded-[2.5rem] flex items-center justify-center p-2 md:p-6 relative shadow-inner border border-slate-50 overflow-hidden shrink-0 transition-colors duration-500 preserve-3d">
                         <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-white transition-colors duration-500"></div>
-                        <img src="${getImageUrl(data.id, 'full')}" class="w-full h-full object-contain relative z-10 animate-float img-3d-detail" alt="${formatName(data.name_th)}" onerror="handleImgErr(this, ${data.id}, 'full')" />
+                        <img src="${getImageUrl(data.id, 'full')}" class="w-full h-full object-contain relative z-10 animate-float img-3d-detail" alt="${formatName(data.name_th)}" onerror="handleImgErr(this, ${data.id}, 'full')" style="animation-delay: -${data.id % 5}s;" />
                     </div>
-                    <div class="text-[7px] sm:text-[9px] md:text-2xl font-black italic tracking-widest mb-0 md:mb-2 opacity-90 drop-shadow-sm" style="color: ${themeColor}">
+                    <div class="text-[7px] sm:text-[9px] md:text-2xl font-black italic tracking-widest mb-0 md:mb-2 opacity-90 drop-shadow-sm" style="color: ${theme.mainColor}">
                         #${String(data.id).padStart(3, '0')}
                     </div>
                     <h2 class="text-[9px] sm:text-[11px] md:text-4xl font-bold md:font-black text-slate-800 tracking-tight mb-0.5 md:mb-4 text-center leading-tight truncate block w-full px-0.5 py-0.5 md:py-2 flex items-center justify-center gap-0.5 md:gap-3 transition-colors duration-500">
