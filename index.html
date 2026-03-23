@@ -1031,28 +1031,90 @@ ${trainings[tIndex]}
         let currentlyRenderedCount = 0;
         const pokemonCache = new Map();
         
+        // 🌟 Map โปเกมอนฟอร์มพิเศษไปยัง 3D Render ของเกม (Serebii) 
+        // เพื่อให้ได้ภาพ 3D ที่สวยงามและถูกต้องที่สุดสำหรับ ID 10001 - 10325
+        const serebii3DMap = {
+            // SV Special Forms
+            10245: '978-d', 10246: '978-s', // Tatsugiri (Droopy, Stretchy)
+            10323: '978-d', // รองรับกรณี PokeAPI ใช้ ID 10323 สำหรับ Tatsugiri Droopy
+            
+            // Koraidon Builds (10264 - 10267)
+            10264: '1007', 10265: '1007-s', 10266: '1007-w', 10267: '1007-g',
+            
+            // Miraidon Modes (10268 - 10271)
+            10268: '1008', 10269: '1008-d', 10270: '1008-a', 10271: '1008-g',
+            
+            // Ogerpon Masks
+            10281: '1017-w', 10282: '1017-h', 10283: '1017-c',
+            
+            // Terapagos
+            10321: '1024-t', 10322: '1024-s',
+            
+            // Palafin Hero
+            10235: '964-h',
+            
+            // Ursaluna Bloodmoon
+            10272: '901-b',
+
+            // Paldean Tauros
+            10250: '128-p', 10251: '128-b', 10252: '128-a',
+            
+            // Wooper Paldea
+            10253: '194-p'
+        };
+
+        // 🌟 Map ชื่อฟอร์มพิเศษสำหรับดึงรูปวาด Artwork กรณีที่ 3D โหลดไม่สำเร็จ
+        const pkmnDbSpecialNames = {
+            10266: 'koraidon-swimming-build', 10270: 'miraidon-aquatic-mode',
+            10264: 'koraidon-limited-build', 10265: 'koraidon-sprinting-build', 10267: 'koraidon-gliding-build',
+            10268: 'miraidon-low-power-mode', 10269: 'miraidon-drive-mode', 10271: 'miraidon-glide-mode',
+            10323: 'tatsugiri-droopy', 10245: 'tatsugiri-droopy', 10246: 'tatsugiri-stretchy'
+        };
+
         const getImageUrl = (id, size = 'full') => {
-            if (id >= 10000) {
-                return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+            // 1. ดึงภาพ 3D จาก Serebii สำหรับฟอร์มพิเศษที่ไม่มีใน Home
+            if (serebii3DMap[id]) {
+                // 🌟 แก้ไข: ลบการใช้ wsrv.nl ออก ดึงจาก Serebii โดยตรงเพื่อแก้ปัญหา Proxy บล็อกภาพ
+                return `https://www.serebii.net/scarletviolet/pokemon/new/${serebii3DMap[id]}.png`;
             }
             
+            // 2. ดึงภาพ 3D พื้นฐานจากระบบ Pokemon Home
             const baseUrl = `raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`;
             if (size === 'thumb') return `https://wsrv.nl/?url=${baseUrl}&w=48&dpr=2&output=webp&q=70`;
             if (size === 'grid') return `https://wsrv.nl/?url=${baseUrl}&w=128&dpr=2&output=webp&q=80`;
             return `https://wsrv.nl/?url=${baseUrl}&w=384&dpr=2&output=webp&q=80`; 
         };
 
-        const handleImgErr = (img, id, size) => {
-            if (!img.dataset.fallback && id < 10000) {
-                img.dataset.fallback = 'artwork';
+        const handleImgErr = (img, id, name, size) => {
+            const level = parseInt(img.dataset.fallbackLevel || '0');
+
+            if (level === 0) {
+                // Fallback 1: ภาพ Official Artwork ของ PokeAPI (เป็น PNG โปร่งใส ไม่ติดพื้นหลังดำ)
+                img.dataset.fallbackLevel = '1';
                 img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
-            } else if (img.dataset.fallback !== 'sprite' && img.dataset.fallback !== 'none') {
-                img.dataset.fallback = 'sprite';
+            } else if (level === 1) {
+                // Fallback 2: พยายามหาภาพ Artwork 2D จาก PokemonDB (อาจติดพื้นหลังขาว จึงใช้ mix-blend-multiply)
+                img.dataset.fallbackLevel = '2';
+                let dbName = pkmnDbSpecialNames[id] || name.toLowerCase().replace(/-(alola|galar|hisui|paldea|gmax)/g, '-$1n');
+                img.classList.add('mix-blend-multiply');
+                img.classList.remove('img-3d-grid', 'img-3d-detail');
+                img.style.filter = 'none';
+                img.src = `https://img.pokemondb.net/artwork/large/${dbName}.jpg`;
+            } else if (level === 2) {
+                // Fallback 3: ภาพ Pixel ต้นฉบับ (มีครบทุกตัว 100% แน่นอน)
+                img.dataset.fallbackLevel = '3';
+                img.classList.remove('mix-blend-multiply');
                 img.style.imageRendering = 'pixelated';
                 img.style.filter = 'drop-shadow(0 10px 10px rgba(0,0,0,0.4))';
+                if (size === 'full') {
+                    img.style.width = '100%';
+                    img.style.height = '100%';
+                    img.style.objectFit = 'contain';
+                }
                 img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
-            } else if (img.dataset.fallback === 'sprite') {
-                img.dataset.fallback = 'none';
+            } else {
+                // Fallback 4: ไอคอนลูกโปเกบอลเผื่อกรณีฉุกเฉินที่สุด
+                img.dataset.fallbackLevel = '4';
                 img.style.filter = 'drop-shadow(0 5px 5px rgba(0,0,0,0.2)) opacity(0.5)';
                 img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png`;
             }
@@ -1368,7 +1430,7 @@ ${trainings[tIndex]}
                         </div>
                         <div class="flex-1 flex items-center justify-center w-full relative preserve-3d mt-8 mb-4 md:mt-10 md:mb-6" style="transform: translateZ(40px);">
                             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110px] h-[110px] md:w-[150px] md:h-[150px] bg-white/80 rounded-full group-hover:scale-105 transition-transform duration-200 shadow-inner border border-white"></div>
-                            <img src="${getImageUrl(p.id, 'grid')}" width="128" height="128" class="relative z-10 w-[90px] h-[90px] md:w-[130px] md:h-[130px] object-contain img-3d-grid transition-transform duration-200 animate-float" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="${decodingAttr}" alt="${formatName(p.name_th)}" onerror="handleImgErr(this, ${p.id}, 'grid')" style="animation-delay: -${p.id % 5}s;" />
+                            <img src="${getImageUrl(p.id, 'grid')}" width="128" height="128" class="relative z-10 w-[90px] h-[90px] md:w-[130px] md:h-[130px] object-contain img-3d-grid transition-transform duration-200 animate-float" loading="${loadingAttr}" fetchpriority="${fetchPriorityAttr}" decoding="${decodingAttr}" alt="${formatName(p.name_th)}" onerror="handleImgErr(this, ${p.id}, '${p.name}', 'grid')" style="animation-delay: -${p.id % 5}s;" />
                         </div>
                         <div class="text-center w-full relative z-10 flex flex-col items-center pb-2" style="transform: translateZ(10px);">
                             <h2 class="text-sm md:text-xl font-bold md:font-black text-slate-800 tracking-tight drop-shadow-sm group-hover:text-slate-900 mb-1.5 md:mb-2 truncate w-full px-1 leading-normal">
@@ -1469,7 +1531,7 @@ ${trainings[tIndex]}
                         
                         <div class="flex-1 flex items-center justify-center w-full relative preserve-3d mt-8 mb-4 md:mt-10 md:mb-6" style="transform: translateZ(40px);">
                             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110px] h-[110px] md:w-[150px] md:h-[150px] bg-white/80 rounded-full group-hover:scale-105 transition-transform duration-200 shadow-inner border border-white"></div>
-                            <img src="${getImageUrl(p.id, 'grid')}" width="128" height="128" class="relative z-10 w-[90px] h-[90px] md:w-[130px] md:h-[130px] object-contain img-3d-grid transition-transform duration-200 animate-float" loading="lazy" decoding="async" alt="${formatName(p.name_th)}" onerror="handleImgErr(this, ${p.id}, 'grid')" style="animation-delay: -${p.id % 5}s;" />
+                            <img src="${getImageUrl(p.id, 'grid')}" width="128" height="128" class="relative z-10 w-[90px] h-[90px] md:w-[130px] md:h-[130px] object-contain img-3d-grid transition-transform duration-200 animate-float" loading="lazy" decoding="async" alt="${formatName(p.name_th)}" onerror="handleImgErr(this, ${p.id}, '${p.name}', 'grid')" style="animation-delay: -${p.id % 5}s;" />
                         </div>
                         
                         <div class="text-center w-full relative z-10 flex flex-col items-center pb-2" style="transform: translateZ(10px);">
@@ -1665,6 +1727,7 @@ ${trainings[tIndex]}
             if(!node) return '';
             const id = node.species.url.split('/').slice(-2, -1)[0];
             const nameTh = formatName(getThaiName(node.species.name));
+            const nameEng = node.species.name;
             
             let html = `
                 <div class="flex items-center gap-2 md:gap-4 shrink-0 preserve-3d">
@@ -1672,7 +1735,7 @@ ${trainings[tIndex]}
                         <button type="button" id="evo-card-${id}" aria-label="ดูข้อมูลของ ${nameTh}" onclick="openDetail(${id})" class="card-bg-wrap flex flex-col items-center justify-center cursor-pointer group bg-white/60 backdrop-blur-md p-3 md:p-6 rounded-[1rem] md:rounded-[2rem] hover:bg-white hover:shadow-xl transition-all border-2 border-white/50 focus:outline-none focus:ring-4 focus:ring-slate-200">
                             <div class="relative w-10 h-10 md:w-20 md:h-20 mb-2 md:mb-4 flex items-center justify-center preserve-3d" style="transform: translateZ(30px);">
                                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 md:w-24 md:h-24 bg-slate-100/60 rounded-full scale-100 group-hover:scale-110 transition-transform"></div>
-                                <img src="${getImageUrl(id, 'grid')}" width="128" height="128" class="w-full h-full object-contain relative z-10 group-hover:scale-110 transition-transform img-3d-grid animate-float" alt="${nameTh}" onerror="handleImgErr(this, ${id}, 'grid')" style="animation-delay: -${id % 5}s;" />
+                                <img src="${getImageUrl(id, 'grid')}" width="128" height="128" class="w-full h-full object-contain relative z-10 group-hover:scale-110 transition-transform img-3d-grid animate-float" alt="${nameTh}" onerror="handleImgErr(this, ${id}, '${nameEng}', 'grid')" style="animation-delay: -${id % 5}s;" />
                             </div>
                             <span class="font-bold md:font-black text-slate-800 text-[9px] md:text-sm text-center leading-normal line-clamp-2 w-full px-1 pt-1 pb-2" style="transform: translateZ(10px);">${nameTh}</span>
                             <span class="text-[7px] md:text-[10px] font-bold text-slate-600 mt-1 uppercase tracking-widest">#${String(id).padStart(3, '0')}</span>
@@ -1761,7 +1824,7 @@ ${trainings[tIndex]}
                             </div>
                             
                             <div class="relative z-20 w-48 h-48 sm:w-[250px] sm:h-[250px] md:w-[400px] md:h-[400px] mx-auto preserve-3d flex items-center justify-center drop-shadow-2xl" style="transform: translateZ(60px);" id="detail-img-wrapper">
-                                <img id="detail-img" src="${getImageUrl(pokemonDetail.id, 'full')}" class="max-w-full max-h-full object-contain img-3d-detail animate-float" alt="${formatName(pokemonDetail.name_th)}" onerror="handleImgErr(this, ${pokemonDetail.id}, 'full')" />
+                                <img id="detail-img" src="${getImageUrl(pokemonDetail.id, 'full')}" class="max-w-full max-h-full object-contain img-3d-detail animate-float" alt="${formatName(pokemonDetail.name_th)}" onerror="handleImgErr(this, ${pokemonDetail.id}, '${pokemonDetail.name}', 'full')" />
                             </div>
                         </div>
                     </div>
@@ -1911,7 +1974,7 @@ ${trainings[tIndex]}
                                             <div id="form-wrapper-${formId}" class="preserve-3d relative">
                                                 <button type="button" aria-label="ดูข้อมูลของฟอร์ม ${displayFormName}" onclick="${!isCurrent ? `openDetail(${formId})` : ''}" class="card-bg-wrap flex flex-col items-center p-2 md:p-6 rounded-xl md:rounded-[2rem] transition-transform w-20 md:w-36 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300 ${isCurrent ? 'cursor-default bg-white border-red-400 shadow-xl scale-105 border-2' : 'cursor-pointer bg-white/70 border-white hover:bg-white hover:shadow-xl hover:-translate-y-1 md:hover:-translate-y-2 border-2'}">
                                                     <div class="relative w-10 h-10 md:w-20 md:h-20 mb-1.5 md:mb-4 preserve-3d" style="transform: translateZ(30px);">
-                                                        <img src="${getImageUrl(formId, 'grid')}" width="128" height="128" class="w-full h-full object-contain img-3d-grid transition-transform duration-200 animate-float" alt="${displayFormName}" onerror="handleImgErr(this, ${formId}, 'grid')" style="animation-delay: -${formId % 5}s;" />
+                                                        <img src="${getImageUrl(formId, 'grid')}" width="128" height="128" class="w-full h-full object-contain img-3d-grid transition-transform duration-200 animate-float" alt="${displayFormName}" onerror="handleImgErr(this, ${formId}, '${v.pokemon.name}', 'grid')" style="animation-delay: -${formId % 5}s;" />
                                                     </div>
                                                     <span class="font-bold text-slate-800 text-[8px] md:text-xs text-center leading-normal line-clamp-2 w-full px-1 pb-1" style="transform: translateZ(10px);">
                                                         ${displayFormName}
@@ -2003,7 +2066,7 @@ function renderCompareListHTML(index, query) {
     }
     return list.slice(0, 50).map(p => `
         <button type="button" role="option" aria-selected="false" onclick="selectCompare(${index}, ${p.id})" class="w-full text-left p-1.5 md:p-4 hover:bg-red-50/50 cursor-pointer flex items-center gap-1.5 md:gap-4 border-b border-slate-50 last:border-0 transition-colors focus:outline-none focus:bg-red-50">
-            <img src="${getImageUrl(p.id, 'thumb')}" width="48" height="48" class="w-5 h-5 md:w-10 md:h-10 object-contain drop-shadow-sm img-3d-grid" loading="lazy" alt="${formatName(p.name_th)}" onerror="handleImgErr(this, ${p.id}, 'thumb')" />
+            <img src="${getImageUrl(p.id, 'thumb')}" width="48" height="48" class="w-5 h-5 md:w-10 md:h-10 object-contain drop-shadow-sm img-3d-grid" loading="lazy" alt="${formatName(p.name_th)}" onerror="handleImgErr(this, ${p.id}, '${p.name}', 'thumb')" />
             <div class="flex-1 text-[9px] md:text-sm font-bold text-slate-700 truncate leading-normal py-1">${formatName(p.name_th)}</div>
         </button>
     `).join('');
@@ -2106,7 +2169,7 @@ function renderCompareView() {
                 <div class="flex flex-col items-center mb-1 md:mb-8 min-w-0 preserve-3d relative z-10" style="transform: translateZ(15px);">
                     <div class="w-14 h-14 sm:w-20 sm:h-20 md:w-48 md:h-48 mb-2 md:mb-6 bg-white rounded-xl md:rounded-[2.5rem] flex items-center justify-center p-2 md:p-6 relative shadow-inner border border-slate-50 overflow-hidden shrink-0 transition-colors duration-500 preserve-3d">
                         <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-white transition-colors duration-500"></div>
-                        <img src="${getImageUrl(data.id, 'full')}" class="w-full h-full object-contain relative z-10 animate-float img-3d-detail" alt="${formatName(data.name_th)}" onerror="handleImgErr(this, ${data.id}, 'full')" style="animation-delay: -${data.id % 5}s;" />
+                        <img src="${getImageUrl(data.id, 'full')}" class="w-full h-full object-contain relative z-10 animate-float img-3d-detail" alt="${formatName(data.name_th)}" onerror="handleImgErr(this, ${data.id}, '${data.name}', 'full')" style="animation-delay: -${data.id % 5}s;" />
                     </div>
                     <div class="text-[7px] sm:text-[9px] md:text-2xl font-black italic tracking-widest mb-0 md:mb-2 opacity-90 drop-shadow-sm" style="color: ${theme.mainColor}">
                         #${String(data.id).padStart(3, '0')}
